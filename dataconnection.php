@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "ldkrestaurant";  //之後改
+$dbname = "";  //之後改
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
