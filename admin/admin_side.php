@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+<?php 
     echo    '<nav>
                 <ul>
                     <li class="list-title">User</li>
@@ -13,13 +12,13 @@
                     <li class="list-item"><a href="admin_category.php">Category</a></li>
                 </ul>
                 <ul>
-                    <li class="list-title">Booking</li>
-                    <li class="list-item"><a href="booking_list.php">Booking List</a></li>
-                </ul>
-                <ul>
                     <li class="list-title">Admin/Staff</li>
                     <li class="list-item"><a href="manage_admin.php">Admin/Staff List</a></li>
                 </ul>
+                <ul>
+                <li class="list-title">Shipping</li>
+                <li class="list-item"><a href="manage_admin.php">Shipping List</a></li>
+            </ul>
                 <ul>
                     <li class="list-title">Reports/Feedbacks</li>
                     <li class="list-item"><a href="admin_report.php">Reports</a></li>

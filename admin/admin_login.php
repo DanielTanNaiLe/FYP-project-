@@ -1,3 +1,34 @@
+<?php
+    session_start();
+    $error = '';
+    if(isset($_POST['submit'])){
+        if(empty($_POST['admin_id']) || empty($_POST['admin_password'])){
+            $error = "Username or Password is Invalid";
+        }
+        else{
+            $admin_id = $_POST['admin_id'];
+            $admin_password = $_POST['admin_password'];
+
+            $conn=mysqli_connect("localhost","root","","ldksports");
+
+            $query = mysqli_query($conn, "SELECT * FROM admin WHERE admin_id ='$admin_id' AND admin_password = '$admin_password'");
+			
+            //$row = mysqli_fetch_assoc($query);
+            $rows = mysqli_num_rows($query);
+            if($rows == 1){  
+            header("Location: admin_index.php");
+                $_SESSION['a_id']= $admin_id;
+                $_SESSION['a_name']= $row['admin_name'];
+            }  
+            else  
+            {  
+            $error = "Username or Password is Invalid";
+            }  
+            
+            mysqli_close($conn);
+        }
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
