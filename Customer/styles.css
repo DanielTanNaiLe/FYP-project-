@@ -1,0 +1,90 @@
+*{
+	box-sizing: border-box;
+   
+}
+
+/******************Content***************/
+
+.registerfrm{
+    background-color:beige;
+    padding-top: 10pt;
+    padding-bottom: 50pt; 
+   
+}
+.overall{
+    border: 1px solid whitesmoke;
+    text-align: center;
+    width: 75%;
+    margin-left: 15%;
+    height:570pt;
+    background-color:burlywood;
+    font-family: arial;
+     background-image: url(image/logo_img.jpg);
+    background-repeat: repeat-y;
+    background-position: right;
+    background-size: 100px;
+}
+.img-cover{
+    height: 757.33px;
+    float: left;
+    width: 45%;
+    overflow:hidden;
+}
+.img-cover img{
+    height:110%;
+}
+.detail h1{
+    text-align: center;
+    margin-top: 30pt;
+}
+.detail {
+	text-align:center;
+	padding-left:150px;
+    margin-top: 50pt;
+    font-size: 120%;
+    padding-right: 70px;
+}
+	
+.detail button {
+    background-color:wheat;
+    color: black;
+    padding: 14px 20px;
+    margin-top: 10pt;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+
+  }
+.detail button:hover{
+    background-color:#A9A9A9;
+    color: white;
+}
+.detail p{
+	text-align:center;
+    font-size: 90%;
+}
+.detail > label{
+	padding-left:50px;
+}
+
+span{
+    color: red;
+}
+
+.frmcontent{
+	text-align:center;
+	padding-left:40%;
+	padding-top:10px;
+    
+}
+
+.frmcontent [input="text"]{
+	float:right;
+	margin-right:50px;
+	width:280px;
+	
+}
+.fromcontent label{
+    text-align: left;
+}

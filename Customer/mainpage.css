@@ -1,0 +1,251 @@
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background-color: #f3f3f3;
+}
+*{
+    margin: 0%;
+    padding: 0%;
+}
+header,footer{
+    width: 100%;
+    color: black;
+}
+header{
+    position: fixed;
+    background-color: white;
+    height: 15vh;
+    z-index: 1;
+}
+footer{
+    bottom: 0;
+    position: relative;
+    height: 10vh;
+    background-color: black;
+}
+
+.image{
+    position: absolute;
+    margin-left: 10%;
+    letter-spacing: 3px;
+    width: 171px;
+    background: transparent;
+}
+footer h3{
+    position: absolute;
+    background-color: black;
+    color: white;
+    top: 10px;
+    left: 50px;
+}
+.nav{
+    position: absolute;
+    height: 35px;
+    width: 100%;
+}
+.nav a{
+     position: relative;
+     left: 30%;
+     top: 97px;
+     margin: 25px;
+     color: black;
+     background-color: white;
+     text-decoration: none;
+     font-size: 20px;
+     letter-spacing: 2px;
+}
+.nav a::after{
+    content: "";
+    position: absolute;
+    background-color: black;
+    height: 2px;
+    width: 100%;
+    left: 0;
+    opacity: 0;
+    bottom: -18px;
+    transition: 0.2s;
+}
+.nav a:hover::after{
+    opacity: 1;
+}
+.nav2{
+    position: absolute;
+    left: 84%;
+    top: 7px;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #f3f3f3;
+}
+.nav2 a{
+    position: relative;
+    margin: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 2px;
+}
+.nav2 a:hover{
+    text-decoration:underline;
+    color: grey;
+}
+.search{
+    position: absolute;
+    left: 39%;
+    top: 30px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 14px;
+    border-radius: 28px;
+    background: #f6f6f6;
+    height: 10px;
+    transition: box-shadow 0.25s;
+}
+.search:focus-within{
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+}
+.search-input{
+    font-size: 20px;
+    font-family: 'Lexend',sans-serif;
+    color: #333333;
+    outline: none;
+    border: none;
+    background: transparent;
+    width: 400px;
+    padding-left: 14px;
+}
+.search-input::placeholder{
+    color: rgba(0, 0, 0, 0.25);
+}
+.search-icon{
+    background: transparent;
+    color: rgba(0, 0, 0, 0.25);
+}
+.shopping_bag{
+    position: absolute;
+    left: 89%;
+    top: 40%;
+    padding: 10px;
+    border-radius: 28px;
+}
+.bag-icon{
+    color: black;
+}
+.shopping_bag:hover{
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+}
+.shopping_bag:focus-within{
+    background-color: #f6f6f6;
+}
+.bag-icon:focus-within{
+    color: white;
+}
+.favourite{
+    position: absolute;
+    left: 85%;
+    top: 40%;
+    padding: 10px;
+    border-radius: 28px;
+}
+.love{
+    color: black;
+}
+.favourite:hover{
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+}
+.favourite:focus-within{
+    background-color: #f6f6f6;
+}
+.nav3{
+    position: absolute;
+    top: 20%;
+    left: 738px;
+    font-size: 25px;
+}
+.nav3 a{
+    position: relative;
+    margin: 30px;
+    text-decoration: none;
+    color: black;
+    letter-spacing: 2px;
+    font-size: 25px;
+}
+.nav3 a::after{
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background-color: black;
+    left: 0;
+    bottom: -10px;
+    opacity: 0;
+    transition: 0.2s;
+}
+.nav3 a:hover::after{
+    opacity: 1;
+}
+.m1{
+    position: absolute;
+    top: 20%;
+    left: 200px;
+    font-size: 25px;
+}
+.container{
+    padding: 600px;
+}
+.slidershow{
+    width: 1500px;
+    height: 700px;
+    overflow: hidden;
+}
+.middle{
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    border-radius: 28px;
+    transform: translate(-50%, -50%);
+}
+.navigation{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translatex(-50%);
+    display: flex;
+}
+.bar{
+    width: 50px;
+    height: 10px;
+    border: 2px solid #fff;
+    margin: 6px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.bar:hover{
+    background: #fff;
+}
+input[name="r"]{
+    position: absolute;
+    visibility: hidden;
+}
+.slides{
+    width: 300%;
+    height: 100%;
+    display: flex;
+}
+.slide{
+    width: 40%;
+    transition: 0.6s;
+}
+.slide img{
+    width: 100%;
+    height: 100%;
+}
+#r1:checked ~ .s1{
+    margin-left: 0;
+}
+#r2:checked ~ .s1{
+    margin-left: -40%;
+}
+#r3:checked ~ .s1{
+    margin-left: -80%;
+}
