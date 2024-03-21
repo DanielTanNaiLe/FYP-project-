@@ -1,0 +1,243 @@
+<?php 
+session_start();
+	$conn=mysqli_connect("localhost","root","","LDK Sports");
+
+?>
+<!DOCTYPE.html>
+<html>
+<head>
+<title>Payment</title>
+<link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="http://cdn.dcodes.net/2/payment_icons/dc_payment_icons.css" />
+<link rel="stylesheet" type="text/css" href="general_design.css">
+
+<style>
+
+	/**********************************************/
+	/***************** All ***********************/
+		*{
+		box-sizing: border-box;
+	}
+	
+
+/*******************************************/
+body {
+  font-family: Arial;
+  font-size: 17px;
+  padding: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+.frm{
+	width:35%;
+}
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col-25 {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+}
+
+.col-50 {
+  -ms-flex: 50%; /* IE10 */
+  flex: 50%;
+}
+
+.col-75 {
+  -ms-flex: 75%; /* IE10 */
+  flex: 75%;
+}
+
+.col-25,
+.col-50,
+.col-75 {
+  padding: 0 16px;
+}
+
+.container {
+  background-color: #f2f2f2;
+  padding: 5px 20px 15px 20px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
+}
+
+input[type=text] {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+label {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.icon-container {
+  margin-bottom: 20px;
+  padding: 7px 0;
+  font-size: 24px;
+}
+
+.btn {
+  background-color: #ffe7a4;
+  color: black;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.btn:hover {
+  background-color: #A9A9A9;
+  color: white;
+}
+
+a {
+  color: #2196F3;
+}
+
+hr {
+  border: 1px solid lightgrey;
+}
+
+span.price {
+  float: right;
+  color: grey;
+}
+.payment{
+	float:left;
+	margin-top:-560px;
+	margin-left:500px;
+	width:550px;
+}
+.payment input{
+	margin:30px;
+}
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
+@media (max-width: 800px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+  .col-25 {
+    margin-bottom: 20px;
+  }
+}
+
+/******Payment Method Selection****************/
+.accordion {
+  background-color: #f2f2f2;
+  color: #444;
+  cursor: context-menu
+  ;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 16px;
+  transition: 0.4s;
+  margin-left:-5px;
+}
+
+.active, .accordion:hover {
+  background-color: #f2f2f2; 
+}
+
+.panel {
+  padding: 10px 18px 0px 18px;
+  display: none;
+  background-color: #f2f2f2;
+  overflow: hidden;
+  margin:15px;
+  padding: 0px 60px;
+}
+
+.inp i{
+	position:absolute;
+	margin-top: 15px;
+    margin-left: 11px;
+    color: #989898
+
+}
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="col-75">
+    <div class="container">
+	
+      <form action="" class="frm" method="POST">
+      
+        <div class="row">
+          <div class="col-50">
+            <h3>Billing Address</h3><br/>
+            <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+            <input type="text" id="fname" name="firstname" placeholder="Enter your name">
+            <label for="email"><i class="fa fa-envelope"></i> Email</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email">
+            <label for="adr"><i class="glyphicon glyphicon-home"></i> Address</label>
+            <input type="text" id="adr" name="address" placeholder="Enter your address">
+			<label for="adr"><i class="glyphicon glyphicon-earphone"></i> Phone Number</label>
+            <input type="text" id="adr" name="address" placeholder="Enter your phone number">
+          </div>  
+		  </div>
+        <input type="submit" value="Continue to checkout" name="paybtn" class="btn">
+      
+    
+          <div class="payment">
+            <h3 style="margin-left:12px;">Payment Method</h3>
+			
+            <input type="radio" name="method" value="card">  Credit Card<img src="image/visa.png" style="height:37.5px;width:75px;margin-left:50px;">
+			<img src="image/master.png" style="height:37.5px;width:75px;">
+			<br/>
+			<input type="radio" name="method" value="tng"> Touch'N Go<img src="image/tng.png" style="height:35px;width:35px;margin-left:50px;">
+			<br/>
+			<input type="radio" name="method" value="boost"> Boost<img src="image/boost.png" style="height:37.5px;width:37.5px;margin-left:95px;">
+			<br/>
+			<input type="radio"name="method" value="7elevn"> 7-11<img src="image/7eleven.png" style="height:37.5px;width:37.5px;margin-left:105px;">
+			<br/>
+			<button class="accordion"><input type="radio"name="method" value="fpx"> FPX<img src="image/fpx.png" style="height:37.5px;width:75.5px;margin-left:105px;"></button>
+      <br/>
+      <input type="radio" name="method" value="grabpay"> Grab Pay<img src="image/grab.png" style="height:45px;width:45px;margin-left:65px;">
+			<div class="panel">
+			<p><i class="fa fa-institution"></i>Choose a Bank</p>
+			<select name="bank">
+			<option value="" default>--Choose a bank--</option>
+			<option value="ambank">Ambank</option>
+			<option value="bank_islam">Bank Islam</option>
+			<option value="bsn">BSN</option>
+			<option value="cimb">CIMB Click</option>
+			<option value="hong_leong">Hong Leong Connect</option>
+			<option value="hsbs">HSBC Online</option>
+			<option value="maybank">Maybank2u</option>
+			<option value="ocbc">OCBC Online</option>
+			<option value="public_bank">Public Bank</option>
+			<option value="rhb">RHB</option>
+			<option value="uob">UOB</option>
+			</select>
+			</div>
+			</form>
+			
+		  </div>
+          
+        </div>
+        
+  </div>
+</div>
+
