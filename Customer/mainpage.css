@@ -101,9 +101,11 @@ footer h3{
     background: #f6f6f6;
     height: 10px;
     transition: box-shadow 0.25s;
+    transition: all .40s ease;
 }
 .search:focus-within{
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+    transform:scale(1.1);
 }
 .search-input{
     font-size: 20px;
@@ -122,40 +124,22 @@ footer h3{
     background: transparent;
     color: rgba(0, 0, 0, 0.25);
 }
-.shopping_bag{
+.nav-icon{
     position: absolute;
-    left: 89%;
-    top: 40%;
+    left: 87%;
+    top: 45%;
     padding: 10px;
-    border-radius: 28px;
 }
-.bag-icon{
-    color: black;
+.nav-icon i{
+    margin-right: 26px;
+    font-size: 26px;
+    color: #2c2c2c;
+    font-weight: 400;
+    transition: all .42s ease;
 }
-.shopping_bag:hover{
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
-}
-.shopping_bag:focus-within{
-    background-color: #f6f6f6;
-}
-.bag-icon:focus-within{
-    color: white;
-}
-.favourite{
-    position: absolute;
-    left: 85%;
-    top: 40%;
-    padding: 10px;
-    border-radius: 28px;
-}
-.love{
-    color: black;
-}
-.favourite:hover{
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
-}
-.favourite:focus-within{
-    background-color: #f6f6f6;
+.nav-icon i:hover{
+    transform:scale(1.1);
+    color: #ee1c47;
 }
 .nav3{
     position: absolute;
