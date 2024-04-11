@@ -234,3 +234,22 @@ input[name="r"]{
 #r3:checked ~ .s1{
     margin-left: -80%;
 }
+
+/*Products*/
+
+.listproduct .item img{
+    width: 100%;
+}
+.listproduct{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.listproduct .item{
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 20px;
+}
+.listproduct .item h2{
+    font-weight: 500;
+    font-size: large;
+}
