@@ -26,8 +26,7 @@ footer{
 
 .image{
     position: absolute;
-    margin-left: 10%;
-    letter-spacing: 3px;
+    margin-left: 5%;
     width: 171px;
     background: transparent;
 }
@@ -173,10 +172,10 @@ footer h3{
     position: absolute;
     top: 20%;
     left: 200px;
-    font-size: 25px;
+    font-size: 30px;
 }
 .container{
-    padding: 600px;
+    padding: 530px;
 }
 .slidershow{
     width: 1500px;
@@ -236,18 +235,30 @@ input[name="r"]{
 }
 
 /*Products*/
-
+.subtitle_1{
+    background-color: #ffffff;
+    padding: 15px;
+}
+.subtitle_1 h1{
+display: flex;
+align-items: center;
+justify-content: center;
+text-transform: uppercase;
+}
 .listproduct .item img{
     width: 100%;
 }
 .listproduct{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    margin: 80px;
 }
 .listproduct .item{
     background-color: #ffffff;
     padding: 20px;
     border-radius: 20px;
+    border: .1rem solid;
+    margin: 7px;
 }
 .listproduct .item h2{
     font-weight: 500;
