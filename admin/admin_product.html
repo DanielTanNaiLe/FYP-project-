@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<?php 
+session_start();
+include("dataconnection.php"); ?>
+<head>
+	<title>Product List |LDK Sports Admin</title>
+	<link rel="icon" href="../image/LDK RESTAURANT.png" type="image/x-icon">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="admin_general_design.css">
+	<style>
+		*{
+			box-sizing: border-box;
+		}
+		body{
+			position:relative;
+		}
+		/**************ADMIN CONTENT***************/
+		.admin-content {
+			margin-top: 37.3px;
+			margin-left:18%;
+			padding-top: 5px;
+			padding-left: 5px;
+			z-index: 0;
+			width:81.5%;
+			height : 900px;
+		}
+		.admin-content .clear-deco{
+			text-decoration:none;
+			font-size:15px;
+			padding:10px 0px;
+			
+		}
+		.admin-content h2{
+            text-align: left;
+        }
+		table{
+			text-align: center;
+			float: center;
+		}
+		th{
+			width: 150px;
+			text-align: center;
+		}
+
+		.add{
+            background-color: #ffe7a4;
+            color: black;
+            padding: 14px 20px;
+            margin-top: 20pt;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .add:hover{
+        background-color: #A9A9A9;
+        color: white;
+        text-decoration: none;
+        }
+		/********RESPONSIVE NAV******************/
+		@media screen and (max-width: 700px){
+			nav ul .list-item a{
+				font-size: 12px;
+			}
+		}
+		
+    </style>
+	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body style="margin:0;">
+	<header>
+		<img src="../image/logo.png" alt="ldksports" class="logo">
+		<ul>
+		<li><h3>Hello, <?php echo $_SESSION['a_name']; ?></h3></li>
+			<li><a href="edit_admin.php?edit&admin_id=<?php echo $_SESSION['a_id']; ?>" ><i class="glyphicon glyphicon-user"></i></a></li>
+			<li><a href="admin_logout.php" ><i class="glyphicon glyphicon-log-out"></i></a></li>
+		</ul>
+	</header>
+
+	<div class="admin-title">
+			<div class="breadcrumb">
+			<ul>
+				<li><a href="admin_index.php">Dashboard</a></li>
+				<li><a href="admin_product.php">Product List</a></li>
+			</ul>
+		</div>
+		<a href="admin_index.php" class="home-icon"><i class="glyphicon glyphicon-home"></i></a>
+	</div>
+
+	<?php include("admin_nav.php"); ?>
+
+	<div class="admin-content">
+		<h2>Product List</h2>
+	</br></br>
+	
+	<table border="1">
+			<tr>
+				<th>Product ID</th>
+				<th>Product Name</th>
+				<th>Product Picture</th>
+				<th>Product Price</th>
+				<th>Category</th>
+                <th>Brand</th>
+				<th>Action</th>
+			</tr>
+		<?php
+			
+			$result = mysqli_query($conn, "SELECT * FROM product,category WHERE product.category_id=category.category_id");
+			$count = mysqli_num_rows($result);
+			while($row = mysqli_fetch_assoc($result))
+			{
+				$img_src = $row['product_img'];
+			?>			
+
+			<tr style="height: 200px;">
+				<td><?php echo $row['product_id'];?></td>
+				<td><?php echo $row['product_name'];?></td>
+				<td><img src="<?php echo '../'.$img_src;?>"  style="height: 200px;"></td>
+				<td><?php echo "RM", $row['product_price'];?></td>
+				<td><?php echo $row['category_name'];?></td>
+				<td style="width: 75px;">
+				<a href="updateproduct.php?edit&product_id=<?php echo $row['product_id'];?>"name="edit"><i class="glyphicon glyphicon-edit" style="font-size:20px;"></i></a>
+				<a href="admin_product.php?delete&product_id=<?php echo $row['product_id'];?>"name="delete" onclick="return confirmation();"><i class="glyphicon glyphicon-trash" style="margin-left:10px;color:red;font-size:20px;"></i></a>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+	</table>
+	<p> Number of records : <?php echo $count; ?></p>
+
+	<p class="clear-deco"><a href="addproduct.php"><i class="glyphicon glyphicon-plus"></i>Add New Product</a></p>
+	</div>
+	<?php
+	
+	if(isset($_GET["delete"]))
+	{
+		$product_id=$_GET["product_id"];
+		$query="DELETE FROM product WHERE product_id='$product_id'";
+
+		if ($conn->query($query) === TRUE) {
+		echo "Record deleted successfully";
+	?>
+		<script> location.replace("admin_product.php"); </script>
+	<?php
+		} else {
+		echo "Error deleting record: " . $conn->error;}
+	}
+
+	$conn->close();
+	?>
+
+	<script>
+		function confirmation()
+	{
+    	answer=confirm("Do you really want to delete this admin?");
+		return answer;
+	}
+	</script>
+</body>
+</html>
