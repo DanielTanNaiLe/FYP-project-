@@ -13,7 +13,7 @@ header,footer{
 header{
     position: fixed;
     background-color: white;
-    height: 15vh;
+    height: 17vh;
     z-index: 1;
     box-shadow: 0px 0px 8px 0px;
 }
@@ -27,7 +27,7 @@ footer{
 .image{
     position: absolute;
     margin-left: 5%;
-    width: 171px;
+    width: 140px;
     background: transparent;
 }
 footer h3{
@@ -39,13 +39,12 @@ footer h3{
 }
 .nav{
     position: absolute;
-    height: 35px;
-    width: 100%;
+    width: 80%;
 }
 .nav a{
      position: relative;
      left: 30%;
-     top: 97px;
+     top: 84px;
      margin: 25px;
      color: black;
      background-color: white;
@@ -69,7 +68,7 @@ footer h3{
 }
 .nav2{
     position: absolute;
-    left: 84%;
+    left: 82%;
     top: 7px;
     padding: 10px;
     border-radius: 20px;
@@ -90,8 +89,8 @@ footer h3{
 }
 .search{
     position: absolute;
-    left: 39%;
-    top: 30px;
+    margin-left: 36%;
+    margin-top: 23px;
     background-color: white;
     display: flex;
     align-items: center;
@@ -125,7 +124,7 @@ footer h3{
 }
 .nav-icon{
     position: absolute;
-    left: 87%;
+    left: 85%;
     top: 45%;
     padding: 10px;
 }
@@ -142,8 +141,8 @@ footer h3{
 }
 .nav3{
     position: absolute;
-    top: 20%;
-    left: 738px;
+    margin-top: 10%;
+    left: 37%;
     font-size: 25px;
 }
 .nav3 a{
@@ -171,20 +170,20 @@ footer h3{
 .m1{
     position: absolute;
     top: 20%;
-    left: 200px;
+    left: 140px;
     font-size: 30px;
 }
 .container{
-    padding: 530px;
+    padding: 480px;
 }
 .slidershow{
-    width: 1500px;
-    height: 700px;
+    width: 1400px;
+    height: 670px;
     overflow: hidden;
 }
 .middle{
     position: absolute;
-    top: 65%;
+    top: 75%;
     left: 50%;
     border-radius: 28px;
     transform: translate(-50%, -50%);
@@ -257,7 +256,6 @@ text-transform: uppercase;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 20px;
-    border: .1rem solid;
     margin: 7px;
 }
 .listproduct .item h2{
