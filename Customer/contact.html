@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<?php 
+session_start();
+include("dataconnection.php"); 
+?>
+<title>Contact Us |G5 Bookstore</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../Image/logo.png" type="image/x-icon">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="general_design.css">
+<style>
+	/***************** All ***********************/
+		*{
+		box-sizing: border-box;
+        
+	}
+	/********************************************/
+	
+	.hover-grey:hover{
+		background-color: burlywood;
+		cursor: pointer;
+	}
+	.clear-link{
+		text-decoration: none;
+		color: black;
+	}
+	.hover-none:hover{
+		cursor: pointer;
+	}
+	.title-design{
+		font-size: 30px;
+		font-weight: bold;
+		text-align:center;
+	}
+	.hover-greyfont:hover{
+	cursor: pointer;
+	color: grey;
+	}
+	.hover-greyborder:hover{
+		border: 1px solid grey;
+	}
+	
+/*********************TITLE**********************/
+h1{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size:40px;
+	padding-left: 25px; 
+}
+h2{
+	margin: 0px;
+	font-size:20px;
+	font-weight: normal;
+	padding-left: 25px;
+}
+.contact-us-title{
+	padding:20px 0px 25px 0px;
+	background-color: white;
+	
+}
+/********************* Content **************************/
+.content{
+	position: relative;
+	height:650px;
+	margin:10px 25px 0px 25px;
+   
+}
+/************************* Form **************************/
+.left-contact-form{
+	float: left;
+	display:block;
+	width:50%;
+	margin-left: 25px;
+}
+.left-contact-form .contactfrm{
+	margin:0px;
+}
+.left-contact-form .contactfrm p{
+	margin: 20px 0px 0px 0px;
+	font-size: 17px;
+}
+.left-contact-form .contactfrm p span{
+	color:red;
+}
+.left-contact-form .contactfrm p input,textarea,select{
+	margin: 10px 0px;
+	width:100%;
+	height: 40px;
+}
+input[type="submit"]{
+	margin: 20px 0px;
+	height: 45px;
+	width: 90px;
+	border: none;
+	background-color: #c9b06d;
+	color: white;
+}
+input[type="submit"]:hover{
+	background-color: grey;
+	cursor: pointer;
+}
+/************************ Maps **************************/
+.right-map{
+	margin-top: 10px;
+	float: right;
+	width: 45%;
+	display:block;
+	overflow: hidden;
+}
+/************************* FAQ ***************************/
+.faq{
+	float: left;
+	margin: 10px 25px;
+	width: 100%;
+}
+.faq h1{
+	font-size:20px;
+	padding: 0px;
+}
+.faq a{
+	font-size:15px
+}
+
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="margin:0px;">
+<?php include("user_headernav.php"); ?>
+
+<div class="contact-us-title">
+<div class="breadcrumb">
+	<ul>
+		
+	</ul>
+</div>
+
+<h1>Contact Us</h1>
+<h2>We would love to respond to your queries and help you</h2>
+<h2>Feel free to get in touch with us by fill up the form below.</h2>
+</div>
+
+<div class="content">
+
+	<div class="right-map">
+		<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.918347911952!2d101.67446431401271!3d3.1163023977307946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc492ac32b6d87%3A0x2077ed3374741cac!2sPopular%20%40%20Mid%20Valley%20Megamall!5e0!3m2!1sen!2smy!4v1612966651280!5m2!1sen!2smy" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+		<p style="margin-bottom:5px;"><strong>DLK Sports</strong></p>
+		<p style="margin:0px;">Mid Valley Megamall, S-066, Second Floor, South Court, Lingkaran Syed Putra, Mid Valley City, 59200 Kuala Lumpur, Federal Territory of Kuala Lumpur</p>
+	</div>
+
+	<div class="left-contact-form">
+		<form class="contactfrm" name="addfrm" method="post" action="">
+			<p style="margin-top:5px;">
+				<label>What is your concern?<span>*</span></label><br>
+				<select name="con_title">
+					<option value="payment">Payment Inquiry</option>
+					<option value="place order">Unable Place Order</option>
+					<option value="delivery">Delivery Issues</option>
+					<option value="damaged">Item Damaged</option>
+					<option value="login">Login Failed</option>
+                    <option value="other">Other</option>
+				</select>
+			</p>
+			<p>
+				<label>Description<span>*</span></label><br/>
+				<textarea name="con_desc" placeholder="Tell us more about your concern" style="height:120px;"></textarea>
+			</p>
+
+			<p>
+				<label>Name<span>*</span></label><br/>
+				<input type="text" placeholder="Enter your name" size="50" name="con_name" required/>
+			</p>
+               
+			<p>
+				<label>Phone no<span>*</span></label><br/>
+				<input type="text" placeholder="Enter your personal phone number" size="50" name="con_phone" required/>
+			</p>
+
+            <p>
+               <label>Email address<span>*</span></label><br/>
+				<input type="email" placeholder="Enter your personal email" name="con_email" required/>
+            </p>
+
+			<input type="submit" name="savebtn" value="SUBMIT" />
+		</form>
+	</div>
+	<br>
+	<div class="faq"><br>
+		<h1>Or maybe you can find our solution in our FAQs</h1>
+		<a href="FAQ.php">See all FAQ ></a>
+	</div>
+</div>
+
+<button onclick="toTopBtn()" id="toTopBtn" title="Go to top"><img src="../Image/top.png" id="toTop"/></button>
+
+<?php include("user_footer.php"); ?>
+
+<script>
+    topbutton = document.getElementById("toTopBtn");
+
+    window.onscroll = function() {scrollTop()};
+
+    function scrollTop() {
+    if (document.body.scrollTop > 15 || document.documentElement.scrollTop > 15) {
+        topbutton.style.display = "block";
+    } else {
+        topbutton.style.display = "none";
+    }
+    }
+    function toTopBtn() {
+        window.scrollTo(0, 0);
+        
+    }
+</script>
+</body>
+
+</html>
