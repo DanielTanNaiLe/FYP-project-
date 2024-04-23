@@ -6,6 +6,9 @@ body{
     margin: 0%;
     padding: 0%;
 }
+
+/*header footer*/
+
 header,footer{
     width: 100%;
     color: black;
@@ -280,12 +283,11 @@ text-transform: uppercase;
 }
 
 /*main-page*/
-section{
-    padding: 15% 10%;
-}
+
 .main-home{
+    padding: 15% 10%;
     background-position: center;
-    background-image: url(/image/banner.jpg);
+    background-image: url(./image/banner.jpg);
     height: 50vh;
     background-size: cover;
     display: grid;
@@ -330,4 +332,51 @@ section{
 }
 .main-btn i{
     vertical-align: middle;
+}
+.home2-text{
+    padding: 3% 4%;
+    text-transform: capitalize;
+    font-size: 25px;
+}
+.home2-banner{
+    display: grid;
+    grid-template-columns: repeat(3, 480px);
+    margin-left: auto;
+    margin-right: auto;
+    width: 92%;
+}
+.image-container{
+    position: relative;
+}
+.main-home2-btn{
+    position: relative;
+}
+.home2-banner img{
+    width: 450px;
+    border: 5px solid rgb(242, 163, 45);
+}
+.button-overlay{
+    position: absolute;
+    top: 79%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.home2-btn{
+    margin: 8px 0;
+    padding: 10px 175px;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: large;
+    text-transform: capitalize;
+    transition: all .42s ease;
+}
+.home2-btn:hover{
+    transform:scale(1.1);
+    background-color: rgb(242, 163, 45);
+    color: #fff;
 }
