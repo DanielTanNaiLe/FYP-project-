@@ -9,7 +9,7 @@ body{
 
 /*header footer*/
 
-header,footer{
+header{
     width: 100%;
     color: black;
 }
@@ -20,25 +20,11 @@ header{
     z-index: 1;
     box-shadow: 0px 0px 8px 0px;
 }
-footer{
-    bottom: 0;
-    position: relative;
-    height: 10vh;
-    background-color: black;
-}
-
 .image{
     position: absolute;
     margin-left: 5%;
     width: 140px;
     background: transparent;
-}
-footer h3{
-    position: absolute;
-    background-color: black;
-    color: white;
-    top: 10px;
-    left: 50px;
 }
 .nav{
     position: absolute;
@@ -58,7 +44,7 @@ footer h3{
 .nav a::after{
     content: "";
     position: absolute;
-    background-color: black;
+    background-color: rgb(242, 163, 45);
     height: 2px;
     width: 100%;
     left: 0;
@@ -71,7 +57,7 @@ footer h3{
 }
 .nav2{
     position: absolute;
-    left: 82%;
+    left: 80.5%;
     top: 7px;
     padding: 10px;
     border-radius: 20px;
@@ -92,7 +78,7 @@ footer h3{
 }
 .search{
     position: absolute;
-    margin-left: 36%;
+    margin-left: 35%;
     margin-top: 23px;
     background-color: white;
     display: flex;
@@ -127,7 +113,7 @@ footer h3{
 }
 .nav-icon{
     position: absolute;
-    left: 85%;
+    left: 82%;
     top: 45%;
     padding: 10px;
 }
@@ -144,7 +130,7 @@ footer h3{
 }
 .nav-user-icon{
     position: absolute;
-    left: 94.5%;
+    left: 93%;
     top: 45%;
     padding: 10px;
 }
@@ -379,4 +365,87 @@ text-transform: uppercase;
     transform:scale(1.1);
     background-color: rgb(242, 163, 45);
     color: #fff;
+}
+.main-home3{
+    padding-left: 5%;
+}
+.home3-banner{
+    display: grid;
+    margin-left: auto;
+    margin-right: auto;
+    width: 94%;
+    grid-template-columns: repeat(3,1fr);
+}
+.image-container3{
+    transition: all .42 ease;
+}
+.home3-banner img{
+    width: 400px;
+    box-shadow: rgb(242, 163, 45) 1px 1px 1px 1px;
+}
+.home3-banner h1{
+    text-transform: capitalize;
+    padding: 2% 5%;
+    font-size: 30px;
+}
+.image-container3:hover{
+    transform:scale(1.1);
+}
+
+/*******************Footer*******************/
+
+footer{
+	margin-top:50px;
+}
+.upper-footer{
+	background-color: rgb(234, 230, 224)
+}
+.upper-footer ul{
+	list-style-type: none;
+	width:100%;
+	height: auto;
+	overflow: hidden;
+	display: block;
+	margin:0px;
+}
+.upper-footer li{
+	list-style-type: none;
+	padding: 10px 0px;
+	float: left;
+}
+.spacing-li{
+	margin-left: 100px;
+}
+.upper-footer li a{
+	padding: 5px 0px;
+	display: block;
+	color: black;
+	text-decoration: none;
+}
+.upper-footer li p{
+	margin: 8px 0px;
+}
+.upper-footer a:hover{
+	color: blue;
+}
+
+.lower-footer{
+	background-color: black;
+	margin: 0px;
+	height: 67px;
+}
+.lower-footer ul{
+	list-style-type: none;
+	margin: 0px;
+}
+.lower-footer ul li{
+	display: inline;
+	margin:0px;
+	padding: 10px 0px;
+}
+.lower-footer-font{
+	color: white;
+	margin: 0px;
+	padding: 5px 0px;
+	font-size: 0.7em;
 }
