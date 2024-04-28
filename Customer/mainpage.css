@@ -113,7 +113,7 @@ header{
 }
 .nav-icon{
     position: absolute;
-    left: 82%;
+    left: 84%;
     top: 45%;
     padding: 10px;
 }
@@ -127,22 +127,6 @@ header{
 .nav-icon i:hover{
     transform:scale(1.1);
     color: #ee1c47;
-}
-.nav-user-icon{
-    position: absolute;
-    left: 93%;
-    top: 45%;
-    padding: 10px;
-}
-.nav-user-icon i{
-    font-size: 26px;
-    color: #2c2c2c;
-    font-weight: 400;
-    transition: all .42s ease;
-}
-.nav-user-icon i:hover{
-    transform:scale(1.1);
-    color: grey;
 }
 .nav3{
     position: absolute;
