@@ -27,29 +27,45 @@ header{
     background: transparent;
 }
 .nav{
-    position: absolute;
-    width: 80%;
+    list-style: none;
+    margin-left: 23%;
+    margin-top: 50px;
 }
-.nav a{
-     position: relative;
-     left: 30%;
-     top: 84px;
-     margin: 25px;
-     color: black;
-     background-color: white;
-     text-decoration: none;
-     font-size: 20px;
-     letter-spacing: 2px;
+.nav li{
+    display: inline-block;
+    position: relative;
+}
+.nav li a{
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin: 25px;
+    color: black;
+}
+.nav li ul.dropdown li{
+    display: block;
+}
+.nav li ul.dropdown{
+   width: 100%;
+    position: absolute;
+    background: white;
+    z-index: 999;
+    display: none;
+}
+.nav li:hover ul.dropdown{
+    display: block;
 }
 .nav a::after{
     content: "";
     position: absolute;
     background-color: rgb(242, 163, 45);
     height: 2px;
-    width: 100%;
-    left: 0;
+    width: 85%;
+    left: 10px;
     opacity: 0;
-    bottom: -18px;
+    bottom: -1px;
     transition: 0.2s;
 }
 .nav a:hover::after{
@@ -77,9 +93,10 @@ header{
     color: grey;
 }
 .search{
-    position: absolute;
+    bottom: 105px;
+    position: relative;
+    width: 25%;
     margin-left: 35%;
-    margin-top: 23px;
     background-color: white;
     display: flex;
     align-items: center;
