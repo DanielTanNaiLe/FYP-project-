@@ -1,12 +1,8 @@
-<?php 
-session_start();
-include("dataconnection.php"); ?>
 
 <!DOCTYPE.html>
 <html>
 <head>
-<title>My Account |LDK Sports</title>
-<link rel="icon" href="../image/logo.png" type="image/x-icon">
+<title>My Account |LDK SPORTS</title>
 
 <style>
     /***************** All ***********************/
@@ -23,7 +19,7 @@ include("dataconnection.php"); ?>
 }
 .left{
     background-color: #A9A9A9;
-    height: 500px;
+    height: 600px;
     width: 20%;
     margin-top: 100px;
     float: left;
@@ -32,11 +28,11 @@ include("dataconnection.php"); ?>
 }
 .right{
     border: 1px solid white;
-    height: 500px;
+    height: 600px;
     width: 70%;
     margin-top: 100px;
     float: right;
-    margin-right:4%;
+    margin-right: 4%;
     padding-left: 50px;
     padding-top: 30px;
     text-align: left;
@@ -44,6 +40,9 @@ include("dataconnection.php"); ?>
 .right h2{
     text-align: left;
     font-family: garamond;
+}
+.right p label{
+    width:150px;
 }
 .avatar {
     vertical-align: middle;
@@ -79,9 +78,10 @@ include("dataconnection.php"); ?>
 }
 .right p{
     font-family: Verdana;
-    font-size: 20px;
+    font-size: 16px;
+    
 }
-.update{
+.save{
     background-color: #ffe7a4;
     color: black;
     padding: 14px 20px;
@@ -91,22 +91,23 @@ include("dataconnection.php"); ?>
     border-radius: 8px;
     font-weight: bold;
 }
-.update:hover{
+.save:hover{
     background-color: #A9A9A9;
     color: white;
-    text-decoration: none;
 }
+
 </style>
 </head>
 <body>
-   
+
+    
 <form class="content">
     <div class="left">
-        <img src="../Image/logo.png" alt="Avatar" class="avatar">
+        <img src="image/logo_img.jpg" alt="Avatar" class="avatar">
     </br>
     <div class="menu">
         <ul>
-            <li><a href="#top">Profile</a>
+            <li><a href="landingafterlogin.php">Profile</a>
             </li>
             <li><a href="#">Shopping Cart</a>
             </li>
@@ -115,47 +116,26 @@ include("dataconnection.php"); ?>
         </ul>
     </div>
     </div>
-    <?php
-            if(isset($_SESSION["u_id"]))
-            {
-            $user_id = $_SESSION["u_id"]; 
-            
-            $qry = mysqli_query($conn,"select * from users where user_id='$user_id'");
-            while($row = mysqli_fetch_array($qry))
-            {
-            
-    ?>
-    <div class="right">
-
-        <h2>Welcome, <?php  echo $_SESSION["u_name"];  ?>!</h2>
-        <h3>Personal Information</h3>
-    <hr>
-    
-        <p><b>Name:</b> <?php  echo $row['user_name'] ; ?></p>
-        
-        <p><b>Date of Birth:</b> 
-            <?php  
-            $date = $row['user_dob'];
-            $date = strtotime($date);
-            $date = date('d-M-Y', $date);
-            echo $date; 
-            ?></p>
-
-        <p><b>Phone Number:</b> <?php  echo "0". $row['user_phone_number'];  ?></p>
-
-        <p><b>Email:</b> <?php echo $row['user_email'];?></p>
-
-        <p><b>Address:</b> <?php  echo $row['user_address']; ?></p>
-            </br></br>
-        <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
-        <a href="customer edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
-    </div>
-<?php
-            }
-        }
-        
-?>
 </form>
+
+
+<div class="right">
+        <h2>User Edit </h2>
+        <h3>Personal Information</h3>
+        <form name="update" method="post" action="">
+        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" >
+        
+        <p><label>Date of Birth:</label><input  type="date" name="user_dob"  id="user_dob">
+        
+        <p><label>Phone Number:</label><input  type="text" name="user_phone_number" size="40" placeholder="Please enter your phone number" id="user_phone_number" >
+
+        <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" >
+
+        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> </textarea>
+       
+
+        <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
+        </form>
+</div>
 </body>
 </html>
