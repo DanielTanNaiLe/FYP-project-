@@ -81,7 +81,7 @@ if(isset($_POST['signup']))
     $user_password = $_POST['user_password'];
     $user_address=$_POST['user_address'];
     
-	$result = mysqli_query($conn,"INSERT INTO user(user_id, user_name, user_dob, user_phone_number, user_email,user_password, user_address)VALUES('$user_id','$user_name','$user_dob','$user_phone_number','$user_email','$user_password','$user_address')");
+	$result = mysqli_query($conn,"INSERT INTO users(user_id, user_name, user_dob, user_phone_number, user_email,user_password, user_address)VALUES('$user_id','$user_name','$user_dob','$user_phone_number','$user_email','$user_password','$user_address')");
 
     if($result)
 	{
