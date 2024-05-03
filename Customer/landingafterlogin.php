@@ -125,7 +125,7 @@ include("dataconnection.php"); ?>
             {
             $user_id = $_SESSION["u_id"]; 
             
-            $qry = mysqli_query($conn,"select * from user where user_id='$user_id'");
+            $qry = mysqli_query($conn,"select * from users where user_id='$user_id'");
             while($row = mysqli_fetch_array($qry))
             {
             
@@ -154,7 +154,7 @@ include("dataconnection.php"); ?>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
-        <a href="user_edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
+        <a href="customer_edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
     </div>
 <?php
             }

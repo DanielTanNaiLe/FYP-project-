@@ -1,42 +1,38 @@
 <?php
-session_start();
-include("dataconnection.php");
+    session_start();
+    include("dataconnection.php");
 
-$error = '';
-if(isset($_POST['submit'])){
-    if(empty($_POST['user_id']) || empty($_POST['user_password'])){
-        $error = "Username or Password is Invalid";
-    }
-    else{
-        $user_id = $_POST['user_id'];
-        $user_password = $_POST['user_password'];
-
-        $query = "SELECT * FROM users WHERE user_id ='$user_id' AND user_password = '$user_password'";
-        $result = mysqli_query($conn, $query);
-        
-        if(!$result){
-            $error = "Query execution failed: " . mysqli_error($conn);
+    $error = '';
+    if(isset($_POST['submit'])){
+        if(empty($_POST['user_id']) || empty($_POST['user_password'])){
+            $error = "Username or Password is Invalid";
         }
         else{
-            $row = mysqli_fetch_assoc($result);
-            $row_count = mysqli_num_rows($result);
+            $user_id = $_POST['user_id'];
+            $user_password = $_POST['user_password'];
 
-            if($row_count == 1){  
-                header("Location: landingafterlogin.php");
-                $_SESSION['u_id']= $user_id;
-                $_SESSION['u_name']= $row['user_name'];
+            include("dataconnection.php"); 
+
+            $query = mysqli_query($conn, "SELECT * FROM users WHERE user_name ='$user_id' AND user_password = '$user_password'");
+            $row = mysqli_fetch_assoc($query);
+            $row2 = mysqli_num_rows($query);
+
+
+            if($row2 == 1){  
+            header("Location: landingafterlogin.php");
+            $_SESSION['u_id']= $user_id;
+            $_SESSION['u_name']= $row['user_name'];
+
             }  
-            else{  
-                $error = "Username or Password is Invalid";
+            else  
+            {  
+            $error = "Username or Password is Invalid";
             }  
             
-            mysqli_free_result($result);
+            mysqli_close($conn);
         }
     }
-}
 ?>
-
-
 
 <!DOCTYPE.html>
 <html>
