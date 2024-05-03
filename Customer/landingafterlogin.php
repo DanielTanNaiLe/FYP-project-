@@ -121,13 +121,18 @@ include("dataconnection.php"); ?>
             $user_id = $_SESSION["u_id"]; 
             
             $qry = mysqli_query($conn,"select * from users where user_id='$user_id'");
-            while($row = mysqli_fetch_array($qry))
+          
+            if (!$qry) {
+                echo "Error: " . mysqli_error($conn);
+            } else {
+                while($row = mysqli_fetch_array($qry))
+
             {
             
     ?>
     <div class="right">
 
-        <h2>Welcome, <?php  echo $_SESSION["u_name"];  ?>!</h2>
+        <h2>Welcome, <?php  echo $_SESSION["user_name"];  ?>!</h2>
         <h3>Personal Information</h3>
     <hr>
     
