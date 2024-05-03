@@ -6,7 +6,7 @@ include("dataconnection.php"); ?>
 <html>
 <head>
 <title>My Account |LDK Sports</title>
-<link rel="icon" href="../image/logo.png" type="image/x-icon">
+<link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
 
 <style>
     /***************** All ***********************/
@@ -102,7 +102,7 @@ include("dataconnection.php"); ?>
    
 <form class="content">
     <div class="left">
-        <img src="../Image/logo.png" alt="Avatar" class="avatar">
+        <img src="image/logo_img.jpg" alt="Avatar" class="avatar">
     </br>
     <div class="menu">
         <ul>
@@ -133,7 +133,7 @@ include("dataconnection.php"); ?>
     ?>
     <div class="right">
 
-        <h2>Welcome, <?php  echo $_SESSION["user_name"];  ?>!</h2>
+        <h2>Welcome, <?php  echo $_SESSION["u_name"];  ?>!</h2>
         <h3>Personal Information</h3>
     <hr>
     
