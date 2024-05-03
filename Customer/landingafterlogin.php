@@ -101,10 +101,7 @@ include("dataconnection.php"); ?>
 </style>
 </head>
 <body>
-    <?php include("header.php"); ?>
-
-    
-
+   
 <form class="content">
     <div class="left">
         <img src="image/logo_img.jpg" alt="Avatar" class="avatar">
