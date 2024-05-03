@@ -127,6 +127,7 @@ include("dataconnection.php"); ?>
             } else {
                 while($row = mysqli_fetch_array($qry))
 
+
             {
             
     ?>
@@ -159,6 +160,7 @@ include("dataconnection.php"); ?>
 <?php
             }
         }
+    }
         
 ?>
 </form>
