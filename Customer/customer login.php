@@ -11,7 +11,7 @@ if(isset($_POST['submit'])){
         $user_id = $_POST['user_id'];
         $user_password = $_POST['user_password'];
 
-        $query = "SELECT * FROM user WHERE user_id ='$user_id' AND user_password = '$user_password'";
+        $query = "SELECT * FROM users WHERE user_id ='$user_id' AND user_password = '$user_password'";
         $result = mysqli_query($conn, $query);
         
         if(!$result){
