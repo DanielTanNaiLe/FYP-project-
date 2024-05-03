@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Signup</title>
+    <title>Register |LDK Sports</title>
     <link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
     <?php include("dataconnection.php"); ?>
     <meta charset="UTF-8">
@@ -71,14 +71,14 @@
 </html>
 <?php
 	
-if(isset($_POST['register']))
+if(isset($_POST['signup']))
 { 
     $user_id = $_POST['user_id'];
 	$user_name = $_POST['user_name'];
-    $user_password = $_POST['user_password'];
     $user_dob = $_POST['user_dob'];
     $user_phone_number = $_POST['user_phone_number'];
     $user_email = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
     $user_address=$_POST['user_address'];
     
 	$result = mysqli_query($conn,"INSERT INTO user(user_id, user_name, user_dob, user_phone_number, user_email,user_password, user_address)VALUES('$user_id','$user_name','$user_dob','$user_phone_number','$user_email','$user_password','$user_address')");
@@ -87,11 +87,11 @@ if(isset($_POST['register']))
 	{
 ?>
 <script> 
-alert("Thank you for register!");
+alert("Thank you for registering!");
 location.replace("customer login.php");
 </script>
 <?php
     }
 }
 
-?>
+?>  
