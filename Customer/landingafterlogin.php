@@ -117,6 +117,7 @@ include("dataconnection.php"); ?>
         </ul>
     </div>
     </div>
+
     <?php
             if(isset($_SESSION["u_id"]))
             {
@@ -151,7 +152,7 @@ include("dataconnection.php"); ?>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
-        <a href="customer_edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
+        <a href="customer edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
     </div>
 <?php
             }
