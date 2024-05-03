@@ -5,8 +5,8 @@ include("dataconnection.php"); ?>
 <!DOCTYPE.html>
 <html>
 <head>
-<title>My Account | LDK SPORTS</title>
-<link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
+<title>My Account |LDK Sports</title>
+<link rel="icon" href="../image/logo.png" type="image/x-icon">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="general_design.css">
 
@@ -101,10 +101,14 @@ include("dataconnection.php"); ?>
 </style>
 </head>
 <body>
-   
+    <?php include("user_headernav.php"); ?>
+
+    <button onclick="toTopBtn()" id="toTopBtn" title="Go to top"><img src="../Image/top.png" id="toTop"/></br></button>
+    
+
 <form class="content">
     <div class="left">
-        <img src="image/logo_img.jpg" alt="Avatar" class="avatar">
+        <img src="../Image/avatar.png" alt="Avatar" class="avatar">
     </br>
     <div class="menu">
         <ul>
@@ -117,7 +121,6 @@ include("dataconnection.php"); ?>
         </ul>
     </div>
     </div>
-
     <?php
             if(isset($_SESSION["u_id"]))
             {
@@ -161,5 +164,25 @@ include("dataconnection.php"); ?>
 ?>
 </form>
 
+<?php include("user_footer.php"); ?>
+    
+    
+    <script>
+    /***************ToTop***************************/
+        topbutton = document.getElementById("toTopBtn");
+
+        window.onscroll = function() {scrollTop()};
+
+        function scrollTop() {
+        if (document.body.scrollTop > 15 || document.documentElement.scrollTop > 15) {
+            topbutton.style.display = "block";
+        } else {
+            topbutton.style.display = "none";
+        }
+        }
+        function toTopBtn() {
+	    document.body.scrollTop = 0;
+    }
+    </script>
 </body>
 </html>
