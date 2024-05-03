@@ -1,4 +1,17 @@
+<?php
+session_start();
+include("dataconnection.php");
 
+if(isset($_GET['update']))
+{
+    $user_id = $_GET['user_id'];
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
+    
+    if($result)
+    {
+        $row = mysqli_fetch_assoc($result);
+?>
+<!DOCTYPE
 <!DOCTYPE.html>
 <html>
 <head>
@@ -139,3 +152,27 @@
 </div>
 </body>
 </html>
+
+<?php
+if(isset($_POST['savebtn']))
+{
+    $user_id=$_POST['user_id'];
+    $user_name=$_POST['user_name'];
+    $user_password=$_POST['user_password'];
+    $user_dob=$_POST['user_dob'];
+    $user_phone_number=$_POST['user_phone_number'];
+    $user_email=$_POST['user_email'];
+    $user_address=$_POST['user_address'];
+
+    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
+    
+    
+    ?>
+    <script>alert("Admin updated");
+    location.replace("landingafterlogin.php"); </script>
+    </script>
+    <?php
+
+}
+}}
+?>
