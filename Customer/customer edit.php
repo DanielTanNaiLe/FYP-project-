@@ -11,7 +11,7 @@ if(isset($_GET['update']))
     {
         $row = mysqli_fetch_assoc($result);
 ?>
-<!DOCTYPE
+
 <!DOCTYPE.html>
 <html>
 <head>
