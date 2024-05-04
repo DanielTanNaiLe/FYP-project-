@@ -1,6 +1,6 @@
 <?php
 
-$email = $_POST["user_email"];
+$email = $_POST['user_email'];
 
 $token = bin2hex(random_bytes(16));
 
@@ -17,7 +17,7 @@ if ($mysqli->connect_error) {
 $sql = "UPDATE users
         SET reset_token_hash = ?,
             reset_token_expires_at = ?
-        WHERE email = ?";
+        WHERE user_email = ?";
 
 $stmt = $mysqli->prepare($sql);
 
