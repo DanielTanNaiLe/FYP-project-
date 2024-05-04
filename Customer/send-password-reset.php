@@ -1,4 +1,8 @@
 <?php
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'ldksports');
 
 $email = $_POST["email"];
 
@@ -9,12 +13,13 @@ $token_hash = hash("sha256", $token);
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
 // Include the dataconnection.php file and store the returned mysqli object in a variable
-$mysqli = include __DIR__ . "/dataconnection.php";
-
-// Check if $mysqli is an integer (indicating an error) or a MySQLi object
-if (is_int($mysqli)) {
-    // If $mysqli is an integer, it means there was an error in the connection
-    die("Database connection error: $mysqli");
+try {
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    if ($mysqli->connect_error) {
+        throw new Exception("Database connection error: " . $mysqli->connect_error);
+    }
+} catch (Exception $e) {
+    die($e->getMessage());
 }
 
 $sql = "UPDATE users
