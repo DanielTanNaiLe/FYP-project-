@@ -5,10 +5,7 @@ $password = "";
 $dbname = "ldksports";  
 
 // Create connection
-$conn =  new mysqli(hostname: $host,
-username: $username,
-password: $password,
-database: $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 
 if ($conn->connect_error) {
