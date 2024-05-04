@@ -123,7 +123,7 @@ span{
 </br>
                 <span><?php echo $error;?></span>
             </br>
-            <p>Don't have an account? <a href="customer register.html">Sign Up Here</a></p>
+            <p>Don't have an account? <a href="customer register.php">Sign Up Here</a></p>
             
             </div>
         </div>

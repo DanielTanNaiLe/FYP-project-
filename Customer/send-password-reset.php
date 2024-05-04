@@ -8,7 +8,7 @@ $token_hash = hash("sha256", $token);
 
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
-$mysqli = require __DIR__ . "/databaseconnection.php";
+$mysqli = require __DIR__ . "/dataconnection.php";
 
 $sql = "UPDATE users
         SET reset_token_hash = ?,
