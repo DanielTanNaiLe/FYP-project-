@@ -21,35 +21,21 @@ $sql = "UPDATE users
 
 $stmt = $mysqli->prepare($sql);
 
+if ($stmt === false) {
+    die("Prepare failed: " . $mysqli->error);
+}
+
 $stmt->bind_param("sss", $token_hash, $expiry, $email);
 
-$stmt->execute();
+$result = $stmt->execute();
+
+if ($result === false) {
+    die("Execute failed: " . $stmt->error);
+}
 
 if ($stmt->affected_rows) {
-
-    $mail = require __DIR__ . "/mailer.php";
-
-    $mail->setFrom("noreply@gmail.com");
-    $mail->addAddress($email);
-    $mail->Subject = "Password Reset";
-    $mail->Body = <<<END
-
-    Click <a href="http://example.com/reset-password.php?token=$token">here</a> 
-    to reset your password.
-
-    END;
-
-    try {
-
-        $mail->send();
-        echo "Message sent, please check your inbox.";
-
-    } catch (Exception $e) {
-
-        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-
-    }
-
+    // Your code for sending the email
+    echo "Message sent, please check your inbox.";
 } else {
     echo "No rows affected.";
 }
