@@ -1,9 +1,9 @@
 <header>
 <img src="./image/bee8187f8ec4798e571fdcee0b3d86df.png" class="image">
 <ul class="nav"> 
-    <li><a href="mainpage.html" class="a1">HOME</a></li>
+    <li><a href="mainpage.php" class="a1">HOME</a></li>
     <li>
-    <a href="menpage.html" class="a1">MEN</a>
+    <a href="menpage.php" class="a1">MEN</a>
     <ul class="dropdown">
         <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
         <div class="dropdown2">

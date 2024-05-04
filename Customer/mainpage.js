@@ -11,6 +11,8 @@ const addDataToHTML = () => {
             <img src="${product.image}" alt="">
             <h2>${product.name}</h2>
             <div class="price">RM ${product.price}</div>
+            <div class="favourite"><i class='bx bxs-heart'></i></div>
+            <div class="details-container"><a href="" class="details">View details</a></div>
             `;
             listproductHTML.appendChild(newProduct);
         })
