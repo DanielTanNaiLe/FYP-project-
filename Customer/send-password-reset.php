@@ -16,14 +16,23 @@ $sql = "UPDATE users
             reset_token_expires_at = ?
         WHERE email = ?";
 
-$stmt = $conn->prepare($sql);
+$stmt = $mysqli->prepare($sql);
 
-$conn->bind_param("sss", $token_hash, $expiry, $email);
+// Check if the prepare operation succeeded
+if ($stmt === false) {
+    die("Prepare failed: " . $mysqli->error);
+}
 
-$conn->execute();
+// Bind parameters
+$stmt->bind_param("sss", $token_hash, $expiry, $email);
 
-if ($mysqli->affected_rows) {
+// Execute the statement
+$stmt->execute();
 
+// Check for affected rows
+if ($stmt->affected_rows) {
+
+    // Assuming the mailer.php returns an instance of PHPMailer
     $mail = require __DIR__ . "/mailer.php";
 
     $mail->setFrom("noreply@gmail.com");
@@ -37,17 +46,16 @@ if ($mysqli->affected_rows) {
     END;
 
     try {
-
+        // Send the email
         $mail->send();
-
+        echo "Message sent, please check your inbox.";
     } catch (Exception $e) {
-
+        // Handle mailer errors
         echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-
     }
 
+} else {
+    echo "No rows affected.";
 }
-
-echo "Message sent, please check your inbox.";
 
 ?>
