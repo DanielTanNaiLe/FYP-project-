@@ -46,14 +46,17 @@ if ($stmt->affected_rows) {
     Click <a href="http://example.com/reset-password.php?token=$token">here</a> 
     to reset your password.
     END;
-
     try {
-        // Send the email
+
         $mail->send();
-    echo "Message sent, please check your inbox.";
-} else {
-    echo "No rows affected.";
-}
+
+    } catch (Exception $e) {
+
+        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+
+    }
 
 }
-?>
+
+echo "Message sent, please check your inbox.";
+
