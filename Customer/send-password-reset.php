@@ -16,7 +16,7 @@ $sql = "UPDATE users
             reset_token_expires_at = ?
         WHERE email = ?";
 
-$stmt = $mysqli->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 $stmt->bind_param("sss", $token_hash, $expiry, $email);
 
