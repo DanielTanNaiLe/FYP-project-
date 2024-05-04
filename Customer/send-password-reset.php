@@ -1,6 +1,6 @@
 <?php
 
-$email = $_POST['user_email'];
+$user_email = $_POST['user_email'];
 
 $token = bin2hex(random_bytes(16));
 
@@ -25,7 +25,7 @@ if ($stmt === false) {
     die("Prepare failed: " . $mysqli->error);
 }
 
-$stmt->bind_param("sss", $token_hash, $expiry, $email);
+$stmt->bind_param("sss", $token_hash, $expiry, $user_email);
 
 $result = $stmt->execute();
 
