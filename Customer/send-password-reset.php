@@ -11,6 +11,12 @@ $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 // Include the dataconnection.php file and store the returned mysqli object in a variable
 $mysqli = include __DIR__ . "/dataconnection.php";
 
+// Check if $mysqli is an integer (indicating an error) or a MySQLi object
+if (is_int($mysqli)) {
+    // If $mysqli is an integer, it means there was an error in the connection
+    die("Database connection error: $mysqli");
+}
+
 $sql = "UPDATE users
         SET reset_token_hash = ?,
             reset_token_expires_at = ?
