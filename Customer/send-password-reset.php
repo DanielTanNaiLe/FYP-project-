@@ -1,6 +1,6 @@
 <?php
 
-$email = $_POST["email"];
+$user_email = $_POST["user_email"];
 
 $token = bin2hex(random_bytes(16));
 
@@ -20,7 +20,7 @@ if ($mysqli === false) {
 $sql = "UPDATE users
         SET reset_token_hash = ?,
             reset_token_expires_at = ?
-        WHERE email = ?";
+        WHERE user_email = ?";
 
 $stmt = $mysqli->prepare($sql);
 
@@ -30,7 +30,7 @@ if ($stmt === false) {
 }
 
 // Bind parameters
-$bindResult = $stmt->bind_param("sss", $token_hash, $expiry, $email);
+$bindResult = $stmt->bind_param("sss", $token_hash, $expiry, $user_email);
 
 if (!$bindResult) {
     die("Binding parameters failed: " . $stmt->error);
