@@ -1,6 +1,6 @@
 <?php
 
-$email = $_POST["email"];
+$email = $_POST["user_email"];
 
 $token = bin2hex(random_bytes(16));
 
