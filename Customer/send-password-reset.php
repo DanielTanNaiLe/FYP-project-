@@ -1,8 +1,4 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'ldksports');
 
 $email = $_POST["email"];
 
@@ -12,15 +8,7 @@ $token_hash = hash("sha256", $token);
 
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
-// Include the dataconnection.php file and store the returned mysqli object in a variable
-try {
-    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    if ($mysqli->connect_error) {
-        throw new Exception("Database connection error: " . $mysqli->connect_error);
-    }
-} catch (Exception $e) {
-    die($e->getMessage());
-}
+$mysqli = require __DIR__ . "/dataconnection.php";
 
 $sql = "UPDATE users
         SET reset_token_hash = ?,
@@ -29,24 +17,15 @@ $sql = "UPDATE users
 
 $stmt = $mysqli->prepare($sql);
 
-// Check if the prepare operation succeeded
-if ($stmt === false) {
-    die("Prepare failed: " . $mysqli->error);
-}
-
-// Bind parameters
 $stmt->bind_param("sss", $token_hash, $expiry, $email);
 
-// Execute the statement
 $stmt->execute();
 
-// Check for affected rows
-if ($stmt->affected_rows) {
+if ($mysqli->affected_rows) {
 
-    // Assuming the mailer.php returns an instance of PHPMailer
     $mail = require __DIR__ . "/mailer.php";
 
-    $mail->setFrom("noreply@gmail.com");
+    $mail->setFrom("noreply@gmail.com.com");
     $mail->addAddress($email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
@@ -57,16 +36,15 @@ if ($stmt->affected_rows) {
     END;
 
     try {
-        // Send the email
+
         $mail->send();
-        echo "Message sent, please check your inbox.";
+
     } catch (Exception $e) {
-        // Handle mailer errors
+
         echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+
     }
 
-} else {
-    echo "No rows affected.";
 }
 
-?>
+echo "Message sent, please check your inbox.";
