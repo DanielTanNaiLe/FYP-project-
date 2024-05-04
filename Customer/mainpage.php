@@ -1,3 +1,4 @@
+<?php require '../admin_panel/config/dbconnect.php';?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -52,25 +53,30 @@
         </div>
         </div>
      </section>
-     <section class="main-home3">
-        <div class="home2-text">
-            <h1>Our Brands</h1>
-        </div>
-        <div class="home3-banner">
-            <div class="image-container3">
-              <a href=""><img src="./image/nike banner.webp.webp" alt=""></a>
-              <h1>nike</h1>
-              </div>
-              <div class="image-container3">
-              <a href=""><img src="./image/new-balance banner.webp.webp" alt=""></a>
-                <h1>New balance</h1>
-                </div>
-                <div class="image-container3">
-              <a href=""><img src="./image/adidas banner.webp.webp" alt=""></a>
-                <h1>adidas</h1>
-            </div>
-        </div>
-     </section>
+     <div class="home2-text">
+     <h1>Our Brands</h1>
+     </div>
+     <?php
+     $result = mysqli_query($conn, "SELECT * FROM brand ORDER BY brand_id DESC");
+     if (mysqli_num_rows($result) > 0) {
+        // Loop through each row
+        while ($row = mysqli_fetch_assoc($result)) {
+            //Display the brand image and name
+      ?>
+             <section class="main-home3">
+             <div class="home3-banner">
+             <div class="image-container3">
+             <a href="#"><img src="image/<?php echo $row['brand_img']; ?>"></a>
+             <h1><?=$row['brand_name']?></h1>
+             </div>
+             </div>
+             </section>
+             <?php
+        }
+    } else {
+        echo "No brands found";
+    }
+    ?>
      <?php include("footer.php"); ?>
      </body>
      </html>
