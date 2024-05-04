@@ -33,8 +33,8 @@ if ($result === false) {
     die("Execute failed: " . $stmt->error);
 }
 
-if ($stmt->affected_rows) {
-    // Your code for sending the email
+if ($mysqli->affected_rows) {
+
     $mail = require __DIR__ . "/mailer.php";
 
     $mail->setFrom("noreply@example.com");
@@ -46,9 +46,19 @@ if ($stmt->affected_rows) {
     to reset your password.
 
     END;
-    echo "Message sent, please check your inbox.";
-} else {
-    echo "Message couldnt be sent.";
+
+    try {
+
+        $mail->send();
+
+    } catch (Exception $e) {
+
+        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
+
+    }
+
 }
 
-?>
+echo "Message sent, please check your inbox.";
+
+
