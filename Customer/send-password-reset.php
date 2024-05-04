@@ -35,28 +35,23 @@ if ($result === false) {
 
 if ($stmt->affected_rows) {
     // Your code for sending the email
-    // Include mailer
     $mail = require __DIR__ . "/mailer.php";
 
-    // Set up email parameters
-    $mail->setFrom("noreply@gmail.com");
-    $mail->addAddress($user_email);
+    $mail->setFrom("noreply@example.com");
+    $mail->addAddress($email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
+
     Click <a href="http://example.com/reset-password.php?token=$token">here</a> 
     to reset your password.
+
     END;
-    try {
+    
+    echo "Message sent, please check your inbox.";
+} 
 
-        $mail->send();
-
-    } catch (Exception $e) {
-
-        echo "Message could not be sent. Mailer error: {$mail->ErrorInfo}";
-
-    }
-
+else {
+    echo "Message couldnt be sent.";
 }
 
-echo "Message sent, please check your inbox.";
-
+?>
