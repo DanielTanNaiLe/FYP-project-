@@ -37,8 +37,8 @@ if ($stmt->affected_rows) {
     // Your code for sending the email
     $mail = require __DIR__ . "/mailer.php";
 
-    $mail->setFrom("noreply@example.com");
-    $mail->addAddress($email);
+    $mail->setFrom("noreply@gmail.com");
+    $mail->addAddress($user_email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
 
