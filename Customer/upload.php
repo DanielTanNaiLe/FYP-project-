@@ -29,11 +29,11 @@ else if($filesize > 1000000){
         ;
 }
 else{
-    $brand_img = uniqid();
-    $brand_img .= '.' . $imageExtention; 
+    $brand_image = uniqid();
+    $brand_image .= '.' . $imageExtention; 
 
-    move_uploaded_file($tmpname, 'image' . $brand_img);
-    $query = "INSERT INTO brand VALUES('', '$brand_name', '$brand_img')";
+    move_uploaded_file($tmpname, 'image/' . $brand_image);
+    $query = "INSERT INTO brand VALUES('', '$brand_name', '$brand_image')";
     mysqli_query($conn, $query);
     echo
     "<script>

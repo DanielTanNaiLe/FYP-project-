@@ -23,7 +23,7 @@ $rows = mysqli_query($conn, "SELECT * FROM brand ORDER BY brand_id DESC");
     <tr>
         <td><?php echo $i++; ?></td>
         <td><?php echo $row["brand_name"]; ?></td>
-        <td><img src="image<?php echo $row['brand_img']; ?>" width = 200 title ="<?php echo $row['brand_img']; ?>"></td>
+        <td><img src="image/<?php echo $row['brand_image']; ?>" width = 200 title ="<?php echo $row['brand_image']; ?>"></td>
 </tr>
 <?php endforeach; ?>
 </table>
