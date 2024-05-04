@@ -8,7 +8,8 @@ $token_hash = hash("sha256", $token);
 
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
-$mysqli = require __DIR__ . "/dataconnection.php";
+// Include the dataconnection.php file and store the returned mysqli object in a variable
+$mysqli = include __DIR__ . "/dataconnection.php";
 
 $sql = "UPDATE users
         SET reset_token_hash = ?,
@@ -48,3 +49,5 @@ if ($mysqli->affected_rows) {
 }
 
 echo "Message sent, please check your inbox.";
+
+?>
