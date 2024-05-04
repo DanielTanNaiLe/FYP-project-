@@ -18,9 +18,9 @@ $sql = "UPDATE users
 
 $stmt = $conn->prepare($sql);
 
-$stmt->bind_param("sss", $token_hash, $expiry, $email);
+$conn->bind_param("sss", $token_hash, $expiry, $email);
 
-$stmt->execute();
+$conn->execute();
 
 if ($mysqli->affected_rows) {
 
