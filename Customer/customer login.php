@@ -116,7 +116,7 @@ span{
                 <label>Password : </label>
                 <input type="password" placeholder="Enter your password" name="user_password" id="user_password" required/>
             </br></br>
-            <a href="forgot_password.php">Forgot Password?</a>
+            <a href="forget_password.php">Forgot Password?</a>
             </br>
             <button type="submit" class="submit" name="submit">Log In</button>
 
