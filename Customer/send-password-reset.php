@@ -55,4 +55,5 @@ if ($stmt->affected_rows) {
     echo "No rows affected.";
 }
 
+}
 ?>
