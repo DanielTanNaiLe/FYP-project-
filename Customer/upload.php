@@ -1,5 +1,5 @@
 <?php
-require 'dataconnection.php'; 
+require '../admin_panel/config/dbconnect.php'; 
 if(isset($_POST["submit"])){
     $brand_name = $_POST["name"];
     if($_FILES["image"]["error"] === 4){
@@ -29,11 +29,11 @@ else if($filesize > 1000000){
         ;
 }
 else{
-    $brand_image = uniqid();
-    $brand_image .= '.' . $imageExtention; 
+    $brand_img = uniqid();
+    $brand_img .= '.' . $imageExtention; 
 
-    move_uploaded_file($tmpname, 'image/' . $brand_image);
-    $query = "INSERT INTO brand VALUES('', '$brand_name', '$brand_image')";
+    move_uploaded_file($tmpname, 'image/' . $brand_img);
+    $query = "INSERT INTO brand VALUES('', '$brand_name', '$brand_img')";
     mysqli_query($conn, $query);
     echo
     "<script>
