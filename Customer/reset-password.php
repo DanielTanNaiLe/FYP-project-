@@ -17,13 +17,13 @@ $stmt->execute();
 
 $result = $stmt->get_result();
 
-$user = $result->fetch_assoc();
+$users = $result->fetch_assoc();
 
-if ($user === null) {
+if ($users === null) {
     die("token not found");
 }
 
-if (strtotime($user["reset_token_expires_at"]) <= time()) {
+if (strtotime($users["reset_token_expires_at"]) <= time()) {
     die("token has expired");
 }
 
