@@ -59,20 +59,20 @@
      <?php
      $result = mysqli_query($conn, "SELECT * FROM brand ORDER BY brand_id DESC");
      if (mysqli_num_rows($result) > 0) {
+        echo '<section class="main-home3">';
+        echo '<div class="home3-banner">';
         // Loop through each row
         while ($row = mysqli_fetch_assoc($result)) {
             //Display the brand image and name
       ?>
-             <section class="main-home3">
-             <div class="home3-banner">
              <div class="image-container3">
              <a href="#"><img src="image/<?php echo $row['brand_img']; ?>"></a>
              <h1><?=$row['brand_name']?></h1>
              </div>
-             </div>
-             </section>
              <?php
         }
+        echo '</div>';
+        echo '</section>';
     } else {
         echo "No brands found";
     }
