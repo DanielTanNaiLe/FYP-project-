@@ -37,11 +37,11 @@ if ($stmt->affected_rows) {
     // Your code for sending the email
     $mail = require __DIR__ . "/mailer.php";
 
-    $mail->setFrom("dtnl0819@gmail.com");
+    $mail->setFrom("LDKSPORTS@example.com");
     $mail->addAddress($user_email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
-    Click <a href="http://reset your password.com/reset-password.php?token=$token">here</a> 
+    Click <a href="http://resetyourpassword.com/reset-password.php?token=$token">here</a> 
     to reset your password.
     END;
 
