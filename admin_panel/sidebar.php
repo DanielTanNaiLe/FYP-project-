@@ -13,7 +13,7 @@
     <a href="#sizes"   onclick="showSizes()" ><i class="fa fa-th"></i> Sizes</a>
     <a href="#productsizes"   onclick="showProductSizes()" ><i class="fa fa-th-list"></i> Product Sizes</a> 
     <a href="#brands"   onclick="showBrand()" ><i class="fa fa-th-large"></i> Brands</a> 
-    <a href="#brands"   onclick="showGender()" ><i class="fa fa-th-large"></i> Gender</a>  
+    <a href="#gender"   onclick="showGender()" ><i class="fa fa-th-large"></i> Gender</a>  
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-list"></i> Orders</a>
 
