@@ -126,6 +126,11 @@
             }else if (isset($_GET['variation']) && $_GET['variation'] == "error") {
                 echo '<script> alert("Adding Unsuccess")</script>';
             }
+            if (isset($_GET['brands']) && $_GET['brands'] == "success") {
+                echo '<script> alert("Brand Successfully Added")</script>';
+            }else if (isset($_GET['brands']) && $_GET['brands'] == "error") {
+                echo '<script> alert("Adding Unsuccess")</script>';
+            }
         ?>
 
 

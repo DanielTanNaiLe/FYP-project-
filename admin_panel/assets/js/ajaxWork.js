@@ -20,6 +20,16 @@ function showCategory(){
         }
     });
 }
+function showBrand(){  
+    $.ajax({
+        url:"./adminView/viewAllBrands.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
 function showSizes(){  
     $.ajax({
         url:"./adminView/viewSizes.php",
@@ -216,6 +226,20 @@ function categoryDelete(id){
             alert('Category Successfully deleted');
             $('form').trigger('reset');
             showCategory();
+        }
+    });
+}
+
+//delete brand data
+function brandDelete(id){
+    $.ajax({
+        url:"./controller/brandDeleteController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Brand Successfully deleted');
+            $('form').trigger('reset');
+            showBrand();
         }
     });
 }
