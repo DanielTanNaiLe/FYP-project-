@@ -41,8 +41,8 @@ if ($stmt->affected_rows) {
     $mail->addAddress($user_email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
-    Click <a href="http://example.com/reset-password.php?token=$your_token_here">here</a> 
-    to reset your password.
+    Click <a href="http://example.com/reset-password.php?token=<?= htmlspecialchars($token)?> here to reset your password.</a> 
+ 
     END;
 
     // Send email
