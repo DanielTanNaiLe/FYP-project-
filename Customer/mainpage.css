@@ -554,10 +554,10 @@ text-transform: uppercase;
 }
 .home3-banner{
     display: grid;
+    grid-template-columns: repeat(3,1fr);
     margin-left: auto;
     margin-right: auto;
-    width: 94%;
-    grid-template-columns: repeat(3,1fr);
+    width: 94%; 
 }
 .image-container3{
     transition: all .42 ease;

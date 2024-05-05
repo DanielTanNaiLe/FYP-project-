@@ -44,6 +44,8 @@
             <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
             <h2>Name product</h2>
             <div class="price">RM 589</div>
+            <div class="favourite"><i class='bx bxs-heart'></i></div>
+            <div class="details-container"><a href="" class="details">View details</a></div>
         </div>
     </div>
 
@@ -53,10 +55,12 @@
             <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
             <h2>Name product</h2>
             <div class="price">RM 589</div>
+            <div class="favourite"><a href="" ><i class='bx bxs-heart'></i></a></div>
+            <div class="details-container"><a href="" class="details">View details</a></div>
         </div>
     </div>
 
-    <div class="subtitle_1"><h1>Hats</h1></div>
+    <div class="subtitle_1"><h1>Pants</h1></div>
     <div class="listproduct">
         <div class="item">
             <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
