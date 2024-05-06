@@ -147,38 +147,32 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
 </head>
 <body>
     <!-- Your HTML content here -->
-    <form class="content">
     <div class="left">
         <img src="../Image/avatar.png" alt="Avatar" class="avatar">
-    </br>
-    <div class="menu">
-        <ul>
-            <li><a href="landingafterlogin.php">Profile</a>
-            </li>
-            <li><a href="#">Shopping Cart</a>
-            </li>
-            <li><a href="logout.php" name="logout">Log Out</a>
-            </li>
-        </ul>
+        <div class="menu">
+            <ul>
+                <li><a href="landingafterlogin.php">Profile</a></li>
+                <li><a href="#">Shopping Cart</a></li>
+                <li><a href="logout.php" name="logout">Log Out</a></li>
+            </ul>
+        </div>
     </div>
-    </div>
-</form>
 
-
-<div class="right">
+    <div class="right">
         <h2>Edit </h2>
         <h3>Personal Information</h3>
         
-    <form class="content" method="post" action="">
-        <!-- Populate form fields with session data -->
-        <input type="text" name="user_name" value="<?php echo $user_name; ?>">
-        <input type="date" name="user_dob" value="<?php echo $user_dob; ?>">
-        <input type="text" name="user_phone_number" value="<?php echo $user_phone_number; ?>">
-        <input type="text" name="user_email" value="<?php echo $user_email; ?>">
-        <textarea name="user_address"><?php echo $user_address; ?></textarea>
-        <!-- Other hidden fields if necessary -->
-        <button type="submit" class="save" name="savebtn">Save</button>
-    </form>
+        <form class="content" method="post" action="">
+            <!-- Populate form fields with session data -->
+            <input type="text" name="user_name" value="<?php echo $user_name; ?>">
+            <input type="date" name="user_dob" value="<?php echo $user_dob; ?>">
+            <input type="text" name="user_phone_number" value="<?php echo $user_phone_number; ?>">
+            <input type="text" name="user_email" value="<?php echo $user_email; ?>">
+            <textarea name="user_address"><?php echo $user_address; ?></textarea>
+            <!-- Other hidden fields if necessary -->
+            <button type="submit" class="save" name="savebtn">Save</button>
+        </form>
+    </div>
 </body>
 </html>
 
