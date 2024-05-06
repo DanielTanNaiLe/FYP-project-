@@ -10,7 +10,7 @@
         while ($row = mysqli_fetch_assoc($result)) {       
 ?> 
 <li>
-    <a href="menpage.php" class="a1"><?=$row['gender_name']?></a>
+    <a href="menpage.php?gender=<?=$row['gender_id']?>" class="a1"><?=$row['gender_name']?></a>
     <ul class="dropdown">
      <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
       <div class="dropdown2">
