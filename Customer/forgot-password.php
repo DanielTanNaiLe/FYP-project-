@@ -21,7 +21,7 @@ if(isset($_POST['forgot_password_submit'])){
     try {
 
         $check_email = $conn->prepare("SELECT * FROM users WHERE user_email = ?");
-        $check_email->execute([$email]);
+        $check_email->execute([$user_email]);
         $user = $check_email->fetch(PDO::FETCH_ASSOC);      
 
         if(!$user) {
