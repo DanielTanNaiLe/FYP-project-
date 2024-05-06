@@ -49,7 +49,7 @@ $sql_update = "UPDATE users
                SET user_password = ?,
                    reset_token_hash = NULL,
                    reset_token_expires_at = NULL
-               WHERE id = ?";
+               WHERE user_id = ?";
 
 $stmt_update = $mysqli->prepare($sql_update);
 
