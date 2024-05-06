@@ -1,27 +1,18 @@
+<?php require '../admin_panel/config/dbconnect.php';?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Product Details</title>
+        <link rel="stylesheet" href="mainpage.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet"
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family:Arial, Helvetica, sans-serif;
-  background-color: rgb(242, 163, 45);
-}
-
-.container {
+.product-details-container {
   max-width: 75%;
   margin: auto;
   height: 80vh;
-  margin-top: 5%;
   background: white;
   box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
 }
@@ -62,19 +53,19 @@ body {
   margin-top: 25px;
 }
 
-h3 {
+.product-details-h3 {
   color: #af827d;
   margin: -25px 0 0 0;
   font-size: 30px;
 }
 
-h5,
+.product-details-h5,
 p,
 small {
   color: #837D7C;
 }
 
-h4 {
+.product-details-h4 {
   color: red;
   margin: 13px 0;
 }
@@ -84,7 +75,7 @@ p {
   line-height: 25px;
 }
 
-h5 {
+.product-details-h5 {
   font-size: 15px;
 }
 
@@ -103,7 +94,7 @@ h5 {
   line-height: 0;
 }
 
-.right .dropmenu{
+.right .product-details-dropmenu{
     margin: 10px 0;
     font-size: medium;
     padding: 5px;
@@ -111,7 +102,7 @@ h5 {
     cursor: pointer;
     transition: all .42 ease;
 }
-.right .dropmenu:hover{
+.right .product-details-dropmenu:hover{
   transform: scale(1.1);
   border-color: rgb(242, 163, 45);
   color: #837d7c;
@@ -182,11 +173,20 @@ h5 {
     </style>
     </head>
     <body>
+    <?php include("header.php"); ?>
+      <?php
+      $result = mysqli_query($conn, "SELECT* FROM product, category where product.category_id = category.category_id ");	
+					$count = mysqli_num_rows($result);
+					
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$img_src = $row['product_image'];
+          ?>
         <section>
-          <div class="container flex">
+          <div class="product-details-container flex">
             <div class="left">
               <div class="main_image">
-                <img src="image/custom-nike-air-force-1-low-by-you.png" class="slide">
+                <img src='<?php echo '.image/'.$img_src;?>' class="slide">
               </div>
               <div class="option flex">
                 <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
@@ -198,12 +198,12 @@ h5 {
               </div>
             </div>
             <div class="right">
-              <h3>custom-nike-air-force-1-low-by-you</h3>
+              <h3 class="product-details-h3"><?=$row["product_name"]?></h3>
               <h5>men's shoes</h5>
-              <h4> <small>$</small>999.99 </h4>
-              <p>The radiance lives on in the Nike Air Force 1 '07, the basketball original that puts a fresh spin on what you know best: durably stitched overlays, clean finishes and the perfect amount of flash to make you shine. </p>
-              <h5>Size</h5>
-              <select class="dropmenu" id="sizes">
+              <h4 class="product-details-h4"> <small>RM </small><?=$row["price"]?></h4>
+              <p><?=$row["product_desc"]?> </p>
+              <h5 class="product-details-h5">Size</h5>
+              <select class="product-details-dropmenu" id="sizes">
                 <option disabled selected>Select Sizes</option>
               </select>
       <div class="button-container">
@@ -213,6 +213,9 @@ h5 {
             </div>
           </div>
         </section>
+      <?php 
+					}
+	?>
         <script>
           function img(anything) {
             document.querySelector('.slide').src = anything;
@@ -223,6 +226,7 @@ h5 {
             line.style.background = change;
           }
         </script>
+        <?php include("footer.php"); ?>
       </body>
       
       </html>
