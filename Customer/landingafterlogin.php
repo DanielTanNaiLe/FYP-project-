@@ -144,7 +144,7 @@ include("dataconnection.php"); ?>
         
         <p><b>Date of Birth:</b> 
             <?php  
-              $date = $row['u_dob'];
+              $date = $row['user_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
@@ -154,7 +154,7 @@ include("dataconnection.php"); ?>
 
         <p><b>Email:</b> <?php echo $row['user_email'];?></p>
 
-        <p><b>Address:</b> <?php  echo $row['user_address']; ?></p>
+        <p><b>Address:</b> <?php  echo $session['u_address']; ?></p>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
