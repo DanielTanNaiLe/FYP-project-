@@ -257,6 +257,19 @@ function brandDelete(id){
     });
 }
 
+//delete gender data
+function genderDelete(id){
+    $.ajax({
+        url:"./controller/genderDeleteController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Gender Successfully deleted');
+            $('form').trigger('reset');
+            showGender();
+        }
+    });
+}
 //delete size data
 function sizeDelete(id){
     $.ajax({
