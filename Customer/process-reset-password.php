@@ -53,7 +53,11 @@ $sql = "UPDATE users
 
 $stmt = $mysqli->prepare($sql);
 
-$stmt->bind_param("ss", $user_password, $user_id);
+if (!$stmt) {
+    die("Error in SQL query: " . $mysqli->error);
+}
+
+$stmt->bind_param("ss", $user_password, $user["id"]);
 
 $stmt->execute();
 
