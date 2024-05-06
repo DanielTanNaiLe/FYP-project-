@@ -5,7 +5,7 @@ include("dataconnection.php");
 if(isset($_GET['update']))
 {
     $user_id = $_GET['user_id'];
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE user_id='$user_id'");
+    $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
     
     if($result)
     {
@@ -113,9 +113,9 @@ if(isset($_GET['update']))
 
 </style>
 </head>
+
 <body>
-<?php include("user_headernav.php"); ?>
-    <button onclick="toTopBtn()" id="toTopBtn" title="Go to top"><img src="Image/top.png" id="toTop"/></br></button>
+
     
 <form class="content">
     <div class="left">
