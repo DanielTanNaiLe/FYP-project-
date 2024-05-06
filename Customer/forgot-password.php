@@ -16,7 +16,7 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 $message = ''; 
 
 if(isset($_POST['forgot_password_submit'])){
-    $email = $_POST['email'];
+    $email = $_POST['user_email'];
     
     try {
 
