@@ -41,7 +41,7 @@ if ($stmt->affected_rows) {
     $mail->addAddress($user_email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
-    Click <a href="http://localhost/FYP-project--7/Customer/reset-password.php?token=$token">here</a> 
+    Click <a href="http://localhost/FYP-project--8/Customer/reset-password.php?token=$token">here</a> 
     to reset your password.
  
     END;
