@@ -3,8 +3,9 @@ session_start();
 include("dataconnection.php");
 
 // Check if user is logged in and accessing their own profile
+ $user_id = $_SESSION['u_id'];
 if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
-    $user_id = $_SESSION['u_id'];
+   
 
     // Handle form submission
     if(isset($_POST['savebtn'])) {
