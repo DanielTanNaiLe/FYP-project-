@@ -144,7 +144,7 @@ if(isset($_GET['update']))
         <h2>Edit </h2>
         <h3>Personal Information</h3>
         <form name="update" method="post" action="">
-        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo  $_SESSION['u_name'];?>">
+        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo  $_SESSION['u_name'];?>"</p>
         
         <p><label>Date of Birth:</label><input  type="date" name="user_dob" value="<?php echo  $_SESSION['u_dob'];?>" id="user_dob">
         
@@ -159,8 +159,7 @@ if(isset($_GET['update']))
         <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
         </form>
 </div>
-</body>
-</html>
+
 
 <?php
 if(isset($_POST['savebtn']))
@@ -185,3 +184,5 @@ if(isset($_POST['savebtn']))
 }
 
 ?>
+</body>
+</html>
