@@ -137,11 +137,11 @@ include("dataconnection.php"); ?>
         <h3>Personal Information</h3>
     <hr>
     
-        <p><b>Name:</b> <?php  echo $row['user_name'] ; ?></p>
+        <p><b>Name:</b> <?php  echo $row['u_name'] ; ?></p>
         
         <p><b>Date of Birth:</b> 
             <?php  
-            $date = $row['user_dob'];
+            $date = $row['u_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
