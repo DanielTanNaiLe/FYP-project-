@@ -49,12 +49,12 @@
         <div class="modal-body">
           <form  enctype='multipart/form-data' action="./controller/addBrandController.php" method="POST">
             <div class="form-group">
-              <label for="b_name">Brand Name:</label>
+              <label for="name">Brand Name:</label>
               <input type="text" class="form-control" name="b_name" required>
             </div>
             <div class="form-group">
                 <label for="file">Choose Image:</label>
-                <input type="file" class="form-control-file" id="file">
+                <input type="file" class="form-control-file" name="file">
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-secondary" name="upload" style="height:40px">Add Brand</button>

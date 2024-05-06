@@ -1,76 +1,43 @@
 <header>
 <img src="./image/bee8187f8ec4798e571fdcee0b3d86df.png" class="image">
-<ul class="nav"> 
-    <li><a href="mainpage.php" class="a1">HOME</a></li>
-    <li>
-    <a href="menpage.php" class="a1">MEN</a>
+<?php
+     $result = mysqli_query($conn, "SELECT * FROM gender");
+     if (mysqli_num_rows($result) > 0) {
+        ?>
+        <ul class="nav">
+        <li><a href="mainpage.php" class="a1">HOME</a></li>
+<?php 
+        while ($row = mysqli_fetch_assoc($result)) {       
+?> 
+<li>
+    <a href="menpage.php?gender=<?=$row['gender_id']?>" class="a1"><?=$row['gender_name']?></a>
     <ul class="dropdown">
-        <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
+     <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
+      <div class="dropdown2">
+     <ul>
+      <li><a href="">Nike</a></li>
+       <li><a href="">NewBalance</a></li>
+          <li><a href="">Adidas</a></li>
+          </ul>
+       </div>
+      </li>
+       <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
         <div class="dropdown2">
-            <ul>
-            <li><a href="">Nike</a></li>
-            <li><a href="">NewBalance</a></li>
-            <li><a href="">Adidas</a></li>
-            </ul>
+        <ul>
+          <li><a href="">Nike</a></li>
+          <li><a href="">NewBalance</a></li>
+           <li><a href="">Adidas</a></li>
+           </ul>
         </div>
         </li>
-        <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
-            <div class="dropdown2">
-                <ul>
-                <li><a href="">Nike</a></li>
-                <li><a href="">NewBalance</a></li>
-                <li><a href="">Adidas</a></li>
-                </ul>
-            </div>
-        </li>
-        </ul>
-    </li>
-    <li>
-        <a href="menpage.html" class="a1">WOMAN</a>
-        <ul class="dropdown">
-            <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
-            <div class="dropdown2">
-                <ul>
-                <li><a href="">Nike</a></li>
-                <li><a href="">NewBalance</a></li>
-                <li><a href="">Adidas</a></li>
-                </ul>
-            </div>
-            </li>
-            <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
-                <div class="dropdown2">
-                    <ul>
-                    <li><a href="">Nike</a></li>
-                    <li><a href="">NewBalance</a></li>
-                    <li><a href="">Adidas</a></li>
-                    </ul>
-                </div>
-            </li>
-            </ul>
-        </li>
-        <li>
-            <a href="menpage.html" class="a1">KIDS</a>
-            <ul class="dropdown">
-                <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
-                <div class="dropdown2">
-                    <ul>
-                    <li><a href="">Nike</a></li>
-                    <li><a href="">NewBalance</a></li>
-                    <li><a href="">Adidas</a></li>
-                    </ul>
-                </div>
-                </li>
-                <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                        <li><a href="">Nike</a></li>
-                        <li><a href="">NewBalance</a></li>
-                        <li><a href="">Adidas</a></li>
-                        </ul>
-                    </div>
-                </li>
-                </ul>
-            </li>
+    </ul>
+</li>
+      <?php
+        }
+    }else {
+            echo "No gender found";
+    }
+    ?>
     <li>
     <a href="" class="a1">BRANDS</a>
     <ul class="dropdown">
