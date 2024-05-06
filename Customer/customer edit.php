@@ -23,7 +23,7 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
         $user_address = $_POST['user_address'];
 
         // Update the user information in the database
-        $query = "UPDATE users SET user_name='$user_name', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id";
+        $query = "UPDATE users SET user_name='$user_name', user_dob='$user_dob',user_password='$user_password', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id";
         $result = mysqli_query($conn, $query);
 
         if($result) {
@@ -53,7 +53,7 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
 
     <style>
         /* Your CSS styles here */
-         /***************** All ***********************/
+/***************** All ***********************/
 *{
 	box-sizing: border-box;
 }
@@ -143,10 +143,13 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
     background-color: #A9A9A9;
     color: white;
 }
-    </style>
+</style>
+
 </head>
 <body>
+
     <!-- Your HTML content here -->
+    <form class="content">
     <div class="left">
         <img src="../Image/avatar.png" alt="Avatar" class="avatar">
         <div class="menu">
@@ -157,12 +160,13 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
             </ul>
         </div>
     </div>
+    </form>
 
     <div class="right">
         <h2>Edit </h2>
         <h3>Personal Information</h3>
         
-        <form class="content" method="post" action="">
+         <form name="update" method="post" action="">
             <!-- Populate form fields with session data -->
             <input type="text" name="user_name" value="<?php echo $user_name; ?>">
             <input type="date" name="user_dob" value="<?php echo $user_dob; ?>">
@@ -170,6 +174,8 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
             <input type="text" name="user_email" value="<?php echo $user_email; ?>">
             <textarea name="user_address"><?php echo $user_address; ?></textarea>
             <!-- Other hidden fields if necessary -->
+            <input type="hidden" name="user_password" value="<?php echo $user_password?>">
+             <input type="hidden" name="user_id" value="<?php echo $user_id?>">
             <button type="submit" class="save" name="savebtn">Save</button>
         </form>
     </div>
