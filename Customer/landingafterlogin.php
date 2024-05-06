@@ -127,9 +127,7 @@ include("dataconnection.php"); ?>
             } else {
                 while($row = mysqli_fetch_array($qry))
                 {
-                    $_SESSION["u_dob"] = $row['user_dob'];
-                    $_SESSION["u_phone_number"] = $row['user_phone_number'];
-                    $_SESSION["u_email"] = $row['user_email'];
+                    
                     
             
     ?>
@@ -143,15 +141,15 @@ include("dataconnection.php"); ?>
         
         <p><b>Date of Birth:</b> 
             <?php  
-              $date = $row['user_dob'];
+              $date = $_SESSION['user_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
             ?></p>
 
-        <p><b>Phone Number:</b> <?php  echo "0". $row['user_phone_number'];  ?></p>
+        <p><b>Phone Number:</b> <?php  echo "0". $_SESSION['user_phone_number'];  ?></p>
 
-        <p><b>Email:</b> <?php echo $row['user_email'];?></p>
+        <p><b>Email:</b> <?php echo $_SESSION['user_email'];?></p>
 
         <p><b>Address:</b> <?php  echo $_SESSION['u_address']; ?></p>
             </br></br>
