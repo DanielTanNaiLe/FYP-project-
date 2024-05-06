@@ -16,12 +16,12 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 $message = ''; 
 
 if(isset($_POST['forgot_password_submit'])){
-    $email = $_POST['user_email'];
+    $email = $_POST['email'];
     
     try {
 
         $check_email = $conn->prepare("SELECT * FROM users WHERE user_email = ?");
-        $check_email->execute([$user_email]);
+        $check_email->execute([$email]);
         $user = $check_email->fetch(PDO::FETCH_ASSOC);      
 
         if(!$user) {
