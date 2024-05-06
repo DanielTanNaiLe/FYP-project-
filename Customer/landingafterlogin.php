@@ -126,9 +126,11 @@ include("dataconnection.php"); ?>
                 echo "Error: " . mysqli_error($conn);
             } else {
                 while($row = mysqli_fetch_array($qry))
-
-
-            {
+                {
+                    $_SESSION["u_dob"] = $row['user_dob'];
+                    $_SESSION["u_phone_number"] = $row['user_phone_number'];
+                    $_SESSION["u_email"] = $row['user_email'];
+                    
             
     ?>
     <div class="right">
@@ -137,11 +139,11 @@ include("dataconnection.php"); ?>
         <h3>Personal Information</h3>
     <hr>
     
-        <p><b>Name:</b> <?php  echo $row['user_name'] ; ?></p>
+        <p><b>Name:</b> <?php  echo $_SESSION["u_name"]; ?></p>
         
         <p><b>Date of Birth:</b> 
             <?php  
-            $date = $row['user_dob'];
+              $date = $row['user_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
@@ -151,7 +153,7 @@ include("dataconnection.php"); ?>
 
         <p><b>Email:</b> <?php echo $row['user_email'];?></p>
 
-        <p><b>Address:</b> <?php  echo $row['user_address']; ?></p>
+        <p><b>Address:</b> <?php  echo $_SESSION['u_address']; ?></p>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
