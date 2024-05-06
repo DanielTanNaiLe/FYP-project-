@@ -22,6 +22,7 @@
             header("Location: landingafterlogin.php");
             $_SESSION['u_id']= $user_id;
             $_SESSION['u_name']= $row['user_name'];
+            $_SESSION["u_address"] = $row['user_address'];
             }  
             else  
             {  
