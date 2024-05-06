@@ -127,9 +127,7 @@ include("dataconnection.php"); ?>
             } else {
                 while($row = mysqli_fetch_array($qry))
                 {
-                    $_SESSION["u_dob"] = $row['user_dob'];
-                    $_SESSION["u_phone_number"] = $row['user_phone_number'];
-                    $_SESSION["u_email"] = $row['user_email'];
+                    
                     
             
     ?>
@@ -143,21 +141,21 @@ include("dataconnection.php"); ?>
         
         <p><b>Date of Birth:</b> 
             <?php  
-              $date = $row['user_dob'];
+              $date = $_SESSION['u_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
             ?></p>
 
-        <p><b>Phone Number:</b> <?php  echo "0". $row['user_phone_number'];  ?></p>
+        <p><b>Phone Number:</b> <?php  echo "0". $_SESSION['u_phone_number'];  ?></p>
 
-        <p><b>Email:</b> <?php echo $row['user_email'];?></p>
+        <p><b>Email:</b> <?php echo $_SESSION['u_email'];?></p>
 
         <p><b>Address:</b> <?php  echo $_SESSION['u_address']; ?></p>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
-        <a href="customer edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
+        <a href="customer edit.php?update&user_id=<?php echo  $_SESSION['u_id'];?>" class="update" name="update">Edit</a>
     </div>
 <?php
             }
