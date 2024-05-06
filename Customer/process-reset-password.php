@@ -51,7 +51,7 @@ $sql = "UPDATE users
             reset_token_expires_at = NULL
         WHERE id = ?";
 
-$stmt = $mysqli->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
     die("Error in SQL query: " . $mysqli->error);
