@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Product Details</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet"
+         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: rgb(242, 163, 45);
+}
+
+.container {
+  max-width: 75%;
+  margin: auto;
+  height: 80vh;
+  margin-top: 5%;
+  background: white;
+  box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+}
+
+.left, .right {
+  width: 50%;
+  padding: 30px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex1 {
+  display: flex;
+}
+
+.main_image {
+  width: auto;
+  height:auto;
+}
+.main_image img{
+    margin-left: 20px;
+    width: 93%;
+    height: 100%;
+}
+.option img {
+  width: 85px;
+  height: 75px;
+  padding: 6px 2px;
+}
+.left{
+    margin-top: -10px;
+}
+.right {
+  padding: 50px 100px 50px 50px;
+}
+
+h3 {
+  color: #af827d;
+  margin: 20px 0 0 0;
+  font-size: 25px;
+}
+
+h5,
+p,
+small {
+  color: #837D7C;
+}
+
+h4 {
+  color: red;
+  margin: 13px;
+}
+
+p {
+  margin: 20px 0 20px 0;
+  line-height: 25px;
+}
+
+h5 {
+  font-size: 15px;
+}
+
+.add label,
+.add span {
+  background: none;
+  border: 1px solid #C1908B;
+  color: #C1908B;
+  text-align: center;
+  line-height: 25px;
+}
+
+.add label {
+  padding: 10px 30px 0 20px;
+  border-radius: 50px;
+  line-height: 0;
+}
+
+.right .dropmenu{
+    margin: 10px;
+    font-size: medium;
+    padding: 5px;
+}
+.button-container{
+    margin-top: 40px;
+}
+.button-container .button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  outline: none;
+  background-color: rgb(242, 163, 45);
+  color: white;
+  text-decoration: none;
+}
+
+@media only screen and (max-width:768px) {
+  .container {
+    max-width: 90%;
+    margin: auto;
+    height: auto;
+  }
+
+  .left, .right {
+    width: 100%;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width:511px) {
+  .container {
+    max-width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .left, .right {
+    padding: 0;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .option {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+    </style>
+    </head>
+    <body>
+        <section>
+          <div class="container flex">
+            <div class="left">
+              <div class="main_image">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" class="slide">
+              </div>
+              <div class="option flex">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+              </div>
+            </div>
+            <div class="right">
+              <h3>Beats Solo3 Wireless</h3>
+              <h5>men's shoes</h5>
+              <h4> <small>$</small>999.99 </h4>
+              <p>The radiance lives on in the Nike Air Force 1 '07, the basketball original that puts a fresh spin on what you know best: durably stitched overlays, clean finishes and the perfect amount of flash to make you shine. </p>
+              <h5>Size</h5>
+              <select class="dropmenu" id="sizes">
+                <option disabled selected>Select Sizes</option>
+              </select>
+      <div class="button-container">
+              <a href="" class="button">Add to cart</a>
+              <a href="" class="button">Favourite</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script>
+          function img(anything) {
+            document.querySelector('.slide').src = anything;
+          }
+      
+          function change(change) {
+            const line = document.querySelector('.home');
+            line.style.background = change;
+          }
+        </script>
+      </body>
+      
+      </html>
