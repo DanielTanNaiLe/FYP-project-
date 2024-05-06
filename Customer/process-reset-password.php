@@ -59,7 +59,7 @@ if (!$stmt_update) {
 
 
 
-$stmt_update->bind_param("ss", $user_password, $user_id);
+$stmt_update->bind_param("si", $user_password, $user["user_id"]);
 
 if (!$stmt_update->execute()) {
     die("Error updating password: " . $stmt_update->error);
