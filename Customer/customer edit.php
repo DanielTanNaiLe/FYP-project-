@@ -32,14 +32,14 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
         mysqli_stmt_bind_param($stmt, 'ssssssi', $user_name, $user_dob, $user_password, $user_phone_number, $user_email, $user_address, $user_id);
         mysqli_stmt_execute($stmt);
         
-        if($result) {
+        if(mysqli_stmt_execute($stmt)) {
             // Update session variables with the new data
             $_SESSION['u_name'] = $user_name;
             $_SESSION['u_dob'] = $user_dob;
             $_SESSION['u_phone_number'] = $user_phone_number;
             $_SESSION['u_email'] = $user_email;
             $_SESSION['u_address'] = $user_address;
-
+        
             // Redirect user to profile page after successful update
             header("Location: landingafterlogin.php");
             exit();
