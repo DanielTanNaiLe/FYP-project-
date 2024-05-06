@@ -5,25 +5,19 @@ include("dataconnection.php");
 if(isset($_GET['update']))
 {
     $user_id = $_GET['user_id'];
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE user_id='$user_id'");
     
     if($result)
     {
         $row = mysqli_fetch_assoc($result);
-        $_SESSION['u_name'] = $row['user_name'];
-        $_SESSION['u_dob'] = $row['user_dob'];
-        $_SESSION['u_phone_number'] = $row['user_phone_number'];
-        $_SESSION['u_email'] = $row['user_email'];
-        $_SESSION['u_address'] = $row['user_address'];
-
-    }
-}
 ?>
-
 <!DOCTYPE.html>
 <html>
 <head>
-<title>My Account |LDK SPORTS</title>
+<title>My Account |G5 Bookstore</title>
+<link rel="icon" href="../Image/G5_LOGO_PNG_TITLE.png" type="image/x-icon">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="general_design.css">
 
 <style>
     /***************** All ***********************/
@@ -120,11 +114,12 @@ if(isset($_GET['update']))
 </style>
 </head>
 <body>
-
+<?php include("user_headernav.php"); ?>
+    <button onclick="toTopBtn()" id="toTopBtn" title="Go to top"><img src="Image/top.png" id="toTop"/></br></button>
     
 <form class="content">
     <div class="left">
-        <img src="image/logo_img.jpg" alt="Avatar" class="avatar">
+        <img src="../Image/avatar.png" alt="Avatar" class="avatar">
     </br>
     <div class="menu">
         <ul>
@@ -144,23 +139,23 @@ if(isset($_GET['update']))
         <h2>Edit </h2>
         <h3>Personal Information</h3>
         <form name="update" method="post" action="">
-        <p><label>Name:</label><input type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo $_SESSION['u_name']; ?>"></p>
+        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo $row['user_name'];?>">
         
-        <p><label>Date of Birth:</label><input  type="date" name="user_dob" value="<?php echo  $_SESSION['u_dob'];?>" id="user_dob">
+        <p><label>Date of Birth:</label><input  type="date" name="user_dob" value="<?php echo $row['user_dob'];?>" id="user_dob">
         
-        <p><label>Phone Number:</label><input  type="text" name="user_phone_number" size="40" placeholder="Please enter your phone number" id="user_phone_number" value="<?php echo $_SESSION['u_phone_number'];?>">
+        <p><label>Phone Number:</label><input  type="text" name="user_phone_number" size="40" placeholder="Please enter your phone number" id="user_phone_number" value="<?php echo $row['user_phone_number'];?>">
 
-        <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" value="<?php echo  $_SESSION['u_email'];?>">
+        <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" value="<?php echo $row['user_email'];?>">
 
-        <p><label>Address:</label><textarea cols="40" rows="3" name="user_address" id="user_address"><?php echo $_SESSION['u_address']; ?></textarea></p>
-        <input type="hidden" name="user_password" value="<?php echo $_SESSION['u_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['u_id'];?>">
+        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> <?php echo $row['user_address'];?></textarea>
+        <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
+        <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
 
         <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
         </form>
 </div>
-
-
+</body>
+</html>
 <?php
 if(isset($_POST['savebtn']))
 {
@@ -172,7 +167,7 @@ if(isset($_POST['savebtn']))
     $user_email=$_POST['user_email'];
     $user_address=$_POST['user_address'];
 
-    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
+    $run =mysqli_query($conn, "UPDATE user SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
     
     
     ?>
@@ -182,7 +177,5 @@ if(isset($_POST['savebtn']))
     <?php
 
 }
-
+}}
 ?>
-</body>
-</html>
