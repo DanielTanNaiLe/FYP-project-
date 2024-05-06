@@ -165,7 +165,7 @@ if(isset($_POST['savebtn']))
     $user_email=$_POST['user_email'];
     $user_address=$_POST['user_address'];
 
-    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
+    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$u_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
     
     
     ?>
