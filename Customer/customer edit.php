@@ -6,14 +6,14 @@ if(isset($_GET['update']))
 {
     $user_id = $_GET['user_id'];
     $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
-     $_SESSION['u_name'] = $user_name;
-    $_SESSION['u_dob'] = $user_dob;
-    $_SESSION['u_phone_number'] = $user_phone_number;
-    $_SESSION['u_email'] = $user_email;
-    $_SESSION['u_address'] = $user_address;
     if($result)
     {
         $row = mysqli_fetch_assoc($result);
+        $_SESSION['u_name'] = $row['user_name'];
+        $_SESSION['u_dob'] = $row['user_dob'];
+        $_SESSION['u_phone_number'] = $row['user_phone_number'];
+        $_SESSION['u_email'] = $row['user_email'];
+        $_SESSION['u_address'] = $row['user_address'];
        
 ?>
 <!DOCTYPE.html>
