@@ -2,25 +2,58 @@
 session_start();
 include("dataconnection.php");
 
-if(isset($_GET['update']))
-{
-    $user_id = $_GET['user_id'];
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
-    
-    if($result)
-    {
-        $_SESSION = mysqli_fetch_assoc($result);
+// Check if user is logged in and accessing their own profile
+if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
+    $user_id = $_SESSION['u_id'];
+
+    // Fetch user data from the session
+    $user_name = $_SESSION['u_name'];
+    $user_dob = $_SESSION['u_dob'];
+    $user_phone_number = $_SESSION['u_phone_number'];
+    $user_email = $_SESSION['u_email'];
+    $user_address = $_SESSION['u_address'];
+
+    // Handle form submission
+    if(isset($_POST['savebtn'])) {
+        // Retrieve updated information from the form
+        $user_name = $_POST['user_name'];
+        $user_dob = $_POST['user_dob'];
+        $user_phone_number = $_POST['user_phone_number'];
+        $user_email = $_POST['user_email'];
+        $user_address = $_POST['user_address'];
+
+        // Update the user information in the database
+        $query = "UPDATE users SET user_name='$user_name', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id";
+        $result = mysqli_query($conn, $query);
+
+        if($result) {
+            // Update session variables with the new data
+            $_SESSION['u_name'] = $user_name;
+            $_SESSION['u_dob'] = $user_dob;
+            $_SESSION['u_phone_number'] = $user_phone_number;
+            $_SESSION['u_email'] = $user_email;
+            $_SESSION['u_address'] = $user_address;
+
+            // Redirect user to profile page after successful update
+            header("Location: landingafterlogin.php");
+            exit();
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+    }
 ?>
-<!DOCTYPE.html>
+
+<!DOCTYPE html>
 <html>
 <head>
-<title>My Account |LDK SPORTS</title>
-<link rel="icon" href="../Image/G5_LOGO_PNG_TITLE.png" type="image/x-icon">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="general_design.css">
+    <title>My Account | LDK SPORTS</title>
+    <link rel="icon" href="../Image/G5_LOGO_PNG_TITLE.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="general_design.css">
 
-<style>
-    /***************** All ***********************/
+    <style>
+        /* Your CSS styles here */
+         /***************** All ***********************/
 *{
 	box-sizing: border-box;
 }
@@ -110,14 +143,11 @@ if(isset($_GET['update']))
     background-color: #A9A9A9;
     color: white;
 }
-
-</style>
+    </style>
 </head>
-
 <body>
-
-    
-<form class="content">
+    <!-- Your HTML content here -->
+    <form class="content">
     <div class="left">
         <img src="../Image/avatar.png" alt="Avatar" class="avatar">
     </br>
@@ -138,44 +168,24 @@ if(isset($_GET['update']))
 <div class="right">
         <h2>Edit </h2>
         <h3>Personal Information</h3>
-        <form name="update" method="post" action="">
-        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo $_SESSION['u_name'];?>">
         
-        <p><label>Date of Birth:</label><input  type="date" name="user_dob" value="<?php echo $_SESSION['u_dob'];?>" id="user_dob">
-        
-        <p><label>Phone Number:</label><input  type="text" name="user_phone_number" size="40" placeholder="Please enter your phone number" id="user_phone_number" value="<?php echo $_SESSION['u_phone_number'];?>">
-
-        <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" value="<?php echo $_SESSION['u_email'];?>">
-
-        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> <?php echo $_SESSION['u_address'];?></textarea>
-        <input type="hidden" name="user_password" value="<?php echo $_SESSION['u_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['u_id'];?>">
-
-        <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
-        </form>
-</div>
+    <form class="content" method="post" action="">
+        <!-- Populate form fields with session data -->
+        <input type="text" name="user_name" value="<?php echo $user_name; ?>">
+        <input type="date" name="user_dob" value="<?php echo $user_dob; ?>">
+        <input type="text" name="user_phone_number" value="<?php echo $user_phone_number; ?>">
+        <input type="text" name="user_email" value="<?php echo $user_email; ?>">
+        <textarea name="user_address"><?php echo $user_address; ?></textarea>
+        <!-- Other hidden fields if necessary -->
+        <button type="submit" class="save" name="savebtn">Save</button>
+    </form>
 </body>
 </html>
+
 <?php
-if(isset($_POST['savebtn']))
-{
-    $user_id=$_POST['user_id'];
-    $user_name=$_POST['user_name'];
-    $user_password=$_POST['user_password'];
-    $user_dob=$_POST['user_dob'];
-    $user_phone_number=$_POST['user_phone_number'];
-    $user_email=$_POST['user_email'];
-    $user_address=$_POST['user_address'];
-
-    $run =mysqli_query($conn, "UPDATE user SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
-    
-    
-    ?>
-    <script>alert("Admin updated");
-    location.replace("landingafterlogin.php"); </script>
-    </script>
-    <?php
-
+} else {
+    // Redirect user to login page if not logged in
+    header("Location: customer login.php");
+    exit();
 }
-}}
 ?>
