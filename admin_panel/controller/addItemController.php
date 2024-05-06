@@ -8,7 +8,8 @@
         $desc= $_POST['p_desc'];
         $price = $_POST['p_price'];
         $category = $_POST['category'];
-       
+        $brand = $_POST['brand'];
+        $gender = $_POST['gender'];
             
         $name = $_FILES['file']['name'];
         $temp = $_FILES['file']['tmp_name'];
@@ -22,8 +23,8 @@
         move_uploaded_file($temp,$finalImage);
 
          $insert = mysqli_query($conn,"INSERT INTO product
-         (product_name,product_image,price,product_desc,category_id) 
-         VALUES ('$ProductName','$image',$price,'$desc','$category')");
+         (product_name,product_image,price,product_desc,category_id,brand_id,gender_id) 
+         VALUES ('$ProductName','$image',$price,'$desc','$category','$brand','$gender')");
  
          if(!$insert)
          {
@@ -34,6 +35,5 @@
              echo "Records added successfully.";
          }
      
-    }
-        
+}
 ?>

@@ -49,7 +49,9 @@
         <div class="modal-body">
           <form  enctype='multipart/form-data' action="./controller/addBrandController.php" method="POST">
             <div class="form-group">
+              <label for="b_name">Brand Name:</label>
               <label for="name">Brand Name:</label>
+
               <input type="text" class="form-control" name="b_name" required>
             </div>
             <div class="form-group">
@@ -70,5 +72,5 @@
     </div>
   </div>
 
-  
+  
 </div>

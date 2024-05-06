@@ -1,5 +1,3 @@
-
-
 function showProductItems(){  
     $.ajax({
         url:"./adminView/viewAllProducts.php",
@@ -117,6 +115,8 @@ function addItems(){
     var p_desc=$('#p_desc').val();
     var p_price=$('#p_price').val();
     var category=$('#category').val();
+    var brand=$('#brand').val();
+    var gender=$('#gender').val();
     var upload=$('#upload').val();
     var file=$('#file')[0].files[0];
 
@@ -125,6 +125,8 @@ function addItems(){
     fd.append('p_desc', p_desc);
     fd.append('p_price', p_price);
     fd.append('category', category);
+    fd.append('brand', brand);
+    fd.append('gender', brand);
     fd.append('file', file);
     fd.append('upload', upload);
     $.ajax({
@@ -388,6 +390,6 @@ function addToWish(id){
         data:{record:id},
         success:function(data){
             alert('Added to wishlist');        
-        }
-    });
+   }
+});
 }
