@@ -147,15 +147,15 @@ include("dataconnection.php"); ?>
             echo $date; 
             ?></p>
 
-        <p><b>Phone Number:</b> <?php  echo $_SESSION["u_name"];  ?></p>
+        <p><b>Phone Number:</b> <?php  echo "0". $row['user_phone_number'];  ?></p>
 
-        <p><b>Email:</b> <?php echo $session['u_email'];?></p>
+        <p><b>Email:</b> <?php echo $row['user_email'];?></p>
 
-        <p><b>Address:</b> <?php  echo $session['u_address']; ?></p>
+        <p><b>Address:</b> <?php  echo $row['user_address']; ?></p>
             </br></br>
-        <input type="hidden" name="user_password" value="<?php echo $session['u_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $session['u_id'];?>">
-        <a href="customer edit.php?update&user_id=<?php echo $session['u_id'];?>" class="update" name="update">Edit</a>
+        <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
+        <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
+        <a href="customer edit.php?update&user_id=<?php echo $row['user_id'];?>" class="update" name="update">Edit</a>
     </div>
 <?php
             }
