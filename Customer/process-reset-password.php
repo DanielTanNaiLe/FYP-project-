@@ -43,7 +43,7 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
 }
 
-$user_password = user_password($_POST["password"], PASSWORD_DEFAULT);
+$user_password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $sql = "UPDATE users
         SET user_password = ?,
