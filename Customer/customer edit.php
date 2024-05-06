@@ -144,7 +144,7 @@ if(isset($_GET['update']))
 
         <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" value="<?php echo  $_SESSION['u_email'];?>">
 
-        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> <?php echo  $_SESSION['u_address'];?></textarea>
+        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address" value="<?php echo  $_SESSION['u_address'];?>"></textarea>
         <input type="hidden" name="user_password" value="<?php echo $_SESSION['u_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $_SESSION['u_id'];?>">
 
@@ -165,7 +165,7 @@ if(isset($_POST['savebtn']))
     $user_email=$_POST['user_email'];
     $user_address=$_POST['user_address'];
 
-    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$u_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
+    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', u_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
     
     
     ?>
