@@ -127,8 +127,12 @@
                 echo '<script> alert("Adding Unsuccess")</script>';
             }
 
+            if (isset($_GET['brands']) && $_GET['brands'] == "success") {
+                echo '<script> alert("Brand Successfully Added")</script>';
+            }else if (isset($_GET['brands']) && $_GET['brands'] == "error") {
+                echo '<script> alert("Adding Unsuccess")</script>';
+            }
         ?>
-
 
     <script type="text/javascript" src="./assets/js/ajaxWork.js"></script>    
     <script type="text/javascript" src="./assets/js/script.js"></script>
@@ -137,5 +141,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
     
 </body>
- 
 </html>
