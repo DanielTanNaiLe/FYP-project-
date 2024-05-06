@@ -141,7 +141,7 @@ include("dataconnection.php"); ?>
         
         <p><b>Date of Birth:</b> 
             <?php  
-            $date =  echo $_SESSION["u_dob"];
+              $date = $row['user_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
