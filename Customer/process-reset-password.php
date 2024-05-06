@@ -51,14 +51,19 @@ $sql = "UPDATE users
             reset_token_expires_at = NULL
         WHERE id = ?";
 
-$stmt = $conn->prepare($sql);
+$stmt_update = $mysqli->prepare($sql_update);
 
-if (!$stmt) {
+if (!$stmt_update) {
     die("Error in SQL query: " . $mysqli->error);
 }
 
-$stmt->bind_param("ss", $user_password, $user["id"]);
+$user_id = $user["id"];
 
-$stmt->execute();
+$stmt_update->bind_param("ss", $user_password, $user_id);
+
+if (!$stmt_update->execute()) {
+    die("Error updating password: " . $stmt_update->error);
+}
 
 echo "Password updated. You can now login.";
+?>
