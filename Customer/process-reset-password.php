@@ -57,7 +57,7 @@ if (!$stmt_update) {
     die("Error in SQL query: " . $mysqli->error);
 }
 
-$user_id = $user["id"];
+
 
 $stmt_update->bind_param("ss", $user_password, $user_id);
 
