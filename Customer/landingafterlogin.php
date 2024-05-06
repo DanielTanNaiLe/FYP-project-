@@ -141,15 +141,15 @@ include("dataconnection.php"); ?>
         
         <p><b>Date of Birth:</b> 
             <?php  
-              $date = $_SESSION['user_dob'];
+              $date = $_SESSION['u_dob'];
             $date = strtotime($date);
             $date = date('d-M-Y', $date);
             echo $date; 
             ?></p>
 
-        <p><b>Phone Number:</b> <?php  echo "0". $_SESSION['user_phone_number'];  ?></p>
+        <p><b>Phone Number:</b> <?php  echo "0". $_SESSION['u_phone_number'];  ?></p>
 
-        <p><b>Email:</b> <?php echo $_SESSION['user_email'];?></p>
+        <p><b>Email:</b> <?php echo $_SESSION['u_email'];?></p>
 
         <p><b>Address:</b> <?php  echo $_SESSION['u_address']; ?></p>
             </br></br>
