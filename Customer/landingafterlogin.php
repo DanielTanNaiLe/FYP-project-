@@ -154,7 +154,7 @@ include("dataconnection.php"); ?>
 
         <p><b>Email:</b> <?php echo $row['user_email'];?></p>
 
-        <p><b>Address:</b> <?php  echo $session['u_address']; ?></p>
+        <p><b>Address:</b> <?php  echo $_SESSION['u_address']; ?></p>
             </br></br>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
         <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
