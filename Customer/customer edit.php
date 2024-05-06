@@ -12,6 +12,7 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
     $user_phone_number = $_SESSION['u_phone_number'];
     $user_email = $_SESSION['u_email'];
     $user_address = $_SESSION['u_address'];
+    $user_password = $_SESSION['user_password'];
 
     // Handle form submission
     if(isset($_POST['savebtn'])) {
@@ -21,11 +22,16 @@ if(isset($_SESSION['u_id']) && isset($_GET['update'])) {
         $user_phone_number = $_POST['user_phone_number'];
         $user_email = $_POST['user_email'];
         $user_address = $_POST['user_address'];
+        $user_password = $_POST['user_password'];
 
         // Update the user information in the database
-        $query = "UPDATE users SET user_name='$user_name', user_dob='$user_dob',user_password='$user_password', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id";
-        $result = mysqli_query($conn, $query);
-
+        $query = "UPDATE users SET user_name=?, user_dob=?, user_password=?, user_phone_number=?, user_email=?, user_address=? WHERE user_id=?";
+        $stmt = mysqli_prepare($conn, $query);
+        
+        // Bind parameters and execute the statement
+        mysqli_stmt_bind_param($stmt, 'ssssssi', $user_name, $user_dob, $user_password, $user_phone_number, $user_email, $user_address, $user_id);
+        mysqli_stmt_execute($stmt);
+        
         if($result) {
             // Update session variables with the new data
             $_SESSION['u_name'] = $user_name;
