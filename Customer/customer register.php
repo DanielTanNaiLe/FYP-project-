@@ -1,97 +1,83 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register |LDK Sports</title>
-    <link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
-    <?php include("dataconnection.php"); ?>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-<body>
-    
-    <div class="img-cover2">
-        <img src="" class="image" >
-    </div>
-
-    <form class="registerfrm" method="POST" action="">
-    <div class = "overall">
-
-        <div class="img-cover">
-            <img src="image/Adidas Originals Wall.jpeg" class="image" >
-        </div>
-        
-    <div class="detail">
-        
-        <h1 style="font-weight:bold;">Register</h1>
-        <p> Fill in this form to register an account.</p>
-        
-        <div class="frmcontent">
-            <label>Username</label>
-            <input style="float: right; margin-right: 50pt;" type="text" placeholder="Enter Username" name="user_id" required>
-            <br/><br/>
-            <label>Fullname</label>
-            <input style="float: right; margin-right: 50pt;"type="text" placeholder="Enter Your Full Name" name="user_name" required>
-            <br/><br/>
-            <label>Phone Number </label>
-            <input style="float: right; margin-right: 50pt;"type="text" placeholder="Enter Phone Number" name="user_phone_number" required>
-            <br/><br/>
-            <label>Date of Birth</label>
-            <input style="float: right; margin-right: 65pt;" type="date" name="user_dob" value="" id="user_dob" required>
-            <br/><br/>
-            <label>Email </label>
-            <input style="float: right; margin-right: 50pt;"type="text" placeholder="Enter Email" name="user_email" required>
-            <br/><br/>
-            <label>Password </label>
-            <input style="float: right; margin-right: 50pt;"type="password" placeholder="Enter Password" name="user_password" required>
-            <br/><br/>
-            <label>Address </label>
-            <textarea style="float: right; margin-right: 50pt;" cols="23" rows="5" placeholder="Address" name="user_address" required></textarea>
-            <br/><br/>
-        </div>
-
-        <label style="margin-top: 30pt;">
-            <br/><br/>
-            <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-        </label>
-
-        <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-
-        <div class="clearfix">
-            
-            <button type="submit" class="signupbtn" name="signup" >Sign Up</button>
-        
-        </div>
-        <p>Already have an account? <a href="customer login.html">Login Here</a></p>
-    </div>
-</div>
-
-</form>
-    
-</body>
-</html>
 <?php
-	
-if(isset($_POST['signup']))
-{ 
-    $user_id = $_POST['user_id'];
-	$user_name = $_POST['user_name'];
-    $user_dob = $_POST['user_dob'];
-    $user_phone_number = $_POST['user_phone_number'];
-    $user_email = $_POST['user_email'];
-    $user_password = $_POST['user_password'];
-    $user_address=$_POST['user_address'];
-    
-	$result = mysqli_query($conn,"INSERT INTO users(user_id, user_name, user_dob, user_phone_number, user_email,user_password, user_address)VALUES('$user_id','$user_name','$user_dob','$user_phone_number','$user_email','$user_password','$user_address')");
 
-    if($result)
-	{
-?>
-<script> 
-alert("Thank you for registering!");
-location.replace("customer login.php");
-</script>
-<?php
+require '../admin_panel/config/dbconnect.php';
+
+if(isset($_POST['submit'])){
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
+    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
+    $image = $_FILES['image']['name'];
+    $image_size = $_FILES['image']['size'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $image_folder = 'uploaded_img/'.$image;
+    $user_address = mysqli_real_escape_string($conn, $_POST['user_address']);
+    $contact_no = mysqli_real_escape_string($conn, $_POST['contact_no']);
+
+    $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
+
+    if(mysqli_num_rows($select) > 0){
+        $message[] = 'User already exists';
+    }else{
+        if($pass != $cpass){
+            $message[] = 'Confirm password not matched!';
+        }elseif($image_size > 2000000){
+            $message[] = 'Image size is too large!';
+        }else{
+            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$pass', '$image', '$user_address', '$contact_no')") or die('query failed');
+
+            if($insert){
+                move_uploaded_file($image_tmp_name, $image_folder);
+                $message[] = 'Registered successfully!';
+                header('location:customer login.php');
+            }else{
+                $message[] = 'Registration failed!';
+            }
+        }
     }
 }
 
-?>  
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Register</title>
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+   
+<div class="form-container">
+
+   <form action="" method="post" enctype="multipart/form-data">
+      <h3>Register Now</h3>
+      <?php
+      if(isset($message)){
+         foreach($message as $message){
+            echo '<div class="message">'.$message.'</div>';
+         }
+      }
+      ?>
+      <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
+      <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
+      <input type="email" name="email" placeholder="Enter Email" class="box" required>
+      <input type="password" name="password" placeholder="Enter Password" class="box" required>
+      <input type="password" name="cpassword" placeholder="Confirm Password" class="box" required>
+      <input type="text" name="user_address" placeholder="Enter Address" class="box" required>
+      <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
+      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+      <input type="submit" name="submit" value="Register Now" class="btn">
+      <p>Already have an account? <a href="customer login.php">Login Now</a></p>
+   </form>
+
+</div>
+
+</body>
+</html>

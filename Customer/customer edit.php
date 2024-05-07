@@ -1,181 +1,113 @@
 <?php
+
+require '../admin_panel/config/dbconnect.php';
 session_start();
-include("dataconnection.php");
+$user_id = $_SESSION['user_id'];
 
-if(isset($_GET['update']))
-{
-    $user_id = $_GET['user_id'];
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
-    if($result)
-    {
-        $row = mysqli_fetch_assoc($result);
-       
-    ?>
-<!DOCTYPE.html>
-<html>
+if(isset($_POST['update_profile'])){
+
+   $update_name = mysqli_real_escape_string($conn, $_POST['update_name']);
+   $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
+
+   mysqli_query($conn, "UPDATE `user_form` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('query failed');
+
+   $old_pass = $_POST['old_pass'];
+   $update_pass = mysqli_real_escape_string($conn, md5($_POST['update_pass']));
+   $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
+   $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
+
+   if(!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)){
+      if($update_pass != $old_pass){
+         $message[] = 'old password not matched!';
+      }elseif($new_pass != $confirm_pass){
+         $message[] = 'confirm password not matched!';
+      }else{
+         mysqli_query($conn, "UPDATE `user_form` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('query failed');
+         $message[] = 'password updated successfully!';
+      }
+   }
+
+   $update_image = $_FILES['update_image']['name'];
+   $update_image_size = $_FILES['update_image']['size'];
+   $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
+   $update_image_folder = 'uploaded_img/'.$update_image;
+
+   if(!empty($update_image)){
+      if($update_image_size > 2000000){
+         $message[] = 'image is too large';
+      }else{
+         $image_update_query = mysqli_query($conn, "UPDATE `user_form` SET image = '$update_image' WHERE id = '$user_id'") or die('query failed');
+         if($image_update_query){
+            move_uploaded_file($update_image_tmp_name, $update_image_folder);
+         }
+         $message[] = 'image updated succssfully!';
+      }
+   }
+
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>My Account |LDK Sports</title>
-<link rel="icon" href="../image/logo.png" type="image/x-icon">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="general_design.css">
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>update profile</title>
 
-<style>
-    /***************** All ***********************/
-*{
-	box-sizing: border-box;
-}
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
 
-/*****Content****/
-.content{
-    background-color: #f5f5f5;
-    text-align: center;
-    margin-top: -50px;
-    
-}
-.left{
-    background-color: #A9A9A9;
-    height: 600px;
-    width: 20%;
-    margin-top: 100px;
-    float: left;
-    margin-left: 4%;
-    padding-top: 50px;
-}
-.right{
-    border: 1px solid white;
-    height: 600px;
-    width: 70%;
-    margin-top: 100px;
-    float: right;
-    margin-right: 4%;
-    padding-left: 50px;
-    padding-top: 30px;
-    text-align: left;
-}
-.right h2{
-    text-align: left;
-    font-family: garamond;
-}
-.right p label{
-    width:150px;
-}
-.avatar {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-.menu{
-    margin-top: 50px;
-    text-align: center;
-}
-.menu ul{
-    list-style-type: none;
-    text-align: center;
-    width: 80%;
-}
-.menu li{
-    font-size: 20px;
-    height: 50px;
-}
-
-.menu a{
-    color:white;
-}
-.menu li a:hover{
-    background-color: #f5f5f5;
-    text-decoration: none;
-    color: black;
-}
-.right h3{
-    text-align: left;
-    border-bottom: 1px solid black;
-}
-.right p{
-    font-family: Verdana;
-    font-size: 16px;
-    
-}
-.save{
-    background-color: #ffe7a4;
-    color: black;
-    padding: 14px 20px;
-    margin-top: 20pt;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
-}
-.save:hover{
-    background-color: #A9A9A9;
-    color: white;
-}
-
-</style>
 </head>
 <body>
+   
+<div class="update-profile">
 
-<form class="content">
-    <div class="left">
-        <img src="../image/logo.png" alt="Avatar" class="avatar">
-    </br>
-    <div class="menu">
-        <ul>
-            <li><a href="landingafterlogin.php">Profile</a>
-            </li>
-            <li><a href="#">Shopping Cart</a>
-            </li>
-            <li><a href="logout.php" name="logout">Log Out</a>
-            </li>
-        </ul>
-    </div>
-    </div>
-</form>
+   <?php
+      $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('query failed');
+      if(mysqli_num_rows($select) > 0){
+         $fetch = mysqli_fetch_assoc($select);
+      }
+   ?>
 
+   <form action="" method="post" enctype="multipart/form-data">
+      <?php
+         if($fetch['image'] == ''){
+            echo '<img src="images/default-avatar.png">';
+         }else{
+            echo '<img src="uploaded_img/'.$fetch['image'].'">';
+         }
+         if(isset($message)){
+            foreach($message as $message){
+               echo '<div class="message">'.$message.'</div>';
+            }
+         }
+      ?>
+      <div class="flex">
+         <div class="inputBox">
+            <span>username :</span>
+            <input type="text" name="update_name" value="<?php echo $fetch['name']; ?>" class="box">
+            <span>your email :</span>
+            <input type="email" name="update_email" value="<?php echo $fetch['email']; ?>" class="box">
+            <span>update your pic :</span>
+            <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
+         </div>
+         <div class="inputBox">
+            <input type="hidden" name="old_pass" value="<?php echo $fetch['password']; ?>">
+            <span>old password :</span>
+            <input type="password" name="update_pass" placeholder="enter previous password" class="box">
+            <span>new password :</span>
+            <input type="password" name="new_pass" placeholder="enter new password" class="box">
+            <span>confirm password :</span>
+            <input type="password" name="confirm_pass" placeholder="confirm new password" class="box">
+         </div>
+      </div>
+      <input type="submit" value="update profile" name="update_profile" class="btn">
+      <a href="home.php" class="delete-btn">go back</a>
+   </form>
 
-<div class="right">
-        <h2>Edit </h2>
-        <h3>Personal Information</h3>
-        <form name="update" method="post" action="">
-        <p><label>Name:</label><input  type="text" name="user_name" size="40" placeholder="Please enter your name" id="user_name" value="<?php echo $_SESSION['u_name'];?>">
-        
-        <p><label>Date of Birth:</label><input  type="date" name="user_dob" value="<?php echo $_SESSION['u_dob'];?>" id="user_dob">
-        
-        <p><label>Phone Number:</label><input  type="text" name="user_phone_number" size="40" placeholder="Please enter your phone number" id="user_phone_number" value="<?php echo $_SESSION['u_phone_number'];?>">
-
-        <p><label>Email:</label><input  type="text" name="user_email" size="40" placeholder="Please enter your email" id="user_email" value="<?php echo $_SESSION['u_email'];?>">
-
-        <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> <?php echo $_SESSION['u_address'];?></textarea>
-        <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $_row['user_id'];?>">
-
-        <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
-        </form>
 </div>
 
 </body>
 </html>
-<?php
-if(isset($_POST['savebtn']))
-{
-    $user_id=$_POST['user_id']; 
-    $user_name=$_POST['user_name'];
-    $user_password=$_POST['user_password'];
-    $user_dob=$_POST['user_dob'];
-    $user_phone_number=$_POST['user_phone_number'];
-    $user_email=$_POST['user_email'];
-    $user_address=$_POST['user_address'];
-
-    $run =mysqli_query($conn, "UPDATE users SET user_name='$user_name', user_password='$user_password', user_dob='$user_dob', user_phone_number='$user_phone_number', user_email='$user_email', user_address='$user_address' WHERE user_id=$user_id");
-    
-    
-    ?>
-    <script>alert("Admin updated");
-    location.replace("landingafterlogin.php"); </script>
-    </script>
-    <?php
-
-}
-}}
-?>
-

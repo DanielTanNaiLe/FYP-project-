@@ -1,136 +1,59 @@
 <?php
-    session_start();
-    include("dataconnection.php");
 
-    $error = '';
-    if(isset($_POST['submit'])){
-        if(empty($_POST['user_id']) || empty($_POST['user_password'])){
-            $error = "Username or Password is Invalid";
-        }
-        else{
-            $user_id = $_POST['user_id'];
-            $user_password = $_POST['user_password'];
+ require '../admin_panel/config/dbconnect.php';
+session_start();
 
-            include("dataconnection.php"); 
+if(isset($_POST['submit'])){
 
-            $query = mysqli_query($conn, "SELECT * FROM users WHERE user_name ='$user_id' AND user_password = '$user_password'");
-            $row = mysqli_fetch_assoc($query);
-            $row2 = mysqli_num_rows($query);
+   $email = mysqli_real_escape_string($conn, $_POST['email']);
+   $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
 
+   $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE email = '$email' AND password = '$pass'") or die('query failed');
 
-            if($row2 == 1){  
-            header("Location: landingafterlogin.php","customer edit");
-            $_SESSION['u_id']= $user_id;
-            $_SESSION['u_name']= $row['user_name'];
-            $_SESSION["u_address"] = $row['user_address'];
-            $_SESSION["u_dob"] = $row['user_dob'];
-            $_SESSION["u_phone_number"] = $row['user_phone_number'];
-            $_SESSION["u_email"] = $row['user_email'];
-            }  
-            else  
-            {  
-            $error = "Username or Password is Invalid";
-            }  
-            
-            mysqli_close($conn);
-        }
-    }
+   if(mysqli_num_rows($select) > 0){
+      $row = mysqli_fetch_assoc($select);
+      $_SESSION['user_id'] = $row['id'];
+      header('location:home.php');
+   }else{
+      $message[] = 'incorrect email or password!';
+   }
+
+}
+
 ?>
 
-<!DOCTYPE.html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Log In |LDK SPORTS</title>
-<link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
-<style>
-    /***************** All ***********************/
-*{
-	box-sizing: border-box;
-}
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>login</title>
 
-/******************Content***************/
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="css/style.css">
 
-.login{
-    background-color:beige;
-    padding-top: 50pt;
-    padding-bottom: 200pt;
-}
-.overall{
-    border: 1px solid #f5f5f5;
-    text-align: center;
-    width: 60%;
-    margin-left: 20%;
-    height:320pt;
-    background-color: burlywood;
-    font-family: arial;
-}
-.image{
-    height: 320pt;
-    float: left;
-    width: 40%;
-}
-.detail h2{
-    text-align: center;
-}
-.detail {
-    text-align: center;
-    margin-top: 50pt;
-    font-size: 120%;
-}
-.submit {
-    background-color: #ffe7a4;
-    color: black;
-    padding: 14px 20px;
-    margin-top: 20pt;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-.submit:hover{
-    background-color: #A9A9A9;
-    color: white;
-    text-decoration: none;
-}
-.detail p{
-    font-size: 90%;
-}
-span{
-    color: red;
-}
-
-</style>
 </head>
 <body>
+   
+<div class="form-container">
 
+   <form action="" method="post" enctype="multipart/form-data">
+      <h3>login now</h3>
+      <?php
+      if(isset($message)){
+         foreach($message as $message){
+            echo '<div class="message">'.$message.'</div>';
+         }
+      }
+      ?>
+      <input type="email" name="email" placeholder="enter email" class="box" required>
+      <input type="password" name="password" placeholder="enter password" class="box" required>
+      <input type="submit" name="submit" value="login now" class="btn">
+      <p>don't have an account? <a href="register.php">regiser now</a></p>
+   </form>
 
-    <form class="login" method="post" action="">
-        <div class="overall">
-            <img src="image/shop_img.jpg" class="image" >
-            <div class="detail">
-            <h2 style="font-weight:bold;">Log In</h2>
-            <h3>Welcome to LDK Sports</h3>
-            </br></br>
-
-                <label>Username : </label>
-                <input type="text" placeholder="Enter your username" name="user_id" id="user_id"required/>
-            </br></br>
-                <label>Password : </label>
-                <input type="password" placeholder="Enter your password" name="user_password" id="user_password" required/>
-            </br></br>
-            <a href="forget_password.php">Forgot Password?</a>
-            </br>
-            <button type="submit" class="submit" name="submit">Log In</button>
-
-</br>
-                <span><?php echo $error;?></span>
-            </br>
-            <p>Don't have an account? <a href="customer register.php">Sign Up Here</a></p>
-            
-            </div>
-        </div>
-    </form>
+</div>
 
 </body>
 </html>
