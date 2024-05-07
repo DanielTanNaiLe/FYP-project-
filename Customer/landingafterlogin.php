@@ -39,12 +39,12 @@ if(isset($_GET['logout'])){
             $fetch = mysqli_fetch_assoc($select);
          }
          if($fetch['image'] == ''){
-            echo '<img src="images/default-avatar.png">';
+            echo '<img src="image/default-avatar.png">';
          }else{
             echo '<img src="uploaded_img/'.$fetch['image'].'">';
          }
       ?>
-      <h3><?php echo $fetch['name']; ?></h3>
+      <h3><?php echo $fetch['first_name']; ?></h3>
       <a href="customer edit.php" class="btn">update profile</a>
       <a href="landingafterlogin.php?logout=<?php echo $user_id; ?>" class="delete-btn">logout</a>
       <p>new <a href="customer login.php">login</a> or <a href="customer register.php">register</a></p>

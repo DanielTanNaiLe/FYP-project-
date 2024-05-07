@@ -8,7 +8,6 @@ if(!isset($user_id)){
    header('location:customer login.php');
    exit();
 }
-
 if(isset($_POST['update_profile'])){
    $update_first_name = mysqli_real_escape_string($conn, $_POST['update_first_name']);
    $update_last_name = mysqli_real_escape_string($conn, $_POST['update_last_name']);
@@ -17,7 +16,7 @@ if(isset($_POST['update_profile'])){
    $update_contact_no = mysqli_real_escape_string($conn, $_POST['update_contact_no']);
 
    // Update name, email, user_address, and contact_no
-   mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', user_address = '$update_user_address', contact_no = '$update_contact_no' WHERE id = '$user_id'") or die('Query failed');
+   mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', user_address = '$update_user_address', contact_no = '$update_contact_no' WHERE user_id = '$user_id'") or die('Query failed');
 
    // Update password
    $old_pass = $_POST['old_pass'];
@@ -31,7 +30,7 @@ if(isset($_POST['update_profile'])){
       } elseif($new_pass != $confirm_pass){
          $message[] = 'Confirm password not matched!';
       } else{
-         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('Query failed');
+         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE user_id = '$user_id'") or die('Query failed');
          $message[] = 'Password updated successfully!';
       }
    }
@@ -46,7 +45,7 @@ if(isset($_POST['update_profile'])){
       if($update_image_size > 2000000){
          $message[] = 'Image is too large';
       } else{
-         $image_update_query = mysqli_query($conn, "UPDATE `users` SET image = '$update_image' WHERE id = '$user_id'") or die('Query failed');
+         $image_update_query = mysqli_query($conn, "UPDATE `users` SET image = '$update_image' WHERE user_id = '$user_id'") or die('Query failed');
          if($image_update_query){
             move_uploaded_file($update_image_tmp_name, $update_image_folder);
          }
@@ -74,7 +73,7 @@ if(isset($_POST['update_profile'])){
 <div class="update-profile">
 
    <?php
-      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('Query failed');
+      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
       if(mysqli_num_rows($select) > 0){
          $fetch = mysqli_fetch_assoc($select);
       }
