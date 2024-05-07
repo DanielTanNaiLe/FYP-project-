@@ -12,8 +12,8 @@ if(isset($_POST['submit'])){
 
    if(mysqli_num_rows($select) > 0){
       $row = mysqli_fetch_assoc($select);
-      $_SESSION['user_id'] = $row['id'];
-      header('location:http://localhost/FYP-project--4/Customer/landingafterlogin/.php');
+      $_SESSION['user_id'] = $row['user_id'];
+      header('location:landingafterlogin.php');
    }else{
       $message[] = 'incorrect email or password!';
    }
@@ -54,6 +54,5 @@ if(isset($_POST['submit'])){
    </form>
 
 </div>
-
 </body>
 </html>
