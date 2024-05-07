@@ -40,14 +40,23 @@
         </div>
     </div>
     <?php
-					$result = mysqli_query($conn, "SELECT* FROM product, category where product.category_id = category.category_id ");	
-					$count = mysqli_num_rows($result);
-					
+    // Fetch and display shoes
+    $shoesResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Shoes'");
+    displayProducts($shoesResult, "Shoes");
+    // Fetch and display clothing
+    $clothingResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Clothing'");
+    displayProducts($clothingResult, "Clothing");
+    // Fetch and display pants
+    $pantsResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Pants'");
+    displayProducts($pantsResult, "Pants");
+
+    function displayProducts($result, $categoryName) {
+        $firstRow = true; // Flag to check if it's the first row
+        echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
 					while($row = mysqli_fetch_assoc($result))
 					{
 						$img_src = $row['product_image'];
 	?>
-    <div class="subtitle_1"><h1><?=$row["category_name"]?></h1></div>
     <div class="listproduct">
         <div class="item">
             <img src='<?php echo '../uploads/'.$img_src;?>'>
@@ -59,27 +68,8 @@
     </div>
     <?php 
 					}
+                }
 	?>
-
-    <div class="subtitle_1"><h1>Clothing</h1></div>
-    <div class="listproduct">
-        <div class="item">
-            <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
-            <h2>Name product</h2>
-            <div class="price">RM 589</div>
-            <div class="favourite"><a href="" ><i class='bx bxs-heart'></i></a></div>
-            <div class="details-container"><a href="" class="details">View details</a></div>
-        </div>
-    </div>
-
-    <div class="subtitle_1"><h1>Pants</h1></div>
-    <div class="listproduct">
-        <div class="item">
-            <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
-            <h2>Name product</h2>
-            <div class="price">RM 589</div>
-        </div>
-    </div>
     <?php include("footer.php"); ?>
     </body>
 </html>
