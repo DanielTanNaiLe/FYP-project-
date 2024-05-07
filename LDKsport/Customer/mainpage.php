@@ -66,7 +66,7 @@
             //Display the brand image and name
       ?>
              <div class="image-container3">
-             <a href="#"><img src='../admin_panel/uploads/<?=$row["brand_img"]?>'></a>
+             <a href="#"><img src='../uploads/<?=$row["brand_img"]?>'></a>
              <h1><?=$row['brand_name']?></h1>
              </div>
              <?php

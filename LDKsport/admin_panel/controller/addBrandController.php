@@ -8,7 +8,7 @@
         $name = $_FILES['file']['name'];
         $temp = $_FILES['file']['tmp_name'];
     
-        $location="./uploads/";
+        $location="../uploads/";
         $image=$location.$name;
 
         $target_dir="../uploads/";

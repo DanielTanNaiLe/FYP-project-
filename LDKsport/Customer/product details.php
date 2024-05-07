@@ -190,7 +190,7 @@ p {
 		?>
           <div class="left">
               <div class="main_image">
-                <img src='<?php echo '.image/'.$img_src;?>' class="slide">
+                <img src='<?php echo '../uploads/'.$img_src;?>' class="slide">
               </div>
               <div class="option flex">
                 <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
