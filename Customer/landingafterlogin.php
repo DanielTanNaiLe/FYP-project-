@@ -1,6 +1,6 @@
 <?php
 
-require '../admin_panel/config/dbconnect.php';
+include '../admin_panel/config/dbconnect.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
@@ -46,7 +46,7 @@ if(isset($_GET['logout'])){
       ?>
       <h3><?php echo $fetch['name']; ?></h3>
       <a href="customer edit.php" class="btn">update profile</a>
-      <a href="home.php?logout=<?php echo $user_id; ?>" class="delete-btn">logout</a>
+      <a href="landingafterlogin.php?logout=<?php echo $user_id; ?>" class="delete-btn">logout</a>
       <p>new <a href="customer login.php">login</a> or <a href="customer register.php">register</a></p>
    </div>
 
