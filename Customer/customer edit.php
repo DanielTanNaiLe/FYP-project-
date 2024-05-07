@@ -4,7 +4,7 @@ include("dataconnection.php");
 
 if(isset($_GET['update']))
 {
-    $user_id = $_GET['u_id'];
+    $user_id = $_GET['user_id'];
     $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
     if($result)
     {
@@ -147,7 +147,7 @@ if(isset($_GET['update']))
 
         <p><label>Address:</label><textarea  cols="40" rows="3" name="user_address" id="user_address"> <?php echo $_SESSION['u_address'];?></textarea>
         <input type="hidden" name="user_password" value="<?php echo $row['user_password'];?>">
-        <input type="hidden" name="user_id" value="<?php echo $row['user_id'];?>">
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'];?>">
 
         <p><button style="margin-top: 40pt;" class="save" name="savebtn">Save</button>
         </form>
