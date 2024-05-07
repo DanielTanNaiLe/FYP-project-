@@ -9,6 +9,9 @@
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
 
+section{
+  padding-top: 11%;
+}
 .product-details-container {
   max-width: 75%;
   margin: auto;
@@ -174,17 +177,18 @@ p {
     </head>
     <body>
     <?php include("header.php"); ?>
+    <section>
+      <div class="product-details-container flex">
       <?php
-      $result = mysqli_query($conn, "SELECT* FROM product, category where product.category_id = category.category_id ");	
-					$count = mysqli_num_rows($result);
-					
-					while($row = mysqli_fetch_assoc($result))
-					{
-						$img_src = $row['product_image'];
-          ?>
-        <section>
-          <div class="product-details-container flex">
-            <div class="left">
+		if(isset($_GET["view"]))
+		{
+			$prod_id = $_GET["product_id"];
+			$result = mysqli_query($conn, "SELECT * FROM product WHERE product_id=$prod_id");
+			$row = mysqli_fetch_assoc($result);
+			$img_src = $row['product_image'];
+			$prod_name = $row['product_name'];
+		?>
+          <div class="left">
               <div class="main_image">
                 <img src='<?php echo '.image/'.$img_src;?>' class="slide">
               </div>
@@ -207,15 +211,16 @@ p {
                 <option disabled selected>Select Sizes</option>
               </select>
       <div class="button-container">
-              <a href="" class="button">Add to cart</a>
-              <a href="" class="button">Favourite</a>
+              <input type="number" name="quantity" value="1" class="form-control">
+              <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
+              <input type="submit" name="Favourite" class="button" value="Wish List">
               </div>
             </div>
-          </div>
-        </section>
       <?php 
 					}
 	?>
+</div>
+  </section>
         <script>
           function img(anything) {
             document.querySelector('.slide').src = anything;

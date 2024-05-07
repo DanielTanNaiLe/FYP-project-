@@ -9,7 +9,8 @@
     </head>
     <body>
         <?php include("header.php"); ?>
-        
+        <?php
+    
         <div class="subtitle_1"><h1>Shoes</h1></div>
         <div class="listproduct">
             <div class="item">
