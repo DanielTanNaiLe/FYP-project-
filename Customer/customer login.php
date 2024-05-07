@@ -11,6 +11,7 @@ if(isset($_POST['submit'])){
    $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$pass'") or die('query failed');
 
    if(mysqli_num_rows($select) > 0){
+      password_verify($_POST["password"], $user["password"]);
       $row = mysqli_fetch_assoc($select);
       $_SESSION['user_id'] = $row['user_id'];
       header('location:landingafterlogin.php');

@@ -66,4 +66,5 @@ if (!$stmt_update->execute()) {
 }
 
 echo "Password updated. You can now login.";
+
 ?>
