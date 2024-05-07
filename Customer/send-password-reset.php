@@ -8,7 +8,7 @@ $token_hash = hash("sha256", $token);
 
 $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
-$mysqli = require __DIR__ . "/admin_panel/config/dbconnect.php";
+$mysqli = require __DIR__ . "\admin_panel\config\dbconnect.php";
 
 if ($mysqli->connect_error) {
     die("Database connection error: " . $mysqli->connect_error);
