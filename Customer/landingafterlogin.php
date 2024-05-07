@@ -5,7 +5,7 @@ session_start();
 $user_id = $_SESSION['user_id'];
 
 if(!isset($user_id)){
-   header('location:landingafterlogin.php');
+   header('location:customer login.php');
 };
 
 if(isset($_GET['logout'])){
@@ -34,7 +34,7 @@ if(isset($_GET['logout'])){
 
    <div class="profile">
       <?php
-         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('query failed');
+         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($select) > 0){
             $fetch = mysqli_fetch_assoc($select);
          }
