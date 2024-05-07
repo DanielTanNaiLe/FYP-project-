@@ -19,7 +19,7 @@
 
 
             if($row2 == 1){  
-            header("Location: landingafterlogin.php");
+            header("Location: landingafterlogin.php","customer edit");
             $_SESSION['u_id']= $user_id;
             $_SESSION['u_name']= $row['user_name'];
             $_SESSION["u_address"] = $row['user_address'];
