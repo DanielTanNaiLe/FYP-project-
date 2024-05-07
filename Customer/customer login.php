@@ -1,11 +1,14 @@
 <?php
-
+ if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
+      echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
+  }
  include '../admin_panel/config/dbconnect.php';
 session_start();
-if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
-   echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
-   
+
+
 if(isset($_POST['submit'])){
+
+  
 
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
