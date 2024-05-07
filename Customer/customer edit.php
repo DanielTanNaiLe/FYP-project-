@@ -4,13 +4,22 @@ require '../admin_panel/config/dbconnect.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
+if(!isset($user_id)){
+   header('location:customer login.php');
+   exit();
+}
+
 if(isset($_POST['update_profile'])){
-
-   $update_name = mysqli_real_escape_string($conn, $_POST['update_name']);
+   $update_first_name = mysqli_real_escape_string($conn, $_POST['update_first_name']);
+   $update_last_name = mysqli_real_escape_string($conn, $_POST['update_last_name']);
    $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
+   $update_user_address = mysqli_real_escape_string($conn, $_POST['update_user_address']);
+   $update_contact_no = mysqli_real_escape_string($conn, $_POST['update_contact_no']);
 
-   mysqli_query($conn, "UPDATE `users` SET name = '$update_name', email = '$update_email' WHERE id = '$user_id'") or die('query failed');
+   // Update name, email, user_address, and contact_no
+   mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', user_address = '$update_user_address', contact_no = '$update_contact_no' WHERE id = '$user_id'") or die('Query failed');
 
+   // Update password
    $old_pass = $_POST['old_pass'];
    $update_pass = mysqli_real_escape_string($conn, md5($_POST['update_pass']));
    $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
@@ -18,15 +27,16 @@ if(isset($_POST['update_profile'])){
 
    if(!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)){
       if($update_pass != $old_pass){
-         $message[] = 'old password not matched!';
-      }elseif($new_pass != $confirm_pass){
-         $message[] = 'confirm password not matched!';
-      }else{
-         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('query failed');
-         $message[] = 'password updated successfully!';
+         $message[] = 'Old password not matched!';
+      } elseif($new_pass != $confirm_pass){
+         $message[] = 'Confirm password not matched!';
+      } else{
+         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE id = '$user_id'") or die('Query failed');
+         $message[] = 'Password updated successfully!';
       }
    }
 
+   // Update image
    $update_image = $_FILES['update_image']['name'];
    $update_image_size = $_FILES['update_image']['size'];
    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
@@ -34,16 +44,15 @@ if(isset($_POST['update_profile'])){
 
    if(!empty($update_image)){
       if($update_image_size > 2000000){
-         $message[] = 'image is too large';
-      }else{
-         $image_update_query = mysqli_query($conn, "UPDATE `users` SET image = '$update_image' WHERE id = '$user_id'") or die('query failed');
+         $message[] = 'Image is too large';
+      } else{
+         $image_update_query = mysqli_query($conn, "UPDATE `users` SET image = '$update_image' WHERE id = '$user_id'") or die('Query failed');
          if($image_update_query){
             move_uploaded_file($update_image_tmp_name, $update_image_folder);
          }
-         $message[] = 'image updated succssfully!';
+         $message[] = 'Image updated successfully!';
       }
    }
-
 }
 
 ?>
@@ -54,7 +63,7 @@ if(isset($_POST['update_profile'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>update profile</title>
+   <title>Update Profile</title>
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="style.css">
@@ -65,7 +74,7 @@ if(isset($_POST['update_profile'])){
 <div class="update-profile">
 
    <?php
-      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('query failed');
+      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('Query failed');
       if(mysqli_num_rows($select) > 0){
          $fetch = mysqli_fetch_assoc($select);
       }
@@ -86,25 +95,31 @@ if(isset($_POST['update_profile'])){
       ?>
       <div class="flex">
          <div class="inputBox">
-            <span>username :</span>
-            <input type="text" name="update_name" value="<?php echo $fetch['name']; ?>" class="box">
-            <span>your email :</span>
+            <span>First Name:</span>
+            <input type="text" name="update_first_name" value="<?php echo $fetch['first_name']; ?>" class="box">
+            <span>Last Name:</span>
+            <input type="text" name="update_last_name" value="<?php echo $fetch['last_name']; ?>" class="box">
+            <span>Email:</span>
             <input type="email" name="update_email" value="<?php echo $fetch['email']; ?>" class="box">
-            <span>update your pic :</span>
+            <span>Address:</span>
+            <input type="text" name="update_user_address" value="<?php echo $fetch['user_address']; ?>" class="box">
+            <span>Contact Number:</span>
+            <input type="text" name="update_contact_no" value="<?php echo $fetch['contact_no']; ?>" class="box">
+            <span>Update Your Picture:</span>
             <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
          </div>
          <div class="inputBox">
             <input type="hidden" name="old_pass" value="<?php echo $fetch['password']; ?>">
-            <span>old password :</span>
-            <input type="password" name="update_pass" placeholder="enter previous password" class="box">
-            <span>new password :</span>
-            <input type="password" name="new_pass" placeholder="enter new password" class="box">
-            <span>confirm password :</span>
-            <input type="password" name="confirm_pass" placeholder="confirm new password" class="box">
+            <span>Old Password:</span>
+            <input type="password" name="update_pass" placeholder="Enter previous password" class="box">
+            <span>New Password:</span>
+            <input type="password" name="new_pass" placeholder="Enter new password" class="box">
+            <span>Confirm Password:</span>
+            <input type="password" name="confirm_pass" placeholder="Confirm new password" class="box">
          </div>
       </div>
-      <input type="submit" value="update profile" name="update_profile" class="btn">
-      <a href="landingafterlogin.php" class="delete-btn">go back</a>
+      <input type="submit" value="Update Profile" name="update_profile" class="btn">
+      <a href="landingafterlogin.php" class="delete-btn">Go Back</a>
    </form>
 
 </div>
