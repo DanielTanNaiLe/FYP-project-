@@ -5,7 +5,7 @@ session_start();
 $user_id = $_SESSION['user_id'];
 
 if(!isset($user_id)){
-   header('location:customer login.php');
+   header('location:landingafterlogin.php');
 };
 
 if(isset($_GET['logout'])){
