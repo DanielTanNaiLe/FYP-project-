@@ -119,7 +119,7 @@ if(isset($_POST['update_profile'])){
          </div>
       </div>
       <input type="submit" value="Update Profile" name="update_profile" class="btn">
-      <a href="landingafterlogin.php" class="delete-btn">Go Back</a>
+      <a href="home.php" class="delete-btn">Go Back</a>
    </form>
 
 </div>
