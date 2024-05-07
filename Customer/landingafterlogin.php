@@ -1,16 +1,17 @@
 <?php
-php require '../admin_panel/config/dbconnect.php';
+
+require '../admin_panel/config/dbconnect.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
 if(!isset($user_id)){
-   header('location:login.php');
+   header('location:customer login.php');
 };
 
 if(isset($_GET['logout'])){
    unset($user_id);
    session_destroy();
-   header('location:login.php');
+   header('location:customer login.php');
 }
 
 ?>
@@ -24,7 +25,7 @@ if(isset($_GET['logout'])){
    <title>home</title>
 
     <!-- custom css file link  -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
@@ -33,7 +34,7 @@ if(isset($_GET['logout'])){
 
    <div class="profile">
       <?php
-         $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('query failed');
+         $select = mysqli_query($conn, "SELECT * FROM `users` WHERE id = '$user_id'") or die('query failed');
          if(mysqli_num_rows($select) > 0){
             $fetch = mysqli_fetch_assoc($select);
          }
@@ -44,9 +45,9 @@ if(isset($_GET['logout'])){
          }
       ?>
       <h3><?php echo $fetch['name']; ?></h3>
-      <a href="update_profile.php" class="btn">update profile</a>
-      <a href="home.php?logout=<?php echo $user_id; ?>" class="delete-btn">logout</a>
-      <p>new <a href="login.php">login</a> or <a href="register.php">register</a></p>
+      <a href="customer edit.php" class="btn">update profile</a>
+      <a href="landingafterlogin.php?logout=<?php echo $user_id; ?>" class="delete-btn">logout</a>
+      <p>new <a href="customer login.php">login</a> or <a href="register.php">register</a></p>
    </div>
 
 </div>
