@@ -4,7 +4,7 @@ $token = $_POST["token"];
 
 $token_hash = hash("sha256", $token);
 
-$mysqli = require __DIR__ . "/dataconnection.php";
+$mysqli = require __DIR__ . "/../admin_panel/config/dbconnect.php";
 
 $sql = "SELECT * FROM users
         WHERE reset_token_hash = ?";
@@ -43,10 +43,10 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
 }
 
-$user_password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $sql_update = "UPDATE users
-               SET user_password = ?,
+               SET password = ?,
                    reset_token_hash = NULL,
                    reset_token_expires_at = NULL
                WHERE user_id = ?";
@@ -59,11 +59,12 @@ if (!$stmt_update) {
 
 
 
-$stmt_update->bind_param("si", $user_password, $user["user_id"]);
+$stmt_update->bind_param("si", $password, $user["user_id"]);
 
 if (!$stmt_update->execute()) {
     die("Error updating password: " . $stmt_update->error);
 }
 
-echo "Password updated. You can now login.";
+header("Location: customer login.php?password_updated=true");
+
 ?>

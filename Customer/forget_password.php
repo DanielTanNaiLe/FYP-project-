@@ -12,7 +12,7 @@
     <form method="post" action="send-password-reset.php">
 
         <label for="email">email</label>
-        <input type="email" name="user_email" id="user_email">
+        <input type="email" name="email" id="email">
 
         <button>Send</button>
 

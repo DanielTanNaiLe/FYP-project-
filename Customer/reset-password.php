@@ -4,7 +4,7 @@ $token = $_GET['token'];
 
 $token_hash = hash("sha256", $token);
 
-$mysqli = require __DIR__ . "/dataconnection.php";
+$mysqli = require __DIR__ . "/../admin_panel/config/dbconnect.php";
 
 $sql = "SELECT * FROM users
         WHERE reset_token_hash = ?";
