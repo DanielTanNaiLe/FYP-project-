@@ -49,11 +49,14 @@ section{
   padding: 6px 2px;
 }
 .left{
-    margin-top: -10px;
+    width: 60%;
+    margin-top: 50px;
+    margin-left: 20px;
 }
 .right {
+  margin-left: 72%;
+  margin-top: -57%;
   padding: 50px 100px 50px 50px;
-  margin-top: 25px;
 }
 
 .product-details-h3 {
@@ -113,7 +116,7 @@ p {
 .button-container{
     margin-top: 40px;
     margin-left: auto;
-    margin-right: 160px;
+    margin-right: 193px;
     width: 50%;
 }
 .button-container .button {
@@ -188,6 +191,7 @@ p {
 			$img_src = $row['product_image'];
 			$prod_name = $row['product_name'];
 		?>
+    <form method="post" action="Addtocart.php?id=<?=$row['product_id']?>">
           <div class="left">
               <div class="main_image">
                 <img src='<?php echo '../uploads/'.$img_src;?>' class="slide">
@@ -216,6 +220,7 @@ p {
               <input type="submit" name="Favourite" class="button" value="Wish List">
               </div>
             </div>
+    </form>
       <?php 
 					}
 	?>
