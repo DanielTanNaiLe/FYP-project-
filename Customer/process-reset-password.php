@@ -65,6 +65,6 @@ if (!$stmt_update->execute()) {
     die("Error updating password: " . $stmt_update->error);
 }
 
-echo "Password updated. You can now login.";
+header("Location: customer login.php?password_updated=true");
 
 ?>
