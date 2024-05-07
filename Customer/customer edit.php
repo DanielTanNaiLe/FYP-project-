@@ -4,7 +4,7 @@ include("dataconnection.php");
 
 if(isset($_GET['update']))
 {
-    $user_id = $_GET['user_id'];
+    $user_id = $_GET['u_id'];
     $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id='$user_id'");
     if($result)
     {
@@ -158,7 +158,7 @@ if(isset($_GET['update']))
 <?php
 if(isset($_POST['savebtn']))
 {
-    $user_id=$_POST['user_id'];
+    $user_id=$_POST['user_id']; 
     $user_name=$_POST['user_name'];
     $user_password=$_POST['user_password'];
     $user_dob=$_POST['user_dob'];
