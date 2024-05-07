@@ -82,7 +82,7 @@ if(isset($_POST['update_profile'])){
    <form action="" method="post" enctype="multipart/form-data">
       <?php
          if($fetch['image'] == ''){
-            echo '<img src="images/default-avatar.png">';
+            echo '<img src="image/default-avatar.png">';
          }else{
             echo '<img src="uploaded_img/'.$fetch['image'].'">';
          }
