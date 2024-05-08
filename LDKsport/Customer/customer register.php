@@ -69,7 +69,7 @@ if(isset($_POST['submit'])){
       <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
       <input type="email" name="email" placeholder="Enter Email" class="box" required>
       <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
-      <input type="password" name="cpassword" placeholder="Confirm Password" class="box" required>
+      <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
       <input type="text" name="user_address" placeholder="Enter Address" class="box" required>
       <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
@@ -80,8 +80,7 @@ if(isset($_POST['submit'])){
 
         <span>Show password</span>
     </div>
-
-        <script type="text/javascript">
+    <script type="text/javascript">
         function myfunction(){
             var show = document.getElementById("password");
             if(show.type=="password"){
@@ -90,8 +89,17 @@ if(isset($_POST['submit'])){
             else{
                 show.type="password";
             }
+            
+            var show = document.getElementById("password_confirmation");
+            if(show.type=="password"){
+                show.type="text";
             }
-         </script>
+            else{
+                show.type="password";
+            }
+
+        }
+    </script>
          
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
