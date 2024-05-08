@@ -63,6 +63,19 @@ if(isset($_POST['submit'])){
       ?>
       <input type="email" name="email" placeholder="enter email" class="box" required>
       <input type="password" name="password" placeholder="enter password" class="box" required>
+      <div class="show-password-label">
+        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+        <script type="text/javascript">
+        function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type=="password"){
+                show.type="text";
+            }
+            else{
+                show.type="password";
+            }
+            }
+         </script>
       <input type="submit" name="submit" value="login now" class="btn">
       <p>don't have an account? <a href="customer register.php">regiser now</a></p>
       <p><a href="forget_password.php">forgotten your password?</a><p>

@@ -74,6 +74,19 @@ if(isset($_POST['submit'])){
       <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" name="submit" value="Register Now" class="btn">
+      <div class="show-password-label">
+        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+        <script type="text/javascript">
+        function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type=="password"){
+                show.type="text";
+            }
+            else{
+                show.type="password";
+            }
+            }
+         </script>
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
 
