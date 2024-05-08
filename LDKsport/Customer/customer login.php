@@ -63,9 +63,13 @@ if(isset($_POST['submit'])){
       ?>
       <input type="email" name="email" placeholder="enter email" class="box" required>
       <input type="password" name="password" placeholder="enter password" class="box" required>
-      <div class="show-password-label">
-        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()" class="box" required>
-        <script type="text/javascript">
+         
+    <div class="show-password-label">
+        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+
+        <span>Show password</span>
+    </div>
+       <script type="text/javascript">
         function myfunction(){
             var show = document.getElementById("password");
             if(show.type=="password"){
