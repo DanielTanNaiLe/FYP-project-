@@ -22,19 +22,8 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
-
          // Redirect to landing page
          header('location:landingafterlogin.php');
-
-         // Add SweetAlert2 code here
-         echo '<script>
-                  Swal.fire({
-                     title: "Login Successful!",
-                     text: "You can now access your account.",
-                     icon: "success"
-                  });
-               </script>';
-         exit; // Terminate script after redirection
       }else{
          $message[] = 'Incorrect email or password!';
       }
@@ -73,7 +62,26 @@ if(isset($_POST['submit'])){
       }
       ?>
       <input type="email" name="email" placeholder="enter email" class="box" required>
-      <input type="password" name="password" placeholder="enter password" class="box" required>
+      <input type="password" name="password" id="password" placeholder="enter password" class="box" required>
+         
+    <div class="show-password-label">
+        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+
+        <span>Show password</span>
+    </div>
+
+       <script type="text/javascript">
+        function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type=="password"){
+                show.type="text";
+            }
+            else{
+                show.type="password";
+            }
+            }
+         </script>
+
       <input type="submit" name="submit" value="login now" class="btn">
       <p>don't have an account? <a href="customer register.php">regiser now</a></p>
       <p><a href="forget_password.php">forgotten your password?</a><p>
