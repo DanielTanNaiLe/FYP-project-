@@ -232,12 +232,3 @@
    }
 }
 
-.show-password-label {
-   display: flex;
-   align-items: center;
-   margin-bottom: 10px;
-}
-
-.show-password-label input[type="checkbox"] {
-   margin-right: 10px;
-}
