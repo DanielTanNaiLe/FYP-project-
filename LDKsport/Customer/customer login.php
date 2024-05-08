@@ -5,7 +5,7 @@ if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
     echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
 }
 
- include '../admin_panel/config/dbconnect.php';
+include '../admin_panel/config/dbconnect.php';
 session_start();
 
 if(isset($_POST['submit'])){
@@ -22,6 +22,7 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
+         // Redirect to landing page
          header('location:landingafterlogin.php');
       }else{
          $message[] = 'Incorrect email or password!';
@@ -40,6 +41,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <title>login</title>
 
    <!-- custom css file link  -->
@@ -60,7 +62,26 @@ if(isset($_POST['submit'])){
       }
       ?>
       <input type="email" name="email" placeholder="enter email" class="box" required>
-      <input type="password" name="password" placeholder="enter password" class="box" required>
+      <input type="password" name="password" id="password" placeholder="enter password" class="box" required>
+         
+    <div class="show-password-label">
+        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+
+        <span>Show password</span>
+    </div>
+
+       <script type="text/javascript">
+        function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type=="password"){
+                show.type="text";
+            }
+            else{
+                show.type="password";
+            }
+            }
+         </script>
+
       <input type="submit" name="submit" value="login now" class="btn">
       <p>don't have an account? <a href="customer register.php">regiser now</a></p>
       <p><a href="forget_password.php">forgotten your password?</a><p>
@@ -68,4 +89,4 @@ if(isset($_POST['submit'])){
 
 </div>
 </body>
-</html>
+</html> 

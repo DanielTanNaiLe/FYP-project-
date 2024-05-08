@@ -3,7 +3,7 @@
 :root{
    --blue:#3498db;
    --dark-blue:#2980b9;
-   --red:#e74c3c;
+   --red:red;
    --dark-red:#c0392b;
    --black:#333;
    --white:#fff;
@@ -231,3 +231,4 @@
       width: 100%;
    }
 }
+

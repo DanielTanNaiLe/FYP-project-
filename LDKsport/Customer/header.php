@@ -85,7 +85,7 @@
 <div class="nav2">
     <a href="">About Us</a>
     <a href="">FAQ</a>
-    <a href="">Sign In</a>
+    <a href="customer register.php">Sign In</a>
 </div>
 <form>
     <div class="search">
@@ -101,8 +101,10 @@
         <li>
         <a href="#"><i class='bx bx-user' ></i></a>
         <ul class="icon-dropdown">
-            <li><a href="">Sign in</a></li>
+            <li><a href="customer register.php">Sign in</a></li>
+            <li><a href="customer login.php">Log in</a></li>
             <li><a href="">Feedback</a></li>
+            <li><a href="landingafterlogin.php">User profile</a></li>
         </ul>
         </li>
     </li>
