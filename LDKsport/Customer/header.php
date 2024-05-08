@@ -102,7 +102,8 @@
         <a href="#"><i class='bx bx-user' ></i></a>
         <ul class="icon-dropdown">
             <li><a href="customer register.php">Sign in</a></li>
-            <li><a href=>Feedback</a></li>
+            <li><a href="customer login.php">Log in</a></li>
+            <li><a href="">Feedback</a></li>
             <li><a href="landingafterlogin.php">User profile</a></li>
         </ul>
         </li>
