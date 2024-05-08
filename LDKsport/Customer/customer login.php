@@ -1,42 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <title>login</title>
-
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="style.css">
-
-</head>
-<body>
-   
-<div class="form-container">
-
-   <form action="" method="post" enctype="multipart/form-data">
-      <h3>login now</h3>
-      <?php
-      if(isset($message)){
-         foreach($message as $message){
-            echo '<div class="message">'.$message.'</div>';
-         }
-      }
-      ?>
-      <input type="email" name="email" placeholder="enter email" class="box" required>
-      <input type="password" name="password" placeholder="enter password" class="box" required>
-      <input type="submit" name="submit" value="login now" class="btn">
-      <p>don't have an account? <a href="customer register.php">regiser now</a></p>
-      <p><a href="forget_password.php">forgotten your password?</a><p>
-   </form>
-
-</div>
-</body>
-</html> 
-
-
-
 <?php
 
 // Check if password has been updated
@@ -84,3 +45,40 @@ if(isset($_POST['submit'])){
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="assets/js/sweetalert.js"></script>
+   <title>login</title>
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+   
+<div class="form-container">
+
+   <form action="" method="post" enctype="multipart/form-data">
+      <h3>login now</h3>
+      <?php
+      if(isset($message)){
+         foreach($message as $message){
+            echo '<div class="message">'.$message.'</div>';
+         }
+      }
+      ?>
+      <input type="email" name="email" placeholder="enter email" class="box" required>
+      <input type="password" name="password" placeholder="enter password" class="box" required>
+      <input type="submit" name="submit" value="login now" class="btn">
+      <p>don't have an account? <a href="customer register.php">regiser now</a></p>
+      <p><a href="forget_password.php">forgotten your password?</a><p>
+   </form>
+
+</div>
+</body>
+</html> 
