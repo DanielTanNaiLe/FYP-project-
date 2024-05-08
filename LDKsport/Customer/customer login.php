@@ -22,7 +22,6 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
-         $_SESSION['user_id'] = "login successfully";
          // Redirect to landing page
          header('location:landingafterlogin.php');
       }else{
