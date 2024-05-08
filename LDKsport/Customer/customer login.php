@@ -5,7 +5,7 @@ if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
     echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
 }
 
- include '../admin_panel/config/dbconnect.php';
+include '../admin_panel/config/dbconnect.php';
 session_start();
 
 if(isset($_POST['submit'])){
@@ -22,10 +22,19 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
-       
+
+         // Redirect to landing page
          header('location:landingafterlogin.php');
 
-          
+         // Add SweetAlert2 code here
+         echo '<script>
+                  Swal.fire({
+                     title: "Login Successful!",
+                     text: "You can now access your account.",
+                     icon: "success"
+                  });
+               </script>';
+         exit; // Terminate script after redirection
       }else{
          $message[] = 'Incorrect email or password!';
       }
@@ -43,6 +52,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <title>login</title>
 
    <!-- custom css file link  -->
