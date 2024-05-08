@@ -22,19 +22,9 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
-
+         $_SESSION['user_id'] = "login successfully";
          // Redirect to landing page
          header('location:landingafterlogin.php');
-
-         // Add SweetAlert2 code here
-         echo '<script>
-                  Swal.fire({
-                     title: "Login Successful!",
-                     text: "You can now access your account.",
-                     icon: "success"
-                  });
-               </script>';
-         exit; // Terminate script after redirection
       }else{
          $message[] = 'Incorrect email or password!';
       }

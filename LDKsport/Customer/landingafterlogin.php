@@ -4,7 +4,14 @@ include '../admin_panel/config/dbconnect.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
+if(isset($user_id)){
+ 
+   echo $_SESSION['user_id'];
+   unset($_SESSION['user_id']);
+};
+
 if(!isset($user_id)){
+ 
    header('location:customer login.php');
 };
 
