@@ -1,4 +1,6 @@
-<?php require '../admin_panel/config/dbconnect.php';?>
+<?php
+session_start(); 
+require '../admin_panel/config/dbconnect.php';?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -187,14 +189,14 @@ p {
 		{
 			$prod_id = $_GET["product_id"];
 			$result = mysqli_query($conn, "SELECT * FROM product WHERE product_id=$prod_id");
-			$row = mysqli_fetch_assoc($result);
+			$row = mysqli_fetch_array($result);
 			$img_src = $row['product_image'];
 			$prod_name = $row['product_name'];
 		?>
-    <form method="post" action="Addtocart.php?id=<?=$row['product_id']?>">
+   <form method="post" action="Addtocart.php?product_id=<?= $prod_id ?>">
           <div class="left">
               <div class="main_image">
-                <img src='<?php echo '../uploads/'.$img_src;?>' class="slide">
+                <img src="../uploads/<?=$row['product_image']?>" class="slide">
               </div>
               <div class="option flex">
                 <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
@@ -206,16 +208,20 @@ p {
               </div>
             </div>
             <div class="right">
-              <h3 class="product-details-h3"><?=$row["product_name"]?></h3>
+              <h3 class="product-details-h3" name="product_name"><?=$row['product_name']?></h3>
               <h5>men's shoes</h5>
-              <h4 class="product-details-h4"> <small>RM </small><?=$row["price"]?></h4>
-              <p><?=$row["product_desc"]?> </p>
+              <h4 class="product-details-h4" name="price"> <small>RM </small><?=$row['price']?></h4>
+              <p name="product_desc"><?=$row['product_desc']?> </p>
               <h5 class="product-details-h5">Size</h5>
               <select class="product-details-dropmenu" id="sizes">
                 <option disabled selected>Select Sizes</option>
               </select>
       <div class="button-container">
-              <input type="number" name="quantity" value="1" class="form-control">
+              <input type="hidden" name="product_name" value="<?= $row['product_name']?>">
+              <input type="hidden" name="price" value="<?= $row['price']?>">
+              <input type="hidden" name="product_desc" value="<?= $row['product_desc']?>">
+              <input type="hidden" name="product_image" value="<?= $row['product_image']?>">
+              <input type="number" name="Quantity" value="1" class="form-control">
               <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
               <input type="submit" name="Favourite" class="button" value="Wish List">
               </div>

@@ -96,7 +96,7 @@
 <div class="nav-icon-container">
     <ul class="nav-icon">
         <li>
-        <li><a href="#"><i class='bx bx-cart'></i></a></li>
+        <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
        <li><a href="#"><i class='bx bxs-heart' ></i></a></li>
         <li>
         <a href="#"><i class='bx bx-user' ></i></a>
