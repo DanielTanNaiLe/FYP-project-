@@ -22,7 +22,7 @@ if(isset($_POST['submit'])){
       // Verify password using password_verify function
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
-         header('location:mainpage.php');
+         header('location:landingafterlogin.php');
 
           
       }else{
