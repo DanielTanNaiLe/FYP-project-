@@ -109,12 +109,15 @@ body {
 
 .inputBox input[type="text"],
 .inputBox input[type="email"],
-.inputBox input[type="password"] {
+.inputBox input[type="password"]
+ {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  
 }
+
 
 .inputBox input[type="file"] {
   padding: 10px;
@@ -122,6 +125,24 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.show-password-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.show-password-label input[type="checkbox"] {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.show-password-label span {
+    font-size: 14px;
+    color: #333; 
+    cursor: pointer; 
+}
+
 
 .message {
   background-color: #f0f0f0;
@@ -205,13 +226,47 @@ body {
             <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
          </div>
          <div class="inputBox">
-            <input type="hidden" name="old_pass" value="<?php echo $fetch['password']; ?>">
+            <input type="hidden" name="old_pass" id="old_pass" value="<?php echo $fetch['password']; ?>">
             <span>Old Password:</span>
-            <input type="password" name="update_pass" placeholder="Enter previous password" class="box">
+            <input type="password" name="update_pass" id="update_pass"  placeholder="Enter previous password" class="box">
             <span>New Password:</span>
-            <input type="password" name="new_pass" placeholder="Enter new password" class="box">
+            <input type="password" name="new_pass" id="new_pass" placeholder="Enter new password" class="box">
             <span>Confirm Password:</span>
-            <input type="password" name="confirm_pass" placeholder="Confirm new password" class="box">
+            <input type="password" name="confirm_pass"id="confirm_pass" placeholder="Confirm new password" class="box">
+            
+    <div class="show-password-label">
+      <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+
+      <span>Show password</span>
+  </div>
+  <script type="text/javascript">
+      function myfunction(){
+          var show = document.getElementById("update_pass");
+          if(show.type=="password"){
+              show.type="text";
+          }
+          else{
+              show.type="password";
+          }
+          
+          var show = document.getElementById("new_pass");
+          if(show.type=="password"){
+              show.type="text";
+          }
+          else{
+              show.type="password";
+          }
+
+          var show = document.getElementById("confirm_pass");
+          if(show.type=="password"){
+              show.type="text";
+          }
+          else{
+              show.type="password";
+          }
+
+      }
+  </script>
          </div>
       </div>
       <input type="submit" value="Update Profile" name="update_profile" class="btn">
