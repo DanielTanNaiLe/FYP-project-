@@ -189,7 +189,7 @@ p {
 		{
 			$prod_id = $_GET["product_id"];
 			$result = mysqli_query($conn, "SELECT * FROM product WHERE product_id=$prod_id");
-			$row = mysqli_fetch_array($result);
+        $row = mysqli_fetch_array($result);
 			$img_src = $row['product_image'];
 			$prod_name = $row['product_name'];
 		?>
@@ -213,14 +213,27 @@ p {
               <h4 class="product-details-h4" name="price"> <small>RM </small><?=$row['price']?></h4>
               <p name="product_desc"><?=$row['product_desc']?> </p>
               <h5 class="product-details-h5">Size</h5>
-              <select class="product-details-dropmenu" id="sizes">
+              <select class="product-details-dropmenu" id="sizes" name="size_name">
                 <option disabled selected>Select Sizes</option>
+                <?php
+                $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
+                INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
+                INNER JOIN product ON product_size_variation.product_id = product.product_id
+                WHERE product.product_name = '$prod_name'";
+                $result=$conn->query($sql);
+                if($result->num_rows > 0){
+                  while($row=$result->fetch_assoc()){
+                    echo "<option value='".$row['size_id']."'>".$row['size_name']."</option>";
+                }
+              }
+                ?>
               </select>
       <div class="button-container">
               <input type="hidden" name="product_name" value="<?= $row['product_name']?>">
               <input type="hidden" name="price" value="<?= $row['price']?>">
               <input type="hidden" name="product_desc" value="<?= $row['product_desc']?>">
               <input type="hidden" name="product_image" value="<?= $row['product_image']?>">
+              <input type="hidden" name="size_name" value="<?= $row['size_name']?>">
               <input type="number" name="Quantity" value="1" class="form-control">
               <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
               <input type="submit" name="Favourite" class="button" value="Wish List">
