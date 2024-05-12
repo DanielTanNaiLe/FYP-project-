@@ -220,10 +220,10 @@ p {
                 INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
                 INNER JOIN product ON product_size_variation.product_id = product.product_id
                 WHERE product.product_name = '$prod_name'";
-                $result=$conn->query($sql);
-                if($result->num_rows > 0){
-                  while($row=$result->fetch_assoc()){
-                    echo "<option value='".$row['size_id']."'>".$row['size_name']."</option>";
+                $size_result=$conn->query($sql);
+                if($size_result->num_rows > 0){
+                  while($size_row=$size_result->fetch_assoc()){
+                    echo "<option value='".$size_row['size_id']."'>".$size_row['size_name']."</option>";
                 }
               }
                 ?>
@@ -233,7 +233,6 @@ p {
               <input type="hidden" name="price" value="<?= $row['price']?>">
               <input type="hidden" name="product_desc" value="<?= $row['product_desc']?>">
               <input type="hidden" name="product_image" value="<?= $row['product_image']?>">
-              <input type="hidden" name="size_name" value="<?= $row['size_name']?>">
               <input type="number" name="Quantity" value="1" class="form-control">
               <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
               <input type="submit" name="Favourite" class="button" value="Wish List">
