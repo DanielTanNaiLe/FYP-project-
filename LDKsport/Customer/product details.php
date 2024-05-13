@@ -189,7 +189,7 @@ p {
 		{
 			$prod_id = $_GET["product_id"];
 			$result = mysqli_query($conn, "SELECT * FROM product WHERE product_id=$prod_id");
-			$row = mysqli_fetch_array($result);
+        $row = mysqli_fetch_array($result);
 			$img_src = $row['product_image'];
 			$prod_name = $row['product_name'];
 		?>
@@ -213,8 +213,20 @@ p {
               <h4 class="product-details-h4" name="price"> <small>RM </small><?=$row['price']?></h4>
               <p name="product_desc"><?=$row['product_desc']?> </p>
               <h5 class="product-details-h5">Size</h5>
-              <select class="product-details-dropmenu" id="sizes">
+              <select class="product-details-dropmenu" id="sizes" name="size_name">
                 <option disabled selected>Select Sizes</option>
+                <?php
+                $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
+                INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
+                INNER JOIN product ON product_size_variation.product_id = product.product_id
+                WHERE product.product_name = '$prod_name'";
+                $size_result=$conn->query($sql);
+                if($size_result->num_rows > 0){
+                  while($size_row=$size_result->fetch_assoc()){
+                    echo "<option value='".$size_row['size_id']."'>".$size_row['size_name']."</option>";
+                }
+              }
+                ?>
               </select>
       <div class="button-container">
               <input type="hidden" name="product_name" value="<?= $row['product_name']?>">

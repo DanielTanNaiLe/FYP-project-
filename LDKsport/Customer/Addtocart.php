@@ -6,13 +6,14 @@ if(isset($_POST['add_to_cart'])){
         $prod_id = $_GET['product_id'];
         
         if(isset($_SESSION['cart'])){
-            $session_array_id = array_column($_SESSION['cart'], 'product_id');
+            $session_array_id = array_column($_SESSION['cart'], 'product_id','size_id');
 
             if(!in_array($prod_id, $session_array_id)){
 
                 $session_array = array(
                     'product_id' => $prod_id,
                     "product_name" => $_POST['product_name'],
+                    "size_name" => $_POST['size_name'],
                     "price" => $_POST['price'],
                     "product_image" => $_POST['product_image'],
                     "Quantity" => $_POST['Quantity'],  
@@ -23,6 +24,7 @@ if(isset($_POST['add_to_cart'])){
            $session_array = array(
              'product_id' => $prod_id,
              "product_name" => $_POST['product_name'],
+             "size_name" => $_POST['size_name'],
              "price" => $_POST['price'],
              "product_image" => $_POST['product_image'],
              "Quantity" => $_POST['Quantity'],
@@ -34,12 +36,34 @@ if(isset($_POST['add_to_cart'])){
        $session_array = array(
          'product_id' => $prod_id,
          "product_name" => $_POST['product_name'],
+         "size_id" => $_GET['size_id'],
+         "size_name" => $_POST['size_name'],
          "price" => $_POST['price'],
          "product_image" => $_POST['product_image'],
          "Quantity" => $_POST['Quantity'],
        );
          
        $_SESSION['cart'][] = $session_array;
+    }
+}
+// Function to remove item from the cart
+function removeFromCart($prod_id) {
+    if (!empty($_SESSION['cart'])) {
+        foreach ($_SESSION['cart'] as $key => $value) {
+            if ($value['product_id'] == $prod_id) {
+                unset($_SESSION['cart'][$key]); // Remove item from session cart
+                return true; // Return true if item is removed successfully
+            }
+        }
+    }
+    return false; // Return false if item is not found in the cart
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+    $prod_id = $_GET['id'];
+    if (removeFromCart($prod_id)) {
+        header("Location: Addtocart.php"); // Redirect to shopping cart page after removal
+        exit();
     }
 }
 ?>
@@ -130,6 +154,7 @@ if(isset($_POST['add_to_cart'])){
                     <th>ID</th>
                     <th>Product Image</th>
                     <th>Product Name</th>
+                    <th>Size</th>
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Action</th>
@@ -145,11 +170,12 @@ if(isset($_POST['add_to_cart'])){
                         $prod_id = isset($value['product_id']) ? $value['product_id'] : "";
                         $product_image = isset($value['product_image']) ? $value['product_image'] : "";
                         $product_name = isset($value['product_name']) ? $value['product_name'] : "";
+                        $size_name = isset($value['size_name']) ? $value['size_name'] : "";
                         $quantity = isset($value['Quantity']) ? $value['Quantity'] : "";
                         $price = isset($value['price']) ? $value['price'] : "";
 
                         // Calculate subtotal for each item
-                        $subtotal = $quantity * $price;
+                        $subtotal = (int)$quantity * (float)$price;
                         // Add subtotal to total
                         $totalAmount += $subtotal;
 
@@ -158,6 +184,7 @@ if(isset($_POST['add_to_cart'])){
                             <td>$prod_id</td>
                             <td><img src='$product_image' alt='$product_name'></td>
                             <td>$product_name</td>
+                            <td>$size_name</td>
                             <td>$quantity</td>
                             <td>$$price</td>
                             <td>

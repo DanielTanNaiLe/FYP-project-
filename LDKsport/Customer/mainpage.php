@@ -60,7 +60,7 @@
      <h1>Our Brands</h1>
      </div>
      <?php
-     $result = mysqli_query($conn, "SELECT * FROM brand ORDER BY brand_id DESC");
+     $result = mysqli_query($conn, "SELECT * FROM product, brand WHERE product.brand_id = brand.brand_id");
      if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
         echo '<div class="home3-banner">';
