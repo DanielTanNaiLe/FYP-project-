@@ -1,4 +1,13 @@
-<?php require '../admin_panel/config/dbconnect.php';?>
+<?php require '../admin_panel/config/dbconnect.php';
+session_start();
+
+if(isset($_SESSION['user_id'])){
+   $user_id = $_SESSION['user_id'];
+}else{
+   $user_id = '';
+};
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
