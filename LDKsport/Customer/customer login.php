@@ -12,17 +12,14 @@ if(isset($_POST['submit'])){
    if(mysqli_num_rows($select) > 0){
       $row = mysqli_fetch_assoc($select);
       $_SESSION['user_id'] = $row['user_id'];
-
-      if(password_verify($password, $stored_password)){
-         $_SESSION['user_id'] = $row['user_id'];
-         header('location:landingafterlogin.php');
+      header('location:landingafterlogin.php');
       }else{
          $message[] = 'incorrect email or password!';
       }
    
    }
    
-   ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
