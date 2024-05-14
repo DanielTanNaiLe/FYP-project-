@@ -6,8 +6,8 @@ if(isset($_POST['submit'])){
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $cpassword = password_hash($_POST['cpassword'], PASSWORD_DEFAULT);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
@@ -39,7 +39,6 @@ if(isset($_POST['submit'])){
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -49,15 +48,10 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Register</title>
-
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-   
 <div class="form-container">
-
    <form action="" method="post" enctype="multipart/form-data">
       <h3>Register Now</h3>
       <?php
@@ -76,7 +70,6 @@ if(isset($_POST['submit'])){
       <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" name="submit" value="Register Now" class="btn">
-         
       <div class="show-password-label">
         <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
         <span>Show password</span>
@@ -86,26 +79,20 @@ if(isset($_POST['submit'])){
             var show = document.getElementById("password");
             if(show.type=="password"){
                 show.type="text";
-            }
-            else{
+            } else {
                 show.type="password";
             }
-            
+
             var showConfirm = document.getElementById("password_confirmation");
             if(showConfirm.type=="password"){
                 showConfirm.type="text";
-            }
-            else{
+            } else {
                 showConfirm.type="password";
             }
-
         }
     </script>
-         
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
-
 </div>
-
 </body>
 </html>
