@@ -1,7 +1,7 @@
 <?php
 
 // Check if password has been updated
-//ytyty
+
 if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
     echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
 }
