@@ -53,21 +53,28 @@
     function displayProducts($result, $categoryName) {
         $firstRow = true; // Flag to check if it's the first row
         echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
+        if($result->num_rows> 0){
 					while($row = mysqli_fetch_assoc($result))
 					{
-						$img_src = $row['product_image'];
 	?>
+    <form action="" method="post" class="box">
+    <input type="hidden" name="pid" value="<?= $row['product_id'];?>">
+    <input type="hidden" name="product_name" value="<?= $row['product_name'];?>">
+    <input type="hidden" name="price" value="<?= $row['price'];?>">
+    <input type="hidden" name="product_image" value="<?= $row['product_image'];?>"> 
     <div class="listproduct">
         <div class="item">
-            <img src='<?php echo '../uploads/'.$img_src;?>'>
-            <h2><?=$row["product_name"]?></h2>
-            <div class="price">RM <?=$row["price"]?></div>
+            <img src="../uploads/<?=$row['product_image'];?>">
+            <h2><?=$row["product_name"];?></h2>
+            <div class="price">RM <?=$row["price"];?></div>
             <div class="favourite"><i class='bx bxs-heart'></i></div>
-            <div class="details-container"><a href="product details.php?view&product_id=<?php echo $row['product_id']; ?>" class="details">View details</a></div>
+            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </div>
+        </form>
     <?php 
 					}
+                }
                 }
 	?>
     <?php include("footer.php"); ?>
