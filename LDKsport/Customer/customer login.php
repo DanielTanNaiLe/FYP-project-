@@ -1,34 +1,28 @@
 <?php
 
-if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
-    echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
-}
-
 include '../admin_panel/config/dbconnect.php';
 session_start();
 
 if(isset($_POST['submit'])){
    $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $password = $_POST['password']; 
+   $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
 
-   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed: '.mysqli_error($conn));
+   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$password'") or die('query failed');
 
    if(mysqli_num_rows($select) > 0){
       $row = mysqli_fetch_assoc($select);
-      $stored_password = $row['password']; 
+      $_SESSION['user_id'] = $row['user_id'];
 
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
          header('location:landingafterlogin.php');
-         exit;
       }else{
-         $message[] = 'Incorrect email or password!';
+         $message[] = 'incorrect email or password!';
       }
-   }else{
-      $message[] = 'Incorrect email or password!';
+   
    }
-}
-?>
+   
+   ?>
 
 <!DOCTYPE html>
 <html lang="en">
