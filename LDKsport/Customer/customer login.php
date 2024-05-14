@@ -1,41 +1,43 @@
 <?php
 
-// Check if password has been updated
-<<<<<<< HEAD
-
-=======
->>>>>>> c922609685440f6e88a10739e8555a2d2fe340cc
-if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
-    echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
-}
-
-include '../admin_panel/config/dbconnect.php';
-session_start();
+require '../admin_panel/config/dbconnect.php';
 
 if(isset($_POST['submit'])){
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+    $image = $_FILES['image']['name'];
+    $image_size = $_FILES['image']['size'];
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $image_folder = 'uploaded_img/'.$image;
+    $user_address = mysqli_real_escape_string($conn, $_POST['user_address']);
+    $contact_no = mysqli_real_escape_string($conn, $_POST['contact_no']);
+    
+    $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
-   $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $password = mysqli_real_escape_string($conn, $_POST['password']); // Password in plain text
+    if(mysqli_num_rows($select) > 0){
+        $message[] = 'User already exists';
+    }else{
+        if($password != $cpassword){
+            $message[] = 'Confirm password not matched!';
+        }elseif($image_size > 2000000){
+            $message[] = 'Image size is too large!';
+        }else{
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
+            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$user_address', '$contact_no')") or die('query failed');
 
-   if(mysqli_num_rows($select) > 0){
-      $row = mysqli_fetch_assoc($select);
-      $stored_password = $row['password']; // Password hash retrieved from the database
-
-      // Verify password using password_verify function
-      if(password_verify($password, $stored_password)){
-         $_SESSION['user_id'] = $row['user_id'];
-         // Redirect to landing page
-         header('location:landingafterlogin.php');
-         exit; // Add exit to stop further execution
-      }else{
-         $message[] = 'Incorrect email or password!';
-      }
-   }else{
-      $message[] = 'Incorrect email or password!';
-   }
-
+            if($insert){
+                move_uploaded_file($image_tmp_name, $image_folder);
+                $message[] = 'Registered successfully!';
+                header('location:customer login.php');
+            }else{
+                $message[] = 'Registration failed!';
+            }
+        }
+    }
 }
 
 ?>
@@ -46,8 +48,7 @@ if(isset($_POST['submit'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <title>login</title>
+   <title>Register</title>
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="style.css">
@@ -58,7 +59,7 @@ if(isset($_POST['submit'])){
 <div class="form-container">
 
    <form action="" method="post" enctype="multipart/form-data">
-      <h3>login now</h3>
+      <h3>Register Now</h3>
       <?php
       if(isset($message)){
          foreach($message as $message){
@@ -66,16 +67,21 @@ if(isset($_POST['submit'])){
          }
       }
       ?>
-      <input type="email" name="email" placeholder="enter email" class="box" required>
-      <input type="password" name="password" id="password" placeholder="enter password" class="box" required>
+      <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
+      <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
+      <input type="email" name="email" placeholder="Enter Email" class="box" required>
+      <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
+      <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
+      <input type="text" name="user_address" placeholder="Enter Address" class="box" required>
+      <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
+      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+      <input type="submit" name="submit" value="Register Now" class="btn">
          
-    <div class="show-password-label">
+      <div class="show-password-label">
         <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-
         <span>Show password</span>
     </div>
-
-       <script type="text/javascript">
+    <script type="text/javascript">
         function myfunction(){
             var show = document.getElementById("password");
             if(show.type=="password"){
@@ -84,14 +90,22 @@ if(isset($_POST['submit'])){
             else{
                 show.type="password";
             }
+            
+            var showConfirm = document.getElementById("password_confirmation");
+            if(showConfirm.type=="password"){
+                showConfirm.type="text";
             }
-         </script>
+            else{
+                showConfirm.type="password";
+            }
 
-      <input type="submit" name="submit" value="login now" class="btn">
-      <p>don't have an account? <a href="customer register.php">register now</a></p>
-      <p><a href="forget_password.php">forgotten your password?</a><p>
+        }
+    </script>
+         
+      <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
 
 </div>
+
 </body>
 </html>
