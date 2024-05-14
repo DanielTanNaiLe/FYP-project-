@@ -25,6 +25,8 @@ if(isset($_POST['submit'])){
         }elseif($image_size > 2000000){
             $message[] = 'Image size is too large!';
         }else{
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
             $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$user_address', '$contact_no')") or die('query failed');
 
             if($insert){
