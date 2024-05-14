@@ -1,7 +1,10 @@
 <?php
 
 // Check if password has been updated
+<<<<<<< HEAD
 
+=======
+>>>>>>> c922609685440f6e88a10739e8555a2d2fe340cc
 if(isset($_GET['password_updated']) && $_GET['password_updated'] === 'true'){
     echo '<div class="message">Password updated successfully. You can now log in with your new password.</div>';
 }
@@ -25,6 +28,7 @@ if(isset($_POST['submit'])){
          $_SESSION['user_id'] = $row['user_id'];
          // Redirect to landing page
          header('location:landingafterlogin.php');
+         exit; // Add exit to stop further execution
       }else{
          $message[] = 'Incorrect email or password!';
       }
@@ -84,10 +88,10 @@ if(isset($_POST['submit'])){
          </script>
 
       <input type="submit" name="submit" value="login now" class="btn">
-      <p>don't have an account? <a href="customer register.php">regiser now</a></p>
+      <p>don't have an account? <a href="customer register.php">register now</a></p>
       <p><a href="forget_password.php">forgotten your password?</a><p>
    </form>
 
 </div>
 </body>
-</html> 
+</html>
