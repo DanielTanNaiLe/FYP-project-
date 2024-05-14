@@ -9,7 +9,7 @@ session_start();
 
 if(isset($_POST['submit'])){
    $email = mysqli_real_escape_string($conn, $_POST['email']);
-   $password = mysqli_real_escape_string($conn, $_POST['password']); 
+   $password = $_POST['password']; 
 
    $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed: '.mysqli_error($conn));
 
@@ -27,15 +27,7 @@ if(isset($_POST['submit'])){
    }else{
       $message[] = 'Incorrect email or password!';
    }
-
-   // Debugging output
-   echo "Email: " . $email . "<br>";
-   echo "Password: " . $password . "<br>";
-   echo "Query Result: <pre>";
-   print_r($row);
-   echo "</pre>";
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +37,7 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <title>login</title>
+   <title>Login</title>
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -53,7 +45,7 @@ if(isset($_POST['submit'])){
 <div class="form-container">
 
    <form action="" method="post" enctype="multipart/form-data">
-      <h3>login now</h3>
+      <h3>Login Now</h3>
       <?php
       if(isset($message)){
          foreach($message as $message){
@@ -61,12 +53,12 @@ if(isset($_POST['submit'])){
          }
       }
       ?>
-      <input type="email" name="email" placeholder="enter email" class="box" required>
-      <input type="password" name="password" id="password" placeholder="enter password" class="box" required>
+      <input type="email" name="email" placeholder="Enter Email" class="box" required>
+      <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
          
       <div class="show-password-label">
          <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-         <span>Show password</span>
+         <span>Show Password</span>
       </div>
 
       <script type="text/javascript">
@@ -81,9 +73,9 @@ if(isset($_POST['submit'])){
          }
       </script>
 
-      <input type="submit" name="submit" value="login now" class="btn">
-      <p>don't have an account? <a href="customer register.php">register now</a></p>
-      <p><a href="forget_password.php">forgotten your password?</a></p>
+      <input type="submit" name="submit" value="Login Now" class="btn">
+      <p>Don't have an account? <a href="customer register.php">Register Now</a></p>
+      <p><a href="forget_password.php">Forgotten your password?</a></p>
    </form>
 
 </div>
