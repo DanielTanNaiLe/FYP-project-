@@ -6,8 +6,8 @@ if(isset($_POST['submit'])){
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = $_POST['password'];
-    $cpassword = $_POST['cpassword'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $cpassword = password_hash($_POST['cpassword'], PASSWORD_DEFAULT);
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
