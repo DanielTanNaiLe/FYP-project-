@@ -41,9 +41,7 @@ if(isset($_POST['submit'])){
    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   
 <div class="form-container">
-
    <form action="" method="post" enctype="multipart/form-data">
       <h3>Login Now</h3>
       <?php
@@ -55,29 +53,24 @@ if(isset($_POST['submit'])){
       ?>
       <input type="email" name="email" placeholder="Enter Email" class="box" required>
       <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
-         
       <div class="show-password-label">
          <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
          <span>Show Password</span>
       </div>
-
       <script type="text/javascript">
          function myfunction(){
             var show = document.getElementById("password");
-            if(show.type=="password"){
-                show.type="text";
-            }
-            else{
-                show.type="password";
+            if(show.type == "password"){
+                show.type = "text";
+            } else {
+                show.type = "password";
             }
          }
       </script>
-
       <input type="submit" name="submit" value="Login Now" class="btn">
       <p>Don't have an account? <a href="customer register.php">Register Now</a></p>
       <p><a href="forget_password.php">Forgotten your password?</a></p>
    </form>
-
 </div>
 </body>
 </html>
