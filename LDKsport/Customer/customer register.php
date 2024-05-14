@@ -6,13 +6,8 @@ if(isset($_POST['submit'])){
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-<<<<<<< HEAD
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-=======
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $confirm_password = mysqli_real_escape_string($conn, $_POST['cpassword']);
->>>>>>> c922609685440f6e88a10739e8555a2d2fe340cc
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
@@ -25,23 +20,13 @@ if(isset($_POST['submit'])){
     if(mysqli_num_rows($select) > 0){
         $message[] = 'User already exists';
     }else{
-<<<<<<< HEAD
         if($password != $cpassword){
-=======
-        if($password != $confirm_password){
->>>>>>> c922609685440f6e88a10739e8555a2d2fe340cc
             $message[] = 'Confirm password not matched!';
         }elseif($image_size > 2000000){
             $message[] = 'Image size is too large!';
         }else{
-<<<<<<< HEAD
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-=======
-            // Hash the password
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-          
->>>>>>> c922609685440f6e88a10739e8555a2d2fe340cc
             $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$user_address', '$contact_no')") or die('query failed');
 
             if($insert){
