@@ -64,6 +64,7 @@ if(isset($_POST['submit'])){
          }
       </script>
       <input type="submit" name="submit" value="Login Now" class="btn">
+      <a href="mainpage.php" class="btn">Main Page</a>
       <p>Don't have an account? <a href="customer register.php">Register Now</a></p>
       <p><a href="forget_password.php">Forgotten your password?</a></p>
    </form>
