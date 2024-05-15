@@ -1,3 +1,6 @@
+<?php
+    require '../admin_panel/config/dbconnect.php';
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,7 +11,10 @@
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     </head>
     <body>
-        <?php include("header.php"); ?>
+        <?php include("header.php"); 
+        
+        ?>
+
         <div class="subtitle_1"><h1>Shoes</h1></div>
         <div class="listproduct">
             <div class="item">
