@@ -201,7 +201,7 @@ p {
 
             if($row) {
                 ?>
-                <form method="post" action="Addtocart.php?pid=<?= $row['product_id']; ?>">
+                 <form id="productForm" method="post" action="Addtocart.php?pid=<?= $row['product_id']; ?>" onsubmit="return validateForm()">
                     <div class="left">
                         <div class="main_image">
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
@@ -221,7 +221,7 @@ p {
                         <h4 class="product-details-h4" name="price"> <small>RM </small><?= $row['price'] ?></h4>
                         <p name="product_desc"><?= $row['product_desc'] ?></p>
                         <h5 class="product-details-h5">Size</h5>
-                        <select class="product-details-dropmenu" id="sizes" name="size_name">
+                        <select class="product-details-dropmenu" id="sizes" name="size_name" >
                             <option disabled selected>Select Sizes</option>
                             <?php
                             $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
@@ -267,6 +267,15 @@ p {
     function change(change) {
         const line = document.querySelector('.home');
         line.style.background = change;
+    }
+
+    function validateForm() {
+        var sizes = document.getElementById("sizes");
+        if (sizes.value === "Select Sizes") {
+            alert("Please select a size.");
+            return false;
+        }
+        return true;
     }
 </script>
 <?php include("footer.php"); ?>

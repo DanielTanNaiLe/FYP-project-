@@ -1,5 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+ include("header.php");
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -88,72 +89,121 @@ while ($row = $result->fetch_assoc()) {
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            min-height: 100vh;
-        }
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
 
-        .container {
-            background-color: #fff;
-            margin-top: 124px;
-            border-radius: 8px;
-            padding: 20px;
-            width: 100%;
-            overflow-x: auto;
-        }
+.container {
+    background-color: #fff;
+    margin-top: 100px;
+    height: 45%;
+    padding: 20px;
+    width: 100%;
+    overflow-x: auto;
+    position: relative;
+}
 
-        h2 {
-            text-align: center;
-            margin-top: 0;
-            color: #333;
-        }
+h2 {
+    width: 90%;
+    background-color: rgb(242, 163, 45);
+    text-align: center;
+    margin-left: 45px;
+    margin-top: 0;
+    padding: 20px;
+    color: #333;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+table {
+    width: 65%;
+    margin-left: 3.5%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
-        th, td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+th, td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
 
-        th {
-            background-color: #f2f2f2;
-        }
+th {
+    background-color: #f2f2f2;
+}
 
-        td img {
-            max-width: 80px;
-            height: auto;
-            border-radius: 6px;
-        }
+td img {
+    max-width: 80px;
+    height: auto;
+    border-radius: 6px;
+}
 
-        .text-center {
-            text-align: center;
-        }
+.text-center {
+    text-align: center;
+}
 
-        .btn-remove {
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
+.btn-remove {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
 
-        .btn-remove:hover {
-            background-color: #c82333;
-        }
+.btn-remove:hover {
+    background-color: #c82333;
+}
+
+.total-container {
+    box-sizing: border-box;
+    display: block;
+    align-items: center;
+    position: absolute;
+    top: 61%; 
+    right: 10%; 
+    transform: translateY(-50%);
+    width: 300px;
+}
+
+.total-box {
+    background-color: #f2f2f2;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+}
+
+.total-box h4 {
+    margin: 0;
+    font-size: 1.7em;
+    color: #333;
+}
+
+.total-box h5 {
+    margin: 30px 0;
+    text-align: center;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.btn-purchase {
+    width: 100%;
+    background-color: #2864d1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-purchase:hover {
+    background-color: #218838;
+}
     </style>
 </head>
 <body>
-<?php include("header.php"); ?>
     <div class="container">
         <h2>Shopping Cart</h2>
         <table>
@@ -169,10 +219,13 @@ while ($row = $result->fetch_assoc()) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($cart_items)): ?>
-                    <?php foreach ($cart_items as $item): ?>
+                <?php 
+                $count=1;
+                if (!empty($cart_items)): 
+                     foreach ($cart_items as $item): 
+                     ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($item['cart_id']); ?></td>
+                        <td><?php echo $count; ?></td>
                             <td><?php echo htmlspecialchars($item['product_name']); ?></td>
                             <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
                             <td><?php echo htmlspecialchars($item['size_name']); ?></td>
@@ -182,22 +235,28 @@ while ($row = $result->fetch_assoc()) {
                                 <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                    <?php 
+                    $count++;
+                endforeach; 
+                 else: 
+                ?>
                     <tr>
                         <td colspan="7" class="text-center">Your cart is empty</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="5"></td>
-                    <td><strong>Total:</strong></td>
-                    <td>$<?php echo number_format($totalAmount, 2); ?></td>
-                </tr>
-            </tfoot>
-        </table>
+            </table>
+            <div class="total-container">
+                    <div class="total-box">
+                        <h4>Total:</h4>
+                    <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
+                 </br>
+                 <button class="btn-purchase">Make Purchase</button>
+                    </div>
+            </div>
+             
     </div>
+    <?php include("footer.php"); ?>
 
     <script>
         function removeItem(cart_id) {

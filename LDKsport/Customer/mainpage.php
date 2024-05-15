@@ -60,7 +60,7 @@
      <h1>Our Brands</h1>
      </div>
      <?php
-     $result = mysqli_query($conn, "SELECT * FROM product, brand WHERE product.brand_id = brand.brand_id");
+     $result = mysqli_query($conn, "SELECT brand_name, brand_img FROM product INNER JOIN brand ON product.brand_id = brand.brand_id");
      if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
         echo '<div class="home3-banner">';

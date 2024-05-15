@@ -12,19 +12,26 @@
     </head>
     <body>
         <?php include("header.php"); 
-        
-        ?>
-
+        $result = mysqli_query($conn, "SELECT * FROM product");
+        if (mysqli_num_rows($result) > 0) {
+            ?>
         <div class="subtitle_1"><h1>Shoes</h1></div>
+        <?php
+        while ($row = mysqli_fetch_assoc($result)) {
+            ?>
         <div class="listproduct">
             <div class="item">
-                <img src="./image/custom-nike-air-force-1-low-by-you.png" alt="">
-                <h2>Name product</h2>
-                <div class="price">RM 589</div>
+                <img src="../uploads/<?= $row['product_image'] ?>" alt="">
+                <h2><?=$row["product_name"]?></h2>
+                <div class="price"><?=$row["price"]?></div>
                 <div class="favourite"><i class='bx bxs-heart'></i></div>
                 <div class="details-container"><a href="" class="details">View details</a></div>
             </div>
         </div>
+        <?php
+        }
+    }
+        ?>
         <?php include("footer.php"); ?>
     </body>
         </html>
