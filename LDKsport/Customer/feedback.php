@@ -1,7 +1,7 @@
-<?php
-session_start();
-$conn=mysqli_connect("localhost","root","","ldksport");
-?>
+
+<?php require '../admin_panel/config/dbconnect.php';?>
+
+
 <!DOCTYPE.html>
 <html>
 <head>
@@ -160,7 +160,7 @@ $conn=mysqli_connect("localhost","root","","ldksport");
 	</form>
 </div>
 
-<?php include("user_footer.php"); ?>
+<?php include("footer.php"); ?>
 <?php
 			}
 			}else {
@@ -183,7 +183,7 @@ feedback_id INT(6) AUTO_INCREMENT PRIMARY KEY,
 feedback_rating INT(5),
 feedback_comment TEXT,
 user_id INT(6)
-FOREIGN KEY user_id REFERENCES user(user_id)
+FOREIGN KEY user_id REFERENCES users(user_id)
 );";
 
 if ($conn->query($sql) === TRUE) {
