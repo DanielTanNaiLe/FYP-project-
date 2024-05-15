@@ -1,70 +1,79 @@
 <?php
+require '../admin_panel/config/dbconnect.php';
 session_start();
-$connect = mysqli_connect("localhost","root","","ldksport");
-if(isset($_POST['add_to_cart'])){
-    if(isset($_GET['product_id'])){
-        $prod_id = $_GET['product_id'];
-        
-        if(isset($_SESSION['cart'])){
-            $session_array_id = array_column($_SESSION['cart'], 'product_id','size_id');
 
-            if(!in_array($prod_id, $session_array_id)){
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    header("Location: customer login.php");
+    exit();
+}
 
-                $session_array = array(
-                    'product_id' => $prod_id,
-                    "product_name" => $_POST['product_name'],
-                    "size_name" => $_POST['size_name'],
-                    "price" => $_POST['price'],
-                    "product_image" => $_POST['product_image'],
-                    "Quantity" => $_POST['Quantity'],  
-                );
-                $_SESSION['cart'][] = $session_array;
-            }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $pid = $_POST['pid'];
+    $size_id = $_POST['size_name'];
+    $quantity = $_POST['Quantity'];
+    $price = $_POST['price'];
+
+    // Get the variation_id from product_size_variation table
+    $stmt = $conn->prepare("SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?");
+    $stmt->bind_param("ii", $pid, $size_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $variation = $result->fetch_assoc();
+
+    if ($variation) {
+        $variation_id = $variation['variation_id'];
+
+        // Insert into cart table
+        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iiid", $user_id, $variation_id, $quantity, $price);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            header("Location: cart.php");
+            exit();
         } else {
-           $session_array = array(
-             'product_id' => $prod_id,
-             "product_name" => $_POST['product_name'],
-             "size_name" => $_POST['size_name'],
-             "price" => $_POST['price'],
-             "product_image" => $_POST['product_image'],
-             "Quantity" => $_POST['Quantity'],
-           );
-             
-           $_SESSION['cart'][] = $session_array;
+            echo "Error adding to cart.";
         }
-    }else{
-       $session_array = array(
-         'product_id' => $prod_id,
-         "product_name" => $_POST['product_name'],
-         "size_id" => $_GET['size_id'],
-         "size_name" => $_POST['size_name'],
-         "price" => $_POST['price'],
-         "product_image" => $_POST['product_image'],
-         "Quantity" => $_POST['Quantity'],
-       );
-         
-       $_SESSION['cart'][] = $session_array;
+    } else {
+        echo "Product variation not found.";
     }
-}
-// Function to remove item from the cart
-function removeFromCart($prod_id) {
-    if (!empty($_SESSION['cart'])) {
-        foreach ($_SESSION['cart'] as $key => $value) {
-            if ($value['product_id'] == $prod_id) {
-                unset($_SESSION['cart'][$key]); // Remove item from session cart
-                return true; // Return true if item is removed successfully
-            }
-        }
+} elseif (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+    $cart_id = $_GET['id'];
+
+    // Remove item from cart
+    $stmt = $conn->prepare("DELETE FROM cart WHERE cart_id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $cart_id, $user_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        header("Location: cart.php");
+        exit();
+    } else {
+        echo "Error removing from cart.";
     }
-    return false; // Return false if item is not found in the cart
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
-    $prod_id = $_GET['id'];
-    if (removeFromCart($prod_id)) {
-        header("Location: Addtocart.php"); // Redirect to shopping cart page after removal
-        exit();
-    }
+// Fetch cart items
+$stmt = $conn->prepare("
+    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price 
+    FROM cart c
+    JOIN product_size_variation v ON c.variation_id = v.variation_id
+    JOIN products p ON v.product_id = p.product_id
+    JOIN sizes s ON v.size_id = s.size_id
+    WHERE c.user_id = ?
+");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$cart_items = [];
+$totalAmount = 0;
+
+while ($row = $result->fetch_assoc()) {
+    $cart_items[] = $row;
+    $totalAmount += $row['quantity'] * $row['price'];
 }
 ?>
 
@@ -75,9 +84,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="general.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link rel="stylesheet"
-         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -151,9 +159,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Product Image</th>
+                    <th>Cart ID</th>
                     <th>Product Name</th>
+                    <th>Image</th>
                     <th>Size</th>
                     <th>Quantity</th>
                     <th>Price</th>
@@ -161,58 +169,40 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
                 </tr>
             </thead>
             <tbody>
-                <?php
-                // Initialize total variable
-                $totalAmount = 0;
-                
-                if (!empty($_SESSION['cart'])) {
-                    foreach ($_SESSION['cart'] as $key => $value) {
-                        $prod_id = isset($value['product_id']) ? $value['product_id'] : "";
-                        $product_image = isset($value['product_image']) ? $value['product_image'] : "";
-                        $product_name = isset($value['product_name']) ? $value['product_name'] : "";
-                        $size_name = isset($value['size_name']) ? $value['size_name'] : "";
-                        $quantity = isset($value['Quantity']) ? $value['Quantity'] : "";
-                        $price = isset($value['price']) ? $value['price'] : "";
-
-                        // Calculate subtotal for each item
-                        $subtotal = (int)$quantity * (float)$price;
-                        // Add subtotal to total
-                        $totalAmount += $subtotal;
-
-                        echo "
+                <?php if (!empty($cart_items)): ?>
+                    <?php foreach ($cart_items as $item): ?>
                         <tr>
-                            <td>$prod_id</td>
-                            <td><img src='$product_image' alt='$product_name'></td>
-                            <td>$product_name</td>
-                            <td>$size_name</td>
-                            <td>$quantity</td>
-                            <td>$$price</td>
+                            <td><?php echo htmlspecialchars($item['cart_id']); ?></td>
+                            <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                            <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
+                            <td><?php echo htmlspecialchars($item['size_name']); ?></td>
+                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                            <td>$<?php echo number_format($item['price'], 2); ?></td>
                             <td>
-                                <button class='btn-remove' onclick='removeItem($prod_id)'>Remove</button>
+                                <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
                             </td>
                         </tr>
-                        ";
-                    }
-                } else {
-                    echo "<tr><td colspan='6' class='text-center'>Your cart is empty</td></tr>";
-                }
-                ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" class="text-center">Your cart is empty</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
-            <!-- Display total amount in table footer -->
             <tfoot>
                 <tr>
-                    <td colspan="4"></td>
+                    <td colspan="5"></td>
                     <td><strong>Total:</strong></td>
-                    <td>$<?php echo $totalAmount; ?></td>
+                    <td>$<?php echo number_format($totalAmount, 2); ?></td>
                 </tr>
             </tfoot>
         </table>
     </div>
 
     <script>
-        function removeItem($prod_id) {
+        function removeItem(cart_id) {
             if (confirm("Are you sure you want to remove this item?")) {
-                window.location.href = "Addtocart.php?action=remove&id=" + $prod_id;
+                window.location.href = "cart.php?action=remove&id=" + cart_id;
             }
         }
     </script>
