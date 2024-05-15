@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 // Start the session
 
     session_start();
