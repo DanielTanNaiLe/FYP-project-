@@ -123,7 +123,7 @@ if(isset($_SESSION['user_id'])) {
         </li>
         <?php else: ?>
                 <li>
-                    <a href="#"><i class='bx bx-cart'></i></a>
+                    <a href="Addtocart.php"><i class='bx bx-cart'></i></a>
                 </li>
                 <li><a href="#"><i class='bx bxs-heart' ></i></a></li>
                 <li>
