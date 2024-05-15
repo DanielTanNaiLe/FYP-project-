@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            header("Location: cart.php");
+            header("Location: Addtocart.php");
             exit();
         } else {
             echo "Error adding to cart.";
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        header("Location: cart.php");
+        header("Location: Addtocart.php");
         exit();
     } else {
         echo "Error removing from cart.";
@@ -60,7 +60,7 @@ $stmt = $conn->prepare("
     SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price 
     FROM cart c
     JOIN product_size_variation v ON c.variation_id = v.variation_id
-    JOIN products p ON v.product_id = p.product_id
+    JOIN product p ON v.product_id = p.product_id
     JOIN sizes s ON v.size_id = s.size_id
     WHERE c.user_id = ?
 ");
@@ -202,7 +202,7 @@ while ($row = $result->fetch_assoc()) {
     <script>
         function removeItem(cart_id) {
             if (confirm("Are you sure you want to remove this item?")) {
-                window.location.href = "cart.php?action=remove&id=" + cart_id;
+                window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
             }
         }
     </script>
