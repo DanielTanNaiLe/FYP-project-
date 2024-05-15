@@ -4,7 +4,7 @@ session_start();
 require '../admin_panel/config/dbconnect.php';
 ?>
 
-<!DOCTYPE.html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Feedback</title>
@@ -22,9 +22,15 @@ require '../admin_panel/config/dbconnect.php';
     box-sizing: border-box;
 }
 /************************************************/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 .txt-center {
     height: 400px;
     text-align: center;
+    margin-top: 100px; /* Adjust this value based on the height of your header */
 }
 .txt-center h2 {
     margin-top: 0px;
@@ -38,20 +44,19 @@ require '../admin_panel/config/dbconnect.php';
     color: red;
 }
 textarea {
-    float: left;
-    margin-left: 555px;
-    margin-top: 28px;
+    display: block;
+    margin: 28px auto 0 auto;
     font-size: 15px;
     padding: 13px;
 }
-.txt-center input {
-    float: left;
-    margin-left: 50px;
-    margin-top: 230px;
+.txt-center input[type="submit"] {
+    display: block;
+    margin: 20px auto;
     font-size: 16px;
     padding: 11px;
     background-color: #EADBB2;
     border-radius: 10px;
+    border: none;
 }
 .clear {
     float: none;
@@ -67,7 +72,7 @@ textarea {
     text-align: center;
     position: relative;
     font-size: 35px;
-    margin-left: 550px;
+    margin: 0 auto;
 }
 .rating > label {
     float: right;
@@ -100,12 +105,12 @@ textarea {
 
 <body>
 <?php
-if(isset($_SESSION["user_id"])) {
+if (isset($_SESSION["user_id"])) {
     $user_id = $_SESSION["user_id"];
     $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id=$user_id"); 
     $count = mysqli_num_rows($result); // used to count number of rows
     
-    if($count > 0) {
+    if ($count > 0) {
         $row = mysqli_fetch_array($result);
         include("header.php");
         ?>
@@ -160,8 +165,8 @@ if ($conn->query($sql) !== TRUE) {
     echo "Error creating table: " . $conn->error;
 }
 
-if(isset($_POST["save"])) {
-    if(isset($_SESSION["user_id"])) {
+if (isset($_POST["save"])) {
+    if (isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
         $rating = $_POST["star"];
         $comment = $_POST["feedback_comment"];
