@@ -1,6 +1,6 @@
 <?php
 session_start();
-$conn=mysqli_connect("localhost","root","","g5bookstore");
+$conn=mysqli_connect("localhost","root","","ldksport");
 ?>
 <!DOCTYPE.html>
 <html>
@@ -107,16 +107,18 @@ $conn=mysqli_connect("localhost","root","","g5bookstore");
     left: 0;
     color: #FFD700;
 }
+</style>
 
-	</style>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
+
 <body>
 <?php
-            if(isset($_SESSION["u_id"]))
+            if(isset($_SESSION["user_id"]))
             {
-			$user_id=$_SESSION["u_id"];
-            $result = mysqli_query($conn, "Select * from user WHERE user_id=$user_id");;	
+			$user_id=$_SESSION["user_id"];
+            $result = mysqli_query($conn, "Select * from users WHERE user_id=$user_id");;	
 			$count = mysqli_num_rows($result);//used to count number of rows
 			
 			while($row = mysqli_fetch_array($result))
@@ -124,17 +126,17 @@ $conn=mysqli_connect("localhost","root","","g5bookstore");
 				$user_id=$row['user_id'];
 				?>
 				
-				<?php include("user_headernav.php"); ?>
+				<?php include("header.php"); ?>
 <div class="content">
 <div class="breadcrumb">
 	<ul>
-		<li><a href="index.php">Home</a></li>
+		<li><a href="mainpage.php">Home</a></li>
 		<li><a href="Feedback.php">Feedback</a></li>
 	</ul>
 </div>
 
 <div class="txt-center">
-    <h2>How do you think of our bookstore?</h2>
+    <h2>How do you think of our online shop?</h2>
 	<h4>Please rate and write down your review for us to have a better improvement. Thank you!!</h4>
 	
 	<form name="ratingfrm" method="post" action="">
@@ -157,7 +159,7 @@ $conn=mysqli_connect("localhost","root","","g5bookstore");
 		
 	</form>
 </div>
-<button onclick="toTopBtn()" id="toTopBtn" title="Go to top"><img src="Image/top.png" id="toTop"/></button>
+
 <?php include("user_footer.php"); ?>
 <?php
 			}
@@ -165,33 +167,16 @@ $conn=mysqli_connect("localhost","root","","g5bookstore");
 ?>
 <script>
 alert("Please log in you account for response. Thank you");
- location.replace("login.php");
+ location.replace("customer login.php");
 </script>
 <?php
 			}
 			?>
 </body>
-<script>
-/*************To Top Btn***************/
-topbutton = document.getElementById("toTopBtn");
 
-window.onscroll = function() {scrollTop()};
-
-function scrollTop() {
-  if (document.body.scrollTop > 15 || document.documentElement.scrollTop > 15) {
-    topbutton.style.display = "block";
-  } else {
-    topbutton.style.display = "none";
-  }
-}
-
-
-function toTopBtn() {
-	document.body.scrollTop = 0;
-    
-}
-</script>
 </html>
+
+
 <?php
 $sql = "CREATE TABLE feedback (
 feedback_id INT(6) AUTO_INCREMENT PRIMARY KEY,
@@ -210,7 +195,7 @@ if ($conn->query($sql) === TRUE) {
 		if(isset($_GET["user_id"]))
        {
 		   $user_id=$_GET["user_id"];
-            $result = mysqli_query($conn, "Select * from user WHERE user_id=$user_id");;	
+            $result = mysqli_query($conn, "Select * from users WHERE user_id=$user_id");;	
 		
 		
 		$rating=$_POST["star"];
