@@ -110,13 +110,6 @@ if(isset($_SESSION["user_id"])) {
         include("header.php");
         ?>
         <div class="content">
-            <div class="breadcrumb">
-                <ul>
-                    <li><a href="mainpage.php">Home</a></li>
-                    <li><a href="Feedback.php">Feedback</a></li>
-                </ul>
-            </div>
-
             <div class="txt-center">
                 <h2>How do you think of our online shop?</h2>
                 <h4>Please rate and write down your review for us to have a better improvement. Thank you!!</h4>
@@ -146,7 +139,7 @@ if(isset($_SESSION["user_id"])) {
     ?>
     <script>
         alert("Please log in to your account for response. Thank you");
-        location.replace("customer_login.php");
+        location.replace("customer login.php");
     </script>
     <?php
 }
