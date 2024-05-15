@@ -32,7 +32,7 @@ body {
 .txt-center {
     height: 400px;
     text-align: center;
-    margin-top: 200px; /* Adjust this value based on the height of your header */
+    margin-top: 300px; /* Adjust this value based on the height of your header */
 }
 .txt-center h2 {
     margin-top: 0px;
