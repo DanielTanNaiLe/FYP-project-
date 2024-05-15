@@ -1,6 +1,4 @@
 <?php
-// Start the session
-session_start();
 require '../admin_panel/config/dbconnect.php';
 ?>
 
