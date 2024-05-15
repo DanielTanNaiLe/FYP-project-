@@ -1,19 +1,17 @@
 <?php
-// Start the session
 session_start();
 require '../admin_panel/config/dbconnect.php';
 ?>
 
-<!DOCTYPE.html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Feedback</title>
-<link rel="icon" href="Image/G5_LOGO_PNG_TITLE.png" type="image/x-icon">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="http://cdn.dcodes.net/2/payment_icons/dc_payment_icons.css" />
-<link rel="stylesheet" type="text/css" href="general_design.css">
+<link rel="icon" href="image/logo.png" type="image/x-icon">
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet"
+         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<link rel="stylesheet" href="general.css">
 
 <style>
 /**********************************************/
@@ -22,9 +20,15 @@ require '../admin_panel/config/dbconnect.php';
     box-sizing: border-box;
 }
 /************************************************/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 .txt-center {
     height: 400px;
     text-align: center;
+    margin-top: 300px; /* Adjust this value based on the height of your header */
 }
 .txt-center h2 {
     margin-top: 0px;
@@ -38,20 +42,19 @@ require '../admin_panel/config/dbconnect.php';
     color: red;
 }
 textarea {
-    float: left;
-    margin-left: 555px;
-    margin-top: 28px;
+    display: block;
+    margin: 28px auto 0 auto;
     font-size: 15px;
     padding: 13px;
 }
-.txt-center input {
-    float: left;
-    margin-left: 50px;
-    margin-top: 230px;
+.txt-center input[type="submit"] {
+    display: block;
+    margin: 20px auto;
     font-size: 16px;
     padding: 11px;
     background-color: #EADBB2;
     border-radius: 10px;
+    border: none;
 }
 .clear {
     float: none;
@@ -67,7 +70,7 @@ textarea {
     text-align: center;
     position: relative;
     font-size: 35px;
-    margin-left: 550px;
+    margin: 0 auto;
 }
 .rating > label {
     float: right;
@@ -100,23 +103,16 @@ textarea {
 
 <body>
 <?php
-if(isset($_SESSION["user_id"])) {
+if (isset($_SESSION["user_id"])) {
     $user_id = $_SESSION["user_id"];
     $result = mysqli_query($conn, "SELECT * FROM users WHERE user_id=$user_id"); 
     $count = mysqli_num_rows($result); // used to count number of rows
     
-    if($count > 0) {
+    if ($count > 0) {
         $row = mysqli_fetch_array($result);
         include("header.php");
         ?>
         <div class="content">
-            <div class="breadcrumb">
-                <ul>
-                    <li><a href="mainpage.php">Home</a></li>
-                    <li><a href="Feedback.php">Feedback</a></li>
-                </ul>
-            </div>
-
             <div class="txt-center">
                 <h2>How do you think of our online shop?</h2>
                 <h4>Please rate and write down your review for us to have a better improvement. Thank you!!</h4>
@@ -146,7 +142,7 @@ if(isset($_SESSION["user_id"])) {
     ?>
     <script>
         alert("Please log in to your account for response. Thank you");
-        location.replace("customer_login.php");
+        location.replace("customer login.php");
     </script>
     <?php
 }
@@ -167,8 +163,8 @@ if ($conn->query($sql) !== TRUE) {
     echo "Error creating table: " . $conn->error;
 }
 
-if(isset($_POST["save"])) {
-    if(isset($_SESSION["user_id"])) {
+if (isset($_POST["save"])) {
+    if (isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
         $rating = $_POST["star"];
         $comment = $_POST["feedback_comment"];
