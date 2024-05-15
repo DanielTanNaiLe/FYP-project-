@@ -3,7 +3,7 @@
 <html>
     <head>
         <title>Customer main page</title>
-        <link rel="stylesheet" href="mainpage.css">
+        <link rel="stylesheet" href="general.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet"
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -30,6 +30,7 @@
             <div class="button-overlay">
                 <a href="" class="home2-btn">Men's Shoes</a>
                 <a href="" class="home2-btn">Men's Clothing</a>
+                <a href="" class="home2-btn">Men's Pants</a>
                 </div>
             </div>
         </div>
@@ -39,6 +40,7 @@
             <div class="button-overlay">
             <a href="" class="home2-btn">girl's Shoes</a>
             <a href="" class="home2-btn">girl's Clothing</a>
+            <a href="" class="home2-btn">girl's Pants</a>
             </div>
             </div>
         </div>
@@ -48,6 +50,7 @@
             <div class="button-overlay">
             <a href="" class="home2-btn">kids' Shoes</a>
             <a href="" class="home2-btn">kids' Clothing</a>
+            <a href="" class="home2-btn">kids Pants</a>
             </div>
             </div>
         </div>
@@ -57,7 +60,7 @@
      <h1>Our Brands</h1>
      </div>
      <?php
-     $result = mysqli_query($conn, "SELECT * FROM brand ORDER BY brand_id DESC");
+     $result = mysqli_query($conn, "SELECT * FROM product, brand WHERE product.brand_id = brand.brand_id");
      if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
         echo '<div class="home3-banner">';

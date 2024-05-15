@@ -1,8 +1,19 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if(isset($_SESSION['user_id'])) {
+    $isLoggedIn = true;
+} else {
+    $isLoggedIn = false;
+}
+?>
+
 <header>
 <img src="./image/bee8187f8ec4798e571fdcee0b3d86df.png" class="image">
+
     <ul class="nav">
         <li><a href="mainpage.php" class="a1">HOME</a></li>
-
 <li>
     <a href="menpage.php" class="a1">MEN</a>
     <ul class="dropdown">
@@ -85,7 +96,11 @@
 <div class="nav2">
     <a href="">About Us</a>
     <a href="">FAQ</a>
-    <a href="customer register.php">Sign In</a>
+    <?php if($isLoggedIn): ?>
+            <a href="customer logout.php">Log out</a>
+        <?php else: ?>
+            <a href="customer login.php">Sign In</a>
+        <?php endif; ?>
 </div>
 <form>
     <div class="search">
@@ -95,20 +110,31 @@
 </form>
 <div class="nav-icon-container">
     <ul class="nav-icon">
+    <?php if($isLoggedIn): ?>
         <li>
-        <li><a href="#"><i class='bx bx-cart'></i></a></li>
+        <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
        <li><a href="#"><i class='bx bxs-heart' ></i></a></li>
-        <li>
-        <a href="#"><i class='bx bx-user' ></i></a>
-        <ul class="icon-dropdown">
-            <li><a href="customer register.php">Sign in</a></li>
-            <li><a href="customer login.php">Log in</a></li>
-            <li><a href="">Feedback</a></li>
-            <li><a href="landingafterlogin.php">User profile</a></li>
+                <li>
+                    <a href="landingafterlogin.php"><i class='bx bx-user' ></i></a>
+                    <ul class="icon-dropdown">
+                        <li><a href="customer logout.php">Log out</a></li>
+                        <li><a href="feedback.php">Feedback</a></li>
         </ul>
         </li>
-    </li>
-    </ul>
-</div>
+        <?php else: ?>
+                <li>
+                    <a href="#"><i class='bx bx-cart'></i></a>
+                </li>
+                <li><a href="#"><i class='bx bxs-heart' ></i></a></li>
+                <li>
+                    <a href="#"><i class='bx bx-user' ></i></a>
+                    <ul class="icon-dropdown">
+                        <li><a href="customer login.php">Log in</a></li>
+                        <li><a href="feedback.php">Feedback</a></li>
+                    </ul>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
 </header>
 

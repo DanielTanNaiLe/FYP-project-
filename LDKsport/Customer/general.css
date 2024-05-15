@@ -526,7 +526,7 @@ text-transform: uppercase;
 }
 .button-overlay{
     position: absolute;
-    top: 85%;
+    top: 78%;
     left: 48%;
     transform: translate(-50%, -50%);
     display: flex;

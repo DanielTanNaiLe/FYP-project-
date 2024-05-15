@@ -6,26 +6,28 @@ if(isset($_POST['submit'])){
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $pass = mysqli_real_escape_string($conn, md5($_POST['password']));
-    $cpass = mysqli_real_escape_string($conn, md5($_POST['cpassword']));
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
     $image = $_FILES['image']['name'];
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_folder = 'uploaded_img/'.$image;
     $user_address = mysqli_real_escape_string($conn, $_POST['user_address']);
     $contact_no = mysqli_real_escape_string($conn, $_POST['contact_no']);
-
+    
     $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
     if(mysqli_num_rows($select) > 0){
         $message[] = 'User already exists';
     }else{
-        if($pass != $cpass){
+        if($password != $cpassword){
             $message[] = 'Confirm password not matched!';
         }elseif($image_size > 2000000){
             $message[] = 'Image size is too large!';
         }else{
-            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$pass', '$image', '$user_address', '$contact_no')") or die('query failed');
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$user_address', '$contact_no')") or die('query failed');
 
             if($insert){
                 move_uploaded_file($image_tmp_name, $image_folder);
@@ -37,7 +39,6 @@ if(isset($_POST['submit'])){
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -47,15 +48,10 @@ if(isset($_POST['submit'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Register</title>
-
-   <!-- custom css file link  -->
    <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-   
 <div class="form-container">
-
    <form action="" method="post" enctype="multipart/form-data">
       <h3>Register Now</h3>
       <?php
@@ -74,10 +70,8 @@ if(isset($_POST['submit'])){
       <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" name="submit" value="Register Now" class="btn">
-         
       <div class="show-password-label">
         <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-
         <span>Show password</span>
     </div>
     <script type="text/javascript">
@@ -85,26 +79,20 @@ if(isset($_POST['submit'])){
             var show = document.getElementById("password");
             if(show.type=="password"){
                 show.type="text";
-            }
-            else{
-                show.type="password";
-            }
-            
-            var show = document.getElementById("password_confirmation");
-            if(show.type=="password"){
-                show.type="text";
-            }
-            else{
+            } else {
                 show.type="password";
             }
 
+            var showConfirm = document.getElementById("password_confirmation");
+            if(showConfirm.type=="password"){
+                showConfirm.type="text";
+            } else {
+                showConfirm.type="password";
+            }
         }
     </script>
-         
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
-
 </div>
-
 </body>
 </html>
