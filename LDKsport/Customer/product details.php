@@ -7,6 +7,7 @@ if(isset($_SESSION['user_id'])){
    $user_id = '';
 };
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -245,7 +246,7 @@ p {
                             <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
                             <input type="number" name="Quantity" value="1" class="form-control">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
-                            <input type="submit" name="Favourite" class="button" value="Wish List">
+                            <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
                     </div>
                 </form>

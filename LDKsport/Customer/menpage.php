@@ -75,7 +75,7 @@ if(isset($_SESSION['user_id'])){
             <img src="../uploads/<?=$row['product_image'];?>">
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
-            <div class="favourite"><i class='bx bxs-heart'></i></div>
+            <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
             <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </div>
