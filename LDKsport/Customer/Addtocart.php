@@ -1,7 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
  include("header.php");
-session_start();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -10,12 +9,21 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST['add_to_cart'])) {
     $pid = $_POST['pid'];
     $size_id = $_POST['size_name'];
     $quantity = $_POST['Quantity'];
     $price = $_POST['price'];
 
+    // Check if the product already exists in the cart
+    $stmt = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND variation_id IN (SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?)");
+    $stmt->bind_param("iii", $user_id, $pid, $size_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if($result->num_rows > 0){
+        echo "<script>alert('Product is already added to cart!');</script>";
+    }else{
     // Get the variation_id from product_size_variation table
     $stmt = $conn->prepare("SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?");
     $stmt->bind_param("ii", $pid, $size_id);
@@ -31,16 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("iiid", $user_id, $variation_id, $quantity, $price);
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
-            header("Location: Addtocart.php");
-            exit();
+        if ($result->affected_rows > 0) {
+            echo "<script>alert('Product added to cart successfully');</script>";
         } else {
-            echo "Error adding to cart.";
+            echo "<script>alert('Error adding to cart');</script>";
         }
     } else {
-        echo "Product variation not found.";
+        echo "<script>alert('Product variation not found');</script>";
     }
-} elseif (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+  }
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $cart_id = $_GET['id'];
 
     // Remove item from cart
