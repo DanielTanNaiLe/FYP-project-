@@ -56,6 +56,7 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="general.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
@@ -220,7 +221,7 @@ td img {
                         <h4>Total:</h4>
                     <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
                  </br>
-                 <button class="btn-purchase">Make Purchase</button>
+                <a href="checkout.php" class="btn-purchase">Make Purchase</a>
                     </div>
             </div>
              

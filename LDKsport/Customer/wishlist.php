@@ -99,8 +99,9 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
 <body>
     <div class="wishlist-container">
         <h2>My Wishlist</h2>
-        <?php if (count($wishlist_items) > 0): ?>
-            <?php foreach ($wishlist_items as $item): ?>
+        <?php if (count($wishlist_items) > 0): 
+             foreach ($wishlist_items as $item): 
+             ?>
                 <div class="wishlist-item">
                     <img src="<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
                     <div class="wishlist-item-info">
@@ -122,5 +123,6 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
         <?php endif; ?>
     </div>
+    <?php include("footer.php");?>
 </body>
 </html>
