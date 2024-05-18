@@ -1,10 +1,12 @@
 <?php require '../admin_panel/config/dbconnect.php';
 
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   $user_id = '';
-};
+include("header.php"); 
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+} else {
+  header("Location: customer login.php");
+  exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +19,6 @@ if(isset($_SESSION['user_id'])){
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     </head>
     <body>
-        <?php include("header.php"); ?>
      <h1 class="m1">MEN </h1>
      <div class="nav3">
         <a href="" >Shoes</a>

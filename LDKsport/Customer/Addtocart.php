@@ -1,54 +1,15 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+
  include("header.php");
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header("Location: customer login.php");
-    exit();
+    $user_id ='';
 }
 
-if (isset($_POST['add_to_cart'])) {
-    $pid = $_POST['pid'];
-    $size_id = $_POST['size_name'];
-    $quantity = $_POST['Quantity'];
-    $price = $_POST['price'];
-
-    // Check if the product already exists in the cart
-    $stmt = $conn->prepare("SELECT * FROM cart WHERE user_id = ? AND variation_id IN (SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?)");
-    $stmt->bind_param("iii", $user_id, $pid, $size_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if($result->num_rows > 0){
-        echo "<script>alert('Product is already added to cart!');</script>";
-    }else{
-    // Get the variation_id from product_size_variation table
-    $stmt = $conn->prepare("SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?");
-    $stmt->bind_param("ii", $pid, $size_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $variation = $result->fetch_assoc();
-
-    if ($variation) {
-        $variation_id = $variation['variation_id'];
-
-        // Insert into cart table
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("iiid", $user_id, $variation_id, $quantity, $price);
-        $stmt->execute();
-
-        if ($result->affected_rows > 0) {
-            echo "<script>alert('Product added to cart successfully');</script>";
-        } else {
-            echo "<script>alert('Error adding to cart');</script>";
-        }
-    } else {
-        echo "<script>alert('Product variation not found');</script>";
-    }
-  }
-}
+require '../admin_panel/wishlist_cart.php';
 
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $cart_id = $_GET['id'];
@@ -98,15 +59,13 @@ while ($row = $result->fetch_assoc()) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
-    font-family: Arial, sans-serif;
+body {
     background-color: #f9f9f9;
-    min-height: 100vh;
 }
 
 .container {
     background-color: #fff;
-    margin-top: 100px;
+    margin: 100px auto 50px auto; /* Added top margin to accommodate fixed header */
     height: 45%;
     padding: 20px;
     width: 100%;

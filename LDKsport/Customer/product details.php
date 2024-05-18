@@ -1,11 +1,15 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
 
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   $user_id = '';
-};
+include("header.php"); 
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+} else {
+  header("Location: customer login.php");
+  exit();
+}
+
+require '../admin_panel/wishlist_cart.php';
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +54,7 @@ section{
 .main_image img{
     margin-left: 20px;
     width: 93%;
-    height: 100%;
+    height: 80%;
 }
 .option img {
   width: 85px;
@@ -188,7 +192,6 @@ p {
     </style>
     </head>
     <body>
-    <?php include("header.php"); ?>
     <section>
       <div class="product-details-container flex">
       <?php
@@ -202,7 +205,12 @@ p {
 
             if($row) {
                 ?>
-                 <form id="productForm" method="post" action="Addtocart.php?pid=<?= $row['product_id']; ?>" onsubmit="return validateForm()">
+                 <form id="productForm" method="post" action="" onsubmit="return validateForm()">
+                            <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
+                            <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
+                            <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                            <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
+                            <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
                     <div class="left">
                         <div class="main_image">
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
@@ -239,11 +247,6 @@ p {
                             ?>
                         </select>
                         <div class="button-container">
-                            <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
-                            <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
-                            <input type="hidden" name="price" value="<?= $row['price'] ?>">
-                            <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
-                            <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
                             <input type="number" name="Quantity" value="1" class="form-control">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
