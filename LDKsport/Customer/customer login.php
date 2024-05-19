@@ -23,6 +23,10 @@ if(isset($_POST['submit'])){
    }else{
       $message[] = 'Incorrect email or password!';
    }
+   if ($user->email_verified_at == null)
+        {
+            die("Please verify your email <a href='email-verification.php?email=" . $email . "'>from here</a>");
+        }
 }
 ?>
 

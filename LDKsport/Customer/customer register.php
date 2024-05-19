@@ -1,6 +1,6 @@
 <?php
-
 require '../admin_panel/config/dbconnect.php';
+require __DIR__ . '/mailer.php'; // Include the mailer.php file
 
 if(isset($_POST['submit'])){
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
@@ -31,9 +31,31 @@ if(isset($_POST['submit'])){
 
             if($insert){
                 move_uploaded_file($image_tmp_name, $image_folder);
-                $message[] = 'Registered successfully!';
-                header('location:customer login.php');
-            }else{
+
+                // Get the PHPMailer instance from mailer.php
+                $mail = require __DIR__ . '/mailer.php';
+                try {
+                    //Recipients
+                    $mail->setFrom('dtnl0819@gmail.com');
+                    $mail->addAddress($email, $first_name . ' ' . $last_name);
+
+                    // Content
+                    $mail->isHTML(true); // Set email format to HTML
+                    $verification_code = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+                    $mail->Subject = 'Email Verification';
+                    $mail->Body = '<p>Your verification code is: <b style="font-size: 30px;">' . $verification_code . '</b></p>';
+
+                    $mail->send();
+                    
+                    // Update database with verification code
+                    $update = mysqli_query($conn, "UPDATE `users` SET verification_code = '$verification_code' WHERE email = '$email'") or die('query failed');
+                    
+                    $message[] = 'Registered successfully! Please check your email to verify your account.';
+                    header('location:email-verification.php?email=' . $email);
+                } catch (Exception $e) {
+                    $message[] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+            } else {
                 $message[] = 'Registration failed!';
             }
         }
@@ -56,8 +78,8 @@ if(isset($_POST['submit'])){
       <h3>Register Now</h3>
       <?php
       if(isset($message)){
-         foreach($message as $message){
-            echo '<div class="message">'.$message.'</div>';
+         foreach($message as $msg){
+            echo '<div class="message">'.$msg.'</div>';
          }
       }
       ?>
