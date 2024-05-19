@@ -1,53 +1,55 @@
 <?php
-// Start session and include necessary files
 include("header.php");
 
 require '../admin_panel/config/dbconnect.php';
 
-// Check if user is logged in
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   // Redirect to login page if user is not logged in
-   header('location:customer login.php');
-   exit();
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    header('location:customer login.php');
+    exit();
 }
 
 // Process order placement
-if(isset($_POST['order'])){
-   // Sanitize input data
-   $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-   $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
-   $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
-   $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
-   $address = 'flat no. '. $_POST['flat'] .', '. $_POST['street'] .', '. $_POST['city'] .', '. $_POST['state'] .', '. $_POST['country'] .' - '. $_POST['pin_code'];
-   $address = filter_var($address, FILTER_SANITIZE_STRING);
-   $total_products = $_POST['total_products'];
-   $total_price = $_POST['total_price'];
+if (isset($_POST['order'])) {
+    // Sanitize input data
+    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+    $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
+    $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
+    $address = 'flat no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
+    $total_products = filter_var($_POST['total_products'], FILTER_SANITIZE_STRING);
+    $total_price = filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-   // Check if cart is not empty
-   $check_cart = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
-   $check_cart->bind_param("i", $user_id);
-   $check_cart->execute();
-   $result = $check_cart->get_result();
+    // Check if cart is not empty
+    $check_cart = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
+    $check_cart->bind_param("i", $user_id);
+    $check_cart->execute();
+    $result = $check_cart->get_result();
 
-   if($result->num_rows > 0){
-      // Insert order into database
-      $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, delivered_to, phone_no, email, method, deliver_address, total_products, total_price, order_date) VALUES(?,?,?,?,?,?,?,?, NOW())");
-      $insert_order->bind_param("issssssd", $user_id, $name, $number, $email, $method, $address, $total_products, $total_price);
-      $insert_order->execute();
+    if ($result->num_rows > 0) {
+        // Insert order into database
+        $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, delivered_to, phone_no, deliver_address, pay_method, order_date) VALUES(?,?,?,?,?, NOW())");
+        $insert_order->bind_param("isssd", $user_id, $name, $number, $address, $method);
+        $insert_order->execute();
 
-      // Delete items from cart
-      $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
-      $delete_cart->bind_param("i", $user_id);
-      $delete_cart->execute();
+        // Delete items from cart
+        $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
+        $delete_cart->bind_param("i", $user_id);
+        $delete_cart->execute();
 
-      // Set success message
-      $_SESSION['message'] = 'Order placed successfully!';
-   }else{
-      // Set error message if cart is empty
-      $_SESSION['message'] = 'Your cart is empty';
-   }
+        // Set success message
+        $_SESSION['message'] = 'Order placed successfully!';
+    } else {
+        // Set error message if cart is empty
+        $_SESSION['message'] = 'Your cart is empty';
+    }
+
+    // Close statements and connection
+    $check_cart->close();
+    $insert_order->close();
+    $delete_cart->close();
+    $conn->close();
 }
 ?>
 
@@ -162,22 +164,23 @@ if(isset($_POST['order'])){
          $select_cart->bind_param("i", $user_id);
          $select_cart->execute();
          $result = $select_cart->get_result();
-         if($result->num_rows > 0){
+         if ($result->num_rows > 0) {
             // Loop through cart items
-            while($fetch_cart = $result->fetch_assoc()){
+            while ($fetch_cart = $result->fetch_assoc()) {
                // Calculate total price
                $subtotal = $fetch_cart['price'] * $fetch_cart['quantity'];
                $grand_total += $subtotal;
                // Construct cart items list
-               $cart_items[] = $fetch_cart['name'].' ('.$fetch_cart['price'].' x '. $fetch_cart['quantity'].')';
+               $cart_items[] = $fetch_cart['name'] . ' (' . $fetch_cart['price'] . ' x ' . $fetch_cart['quantity'] . ')';
       ?>
-         <p> <?= htmlspecialchars($fetch_cart['name']); ?> <span>(<?= '$'.htmlspecialchars($fetch_cart['price']).'/- x '. htmlspecialchars($fetch_cart['quantity']); ?>)</span> </p>
+         <p> <?= htmlspecialchars($fetch_cart['name']); ?> <span>(<?= '$' . htmlspecialchars($fetch_cart['price']) . '/- x ' . htmlspecialchars($fetch_cart['quantity']); ?>)</span> </p>
       <?php
             }
-         }else{
+         } else {
             // Display message if cart is empty
             echo '<p class="empty">Your cart is empty!</p>';
          }
+         $select_cart->close();
       ?>
          <!-- Hidden fields for total products and total price -->
          <input type="hidden" name="total_products" value="<?= htmlspecialchars(implode(', ', $cart_items)); ?>">
