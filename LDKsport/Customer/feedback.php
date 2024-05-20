@@ -35,7 +35,7 @@ body {
 
 /* Content Wrapper */
 .content {
-    padding: 100px;
+    padding: 150px;
     background-color: #fff;
     max-width: 800px;
     margin: 0 auto;
