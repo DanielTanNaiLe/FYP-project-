@@ -1,10 +1,11 @@
 <?php require '../admin_panel/config/dbconnect.php';
 
-if(isset($_SESSION['user_id'])){
-   $user_id = $_SESSION['user_id'];
-}else{
-   $user_id = '';
-};
+include("header.php"); 
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+} else {
+    $user_id = '';
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +18,6 @@ if(isset($_SESSION['user_id'])){
          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     </head>
     <body>
-        <?php include("header.php"); ?>
      <h1 class="m1">MEN </h1>
      <div class="nav3">
         <a href="" >Shoes</a>
@@ -75,7 +75,7 @@ if(isset($_SESSION['user_id'])){
             <img src="../uploads/<?=$row['product_image'];?>">
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
-            <div class="favourite"><i class='bx bxs-heart'></i></div>
+            <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
             <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </div>

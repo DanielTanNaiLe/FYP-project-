@@ -1,46 +1,17 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+
  include("header.php");
-session_start();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header("Location: customer login.php");
-    exit();
+    $user_id ='';
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $pid = $_POST['pid'];
-    $size_id = $_POST['size_name'];
-    $quantity = $_POST['Quantity'];
-    $price = $_POST['price'];
+require '../admin_panel/wishlist_cart.php';
 
-    // Get the variation_id from product_size_variation table
-    $stmt = $conn->prepare("SELECT variation_id FROM product_size_variation WHERE product_id = ? AND size_id = ?");
-    $stmt->bind_param("ii", $pid, $size_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $variation = $result->fetch_assoc();
-
-    if ($variation) {
-        $variation_id = $variation['variation_id'];
-
-        // Insert into cart table
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("iiid", $user_id, $variation_id, $quantity, $price);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            header("Location: Addtocart.php");
-            exit();
-        } else {
-            echo "Error adding to cart.";
-        }
-    } else {
-        echo "Product variation not found.";
-    }
-} elseif (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $cart_id = $_GET['id'];
 
     // Remove item from cart
@@ -85,18 +56,17 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="general.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
-    font-family: Arial, sans-serif;
+body {
     background-color: #f9f9f9;
-    min-height: 100vh;
 }
 
 .container {
     background-color: #fff;
-    margin-top: 100px;
+    margin: 100px auto 50px auto; /* Added top margin to accommodate fixed header */
     height: 45%;
     padding: 20px;
     width: 100%;
@@ -251,7 +221,7 @@ td img {
                         <h4>Total:</h4>
                     <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
                  </br>
-                 <button class="btn-purchase">Make Purchase</button>
+                <a href="checkout.php" class="btn-purchase">Make Purchase</a>
                     </div>
             </div>
              
