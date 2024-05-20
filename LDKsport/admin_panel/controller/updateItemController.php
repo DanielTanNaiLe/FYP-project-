@@ -6,6 +6,7 @@
     $p_desc= $_POST['p_desc'];
     $p_price= $_POST['p_price'];
     $category= $_POST['category'];
+    $gender= $_POST['gender'];
 
     if( isset($_FILES['newImage']) ){
         
@@ -29,6 +30,7 @@
         product_desc='$p_desc', 
         price=$p_price,
         category_id=$category,
+        gender_id=$gender,
         product_image='$final_image' 
         WHERE product_id=$product_id");
 

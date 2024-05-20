@@ -82,17 +82,6 @@ function showOrders(){
     });
 }
 
-function showReports(){
-    $.ajax({
-        url:"./adminView/viewAllReports.php",
-        method:"post",
-        data:{record:1},
-        success:function(data){
-            $('.allContent-section').html(data);
-        }
-    });
-}
-
 function ChangeOrderStatus(id){
     $.ajax({
        url:"./controller/updateOrderStatus.php",
@@ -173,6 +162,7 @@ function updateItems(){
     var p_desc = $('#p_desc').val();
     var p_price = $('#p_price').val();
     var category = $('#category').val();
+    var gender = $('#gender').val();
     var existingImage = $('#existingImage').val();
     var newImage = $('#newImage')[0].files[0];
     var fd = new FormData();
@@ -181,6 +171,7 @@ function updateItems(){
     fd.append('p_desc', p_desc);
     fd.append('p_price', p_price);
     fd.append('category', category);
+    fd.append('gender', gender);
     fd.append('existingImage', existingImage);
     fd.append('newImage', newImage);
    
