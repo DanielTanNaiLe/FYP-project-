@@ -27,10 +27,12 @@ include("header.php");
     
             .txt-center{
                 height:400px;
+                text-align: center;
+                margin-top: 120px;
             }
             .txt-center h2{
                 text-align:center;
-                margin-top: 150px;
+                margin-top: 0px;
                 padding-left: 20px;
                 padding-bottom: 0px;
             }
