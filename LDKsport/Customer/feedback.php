@@ -35,14 +35,7 @@ body {
 
 /* Content Wrapper */
 .content {
-    padding: 100px;
-    background-color: #fff;
-    max-width: 800px;
-    margin: 0 auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-top: 30px; /* Adjust if necessary */
-   
+    padding: 50px;
 }
 
 /* Text Centering */
