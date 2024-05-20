@@ -18,64 +18,52 @@ require '../admin_panel/config/dbconnect.php';
 
 /**********************************************/
 /***************** All ***********************/
-   /* General Reset */
-/* General Reset */
-* {
+*{
     box-sizing: border-box;
-    margin: 0;
-    padding: 0px;
 }
 
-/* Body styling */
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-}
+/************************************************/
+    .content
+    {
+       
+        padding: 50px;
+    }
+    .txt-center{
+        height:400px;
+        margin-top: 120px;
+       
+    }
+    .txt-center h2{
+        text-align:center;
+        margin-top: 0px;
+        padding-left: 20px;
+        padding-bottom: 0px;
+    }
+    .txt-center h4{
+        text-align:center;
+        padding-left: 20px;
+        padding-top: 0px;
+        font-style:oblique;
+        color:red;
+    }
+    
+    textarea{
+        float: left;
+        margin-left: 555px;
+        margin-top: 28px;
+        font-size:15px;
+        padding:13px;
+    }
+    
+   
 
-/* Content Wrapper */
-.content {
-    padding: 50px;
-}
-
-/* Text Centering */
-.txt-center {
-    text-align: center;
-}
-
-/* Headings */
-.txt-center h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.txt-center h4 {
-    font-size: 1.2rem;
-    color: #555;
-    font-style: oblique;
-    margin-bottom: 20px;
-}
-
-/* Textarea Styling */
-textarea {
-    width: 100%;
-    margin-top: 20px;
-    padding: 15px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: vertical;
-    height: 150px;
-    display: block; /* Ensure it's a block element */
-}
-
-/* Submit Button Styling */
-.txt-center input[type="submit"] {
-    margin-top: 20px;
+    .txt-center input[type="submit"] {
+    float:left;
+    margin-left: 40px;
+    margin-top: 160px;
     font-size: 1rem;
     padding: 10px 20px;
-    background-color:cornflowerblue;
+    background-color: #28a745;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -84,10 +72,23 @@ textarea {
 }
 
 .txt-center input[type="submit"]:hover {
-    background-color:blue;
+    background-color: #218838;
 }
 
-/* Rating System Styling */
+    
+.txt-center {
+text-align: center;
+}
+
+.clear {
+float: none;
+clear: both;
+}
+.hide {
+display: none;
+}
+
+
 .rating {
 width: 300px;
 unicode-bidi: bidi-override;
@@ -95,9 +96,8 @@ direction: rtl;
 text-align: center;
 position: relative;
 font-size:35px;
-margin-left:100px;
+margin-left:550px;
 }
-
 .rating > label {
 float: right;
 display: inline;
@@ -112,27 +112,18 @@ color: #000;
 .rating > label:hover,
 .rating > label:hover ~ label,
 .rating > input.radio-btn:checked ~ label {
-    color: transparent;
+color: transparent;
 }
 
 .rating > label:hover:before,
 .rating > label:hover ~ label:before,
 .rating > input.radio-btn:checked ~ label:before,
-.rating > input.radio-btn:checked ~ label:before {
-    content: "\2605";
-    position: absolute;
-    left: 0;
-    color: #FFD700;
-}
-
-/* Clear Floats */
-.clear {
-    float: none;
-    clear: both;
-}
-
-.hide {
-    display: none;
+.rating > input.radio-btn:checked ~ label:before 
+    {
+content: "\2605";
+position: absolute;
+left: 0;
+color: #FFD700;
 }
 
 
