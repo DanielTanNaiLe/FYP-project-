@@ -2,8 +2,6 @@
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
 session_start();
 require '../admin_panel/config/dbconnect.php';
-
-include("header.php");
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +25,7 @@ include("header.php");
     
             .txt-center{
                 height:400px;
-                text-align: center;
-                margin-top: 120px;
+               
             }
             .txt-center h2{
                 text-align:center;
@@ -125,9 +122,9 @@ if (isset($_SESSION["user_id"])) {
     
     if ($count > 0) {
         $row = mysqli_fetch_array($result);
-    ?>
+?>
     
-        
+    <?php include("header.php"); ?>       
         <div class="content">
             <div class="txt-center">
                 <h2>How do you think of our online shop?</h2>
