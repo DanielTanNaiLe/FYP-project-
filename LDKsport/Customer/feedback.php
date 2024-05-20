@@ -18,67 +18,82 @@ require '../admin_panel/config/dbconnect.php';
 
 /**********************************************/
 /***************** All ***********************/
-    *{
+   /* General Reset */
+/* General Reset */
+* {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/************************************************/
-    .content
-    {
-       
-        padding: 50px;
-    }
-    .txt-center{
-        height:400px;
-        margin-top: 120px;
-       
-    }
-    .txt-center h2{
-        text-align:center;
-        margin-top: 0px;
-        padding-left: 20px;
-        padding-bottom: 0px;
-    }
-    .txt-center h4{
-        text-align:center;
-        padding-left: 20px;
-        padding-top: 0px;
-        font-style:oblique;
-        color:red;
-    }
-    
-    textarea{
-        float: left;
-        margin-left: 555px;
-        margin-top: 28px;
-        font-size:15px;
-        padding:13px;
-    }
-    
-    .txt-center input{
-        float:left;
-        margin-left: 50px;
-        margin-top:230px;
-        font-size:16px;
-        padding:11px;
-        background-color: #EADBB2;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* Content Wrapper */
+.content {
+    padding: 50px;
+    background-color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 50px; /* Adjust if necessary */
+}
+
+/* Text Centering */
 .txt-center {
-text-align: center;
+    text-align: center;
 }
 
-.clear {
-float: none;
-clear: both;
-}
-.hide {
-display: none;
+/* Headings */
+.txt-center h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
 }
 
+.txt-center h4 {
+    font-size: 1.2rem;
+    color: #555;
+    font-style: oblique;
+    margin-bottom: 20px;
+}
 
+/* Textarea Styling */
+textarea {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    height: 150px;
+    display: block; /* Ensure it's a block element */
+}
+
+/* Submit Button Styling */
+.txt-center input[type="submit"] {
+    margin-top: 20px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    background-color:cornflowerblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.txt-center input[type="submit"]:hover {
+    background-color:blue;
+}
+
+/* Rating System Styling */
 .rating {
 width: 300px;
 unicode-bidi: bidi-override;
@@ -86,8 +101,9 @@ direction: rtl;
 text-align: center;
 position: relative;
 font-size:35px;
-margin-left:550px;
+margin-left:150px;
 }
+
 .rating > label {
 float: right;
 display: inline;
@@ -102,19 +118,29 @@ color: #000;
 .rating > label:hover,
 .rating > label:hover ~ label,
 .rating > input.radio-btn:checked ~ label {
-color: transparent;
+    color: transparent;
 }
 
 .rating > label:hover:before,
 .rating > label:hover ~ label:before,
 .rating > input.radio-btn:checked ~ label:before,
-.rating > input.radio-btn:checked ~ label:before 
-    {
-content: "\2605";
-position: absolute;
-left: 0;
-color: #FFD700;
+.rating > input.radio-btn:checked ~ label:before {
+    content: "\2605";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
 }
+
+/* Clear Floats */
+.clear {
+    float: none;
+    clear: both;
+}
+
+.hide {
+    display: none;
+}
+
 
 </style>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
