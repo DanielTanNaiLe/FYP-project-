@@ -50,6 +50,29 @@
         ?>
       </select>
     </div>
+    <div class="form-group">
+      <label>Gender:</label>
+      <select id="gender">
+        <?php
+          $sql="SELECT * from gender WHERE gender_id='$catID'";
+          $result = $conn-> query($sql);
+          if ($result-> num_rows > 0){
+            while($row = $result-> fetch_assoc()){
+              echo"<option value='". $row['gender_id'] ."'>" .$row['gender_name'] ."</option>";
+            }
+          }
+        ?>
+        <?php
+          $sql="SELECT * from gender WHERE gender_id!='$catID'";
+          $result = $conn-> query($sql);
+          if ($result-> num_rows > 0){
+            while($row = $result-> fetch_assoc()){
+              echo"<option value='". $row['gender_id'] ."'>" .$row['gender_name'] ."</option>";
+            }
+          }
+        ?>
+      </select>
+    </div>
       <div class="form-group">
          <img width='200px' height='150px' src='<?=$row1["product_image"]?>'>
          <div>
