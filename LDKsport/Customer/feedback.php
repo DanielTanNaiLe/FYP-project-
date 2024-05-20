@@ -12,112 +12,112 @@ require '../admin_panel/config/dbconnect.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="general.css">
-
-    <style>
-
-        /**********************************************/
-        /***************** All ***********************/
-            *{
-            box-sizing: border-box;
-        }
-        
-    /************************************************/
-    
-            .content{
-                margin-top: 50px;
-            }
-            .txt-center{
-                height:400px;
-                margin-top: 50px;
-               
-            }
-            .txt-center h2{
-                text-align:center;
-                margin-top: 0px;
-                padding-left: 20px;
-                padding-bottom: 0px;
-            }
-            .txt-center h4{
-                text-align:center;
-                padding-left: 20px;
-                padding-top: 0px;
-                font-style:oblique;
-                color:red;
-            }
-            
-            textarea{
-                margin-left: auto;
-                margin-top: 28px;
-                font-size:15px;
-                padding:13px;
-                display: block;
-            }
-            
-            .txt-center input{
-                float:left;
-                margin-left: auto;
-                margin-top:20px;
-                font-size:16px;
-                padding:11px;
-                background-color: #EADBB2;
-                border-radius: 10px;
-                cursor: pointer;
-                display:block;
-            }
-            
-        .txt-center {
-        text-align: center;
-    }
-    
-    .clear {
-        float: none;
-        clear: both;
-    }
-    .hide {
-        display: none;
-    }
-    
-    
-    .rating {
-        width: 300px;
-        unicode-bidi: bidi-override;
-        direction: rtl;
-        text-align: center;
-        position: relative;
-        font-size:35px;
-        margin-left:550px;
-    }
-    .rating > label {
-        float: right;
-        display: inline;
-        padding: 0;
-        margin: 0;
-        position: relative;
-        width: 1.1em;
-        cursor: pointer;
-        color: #000;
-    }
-    
-    .rating > label:hover,
-    .rating > label:hover ~ label,
-    .rating > input.radio-btn:checked ~ label {
-        color: transparent;
-    }
-    
-    .rating > label:hover:before,
-    .rating > label:hover ~ label:before,
-    .rating > input.radio-btn:checked ~ label:before,
-    .rating > input.radio-btn:checked ~ label:before 
-            {
-        content: "\2605";
-        position: absolute;
-        left: 0;
-        color: #FFD700;
-    }
-    
-        </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
+<style>
+
+/**********************************************/
+/***************** All ***********************/
+    *{
+    box-sizing: border-box;
+}
+
+/************************************************/
+    .content
+    {
+        margin-top: 250px;
+    }
+    .txt-center{
+        height:400px;
+        margin-top: 120px;
+       
+    }
+    .txt-center h2{
+        text-align:center;
+        margin-top: 0px;
+        padding-left: 20px;
+        padding-bottom: 0px;
+    }
+    .txt-center h4{
+        text-align:center;
+        padding-left: 20px;
+        padding-top: 0px;
+        font-style:oblique;
+        color:red;
+    }
+    
+    textarea{
+        float: left;
+        margin-left: 555px;
+        margin-top: 28px;
+        font-size:15px;
+        padding:13px;
+    }
+    
+    .txt-center input{
+        float:left;
+        margin-left: 50px;
+        margin-top:230px;
+        font-size:16px;
+        padding:11px;
+        background-color: #EADBB2;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+.txt-center {
+text-align: center;
+}
+
+.clear {
+float: none;
+clear: both;
+}
+.hide {
+display: none;
+}
+
+
+.rating {
+width: 300px;
+unicode-bidi: bidi-override;
+direction: rtl;
+text-align: center;
+position: relative;
+font-size:35px;
+margin-left:550px;
+}
+.rating > label {
+float: right;
+display: inline;
+padding: 0;
+margin: 0;
+position: relative;
+width: 1.1em;
+cursor: pointer;
+color: #000;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before 
+    {
+content: "\2605";
+position: absolute;
+left: 0;
+color: #FFD700;
+}
+
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 
 <body>
 <?php
