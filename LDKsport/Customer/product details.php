@@ -5,8 +5,7 @@ include("header.php");
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
 } else {
-  header("Location: customer login.php");
-  exit();
+  $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
