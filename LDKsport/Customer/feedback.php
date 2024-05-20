@@ -28,19 +28,17 @@ body {
     font-family: Arial, sans-serif;
 }
 .txt-center {
-   
     text-align: center;
-    margin-top: 150px; /* Adjust this value based on the height of your header */
+    margin-top: 300px; /* Adjust this value based on your header height */
 }
 .txt-center h2 {
-    margin-top: 0px;
+    margin-top: 0;
     padding-left: 20px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 .txt-center h4 {
     padding-left: 20px;
-    padding-top: 0px;
-    font-style: oblique;
+    font-style: italic;
     color: red;
 }
 textarea {
@@ -59,7 +57,6 @@ textarea {
     border: none;
 }
 .clear {
-    float: none;
     clear: both;
 }
 .hide {
