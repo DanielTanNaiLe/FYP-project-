@@ -16,99 +16,101 @@ include("header.php");
     <link rel="stylesheet" href="general.css">
 
     <style>
-.content {
-    max-width: 900px;
-    margin: 320px auto 20px auto; /* Adjust margin-top based on your header height */
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
-.txt-center {
-    text-align: center;
-}
-
-.txt-center h2 {
-    margin-top: 0;
-    padding-left: 20px;
-    padding-bottom: 0;
-}
-
-.txt-center h4 {
-    padding-left: 20px;
-    font-style: italic;
-    color: red;
-}
-
-.rating {
-    width: 300px;
-    unicode-bidi: bidi-override;
-    direction: rtl;
-    text-align: center;
-    position: relative;
-    font-size: 35px;
-    margin: 0 auto;
-}
-
-.rating > label {
-    float: right;
-    display: inline;
-    padding: 0;
-    margin: 0;
-    position: relative;
-    width: 1.1em;
-    cursor: pointer;
-    color: #000;
-}
-
-.rating > label:hover,
-.rating > label:hover ~ label,
-.rating > input.radio-btn:checked ~ label {
-    color: transparent;
-}
-
-.rating > label:hover:before,
-.rating > label:hover ~ label:before,
-.rating > input.radio-btn:checked ~ label:before,
-.rating > input.radio-btn:checked ~ label:before {
-    content: "\2605";
-    position: absolute;
-    left: 0;
-    color: #FFD700;
-}
-
-textarea {
-    display: block;
-    margin: 28px auto 0 auto;
-    width: calc(100% - 26px); /* Adjust this value based on your textarea padding */
-    font-size: 15px;
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
-}
-
-input[type="submit"] {
-    display: block;
-    margin: 20px auto;
-    font-size: 16px;
-    padding: 11px;
-    background-color: #EADBB2;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-}
-
-.clear {
-    clear: both;
-}
-
-.hide {
-    display: none;
-}
-
-    </style>
+        /**********************************************/
+        /***************** All ***********************/
+            *{
+            box-sizing: border-box;
+        }
+        
+    /************************************************/
+    
+            .txt-center{
+                height:400px;
+            }
+            .txt-center h2{
+                text-align:center;
+                margin-top: 0px;
+                padding-left: 20px;
+                padding-bottom: 0px;
+            }
+            .txt-center h4{
+                text-align:center;
+                padding-left: 20px;
+                padding-top: 0px;
+                font-style:oblique;
+                color:red;
+            }
+            
+            textarea{
+                float: left;
+                margin-left: 555px;
+                margin-top: 28px;
+                font-size:15px;
+                padding:13px;
+            }
+            
+            .txt-center input{
+                float:left;
+                margin-left: 50px;
+                margin-top:230px;
+                font-size:16px;
+                padding:11px;
+                background-color: #EADBB2;
+                border-radius: 10px;
+            }
+            
+        .txt-center {
+        text-align: center;
+    }
+    
+    .clear {
+        float: none;
+        clear: both;
+    }
+    .hide {
+        display: none;
+    }
+    
+    
+    .rating {
+        width: 300px;
+        unicode-bidi: bidi-override;
+        direction: rtl;
+        text-align: center;
+        position: relative;
+        font-size:35px;
+        margin-left:550px;
+    }
+    .rating > label {
+        float: right;
+        display: inline;
+        padding: 0;
+        margin: 0;
+        position: relative;
+        width: 1.1em;
+        cursor: pointer;
+        color: #000;
+    }
+    
+    .rating > label:hover,
+    .rating > label:hover ~ label,
+    .rating > input.radio-btn:checked ~ label {
+        color: transparent;
+    }
+    
+    .rating > label:hover:before,
+    .rating > label:hover ~ label:before,
+    .rating > input.radio-btn:checked ~ label:before,
+    .rating > input.radio-btn:checked ~ label:before 
+            {
+        content: "\2605";
+        position: absolute;
+        left: 0;
+        color: #FFD700;
+    }
+    
+        </style>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
