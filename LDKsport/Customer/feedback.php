@@ -57,6 +57,7 @@ require '../admin_panel/config/dbconnect.php';
                 padding:11px;
                 background-color: #EADBB2;
                 border-radius: 10px;
+                cursor: pointer;
             }
             
         .txt-center {
@@ -164,18 +165,6 @@ if (isset($_SESSION["user_id"])) {
 </html>
 
 <?php
-$sql = "CREATE TABLE IF NOT EXISTS feedback (
-    feedback_id INT(6) AUTO_INCREMENT PRIMARY KEY,
-    feedback_rating INT(5),
-    feedback_comment TEXT,
-    user_id INT(6),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);";
-
-if ($conn->query($sql) !== TRUE) {
-    echo "Error creating table: " . $conn->error;
-}
-
 if (isset($_POST["save"])) {
     if (isset($_SESSION["user_id"])) {
         $user_id = $_SESSION["user_id"];
