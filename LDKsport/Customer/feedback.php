@@ -23,9 +23,12 @@ require '../admin_panel/config/dbconnect.php';
         
     /************************************************/
     
+            .content{
+                margin-top: 50px;
+            }
             .txt-center{
                 height:400px;
-                margin-top: 120px;
+                margin-top: 50px;
                
             }
             .txt-center h2{
@@ -43,22 +46,23 @@ require '../admin_panel/config/dbconnect.php';
             }
             
             textarea{
-                float: left;
-                margin-left: 555px;
+                margin-left: auto;
                 margin-top: 28px;
                 font-size:15px;
                 padding:13px;
+                display: block;
             }
             
             .txt-center input{
                 float:left;
-                margin-left: 50px;
-                margin-top:230px;
+                margin-left: auto;
+                margin-top:20px;
                 font-size:16px;
                 padding:11px;
                 background-color: #EADBB2;
                 border-radius: 10px;
                 cursor: pointer;
+                display:block;
             }
             
         .txt-center {
