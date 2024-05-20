@@ -16,41 +16,32 @@ include("header.php");
     <link rel="stylesheet" href="general.css">
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
+      .content {
+    max-width: 900px;
+    margin: 100px auto 20px; /* Adjust the top margin to make space for the fixed header */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        .content {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 200px;
-        }
+.txt-center {
+    text-align: center;
+}
 
-        .txt-center {
-            text-align: center;
-            margin-top: 50px; /* Adjust this value based on your header height */
-        }
+.txt-center h2 {
+    margin-top: 0;
+    padding-left: 20px;
+    padding-bottom: 0;
+}
 
-        .txt-center h2 {
-            margin-top: 0;
-            padding-left: 20px;
-            padding-bottom: 0;
-        }
+.txt-center h4 {
+    padding-left: 20px;
+    font-style: italic;
+    color: red;
+}
 
-        .txt-center h4 {
-            padding-left: 20px;
-            font-style: italic;
-            color: red;
-        }
-
-    .rating {
+.rating {
     width: 300px;
     unicode-bidi: bidi-override;
     direction: rtl;
@@ -59,6 +50,7 @@ include("header.php");
     font-size: 35px;
     margin: 0 auto;
 }
+
 .rating > label {
     float: right;
     display: inline;
@@ -69,11 +61,13 @@ include("header.php");
     cursor: pointer;
     color: #000;
 }
+
 .rating > label:hover,
 .rating > label:hover ~ label,
 .rating > input.radio-btn:checked ~ label {
     color: transparent;
 }
+
 .rating > label:hover:before,
 .rating > label:hover ~ label:before,
 .rating > input.radio-btn:checked ~ label:before,
@@ -84,34 +78,36 @@ include("header.php");
     color: #FFD700;
 }
 
-        textarea {
-            display: block;
-            margin: 28px auto 0 auto;
-            width: calc(100% - 26px); /* Adjust this value based on your textarea padding */
-            font-size: 15px;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            resize: none;
-        }
+textarea {
+    display: block;
+    margin: 28px auto 0 auto;
+    width: calc(100% - 26px); /* Adjust this value based on your textarea padding */
+    font-size: 15px;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
 
-        input[type="submit"] {
-            display: block;
-            margin: 20px auto;
-            font-size: 16px;
-            padding: 11px;
-            background-color: #EADBB2;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-        }
+input[type="submit"] {
+    display: block;
+    margin: 20px auto;
+    font-size: 16px;
+    padding: 11px;
+    background-color: #EADBB2;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
 
-        .clear {
-            clear: both;
-        }
-        .hide {
+.clear {
+    clear: both;
+}
+
+.hide {
     display: none;
 }
+
     </style>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
