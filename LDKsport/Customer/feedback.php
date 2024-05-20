@@ -26,7 +26,7 @@ require '../admin_panel/config/dbconnect.php';
     .content
     {
        
-        padding: 100px;
+        padding: 70px;
     }
     .txt-center{
         height:400px;
