@@ -29,7 +29,7 @@ body {
 }
 .txt-center {
     text-align: center;
-    margin-top: 300px; /* Adjust this value based on your header height */
+    margin-top: 50px; /* Adjust this value based on your header height */
 }
 .txt-center h2 {
     margin-top: 0;
