@@ -30,7 +30,7 @@ include("header.php");
             }
             .txt-center h2{
                 text-align:center;
-                margin-top: 0px;
+                margin-top: 150px;
                 padding-left: 20px;
                 padding-bottom: 0px;
             }
