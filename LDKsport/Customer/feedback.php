@@ -16,13 +16,14 @@ include("header.php");
     <link rel="stylesheet" href="general.css">
 
     <style>
-      .content {
+.content {
     max-width: 900px;
-    margin: 100px auto 20px; /* Adjust the top margin to make space for the fixed header */
+    margin: 50px auto 20px; /* Adjust the top margin to make space for the fixed header */
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   margin-top: 150px;
 }
 
 .txt-center {
