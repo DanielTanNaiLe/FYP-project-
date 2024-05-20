@@ -35,13 +35,14 @@ body {
 
 /* Content Wrapper */
 .content {
-    padding: 150px;
+    padding: 100px;
     background-color: #fff;
     max-width: 800px;
     margin: 0 auto;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-top: 0px; /* Adjust if necessary */
+    margin-top: 30px; /* Adjust if necessary */
+   
 }
 
 /* Text Centering */
@@ -101,7 +102,7 @@ direction: rtl;
 text-align: center;
 position: relative;
 font-size:35px;
-margin-left:150px;
+margin-left:100px;
 }
 
 .rating > label {
