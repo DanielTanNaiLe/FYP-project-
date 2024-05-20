@@ -2,6 +2,8 @@
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
 session_start();
 require '../admin_panel/config/dbconnect.php';
+
+include("header.php");
 ?>
 
 <!DOCTYPE html>
@@ -9,9 +11,8 @@ require '../admin_panel/config/dbconnect.php';
 <head>
 <title>Feedback</title>
 <link rel="icon" href="image/logo.png" type="image/x-icon">
- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link rel="stylesheet"
-         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet"href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 <link rel="stylesheet" href="general.css">
 
 <style>
@@ -29,7 +30,7 @@ body {
 .txt-center {
     height: 400px;
     text-align: center;
-    margin-top: 100px; /* Adjust this value based on the height of your header */
+    margin-top: 250px; /* Adjust this value based on the height of your header */
 }
 .txt-center h2 {
     margin-top: 0px;
@@ -111,7 +112,7 @@ if (isset($_SESSION["user_id"])) {
     
     if ($count > 0) {
         $row = mysqli_fetch_array($result);
-        include("header.php");
+       
         ?>
         <div class="content">
             <div class="txt-center">
