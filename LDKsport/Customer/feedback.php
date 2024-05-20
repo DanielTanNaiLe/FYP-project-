@@ -16,7 +16,14 @@ include("header.php");
     <link rel="stylesheet" href="general.css">
 
     <style>
-
+.content {
+    max-width: 900px;
+    margin: 320px auto 20px auto; /* Adjust margin-top based on your header height */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 .txt-center {
     text-align: center;
@@ -115,6 +122,8 @@ if (isset($_SESSION["user_id"])) {
     if ($count > 0) {
         $row = mysqli_fetch_array($result);
     ?>
+    
+        
         <div class="content">
             <div class="txt-center">
                 <h2>How do you think of our online shop?</h2>
