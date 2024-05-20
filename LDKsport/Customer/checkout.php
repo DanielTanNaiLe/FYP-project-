@@ -28,8 +28,8 @@ if (isset($_POST['order'])) {
 
     if ($cart_result->num_rows > 0) {
         // Insert order details into the orders table
-        $insert_order = $conn->prepare("INSERT INTO `orders` (user_id, delivered_to, phone_no, deliver_address, pay_method, amount, order_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
-        $insert_order->bind_param("issssd", $user_id, $name, $number, $address, $method, $total_price);
+        $insert_order = $conn->prepare("INSERT INTO `orders` (user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+        $insert_order->bind_param("isssssd", $user_id, $name, $email, $number, $address, $method, $total_price);
         $insert_order->execute();
 
         if ($insert_order->affected_rows > 0) {
@@ -75,6 +75,9 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="general.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet"
+         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
 
 body {
@@ -239,5 +242,6 @@ h3 {
             <h4>Total Amount: $<?php echo number_format($total_amount, 2); ?></h4>
         </div>
     </div>
+    <?php include("footer.php"); ?>
 </body>
 </html>
