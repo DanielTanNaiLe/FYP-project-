@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div class="sidebar" id="mySidebar">
 <div class="side-header">
-    <img src="./assets/images/logo.png" width="120" height="120" alt="Swiss Collection"> 
+    <img src="./assets/images/logo.png" width="120" height="120" alt="LDK SPORTS"> 
     <h5 style="margin-top:10px;">Hello, Admin</h5>
 </div>
 
@@ -15,9 +15,11 @@
     <a href="#brands"   onclick="showBrand()" ><i class="fa fa-th-large"></i> Brands</a> 
     <a href="#gender"   onclick="showGender()" ><i class="fa fa-th-large"></i> Gender</a>  
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
-    <a href="report" onclick="showReports()"><i class="fa fa-th"></i> Reports</a>
+    <a href="./adminView/viewReports.php"><i class="fa fa-th"></i> Reports</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-list"></i> Orders</a>
-
+<br>
+    <a href="viewAdmin.php"><i class="fa fa-user "></i> Profile</a> 
+    <a href="Logout.php"><i class="fa fa-sign-in "></i> Logout</a> 
   <!---->
 </div>
  

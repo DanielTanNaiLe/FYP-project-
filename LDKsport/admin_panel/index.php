@@ -1,16 +1,10 @@
 <?php
-    include_once "./config/dbconnect.php";
-
-    // Fetch sales data
-    $salesData = [];
-    $sql = "SELECT * FROM report";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $salesData[] = $row;
-        }
-    }
+if (!isset($_SESSION['admin_name'])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,7 +106,7 @@
                    </h5>
                 </div>
             </div>
-		</div> 
+        </div> 
     
     <br>
     <div class="report">
@@ -120,7 +114,19 @@
       <canvas id="salesChart" style="height: 300px; width: 100%;"></canvas>
     </div>
   </div>
+  <?php
+    include_once "./config/dbconnect.php";
 
+    // Fetch sales data
+    $salesData = [];
+    $sql = "SELECT * FROM report";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $salesData[] = $row;
+        }
+    }
+?>
   <script>
     const salesData = <?php echo json_encode($salesData); ?>;
     document.addEventListener("DOMContentLoaded", function() {
