@@ -23,7 +23,7 @@ require '../admin_panel/config/dbconnect.php';
 * {
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
+    padding: 100;
 }
 
 /* Body styling */
@@ -35,7 +35,7 @@ body {
 
 /* Content Wrapper */
 .content {
-    padding: 50px;
+    padding: 150px;
     background-color: #fff;
     max-width: 800px;
     margin: 0 auto;
