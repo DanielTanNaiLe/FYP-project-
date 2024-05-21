@@ -81,96 +81,123 @@ while ($row = $result->fetch_assoc()) {
     <style>
 
 body {
-    background-color: #f9f9f9;
-}
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
 
-.container {
-    background-color: #fff;
-    margin: 150px auto 50px auto;
-    padding: 20px;
-    width: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+        .container {
+            background-color: #fff;
+            margin: 150px auto 50px auto;
+            padding: 20px;
+            width: 60%;
+            max-width: 900px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
 
-h3 {
-    text-align: center;
-    padding-top: 
-}
+        h3 {
+            text-align: center;
+            padding: 10px 0;
+            color: #333;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
 
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    resize: vertical;
-}
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-.btn-primary {
-    width: 100%;
-    background-color: #2864d1;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2864d1;
+            outline: none;
+        }
 
-.btn-primary:hover {
-    background-color: #218838;
-}
+        .btn-primary {
+            width: 100%;
+            background-color: #2864d1;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+            grid-column: 1 / -1;
+        }
 
-.order-summary {
-    margin-top: 30px;
-}
+        .btn-primary:hover {
+            background-color: #218838;
+        }
 
-.order-summary h4 {
-    margin-bottom: 10px;
-}
+        .order-summary {
+            margin-top: 30px;
+        }
 
-.order-summary table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        .order-summary h4 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
 
-.order-summary th, .order-summary td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .order-summary th,
+        .order-summary td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .order-summary th {
+            background-color: #f2f2f2;
+        }
+
+        .order-summary tfoot tr td {
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 <h3>Checkout</h3>
     <div class="container">
+    <h3>Checkout</h3>
         <?php
         if (isset($_SESSION['message'])) {
                 echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
                 unset($_SESSION['message']);
         }
         ?>
-        <form action="checkout.php" method="post">
+        <form action="checkout.php" method="post" class="form">
             <div class="form-group">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" required>
