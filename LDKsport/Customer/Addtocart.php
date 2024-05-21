@@ -162,10 +162,12 @@ td img {
     background-color: #2864d1;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    margin-left: 40px;
+    padding: 10px 50px;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-purchase:hover {

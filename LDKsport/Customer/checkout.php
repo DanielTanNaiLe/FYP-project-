@@ -16,7 +16,7 @@ if (isset($_POST['order'])) {
     $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
     $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
-    $address = 'flat no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
+    $address = 'no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
     $total_products = filter_var($_POST['total_products'], FILTER_SANITIZE_STRING);
     $total_price = filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
@@ -86,7 +86,7 @@ body {
 
 .container {
     background-color: #fff;
-    margin: 100px auto 50px auto;
+    margin: 150px auto 50px auto;
     padding: 20px;
     width: 50%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -95,7 +95,7 @@ body {
 
 h3 {
     text-align: center;
-    margin-bottom: 20px;
+    padding-top: 
 }
 
 .form-group {
@@ -162,8 +162,8 @@ h3 {
     </style>
 </head>
 <body>
+<h3>Checkout</h3>
     <div class="container">
-        <h3>Checkout</h3>
         <?php
         if (isset($_SESSION['message'])) {
                 echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
