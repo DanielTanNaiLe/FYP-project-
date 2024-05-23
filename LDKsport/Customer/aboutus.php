@@ -20,17 +20,7 @@ body {
     background-color: #f4f4f4;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-}
 
-header h1 {
-    margin: 0;
-    font-size: 24px;
-}
 
 .container {
     max-width: 1200px;
@@ -90,15 +80,7 @@ p {
     color: #666;
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
+
 </style>
 </head>
 <body>

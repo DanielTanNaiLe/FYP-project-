@@ -1,6 +1,7 @@
 <!DOCTYPE.html>
 <html>
 <?php 
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE); 
 session_start();
 include '../admin_panel/config/dbconnect.php';
 ?>

@@ -19,12 +19,8 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
-
-
-
 .container {
     max-width: 1200px;
-    margin: 20px auto;
     padding: 150px;
     background-color: white;
     border-radius: 5px;
