@@ -3,7 +3,7 @@
 <head>
 <?php 
 session_start();
-include("dataconnection.php"); 
+include '../admin_panel/config/dbconnect.php';
 ?>
 <title>Contact Us | LDK Sports</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -155,14 +155,6 @@ input[type="submit"]:hover {
 
 <body style="margin:0px;">
 <?php include("header.php"); ?>
-
-<div class="contact-us-title">
-<div class="breadcrumb">
-    <ul>
-        
-    </ul>
-</div>
-
 <h1>Contact Us</h1>
 <h2>Feel free to get in touch with us by filling up the form below.</h2>
 </div>
@@ -224,14 +216,53 @@ input[type="submit"]:hover {
             <input type="submit" name="savebtn" value="SUBMIT" />
         </form>
     </div>
-</div>
 
+    <br>
 <div class="faq"><br>
         <h1>Maybe you can find our solution in our FAQs</h1>
         <a href="FAQ.php">See all FAQ ></a>
 </div>
+</div>
+<?php include("footer.php"); ?>
 
+</body>、
+<?php
 
-</body>
+    if(isset($_POST["savebtn"])) 	
+    {
+        $contitle = $_POST["con_title"];  
+        $condesc = $_POST["con_desc"];	
+        $conname = $_POST["con_name"];
+        $conemail = $_POST["con_email"];
+
+        $query="INSERT INTO concern(concern_title,concern_desc,concern_user_name,concern_user_email) VALUES('$contitle','$condesc','$conname','$conemail')";
+        mysqli_query($conn,$query)
+?>
+
+    <script>
+        alert("Thank You For Your Response.");
+        window.location.href = "contact.php";
+    </script>  
+
+<?php
+	
+        }
+        $sql = "CREATE TABLE concern (
+            concern_id INT(4) AUTO_INCREMENT PRIMARY KEY,
+            concern_title VARCHAR(40),
+            concern_desc VARCHAR(100),
+            concern_user_name VARCHAR(50),
+            concern_user_email VARCHAR(70)
+            )";
+            
+            if ($conn->query($sql) === TRUE) {
+?>
+            <script>
+                alert("DONE");
+                
+            </script>
+<?php
+            }
+?>
 
 </html>
