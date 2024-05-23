@@ -44,7 +44,7 @@ include '../admin_panel/config/dbconnect.php';
 	
 .content{
 	margin:10px;
-  padding: 800px;
+  padding: 80px;
 	}
 
 h1{

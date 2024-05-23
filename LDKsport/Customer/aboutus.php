@@ -92,19 +92,19 @@ p {
     <div class="team">
         <div class="team-member">
             <img src="image/member1.jpg" alt="Member 1">
-            <h3>John Doe</h3>
+            <h3>LIM LIANG YEA</h3>
             <p>Founder & CEO</p>
             <p>John is the visionary behind LDK Sports. With over 20 years of experience in the sports industry, he is dedicated to bringing the best sports attire to our customers.</p>
         </div>
         <div class="team-member">
             <img src="image/member2.jpg" alt="Member 2">
-            <h3>Jane Smith</h3>
+            <h3>KOH JUNK KET</h3>
             <p>Chief Marketing Officer</p>
             <p>Jane leads our marketing team with creativity and strategic thinking. She ensures that our brand reaches the right audience through innovative campaigns.</p>
         </div>
         <div class="team-member">
             <img src="image/member3.jpg" alt="Member 3">
-            <h3>Mike Johnson</h3>
+            <h3>DANIEL TAN NAI LE</h3>
             <p>Head of Design</p>
             <p>Mike is the mastermind behind our product designs. His expertise in sportswear design ensures that our products are both functional and fashionable.</p>
         </div>
