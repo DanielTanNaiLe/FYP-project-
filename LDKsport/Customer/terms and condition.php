@@ -19,12 +19,10 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
-.container {
-    max-width: 1200px;
+.content {
+ 
     padding: 150px;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
 }
 
 h2 {
@@ -55,7 +53,7 @@ ul li {
 <?php include("header.php"); ?>
 
 
-<div class="container">
+<div class="content">
     <h2>Terms & Conditions of LDK Sports</h2>
     <p>These terms and conditions outline the rules and regulations for the use of LDK Sports's Website, located at ldk-sports.com.</p>
     <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use LDK Sports if you do not agree to take all of the terms and conditions stated on this page.</p>
