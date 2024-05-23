@@ -45,7 +45,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 20px 25px;
+    padding: 80px;
 }
 
 .left-contact-form,
