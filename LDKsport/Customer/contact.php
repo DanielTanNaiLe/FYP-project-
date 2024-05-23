@@ -2,6 +2,7 @@
 <html>
 <head>
 <?php 
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
 session_start();
 include '../admin_panel/config/dbconnect.php';
 ?>
@@ -9,6 +10,8 @@ include '../admin_panel/config/dbconnect.php';
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 <link rel="stylesheet" href="general.css">
 <style>
 /***************** All ***********************/
