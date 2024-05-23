@@ -1,11 +1,12 @@
 <!DOCTYPE.html>
 <html>
+<head>  
 <?php 
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE); 
 session_start();
 include '../admin_panel/config/dbconnect.php';
 ?>
-<head>
+
 <title>FAQ</title>
 <link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -16,7 +17,7 @@ include '../admin_panel/config/dbconnect.php';
   background-color: #eee;
   color: #444;
   cursor: pointer;
-  padding: 18px;
+  padding: 25px;
   width: 95%;
   border: none;
   text-align: left;
@@ -43,6 +44,7 @@ include '../admin_panel/config/dbconnect.php';
 	
 .content{
 	margin:10px;
+  padding: 50px;
 	}
 
 h1{
