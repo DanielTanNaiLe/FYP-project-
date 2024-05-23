@@ -162,8 +162,6 @@ input[type="submit"]:hover {
 
 <body style="margin:0px;">
 <?php include("header.php"); ?>
-<h1>Contact Us</h1>
-<h2>Feel free to get in touch with us by filling up the form below.</h2>
 </div>
 
 <div class="content">
