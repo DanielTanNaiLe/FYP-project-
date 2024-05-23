@@ -39,11 +39,13 @@ if (isset($_POST['order'])) {
             $delete_cart->execute();
 
             $_SESSION['message'] = 'Order placed successfully!';
+            header('Location: mastercard.php');
+            exit();
         } else {
-         $_SESSION['message'] = 'Failed to place order. Please try again.';
+            $_SESSION['message'] = 'Failed to place order. Please try again.';
         }
     } else {
-      $_SESSION['message'] = 'Your cart is empty.';
+        $_SESSION['message'] = 'Your cart is empty.';
     }
 }
 
@@ -75,29 +77,26 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="general.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link rel="stylesheet"
-         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-
-body {
+        body {
             background-color: #f9f9f9;
             font-family: Arial, sans-serif;
         }
 
         .container {
             background-color: #fff;
-            margin: 150px auto 50px auto;
-            padding: 20px;
-            width: 60%;
-            max-width: 900px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            margin: 90px auto 50px auto;
+            padding: 30px;
         }
 
-        h3 {
+        .checkout_h3 {
+            width: 97%;
+            background-color: rgb(242, 163, 45);
             text-align: center;
-            padding: 10px 0;
+            margin-top: 0;
+            padding: 20px;
             color: #333;
         }
 
@@ -105,6 +104,7 @@ body {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+            padding: 20px;
         }
 
         .form-group {
@@ -188,13 +188,13 @@ body {
     </style>
 </head>
 <body>
-<h3>Checkout</h3>
-    <div class="container">
     <h3>Checkout</h3>
+    <div class="container">
+        <h3 class="checkout_h3">Checkout</h3>
         <?php
         if (isset($_SESSION['message'])) {
-                echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
-                unset($_SESSION['message']);
+            echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
+            unset($_SESSION['message']);
         }
         ?>
         <form action="checkout.php" method="post" class="form">

@@ -1,3 +1,14 @@
+<?php 
+include("header.php"); 
+require '../admin_panel/config/dbconnect.php';
+
+if (isset($_SESSION['user_id'])) {
+  $user_id = $_SESSION['user_id'];
+} else {
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -5,6 +16,7 @@
   <title> Credit Card Form for Payment Gateway </title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 <link rel="stylesheet" href="./mastercard.css">
+<link rel="stylesheet" href="./general.css">
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -159,9 +171,8 @@
             </div>
           </div>
         </div>
-
-        <button class="card-form__button">
-          Submit
+        <button class="card-form__button" name="order">
+          Place Order
         </button>
       </div>
     </div>
