@@ -42,7 +42,7 @@ h2 {
 .content {
     position: relative;
     margin: 10px 25px 0px 25px;
-    padding: 50px;
+    padding: 100px;
 }
 
 /************************* Form **************************/
