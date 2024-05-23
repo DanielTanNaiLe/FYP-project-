@@ -12,6 +12,7 @@ include '../admin_panel/config/dbconnect.php';
 <link rel="icon" href="image/logo_img.jpg" type="image/x-icon">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+<link rel="stylesheet" href="general.css">
 <style>
 body {
     margin: 0;
@@ -61,15 +62,7 @@ ul li {
     margin-bottom: 10px;
 }
 
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
+
 </style>
 </head>
 <body>
