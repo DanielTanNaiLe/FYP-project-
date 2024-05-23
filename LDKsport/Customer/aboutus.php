@@ -35,7 +35,7 @@ header h1 {
 .container {
     max-width: 1200px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 100px;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -104,9 +104,6 @@ footer {
 <body>
 <?php include("header.php"); ?>
 
-<header>
-    <h1>About Us</h1>
-</header>
 
 <div class="container">
     <h2>Welcome to LDK Sports</h2>
