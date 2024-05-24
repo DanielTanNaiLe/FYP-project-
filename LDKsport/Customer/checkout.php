@@ -16,7 +16,7 @@ if (isset($_POST['order'])) {
     $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
     $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
-    $address = 'flat no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
+    $address = 'no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
     $total_products = filter_var($_POST['total_products'], FILTER_SANITIZE_STRING);
     $total_price = filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
@@ -39,11 +39,13 @@ if (isset($_POST['order'])) {
             $delete_cart->execute();
 
             $_SESSION['message'] = 'Order placed successfully!';
+            header('Location: mastercard.php');
+            exit();
         } else {
-         $_SESSION['message'] = 'Failed to place order. Please try again.';
+            $_SESSION['message'] = 'Failed to place order. Please try again.';
         }
     } else {
-      $_SESSION['message'] = 'Your cart is empty.';
+        $_SESSION['message'] = 'Your cart is empty.';
     }
 }
 
@@ -75,102 +77,127 @@ while ($row = $result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="general.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link rel="stylesheet"
-         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+        }
 
-body {
-    background-color: #f9f9f9;
-}
+        .container {
+            background-color: #fff;
+            margin: 90px auto 50px auto;
+            padding: 30px;
+        }
 
-.container {
-    background-color: #fff;
-    margin: 100px auto 50px auto;
-    padding: 20px;
-    width: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
+        .checkout_h3 {
+            width: 97%;
+            background-color: rgb(242, 163, 45);
+            text-align: center;
+            margin-top: 0;
+            padding: 20px;
+            color: #333;
+        }
 
-h3 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
 
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
 
-.form-group textarea {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    resize: vertical;
-}
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2864d1;
+            outline: none;
+        }
 
-.btn-primary {
-    width: 100%;
-    background-color: #2864d1;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+        .btn-primary {
+            width: 100%;
+            background-color: #2864d1;
+            color: #fff;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+            grid-column: 1 / -1;
+        }
 
-.btn-primary:hover {
-    background-color: #218838;
-}
+        .btn-primary:hover {
+            background-color: #218838;
+        }
 
-.order-summary {
-    margin-top: 30px;
-}
+        .order-summary {
+            margin-top: 30px;
+        }
 
-.order-summary h4 {
-    margin-bottom: 10px;
-}
+        .order-summary h4 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
 
-.order-summary table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
 
-.order-summary th, .order-summary td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
+        .order-summary th,
+        .order-summary td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .order-summary th {
+            background-color: #f2f2f2;
+        }
+
+        .order-summary tfoot tr td {
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
+    <h3>Checkout</h3>
     <div class="container">
-        <h3>Checkout</h3>
+        <h3 class="checkout_h3">Checkout</h3>
         <?php
         if (isset($_SESSION['message'])) {
-                echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
-                unset($_SESSION['message']);
+            echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
+            unset($_SESSION['message']);
         }
         ?>
-        <form action="checkout.php" method="post">
+        <form action="checkout.php" method="post" class="form">
             <div class="form-group">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" required>

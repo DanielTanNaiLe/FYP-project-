@@ -66,7 +66,7 @@ body {
 
 .container {
     background-color: #fff;
-    margin: 100px auto 50px auto; /* Added top margin to accommodate fixed header */
+    margin: 100px auto 50px auto;
     height: 45%;
     padding: 20px;
     width: 100%;
@@ -162,10 +162,14 @@ td img {
     background-color: #2864d1;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    margin: auto 18px auto auto;
+    padding: 10px 70px;
     cursor: pointer;
     border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-purchase:hover {

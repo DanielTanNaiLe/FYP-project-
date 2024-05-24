@@ -44,21 +44,24 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <style>
 
         .wishlist-container {
-            margin-top: 100px;
-            max-width: 1200px;
-            margin: 100px auto 50px auto;
+            margin: 60px auto 50px auto;
             background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 30px;
         }
         .wishlist-container h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+            width: 90%;
+           background-color: rgb(242, 163, 45);
+           text-align: center;
+           margin-left: 45px;
+           margin-top: 0;
+           padding: 20px;
         }
         .wishlist-item {
             display: flex;
+            width: 90%;
             justify-content: space-between;
+            margin-left: auto;
+            margin-right: auto;
             align-items: center;
             border-bottom: 1px solid #ccc;
             padding: 15px 0;
