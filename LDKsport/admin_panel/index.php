@@ -1,10 +1,3 @@
-<?php
-if (!isset($_SESSION['admin_name'])) {
-    header("Location: login.php");
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +9,9 @@ if (!isset($_SESSION['admin_name'])) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <?php
-      include "./adminHeader.php";
-      include "./sidebar.php";
+<?php
+      include __DIR__ . "/adminHeader.php";
+      include __DIR__ . "/sidebar.php";
   ?>
 
 <div id="main-content" class="container allContent-section py-4">
@@ -119,7 +112,7 @@ if (!isset($_SESSION['admin_name'])) {
 
     // Fetch sales data
     $salesData = [];
-    $sql = "SELECT * FROM report";
+    $sql = "SELECT MONTH(order_date) AS month, SUM(amount) AS total_sales FROM orders GROUP BY MONTH(order_date)";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -127,7 +120,7 @@ if (!isset($_SESSION['admin_name'])) {
         }
     }
 ?>
-  <script>
+<script>
     const salesData = <?php echo json_encode($salesData); ?>;
     document.addEventListener("DOMContentLoaded", function() {
         const ctx = document.getElementById('salesChart').getContext('2d');
@@ -160,7 +153,7 @@ if (!isset($_SESSION['admin_name'])) {
             }
         });
     });
-  </script>
+</script>
 
   <?php
     if (isset($_GET['category']) && $_GET['category'] == "success") {

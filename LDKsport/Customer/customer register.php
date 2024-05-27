@@ -12,7 +12,11 @@ if(isset($_POST['submit'])){
     $image_size = $_FILES['image']['size'];
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_folder = 'uploaded_img/'.$image;
-    $user_address = mysqli_real_escape_string($conn, $_POST['user_address']);
+    $flat_no = mysqli_real_escape_string($conn, $_POST['flat_no']);
+    $street_name = mysqli_real_escape_string($conn, $_POST['street_name']);
+    $city = mysqli_real_escape_string($conn, $_POST['city']);
+    $state = mysqli_real_escape_string($conn, $_POST['state']);
+    $country = mysqli_real_escape_string($conn, $_POST['country']);
     $contact_no = mysqli_real_escape_string($conn, $_POST['contact_no']);
     
     $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
@@ -27,7 +31,7 @@ if(isset($_POST['submit'])){
         }else{
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, user_address, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$user_address', '$contact_no')") or die('query failed');
+            $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, flat_no, street_name, city, state, country, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$flat_no', '$street_name', '$city', '$state', '$country', '$contact_no')") or die('query failed');
 
             if($insert){
                 move_uploaded_file($image_tmp_name, $image_folder);
@@ -88,7 +92,11 @@ if(isset($_POST['submit'])){
       <input type="email" name="email" placeholder="Enter Email" class="box" required>
       <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
       <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
-      <input type="text" name="user_address" placeholder="Enter Address" class="box" required>
+      <input type="text" name="flat_no" placeholder="Enter Flat Number" class="box" required>
+      <input type="text" name="street_name" placeholder="Enter Street Name" class="box" required>
+      <input type="text" name="city" placeholder="Enter City" class="box" required>
+      <input type="text" name="state" placeholder="Enter State" class="box" required>
+      <input type="text" name="country" placeholder="Enter Country" class="box" required>
       <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
       <input type="submit" name="submit" value="Register Now" class="btn">

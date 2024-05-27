@@ -4,19 +4,24 @@ require '../admin_panel/config/dbconnect.php';
 session_start();
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
+if (!isset($user_id)) {
    header('location:customer login.php');
    exit();
 }
-if(isset($_POST['update_profile'])){
+
+if (isset($_POST['update_profile'])) {
    $update_first_name = mysqli_real_escape_string($conn, $_POST['update_first_name']);
    $update_last_name = mysqli_real_escape_string($conn, $_POST['update_last_name']);
    $update_email = mysqli_real_escape_string($conn, $_POST['update_email']);
-   $update_user_address = mysqli_real_escape_string($conn, $_POST['update_user_address']);
+   $update_flat_no = mysqli_real_escape_string($conn, $_POST['update_flat_no']);
+   $update_street_name = mysqli_real_escape_string($conn, $_POST['update_street_name']);
+   $update_city = mysqli_real_escape_string($conn, $_POST['update_city']);
+   $update_state = mysqli_real_escape_string($conn, $_POST['update_state']);
+   $update_country = mysqli_real_escape_string($conn, $_POST['update_country']);
    $update_contact_no = mysqli_real_escape_string($conn, $_POST['update_contact_no']);
 
-   // Update name, email, user_address, and contact_no
-   mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', user_address = '$update_user_address', contact_no = '$update_contact_no' WHERE user_id = '$user_id'") or die('Query failed');
+   // Update profile details
+   mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', flat_no = '$update_flat_no', street_name = '$update_street_name', city = '$update_city', state = '$update_state', country = '$update_country', contact_no = '$update_contact_no' WHERE user_id = '$user_id'") or die('Query failed');
 
    // Update password
    $old_pass = $_POST['old_pass'];
@@ -24,12 +29,12 @@ if(isset($_POST['update_profile'])){
    $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
    $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
 
-   if(!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)){
-      if($update_pass != $old_pass){
+   if (!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)) {
+      if ($update_pass != $old_pass) {
          $message[] = 'Old password not matched!';
-      } elseif($new_pass != $confirm_pass){
+      } elseif ($new_pass != $confirm_pass) {
          $message[] = 'Confirm password not matched!';
-      } else{
+      } else {
          mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE user_id = '$user_id'") or die('Query failed');
          $message[] = 'Password updated successfully!';
       }
@@ -39,14 +44,14 @@ if(isset($_POST['update_profile'])){
    $update_image = $_FILES['update_image']['name'];
    $update_image_size = $_FILES['update_image']['size'];
    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
-   $update_image_folder = 'uploaded_img/'.$update_image;
+   $update_image_folder = 'uploaded_img/' . $update_image;
 
-   if(!empty($update_image)){
-      if($update_image_size > 2000000){
+   if (!empty($update_image)) {
+      if ($update_image_size > 2000000) {
          $message[] = 'Image is too large';
-      } else{
+      } else {
          $image_update_query = mysqli_query($conn, "UPDATE `users` SET image = '$update_image' WHERE user_id = '$user_id'") or die('Query failed');
-         if($image_update_query){
+         if ($image_update_query) {
             move_uploaded_file($update_image_tmp_name, $update_image_folder);
          }
          $message[] = 'Image updated successfully!';
@@ -63,150 +68,29 @@ if(isset($_POST['update_profile'])){
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Update Profile</title>
-
    <!-- custom css file link  -->
-  <
-
 </head>
-<style>
-   /* Global Styles */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-}
-
-.update-profile {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.inputBox {
-  width: 48%;
-  margin: 20px;
-}
-
-.inputBox span {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.inputBox input[type="text"],
-.inputBox input[type="email"],
-.inputBox input[type="password"]
- {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  
-}
-
-
-.inputBox input[type="file"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.show-password-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.show-password-label input[type="checkbox"] {
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-.show-password-label span {
-    font-size: 14px;
-    color: #333; 
-    cursor: pointer; 
-}
-
-
-.message {
-  background-color: #f0f0f0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.message.error {
-  background-color: #ff9999;
-  color: #fff;
-}
-
-.btn {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: #2980b9;
-}
-
-.delete-btn {
-  background-color: #fff;
-  color: #337ab7;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.delete-btn:hover {
-  background-color: #f0f0f0;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 <body>
-
-
-   
 <div class="update-profile">
 
    <?php
       $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
-      if(mysqli_num_rows($select) > 0){
+      if (mysqli_num_rows($select) > 0) {
          $fetch = mysqli_fetch_assoc($select);
       }
    ?>
 
    <form action="" method="post" enctype="multipart/form-data">
       <?php
-         if($fetch['image'] == ''){
+         if ($fetch['image'] == '') {
             echo '<img src="image/default-avatar.png">';
-         }else{
-            echo '<img src="uploaded_img/'.$fetch['image'].'">';
+         } else {
+            echo '<img src="uploaded_img/' . $fetch['image'] . '">';
          }
-         if(isset($message)){
-            foreach($message as $message){
-               echo '<div class="message">'.$message.'</div>';
+         if (isset($message)) {
+            foreach ($message as $message) {
+               echo '<div class="message">' . $message . '</div>';
             }
          }
       ?>
@@ -218,8 +102,16 @@ body {
             <input type="text" name="update_last_name" value="<?php echo $fetch['last_name']; ?>" class="box">
             <span>Email:</span>
             <input type="email" name="update_email" value="<?php echo $fetch['email']; ?>" class="box">
-            <span>Address:</span>
-            <input type="text" name="update_user_address" value="<?php echo $fetch['user_address']; ?>" class="box">
+            <span>Flat Number:</span>
+            <input type="text" name="update_flat_no" value="<?php echo $fetch['flat_no']; ?>" class="box">
+            <span>Street Name:</span>
+            <input type="text" name="update_street_name" value="<?php echo $fetch['street_name']; ?>" class="box">
+            <span>City:</span>
+            <input type="text" name="update_city" value="<?php echo $fetch['city']; ?>" class="box">
+            <span>State:</span>
+            <input type="text" name="update_state" value="<?php echo $fetch['state']; ?>" class="box">
+            <span>Country:</span>
+            <input type="text" name="update_country" value="<?php echo $fetch['country']; ?>" class="box">
             <span>Contact Number:</span>
             <input type="text" name="update_contact_no" value="<?php echo $fetch['contact_no']; ?>" class="box">
             <span>Update Your Picture:</span>
@@ -228,45 +120,16 @@ body {
          <div class="inputBox">
             <input type="hidden" name="old_pass" id="old_pass" value="<?php echo $fetch['password']; ?>">
             <span>Old Password:</span>
-            <input type="password" name="update_pass" id="update_pass"  placeholder="Enter previous password" class="box">
+            <input type="password" name="update_pass" id="update_pass" placeholder="Enter previous password" class="box">
             <span>New Password:</span>
             <input type="password" name="new_pass" id="new_pass" placeholder="Enter new password" class="box">
             <span>Confirm Password:</span>
-            <input type="password" name="confirm_pass"id="confirm_pass" placeholder="Confirm new password" class="box">
+            <input type="password" name="confirm_pass" id="confirm_pass" placeholder="Confirm new password" class="box">
             
-    <div class="show-password-label">
-      <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-
-      <span>Show password</span>
-  </div>
-  <script type="text/javascript">
-      function myfunction(){
-          var show = document.getElementById("update_pass");
-          if(show.type=="password"){
-              show.type="text";
-          }
-          else{
-              show.type="password";
-          }
-          
-          var show = document.getElementById("new_pass");
-          if(show.type=="password"){
-              show.type="text";
-          }
-          else{
-              show.type="password";
-          }
-
-          var show = document.getElementById("confirm_pass");
-          if(show.type=="password"){
-              show.type="text";
-          }
-          else{
-              show.type="password";
-          }
-
-      }
-  </script>
+            <div class="show-password-label">
+               <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+               <span>Show password</span>
+            </div>
          </div>
       </div>
       <input type="submit" value="Update Profile" name="update_profile" class="btn">
@@ -275,5 +138,29 @@ body {
 
 </div>
 
+<script type="text/javascript">
+   function myfunction() {
+      var show = document.getElementById("update_pass");
+      if (show.type == "password") {
+         show.type = "text";
+      } else {
+         show.type = "password";
+      }
+
+      var show = document.getElementById("new_pass");
+      if (show.type == "password") {
+         show.type = "text";
+      } else {
+         show.type = "password";
+      }
+
+      var show = document.getElementById("confirm_pass");
+      if (show.type == "password") {
+         show.type = "text";
+      } else {
+         show.type = "password";
+      }
+   }
+</script>
 </body>
 </html>
