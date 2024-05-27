@@ -15,68 +15,6 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <style>
-        /* Add your custom CSS here */
-
-        .listproduct {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .item {
-            width: calc(33.33% - 10px); /* Three items per row with a little margin */
-            margin-bottom: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-        }
-
-        .item img {
-            max-width: 100%;
-            height: auto;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 10px;
-        }
-
-        .item h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .price {
-            font-size: 16px;
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-
-        .favourite {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            color: #e74c3c;
-            font-size: 20px;
-        }
-
-        .details-container {
-            text-align: center;
-        }
-
-        .details {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .details:hover {
-            background-color: #2980b9;
-        }
-    </style>
 </head>
 <body>
     <h1 class="m1">MEN</h1>
