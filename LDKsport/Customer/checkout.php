@@ -55,31 +55,47 @@ $conn->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
+    body {
             background-color: #f9f9f9;
             font-family: Arial, sans-serif;
         }
 
         .container {
             background-color: #fff;
-            margin: 90px auto 50px auto;
+            margin: auto;
             padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            max-width: 1200px;
         }
 
-        .checkout_h3 {
-            width: 97%;
+        .checkout_h2 {
+            width: 100%;
             background-color: rgb(242, 163, 45);
+            margin-top: 120px;
             text-align: center;
-            margin-top: 0;
             padding: 20px;
             color: #333;
         }
 
+        .form, .order-summary {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
         .form {
+            flex: 1 1 60%;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            padding: 20px;
+        }
+
+        .order-summary {
+            flex: 1 1 35%;
         }
 
         .form-group {
@@ -127,98 +143,85 @@ $conn->close();
             background-color: #218838;
         }
 
-        .order-summary {
-            margin-top: 30px;
-        }
-
-        .order-summary h4 {
+        .order-summary h4,
+        .order-summary h3 {
             margin-bottom: 20px;
             color: #333;
             font-size: 24px;
             text-align: center;
         }
 
-        .order-summary table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        .order-summary ul {
+            list-style: none;
+            padding: 0;
         }
 
-        .order-summary th,
-        .order-summary td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: left;
-            font-size: 16px;
+        .order-summary ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
         }
 
-        .order-summary th {
-            background-color: #f2f2f2;
-        }
-
-        .order-summary tfoot tr td {
-            font-weight: bold;
-            font-size: 18px;
+        .order-summary ul li:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
-    <h3>Checkout</h3>
-    <div class="container">
-    <h2>Checkout</h2>
-    <form action="checkout.php" method="post">
-        <div class="form-group">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+<div class="container">
+        <h2 class="checkout_h2">Checkout</h2>
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <ul>
+                <?php foreach ($product as $product): ?>
+                    <li><?php echo htmlspecialchars($product['product_name']); ?> (x<?php echo $product['quantity']; ?>) - $<?php echo number_format($product['price'], 2); ?></li>
+                <?php endforeach; ?>
+            </ul>
+            <h4>Total: $<?php echo number_format($total_price, 2); ?></h4>
         </div>
-        <div class="form-group">
-            <label for="number">Phone Number:</label>
-            <input type="text" id="number" name="number" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email Address:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="method">Payment Method:</label>
-            <input type="text" id="method" name="method" value="MasterCard" readonly required>
-        </div>
-        <div class="form-group">
-            <label for="flat">Flat No:</label>
-            <input type="text" id="flat" name="flat" required>
-        </div>
-        <div class="form-group">
-            <label for="street">Street Name:</label>
-            <input type="text" id="street" name="street" required>
-        </div>
-        <div class="form-group">
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-        </div>
-        <div class="form-group">
-            <label for="state">State:</label>
-            <input type="text" id="state" name="state" required>
-        </div>
-        <div class="form-group">
-            <label for="country">Country:</label>
-            <input type="text" id="country" name="country" required>
-        </div>
-        <div class="form-group">
-            <label for="pin_code">Post Code:</label>
-            <input type="text" id="pin_code" name="pin_code" required>
-        </div>
-        <input type="hidden" name="total_products" value="<?php echo count($product); ?>">
-        <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
-
-        <h3>Order Summary</h3>
-        <ul>
-            <?php foreach ($product as $product): ?>
-                <li><?php echo htmlspecialchars($product['product_name']); ?> (x<?php echo $product['quantity']; ?>) - $<?php echo number_format($product['price'], 2); ?></li>
-            <?php endforeach; ?>
-        </ul>
-        <h4>Total: $<?php echo number_format($total_price, 2); ?></h4>
-
-        <button type="submit" class="btn-primary">Proceed to Payment</button>
+        <form action="checkout.php" method="post" class="form">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="number">Phone Number:</label>
+                <input type="text" id="number" name="number" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="method">Payment Method:</label>
+                <input type="text" id="method" name="method" value="MasterCard" readonly required>
+            </div>
+            <div class="form-group">
+                <label for="flat">Flat No:</label>
+                <input type="text" id="flat" name="flat" required>
+            </div>
+            <div class="form-group">
+                <label for="street">Street Name:</label>
+                <input type="text" id="street" name="street" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            <div class="form-group">
+                <label for="pin_code">Post Code:</label>
+                <input type="text" id="pin_code" name="pin_code" required>
+            </div>
+            <input type="hidden" name="total_products" value="<?php echo count($product); ?>">
+            <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
+            <button type="submit" class="btn-primary">Proceed to Payment</button>
     </form>
     <?php
     if (isset($_SESSION['message'])) {

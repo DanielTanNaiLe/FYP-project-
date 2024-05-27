@@ -9,8 +9,8 @@
 			
 			<li class="spacing-li"><h3>About Us</h3>
 				<a href="aboutus.php">About LDK SPORTS</a>
-				<a href="#">Terms & Condition</a>
-				<a href="contact_us.php">Help / FAQ</a>
+				<a href="terms and condition.php">Terms & Condition</a>
+				<a href="contact.php">Help / FAQ</a>
 			</li>
 			
 			<li class="spacing-li"><h3>My Account</h3>

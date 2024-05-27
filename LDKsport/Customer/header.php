@@ -94,8 +94,8 @@ if(isset($_SESSION['user_id'])) {
     <li><a href="order.php" class="a1">ORDER</a></li>
 </ul>
 <div class="nav2">
-    <a href="">About Us</a>
-    <a href="">FAQ</a>
+    <a href="aboutus.php">About Us</a>
+    <a href="FAQ.php">FAQ</a>
     <?php if($isLoggedIn): ?>
             <a href="customer logout.php">Log out</a>
         <?php else: ?>
