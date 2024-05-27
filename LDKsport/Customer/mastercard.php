@@ -1,12 +1,48 @@
-<?php 
-include("header.php"); 
+<?php
 require '../admin_panel/config/dbconnect.php';
+require 'mailer.php';
 
-if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
-} else {
-  exit();
+session_start();
+
+if (!isset($_SESSION['checkout_details'])) {
+    header("Location: checkout.php");
+    exit();
 }
+
+function generateOtp() {
+    return rand(100000, 999999); // Generate a 6-digit OTP
+}
+
+function sendOtp($email, $otp) {
+    global $mail;
+    
+    try {
+        $mail->setFrom('kohjunket@gmail.com', 'LDK sport');
+        $mail->addAddress($email);
+        $mail->Subject = "Your OTP Code";
+        $mail->Body = "Your OTP code is: $otp";
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        error_log("Mailer Error: " . $mail->ErrorInfo);
+        return false;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cardNumber'])) {
+    $otp = generateOtp();
+    $_SESSION['otp'] = $otp;
+
+    $email = $_SESSION['checkout_details']['email'];
+    if (sendOtp($email, $otp)) {
+        header("Location: otp_verification.php");
+        exit();
+    } else {
+        $error = "Failed to send OTP. Please try again.";
+    }
+}
+
+$checkout_details = $_SESSION['checkout_details'];
 ?>
 
 <!DOCTYPE html>
@@ -138,14 +174,19 @@ if (isset($_SESSION['user_id'])) {
         </div>
       </div>
       <div class="card-form__inner">
-        <div class="card-input">
-          <label for="cardNumber" class="card-input__label">Card Number</label>
-          <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask" v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber" autocomplete="off">
-        </div>
-        <div class="card-input">
-          <label for="cardName" class="card-input__label">Card Holders</label>
-          <input type="text" id="cardName" class="card-input__input" v-model="cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off">
-        </div>
+      <form action="mastercard.php" method="post">
+          <div class="card-input">
+            <label for="cardNumber" class="card-input__label">Card Number</label>
+            <input type="text" id="cardNumber" name="cardNumber" class="card-input__input" v-mask="generateCardNumberMask" v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber" autocomplete="off" required>
+          </div>
+          <div class="card-input">
+            <label for="cardName" class="card-input__label">Card Holder</label>
+            <input type="text" id="cardName" name="cardName" class="card-input__input" v-model="cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off" required>
+          </div>
+          <div class="card-input">
+            <label for="email" class="card-input__label">Email</label>
+            <input type="email" id="email" name="email" class="card-input__input" autocomplete="off" required>
+          </div>
         <div class="card-form__row">
           <div class="card-form__col">
             <div class="card-form__group">
@@ -171,9 +212,8 @@ if (isset($_SESSION['user_id'])) {
             </div>
           </div>
         </div>
-        <button class="card-form__button" name="order">
-          Place Order
-        </button>
+        <button type="submit" class="card-form__button" name="order">Proceed with OTP Verification</button>
+</from>
       </div>
     </div>
     
@@ -181,7 +221,8 @@ if (isset($_SESSION['user_id'])) {
   </div>
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script>
-<script src='https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js'></script><script  src="./mastercard.js"></script>
+<script src='https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js'></script>
+<script src="./mastercard.js"></script>
 
 </body>
 </html>

@@ -2,72 +2,47 @@
 include("header.php");
 require '../admin_panel/config/dbconnect.php';
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-} else {
-    header('location:customer login.php');
+if (!isset($_SESSION['user_id'])) {
+    header('location:customer_login.php');
     exit();
 }
 
-// Process order placement
-if (isset($_POST['order'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize input data
-    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-    $number = filter_var($_POST['number'], FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
-    $method = filter_var($_POST['method'], FILTER_SANITIZE_STRING);
-    $address = 'no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING);
-    $total_products = filter_var($_POST['total_products'], FILTER_SANITIZE_STRING);
-    $total_price = filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $_SESSION['checkout_details'] = [
+        'name' => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+        'number' => filter_var($_POST['number'], FILTER_SANITIZE_STRING),
+        'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+        'method' => filter_var($_POST['method'], FILTER_SANITIZE_STRING),
+        'address' => 'no. ' . filter_var($_POST['flat'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['street'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['city'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['state'], FILTER_SANITIZE_STRING) . ', ' . filter_var($_POST['country'], FILTER_SANITIZE_STRING) . ' - ' . filter_var($_POST['pin_code'], FILTER_SANITIZE_STRING),
+        'total_products' => filter_var($_POST['total_products'], FILTER_SANITIZE_STRING),
+        'total_price' => filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION),
+    ];
 
-    // Check if cart is not empty
-    $check_cart = $conn->prepare("SELECT * FROM `cart` WHERE user_id = ?");
-    $check_cart->bind_param("i", $user_id);
-    $check_cart->execute();
-    $cart_result = $check_cart->get_result();
-
-    if ($cart_result->num_rows > 0) {
-        // Insert order details into the orders table
-        $insert_order = $conn->prepare("INSERT INTO `orders` (user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-        $insert_order->bind_param("isssssd", $user_id, $name, $email, $number, $address, $method, $total_price);
-        $insert_order->execute();
-
-        if ($insert_order->affected_rows > 0) {
-            // Clear cart after order placement
-            $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
-            $delete_cart->bind_param("i", $user_id);
-            $delete_cart->execute();
-
-            $_SESSION['message'] = 'Order placed successfully!';
-            header('Location: mastercard.php');
-            exit();
-        } else {
-            $_SESSION['message'] = 'Failed to place order. Please try again.';
-        }
-    } else {
-        $_SESSION['message'] = 'Your cart is empty.';
-    }
+    header("Location: mastercard.php");
+    exit();
 }
 
 // Fetch cart items for order summary
+$user_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("
     SELECT p.product_name, c.quantity, c.price 
     FROM cart c
     JOIN product_size_variation v ON c.variation_id = v.variation_id
     JOIN product p ON v.product_id = p.product_id
-    WHERE c.user_id = ?
-");
+    WHERE c.user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
-$cart_items = [];
-$total_amount = 0;
+$product = [];
+$total_price = 0;
 
 while ($row = $result->fetch_assoc()) {
-    $cart_items[] = $row;
-    $total_amount += $row['quantity'] * $row['price'];
+    $product[] = $row;
+    $total_price += $row['price'] * $row['quantity'];
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -190,85 +165,68 @@ while ($row = $result->fetch_assoc()) {
 <body>
     <h3>Checkout</h3>
     <div class="container">
-        <h3 class="checkout_h3">Checkout</h3>
-        <?php
-        if (isset($_SESSION['message'])) {
-            echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
-            unset($_SESSION['message']);
-        }
-        ?>
-        <form action="checkout.php" method="post" class="form">
-            <div class="form-group">
-                <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="number">Your Number:</label>
-                <input type="text" id="number" name="number" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Your Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="method">Payment Method:</label>
-                <select id="method" name="method" required>
-                    <option value="cash on delivery">Cash on Delivery</option>
-                    <option value="credit card">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="flat">Flat No:</label>
-                <input type="text" id="flat" name="flat" required>
-            </div>
-            <div class="form-group">
-                <label for="street">Street Name:</label>
-                <input type="text" id="street" name="street" required>
-            </div>
-            <div class="form-group">
-                <label for="city">City:</label>
-                <input type="text" id="city" name="city" required>
-            </div>
-            <div class="form-group">
-                <label for="state">State:</label>
-                <input type="text" id="state" name="state" required>
-            </div>
-            <div class="form-group">
-                <label for="country">Country:</label>
-                <input type="text" id="country" name="country" required>
-            </div>
-            <div class="form-group">
-                <label for="pin_code">Pin Code:</label>
-                <input type="text" id="pin_code" name="pin_code" required>
-            </div>
-            <input type="hidden" name="total_products" value="<?php echo htmlspecialchars(json_encode($cart_items)); ?>">
-            <input type="hidden" name="total_price" value="<?php echo htmlspecialchars($total_amount); ?>">
-            <button type="submit" name="order" class="btn-primary">Place Order</button>
-        </form>
-        <div class="order-summary">
-            <h4>Order Summary</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cart_items as $item): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                            <td>$<?php echo number_format($item['price'], 2); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <h4>Total Amount: $<?php echo number_format($total_amount, 2); ?></h4>
+    <h2>Checkout</h2>
+    <form action="checkout.php" method="post">
+        <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="number">Phone Number:</label>
+            <input type="text" id="number" name="number" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="method">Payment Method:</label>
+            <input type="text" id="method" name="method" value="MasterCard" readonly required>
+        </div>
+        <div class="form-group">
+            <label for="flat">Flat No:</label>
+            <input type="text" id="flat" name="flat" required>
+        </div>
+        <div class="form-group">
+            <label for="street">Street Name:</label>
+            <input type="text" id="street" name="street" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" required>
+        </div>
+        <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+        </div>
+        <div class="form-group">
+            <label for="pin_code">Post Code:</label>
+            <input type="text" id="pin_code" name="pin_code" required>
+        </div>
+        <input type="hidden" name="total_products" value="<?php echo count($product); ?>">
+        <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
+
+        <h3>Order Summary</h3>
+        <ul>
+            <?php foreach ($product as $product): ?>
+                <li><?php echo htmlspecialchars($product['product_name']); ?> (x<?php echo $product['quantity']; ?>) - $<?php echo number_format($product['price'], 2); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <h4>Total: $<?php echo number_format($total_price, 2); ?></h4>
+
+        <button type="submit" class="btn-primary">Proceed to Payment</button>
+    </form>
+    <?php
+    if (isset($_SESSION['message'])) {
+        echo '<p style="color: red; text-align: center;">' . $_SESSION['message'] . '</p>';
+        unset($_SESSION['message']);
+    }
+    ?>
+</div>
     <?php include("footer.php"); ?>
 </body>
 </html>
