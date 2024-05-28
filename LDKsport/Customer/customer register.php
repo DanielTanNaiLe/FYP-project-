@@ -75,6 +75,94 @@ if(isset($_POST['submit'])){
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Register</title>
    <link rel="stylesheet" href="style.css">
+   <style>
+   body {
+    font-family: Arial, sans-serif;
+    background: #f1f1f1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: 80%;
+    max-width: 900px;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.btn {
+    width: 100%;
+    background: #5cb85c;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background: #4cae4c;
+}
+
+.message {
+    background: #ffdddd;
+    color: #a94442;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ebccd1;
+    border-radius: 5px;
+}
+
+.show-password-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.show-password-label input {
+    margin-right: 10px;
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p a {
+    color: #5cb85c;
+}
+</style>
 </head>
 <body>
 <div class="form-container">
@@ -87,46 +175,47 @@ if(isset($_POST['submit'])){
          }
       }
       ?>
-     <div class="inputBox">
-      <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
-      <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
-      <input type="email" name="email" placeholder="Enter Email" class="box" required>
-      <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
-      <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
-      <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+    
+    <div class="form-row">
+          <div class="form-column">
+              <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
+              <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
+              <input type="email" name="email" placeholder="Enter Email" class="box" required>
+              <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
+              <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
+              <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+          </div>
+          <div class="form-column">
+              <input type="text" name="flat_no" placeholder="Enter Flat Number" class="box" required>
+              <input type="text" name="street_name" placeholder="Enter Street Name" class="box" required>
+              <input type="text" name="city" placeholder="Enter City" class="box" required>
+              <input type="text" name="state" placeholder="Enter State" class="box" required>
+              <input type="text" name="country" placeholder="Enter Country" class="box" required>
+              <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
+          </div>
       </div>
-
-    <div class="inputBox">
-      <input type="text" name="flat_no" placeholder="Enter Flat Number" class="box" required>
-      <input type="text" name="street_name" placeholder="Enter Street Name" class="box" required>
-      <input type="text" name="city" placeholder="Enter City" class="box" required>
-      <input type="text" name="state" placeholder="Enter State" class="box" required>
-      <input type="text" name="country" placeholder="Enter Country" class="box" required>
-      <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
-      
       <input type="submit" name="submit" value="Register Now" class="btn">
-    <div class="show-password-label">
-        <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-        <span>Show password</span>
-    </div>
-    </div>
-    <script type="text/javascript">
-        function myfunction(){
-            var show = document.getElementById("password");
-            if(show.type=="password"){
-                show.type="text";
-            } else {
-                show.type="password";
-            }
+      <div class="show-password-label">
+          <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+          <span>Show password</span>
+      </div>
+      <script type="text/javascript">
+          function myfunction(){
+              var show = document.getElementById("password");
+              if(show.type=="password"){
+                  show.type="text";
+              } else {
+                  show.type="password";
+              }
 
-            var showConfirm = document.getElementById("password_confirmation");
-            if(showConfirm.type=="password"){
-                showConfirm.type="text";
-            } else {
-                showConfirm.type="password";
-            }
-        }
-    </script>
+              var showConfirm = document.getElementById("password_confirmation");
+              if(showConfirm.type=="password"){
+                  showConfirm.type="text";
+              } else {
+                  showConfirm.type="password";
+              }
+          }
+      </script>
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
 </div>
