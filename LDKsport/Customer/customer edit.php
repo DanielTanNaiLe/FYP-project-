@@ -23,23 +23,6 @@ if (isset($_POST['update_profile'])) {
    // Update profile details
    mysqli_query($conn, "UPDATE `users` SET first_name = '$update_first_name', last_name = '$update_last_name', email = '$update_email', flat_no = '$update_flat_no', street_name = '$update_street_name', city = '$update_city', state = '$update_state', country = '$update_country', contact_no = '$update_contact_no' WHERE user_id = '$user_id'") or die('Query failed');
 
-   // Update password
-   $old_pass = $_POST['old_pass'];
-   $update_pass = mysqli_real_escape_string($conn, md5($_POST['update_pass']));
-   $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
-   $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
-
-   if (!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)) {
-      if ($update_pass != $old_pass) {
-         $message[] = 'Old password not matched!';
-      } elseif ($new_pass != $confirm_pass) {
-         $message[] = 'Confirm password not matched!';
-      } else {
-         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE user_id = '$user_id'") or die('Query failed');
-         $message[] = 'Password updated successfully!';
-      }
-   }
-
    // Update image
    $update_image = $_FILES['update_image']['name'];
    $update_image_size = $_FILES['update_image']['size'];
@@ -94,7 +77,7 @@ if (isset($_POST['update_profile'])) {
             }
          }
       ?>
-      <div class="flex">
+    <div class="flex">
          <div class="inputBox">
             <span>First Name:</span>
             <input type="text" name="update_first_name" value="<?php echo $fetch['first_name']; ?>" class="box">
@@ -102,6 +85,13 @@ if (isset($_POST['update_profile'])) {
             <input type="text" name="update_last_name" value="<?php echo $fetch['last_name']; ?>" class="box">
             <span>Email:</span>
             <input type="email" name="update_email" value="<?php echo $fetch['email']; ?>" class="box">
+            <span>Contact Number:</span>
+            <input type="text" name="update_contact_no" value="<?php echo $fetch['contact_no']; ?>" class="box">
+            <span>Update Your Picture:</span>
+            <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
+         </div>
+
+         <div class="inputBox">
             <span>Flat Number:</span>
             <input type="text" name="update_flat_no" value="<?php echo $fetch['flat_no']; ?>" class="box">
             <span>Street Name:</span>
@@ -111,56 +101,15 @@ if (isset($_POST['update_profile'])) {
             <span>State:</span>
             <input type="text" name="update_state" value="<?php echo $fetch['state']; ?>" class="box">
             <span>Country:</span>
-            <input type="text" name="update_country" value="<?php echo $fetch['country']; ?>" class="box">
-            <span>Contact Number:</span>
-            <input type="text" name="update_contact_no" value="<?php echo $fetch['contact_no']; ?>" class="box">
-            <span>Update Your Picture:</span>
-            <input type="file" name="update_image" accept="image/jpg, image/jpeg, image/png" class="box">
-         </div>
-         <div class="inputBox">
-            <input type="hidden" name="old_pass" id="old_pass" value="<?php echo $fetch['password']; ?>">
-            <span>Old Password:</span>
-            <input type="password" name="update_pass" id="update_pass" placeholder="Enter previous password" class="box">
-            <span>New Password:</span>
-            <input type="password" name="new_pass" id="new_pass" placeholder="Enter new password" class="box">
-            <span>Confirm Password:</span>
-            <input type="password" name="confirm_pass" id="confirm_pass" placeholder="Confirm new password" class="box">
-            
-            <div class="show-password-label">
-               <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
-               <span>Show password</span>
-            </div>
+             <input type="text" name="update_country" value="<?php echo $fetch['country']; ?>" class="box">
          </div>
       </div>
       <input type="submit" value="Update Profile" name="update_profile" class="btn">
+      <a href="customer_reset_password.php" class="btn">Reset Password</a>
       <a href="landingafterlogin.php" class="delete-btn">Go Back</a>
+      
    </form>
 
 </div>
-
-<script type="text/javascript">
-   function myfunction() {
-      var show = document.getElementById("update_pass");
-      if (show.type == "password") {
-         show.type = "text";
-      } else {
-         show.type = "password";
-      }
-
-      var show = document.getElementById("new_pass");
-      if (show.type == "password") {
-         show.type = "text";
-      } else {
-         show.type = "password";
-      }
-
-      var show = document.getElementById("confirm_pass");
-      if (show.type == "password") {
-         show.type = "text";
-      } else {
-         show.type = "password";
-      }
-   }
-</script>
 </body>
 </html>

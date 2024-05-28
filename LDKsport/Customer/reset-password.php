@@ -37,73 +37,7 @@ if (strtotime($users["reset_token_expires_at"]) <= time()) {
     <title>Reset Password</title>
     <meta charset="UTF-8">
 </head>
-<style>
-   body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
-    color: #007bff;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 50px;
-}
-
-form {
-    width: 500px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-label {
-    display: block;
-    margin-bottom: 20px;
-}
-
-input[type="password"],input[type="text"] {
-    width: 500px ;
-    padding: 10px 5px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    
-}
-
-.show-password-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.show-password-label input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.show-password-label span {
-    font-size: 14px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-   
-</style>
+ <link rel="stylesheet" href="style.css">
 <body>
 
 <h1>Reset Password</h1>
