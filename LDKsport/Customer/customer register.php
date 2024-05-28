@@ -76,31 +76,6 @@ if(isset($_POST['submit'])){
    <title>Register</title>
    <link rel="stylesheet" href="style.css">
    <style>
-   body {
-    font-family: Arial, sans-serif;
-    background: #f1f1f1;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.form-container {
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    width: 80%;
-    max-width: 900px;
-}
-
-h3 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -112,56 +87,6 @@ h3 {
     flex-direction: column;
 }
 
-.box {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-}
-
-.btn {
-    width: 100%;
-    background: #5cb85c;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.btn:hover {
-    background: #4cae4c;
-}
-
-.message {
-    background: #ffdddd;
-    color: #a94442;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ebccd1;
-    border-radius: 5px;
-}
-
-.show-password-label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.show-password-label input {
-    margin-right: 10px;
-}
-
-p {
-    text-align: center;
-    margin-top: 20px;
-}
-
-p a {
-    color: #5cb85c;
-}
 </style>
 </head>
 <body>
