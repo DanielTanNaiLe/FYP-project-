@@ -70,7 +70,6 @@ body {
     margin: auto;
     height: 70%;
     padding: 20px;
-    width: 100%;
     overflow-x: auto;
     position: relative;
 }

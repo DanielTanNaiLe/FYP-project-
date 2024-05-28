@@ -38,6 +38,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <meta charset="UTF-8">
     <title>Wishlist</title>
     <link rel="stylesheet" href="general.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
@@ -45,10 +46,10 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             background-color: #f4f4f4;
         }
         .wishlist-container {
-            margin: auto;
             background-color: #fff;
+            margin: auto;
             padding: 30px;
-            height: 70%;
+            height: 65%;
         }
         .wishlist-container h2 {
             background-color: #F2A32D;
@@ -198,10 +199,11 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             <?php endforeach; ?>
-             </div>
+             
         <?php else: ?>
             <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
         <?php endif; ?>
+        </div>
          <?php
                 if (isset($_SESSION['message'])) {
                     echo '<div class="alert-container show">';
@@ -211,10 +213,10 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                 }
                 ?>
     </div>
-
+    <?php include("footer.php"); ?>
     <script>
         
-    $(document).ready(function(){
+        $(document).ready(function(){
         setTimeout(function(){
             $('.alert-container').addClass('hide');
             $('.alert-container').removeClass('show');
@@ -227,6 +229,5 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     });
 
     </script>
-    <?php include("footer.php"); ?>
 </body>
 </html>
