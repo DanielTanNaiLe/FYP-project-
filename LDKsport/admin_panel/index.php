@@ -181,6 +181,11 @@
     } else if (isset($_GET['gender']) && $_GET['gender'] == "error") {
         echo '<script> alert("Adding Unsuccess")</script>';
     }
+    if (isset($_GET['product']) && $_GET['product'] == "success") {
+        echo '<script> alert("Product Successfully Added")</script>';
+    } else if (isset($_GET['gender']) && $_GET['gender'] == "error") {
+        echo '<script> alert("Adding Unsuccess")</script>';
+    }
   ?>
 
   <script type="text/javascript" src="./assets/js/ajaxWork.js"></script>
