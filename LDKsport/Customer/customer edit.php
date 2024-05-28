@@ -105,8 +105,9 @@ if (isset($_POST['update_profile'])) {
          </div>
       </div>
       <input type="submit" value="Update Profile" name="update_profile" class="btn">
+      <a href="customer_reset_password.php" class="btn">Reset Password</a>
       <a href="landingafterlogin.php" class="delete-btn">Go Back</a>
-      <a href="resetpassword.php" class="btn">Reset Password</a>
+      
    </form>
 
 </div>

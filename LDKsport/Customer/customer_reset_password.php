@@ -40,6 +40,7 @@ if (isset($_POST['reset_password'])) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Reset Password</title>
    <!-- custom css file link  -->
+   <link rel="stylesheet" href="style.css">
 </head>
 <link rel="stylesheet" href="style.css">
 <body>
@@ -62,7 +63,7 @@ if (isset($_POST['reset_password'])) {
          <input type="password" name="confirm_pass" placeholder="Confirm new password" class="box">
       </div>
       <input type="submit" value="Reset Password" name="reset_password" class="btn">
-      <a href="customer_edit_profile.php" class="btn">Go Back</a>
+      <a href="customer edit.php" class="btn">Go Back</a>
    </form>
 
 </div>
