@@ -19,8 +19,8 @@ if (isset($_POST['reset_password'])) {
    $fetch = mysqli_fetch_assoc($select);
    $stored_pass = $fetch['password'];
 
-   if (!empty($old_pass) || !empty($new_pass) || !empty($confirm_pass)) {
-      if ($old_pass != $stored_pass) {
+   if (!empty($update_pass) || !empty($new_pass) || !empty($confirm_pass)) {
+      if ($update_pass != $old_pass) {
          $message[] = 'Old password not matched!';
       } elseif ($new_pass != $confirm_pass) {
          $message[] = 'Confirm password not matched!';
@@ -46,6 +46,13 @@ if (isset($_POST['reset_password'])) {
 
 <body>
 <div class="form-container">
+
+<?php
+      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
+      if (mysqli_num_rows($select) > 0) {
+         $fetch = mysqli_fetch_assoc($select);
+      }
+   ?>
 
    <form action="" method="post">
       <?php
