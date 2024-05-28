@@ -56,30 +56,41 @@ if (isset($_POST['reset_password'])) {
       ?>
       <div class="inputBox">
          <span>Old Password:</span>
-         <input type="password" name="old_pass" placeholder="Enter previous password" class="box">
+         <input type="password" name="old_pass" id="old_pass" placeholder="Enter previous password" class="box">
          <span>New Password:</span>
-         <input type="password" name="new_pass" placeholder="Enter new password" class="box">
+         <input type="password" name="new_pass" id="new_pass" placeholder="Enter new password" class="box">
          <span>Confirm Password:</span>
-         <input type="password" name="confirm_pass" placeholder="Confirm new password" class="box">
+         <input type="password" name="confirm_pass" id="confirm_pass" placeholder="Confirm new password" class="box">
+      </div>
 
-         <div class="show-password-label">
-         <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+      <div class="show-password-label">
+         <input type="checkbox" id="showpassword" name="showpassword" onclick="togglePasswordVisibility()">
          <span>Show Password</span>
       </div>
-      <script type="text/javascript">
-         function myfunction(){
-            var show = document.getElementById("password");
-            if(show.type == "password"){
-                show.type = "text";
-            } else {
-                show.type = "password";
-            }
-         }
-      </script>
+
       <input type="submit" value="Reset" name="reset_password" class="btn">
-      <a href="customer edit.php" class="btn">Go Back</a>
+      <a href="customer_edit_profile.php" class="btn">Go Back</a>
    </form>
 
 </div>
+
+<script type="text/javascript">
+   function togglePasswordVisibility() {
+      var oldPass = document.getElementById("old_pass");
+      var newPass = document.getElementById("new_pass");
+      var confirmPass = document.getElementById("confirm_pass");
+
+      if (oldPass.type === "password") {
+         oldPass.type = "text";
+         newPass.type = "text";
+         confirmPass.type = "text";
+      } else {
+         oldPass.type = "password";
+         newPass.type = "password";
+         confirmPass.type = "password";
+      }
+   }
+</script>
+
 </body>
 </html>
