@@ -1,6 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
- include("header.php");
+include("header.php");
 session_start();
 
 if (isset($_SESSION['user_id'])) {
@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
 } else {
     $user_id = ''; 
 }
-   
+
 require '../admin_panel/wishlist_cart.php';
 
 if (isset($_POST['remove_from_wishlist']) && isset($_POST['product_id'])) {
@@ -19,9 +19,9 @@ if (isset($_POST['remove_from_wishlist']) && isset($_POST['product_id'])) {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        echo "<script>alert('Product removed from wishlist');</script>";
+        $_SESSION['message'] = 'Product removed from wishlist';
     } else {
-        echo "<script>alert('Error removing product from wishlist');</script>";
+        $_SESSION['message'] = 'Error removing product on wishist';
     }
 }
 
@@ -42,32 +42,33 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
-
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
         .wishlist-container {
-            margin: 60px auto 50px auto;
+            margin: 60px auto;
             background-color: #fff;
             padding: 30px;
+            height: 45%;
         }
         .wishlist-container h2 {
-            width: 90%;
-           background-color: rgb(242, 163, 45);
-           text-align: center;
-           margin-left: 45px;
-           margin-top: 0;
-           padding: 20px;
+            background-color: rgb(242, 163, 45);
+            text-align: center;
+            margin: 0 0 20px 0;
+            padding: 20px;
+            border-radius: 5px;
         }
         .wishlist-item {
             display: flex;
-            width: 90%;
             justify-content: space-between;
-            margin-left: auto;
-            margin-right: auto;
             align-items: center;
             border-bottom: 1px solid #ccc;
             padding: 15px 0;
         }
         .wishlist-item img {
             max-width: 100px;
+            border-radius: 5px;
         }
         .wishlist-item-info {
             flex: 1;
@@ -76,6 +77,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
         .wishlist-item-info h3 {
             margin: 0;
             color: #333;
+            font-size: 20px;
         }
         .wishlist-item-info p {
             margin: 5px 0;
@@ -84,7 +86,6 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
         .wishlist-item-price {
             color: #e74c3c;
             font-size: 18px;
-            margin-right: 20px;
         }
         .wishlist-item-actions button {
             background-color: #e74c3c;
@@ -93,9 +94,61 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             padding: 10px 20px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            border-radius: 5px;
         }
         .wishlist-item-actions button:hover {
             background-color: #c0392b;
+        }
+        .wishlist-item-actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .wishlist-item-actions a:hover {
+            background-color: #2980b9;
+        }
+        .alert-container{
+            background: #ffdb9b;
+            padding: 20px 40px;
+            min-width: 420px;
+            position: absolute;
+            right: 0px;
+            top: 135px;
+            overflow: hidden;
+            border-radius: 4px;
+            border-left: 8px solid #ffa502;
+            cursor: pointer;
+        }
+        .alert-container.show {
+            animation: show_slide 1s ease forwards;
+        }
+        @keyframes show_slide {
+            0% {
+                transform: translateX(100%);
+            }
+            40% {
+                transform: translateX(-10%);
+            }
+            80% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-10%);
+            }
+        }
+        .alert-container.hide{
+            display: none;
+        }
+        .alert-container .alert {
+            padding: 0 20px;
+            font-size: 18px;
+            color: #ce8500;
+        }
+        .alert-container:hover{
+            background: #ffc766;
         }
     </style>
 </head>
@@ -106,26 +159,50 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
              foreach ($wishlist_items as $item): 
              ?>
                 <div class="wishlist-item">
-                    <img src="<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
+                    <a href="product_details.php?pid=<?php echo $item['product_id']; ?>">
+                        <img src="<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
+                    </a>
                     <div class="wishlist-item-info">
                         <h3><?php echo $item['product_name']; ?></h3>
-                        <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
-                    </div>
-                    <div class="wishlist-item-price">
-                        $<?php echo number_format($item['price'], 2); ?>
+                        <p class="wishlist-item-price">Price: $<?php echo number_format($item['price'], 2); ?></p>
                     </div>
                     <div class="wishlist-item-actions">
                         <form action="wishlist.php" method="post">
                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                             <button type="submit" name="remove_from_wishlist">Remove</button>
                         </form>
+                        <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
         <?php endif; ?>
+         <?php
+                if (isset($_SESSION['message'])) {
+                    echo '<div class="alert-container show">';
+                    echo '<span class="alert">' . $_SESSION['message'] . '</span>';
+                    echo '</div>';
+                    unset($_SESSION['message']);
+                }
+                ?>
     </div>
-    <?php include("footer.php");?>
+
+    <script>
+        
+    $(document).ready(function(){
+        setTimeout(function(){
+            $('.alert-container').addClass('hide');
+            $('.alert-container').removeClass('show');
+        }, 3000); // Change the duration as needed
+    });
+
+    $('.alert-container').click(function(){
+        $(this).addClass('hide');
+        $(this).removeClass('show');
+    });
+
+    </script>
+    <?php include("footer.php"); ?>
 </body>
 </html>
