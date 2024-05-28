@@ -5,20 +5,20 @@ session_start();
 $user_id = $_SESSION['user_id'];
 
 if (!isset($user_id)) {
-   header('location:customer login.php');
+   header('location:customer_login.php');
    exit();
 }
 
 if (isset($_POST['reset_password'])) {
-   $old_pass = mysqli_real_escape_string($conn, md5($_POST['old_pass']));
-   $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
-   $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
+   $old_pass = md5(mysqli_real_escape_string($conn, $_POST['old_pass']));
+   $new_pass = md5(mysqli_real_escape_string($conn, $_POST['new_pass']));
+   $confirm_pass = md5(mysqli_real_escape_string($conn, $_POST['confirm_pass']));
 
    $select = mysqli_query($conn, "SELECT password FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
    $fetch = mysqli_fetch_assoc($select);
    $stored_pass = $fetch['password'];
 
-   if (!empty($old_pass) || !empty($new_pass) || !empty($confirm_pass)) {
+   if (!empty($old_pass) && !empty($new_pass) && !empty($confirm_pass)) {
       if ($old_pass != $stored_pass) {
          $message[] = 'Old password not matched!';
       } elseif ($new_pass != $confirm_pass) {
@@ -47,17 +47,17 @@ if (isset($_POST['reset_password'])) {
 <div class="form-container">
 
 <?php
-      $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
-      if (mysqli_num_rows($select) > 0) {
-         $fetch = mysqli_fetch_assoc($select);
-      }
-   ?>
+   $select = mysqli_query($conn, "SELECT * FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
+   if (mysqli_num_rows($select) > 0) {
+      $fetch = mysqli_fetch_assoc($select);
+   }
+?>
 
    <form action="" method="post">
       <?php
          if (isset($message)) {
-            foreach ($message as $message) {
-               echo '<div class="message">' . $message . '</div>';
+            foreach ($message as $msg) {
+               echo '<div class="message">' . $msg . '</div>';
             }
          }
       ?>
