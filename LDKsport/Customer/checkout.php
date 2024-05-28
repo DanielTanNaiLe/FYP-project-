@@ -3,7 +3,7 @@ include("header.php");
 require '../admin_panel/config/dbconnect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('location:customer_login.php');
+    header('location:customer login.php');
     exit();
 }
 
