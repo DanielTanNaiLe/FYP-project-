@@ -65,26 +65,17 @@ if (isset($_POST['reset_password'])) {
          <div class="show-password-label">
          <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
          <span>Show Password</span>
-         </div>
-         <script type="text/javascript">
-          function myfunction(){
-              var show = document.getElementById("password");
-              if(show.type=="password"){
-                  show.type="text";
-              } else {
-                  show.type="password";
-              }
-
-              var showConfirm = document.getElementById("password_confirmation");
-              if(showConfirm.type=="password"){
-                  showConfirm.type="text";
-              } else {
-                  showConfirm.type="password";
-              }
-          }
-      </script>
-
       </div>
+      <script type="text/javascript">
+         function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type == "password"){
+                show.type = "text";
+            } else {
+                show.type = "password";
+            }
+         }
+      </script>
       <input type="submit" value="Reset" name="reset_password" class="btn">
       <a href="customer edit.php" class="btn">Go Back</a>
    </form>
