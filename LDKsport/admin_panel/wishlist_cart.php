@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 if (isset($_POST['add_to_wishlist']) && isset($_POST['pid'])) {
     if ($user_id == '') {

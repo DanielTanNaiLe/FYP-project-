@@ -1,7 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
 include("header.php");
-session_start();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -43,38 +42,53 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #f4f4f4;
         }
         .wishlist-container {
-            margin: 60px auto;
+            margin: auto;
             background-color: #fff;
             padding: 30px;
-            height: 45%;
+            height: 70%;
         }
         .wishlist-container h2 {
             background-color: #F2A32D;
             text-align: center;
-            margin: 0 0 20px 0;
+            margin-top: 120px;
             color: #333;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .wishlist-itemcontainer{
+            margin: 50px auto auto auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
         .wishlist-item {
             display: flex;
+            flex-wrap: wrap;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #ccc;
             padding: 15px 0;
+            transition: transform 0.3s ease;
+        }
+        .wishlist-item:hover {
+            transform: translateY(-5px);
         }
         .wishlist-item img {
-            max-width: 100px;
+            max-width: 200px;
+            box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2); /* Right side shadow */
+            clip-path: inset(0 -10px 0 0); /* Adjust to only show shadow on the right side */
+            height: auto;
             border-radius: 5px;
         }
         .wishlist-item-info {
-            flex: 1;
-            margin-left: 20px;
+            background-color: #f3f3f3;
+            flex: 2;
+            padding: 20px;
         }
         .wishlist-item-info h3 {
             margin: 0;
@@ -82,18 +96,24 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             font-size: 20px;
         }
         .wishlist-item-info p {
-            margin: 5px 0;
+            margin: 10px 0;
             color: #777;
         }
         .wishlist-item-price {
             color: #e74c3c;
             font-size: 18px;
         }
+        .wishlist-item-actions{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px auto auto auto;
+        }
         .wishlist-item-actions button {
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 40px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             border-radius: 5px;
@@ -157,6 +177,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
 <body>
     <div class="wishlist-container">
         <h2>My Wishlist</h2>
+        <div class="wishlist-itemcontainer">
         <?php if (count($wishlist_items) > 0): 
              foreach ($wishlist_items as $item): 
              ?>
@@ -169,14 +190,15 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                         <p class="wishlist-item-price">Price: $<?php echo number_format($item['price'], 2); ?></p>
                     </div>
                     <div class="wishlist-item-actions">
+                    <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
                         <form action="wishlist.php" method="post">
                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                             <button type="submit" name="remove_from_wishlist">Remove</button>
                         </form>
-                        <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
                     </div>
                 </div>
             <?php endforeach; ?>
+             </div>
         <?php else: ?>
             <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
         <?php endif; ?>

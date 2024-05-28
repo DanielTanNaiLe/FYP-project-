@@ -190,7 +190,7 @@ $conn->close();
                         <img src="../uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>">
                         <span><?php echo htmlspecialchars($product['product_name']); ?></span>
                         <span>(x<?php echo $product['quantity']; ?>)</span>
-                        <span>- $<?php echo number_format($product['price'], 2); ?></span>
+                        <span>- $<?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>

@@ -401,6 +401,10 @@ text-transform: uppercase;
     grid-auto-rows: 0px;
     margin: 70px;
     overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.listproduct:hover{
+    transform: translateY(-5px);
 }
 .listproduct .item{
     margin: 5px;
