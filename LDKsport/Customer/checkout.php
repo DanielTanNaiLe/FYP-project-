@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch cart items for order summary
 $user_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("
-    SELECT p.product_name, c.quantity, c.price 
+    SELECT p.product_name, p.product_image, c.quantity, c.price 
     FROM cart c
     JOIN product_size_variation v ON c.variation_id = v.variation_id
     JOIN product p ON v.product_id = p.product_id
@@ -55,7 +55,7 @@ $conn->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-    body {
+   body {
             background-color: #f9f9f9;
             font-family: Arial, sans-serif;
         }
@@ -152,6 +152,9 @@ $conn->close();
         }
 
         .order-summary ul {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
             list-style: none;
             padding: 0;
         }
@@ -159,6 +162,16 @@ $conn->close();
         .order-summary ul li {
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+        }
+
+        .order-summary ul li img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .order-summary ul li:last-child {
@@ -173,7 +186,12 @@ $conn->close();
             <h3>Order Summary</h3>
             <ul>
                 <?php foreach ($product as $product): ?>
-                    <li><?php echo htmlspecialchars($product['product_name']); ?> (x<?php echo $product['quantity']; ?>) - $<?php echo number_format($product['price'], 2); ?></li>
+                    <li>
+                        <img src="../uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>">
+                        <span><?php echo htmlspecialchars($product['product_name']); ?></span>
+                        <span>(x<?php echo $product['quantity']; ?>)</span>
+                        <span>- $<?php echo number_format($product['price'], 2); ?></span>
+                    </li>
                 <?php endforeach; ?>
             </ul>
             <h4>Total: $<?php echo number_format($total_price, 2); ?></h4>

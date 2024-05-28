@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id'])) {
 
         .heading {
             width: 100%;
-            margin-top: 100px;
+            margin-top: 150px;
             background-color: #F2A32D;
             text-align: center;
             padding: 20px;
@@ -51,7 +51,6 @@ if (isset($_SESSION['user_id'])) {
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
-            margin-top: 20px;
         }
 
         .box {
@@ -97,8 +96,8 @@ if (isset($_SESSION['user_id'])) {
 <body>
 
 <section class="orders">
-    <h1 class="heading">Placed Orders</h1>
     <div class="box-container">
+    <h1 class="heading">Placed Orders</h1>
         <?php
         if ($user_id == '') {
             echo '<p class="empty">Please login to see your orders</p>';
@@ -119,11 +118,11 @@ if (isset($_SESSION['user_id'])) {
                         <p>Payment Method: <span><?= $fetch_orders['pay_method']; ?></span></p>
                         <p>Your Orders: <span><?= $fetch_orders['total_products']; ?></span></p>
                         <p>Total Price: <span>$<?= $fetch_orders['amount']; ?>/-</span></p>
-                        <p>Payment Status: <span style="color:<?php if ($fetch_orders['pay_status'] == 'Pending') {
-                                echo 'red';
-                            } else {
-                                echo 'green';
-                            }; ?>"><?= $fetch_orders['pay_status']; ?></span></p>
+                        <p>Order Status: <span style="color:<?php if ($fetch_orders['order_status'] == 0) {
+                         echo 'red';
+                         } else {
+                         echo 'green';
+                         }; ?>"><?php echo $fetch_orders['order_status'] == 0 ? 'Pending' : 'Delivered'; ?></span></p>
                     </div>
                     <?php
                 }

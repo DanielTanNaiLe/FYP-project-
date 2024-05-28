@@ -53,11 +53,13 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             height: 45%;
         }
         .wishlist-container h2 {
-            background-color: rgb(242, 163, 45);
+            background-color: #F2A32D;
             text-align: center;
             margin: 0 0 20px 0;
+            color: #333;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .wishlist-item {
             display: flex;

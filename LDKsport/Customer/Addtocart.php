@@ -77,12 +77,14 @@ body {
 
 h2 {
     width: 90%;
-    background-color: rgb(242, 163, 45);
+    background-color: #F2A32D;
     text-align: center;
     margin-left: 45px;
     margin-top: 0;
     padding: 20px;
     color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 table {
@@ -204,7 +206,7 @@ td img {
                             <td><?php echo htmlspecialchars($item['product_name']); ?></td>
                             <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
                             <td><?php echo htmlspecialchars($item['size_name']); ?></td>
-                            <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                            <td> <input type="number" min="1" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, this.value)"></td>
                             <td>$<?php echo number_format($item['price'], 2); ?></td>
                             <td>
                                 <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
