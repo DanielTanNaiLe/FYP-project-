@@ -10,7 +10,8 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['reset_password'])) {
-   $old_pass = mysqli_real_escape_string($conn, md5($_POST['old_pass']));
+   $old_pass = $_POST['old_pass'];
+   $update_pass = mysqli_real_escape_string($conn, md5($_POST['update_pass']));
    $new_pass = mysqli_real_escape_string($conn, md5($_POST['new_pass']));
    $confirm_pass = mysqli_real_escape_string($conn, md5($_POST['confirm_pass']));
 
@@ -69,28 +70,63 @@ if (isset($_POST['reset_password'])) {
       </div>
 
       <input type="submit" value="Reset" name="reset_password" class="btn">
-      <a href="customer_edit_profile.php" class="btn">Go Back</a>
+      <a href="customer edit.php" class="btn">Go Back</a>
    </form>
 
 </div>
 
 <script type="text/javascript">
-   function togglePasswordVisibility() {
-      var oldPass = document.getElementById("old_pass");
-      var newPass = document.getElementById("new_pass");
-      var confirmPass = document.getElementById("confirm_pass");
-
-      if (oldPass.type === "password") {
-         oldPass.type = "text";
-         newPass.type = "text";
-         confirmPass.type = "text";
+   function myfunction() {
+      var show = document.getElementById("update_pass");
+      if (show.type == "password") {
+         show.type = "text";
       } else {
-         oldPass.type = "password";
-         newPass.type = "password";
-         confirmPass.type = "password";
+         show.type = "password";
+      }
+
+      var show = document.getElementById("new_pass");
+      if (show.type == "password") {
+         show.type = "text";
+      } else {
+         show.type = "password";
+      }
+
+      var show = document.getElementById("confirm_pass");
+      if (show.type == "password") {
+         show.type = "text";
+      } else {
+         show.type = "password";
       }
    }
 </script>
 
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
