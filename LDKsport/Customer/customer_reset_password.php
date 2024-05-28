@@ -42,9 +42,9 @@ if (isset($_POST['reset_password'])) {
    <!-- custom css file link  -->
    <link rel="stylesheet" href="style.css">
 </head>
-<link rel="stylesheet" href="style.css">
+
 <body>
-<div class="reset-password">
+<div class="form-container">
 
    <form action="" method="post">
       <?php
@@ -61,6 +61,22 @@ if (isset($_POST['reset_password'])) {
          <input type="password" name="new_pass" placeholder="Enter new password" class="box">
          <span>Confirm Password:</span>
          <input type="password" name="confirm_pass" placeholder="Confirm new password" class="box">
+
+         <div class="show-password-label">
+         <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+         <span>Show Password</span>
+         </div>
+      <script type="text/javascript">
+         function myfunction(){
+            var show = document.getElementById("password");
+            if(show.type == "password"){
+                show.type = "text";
+            } else {
+                show.type = "password";
+            }
+         }
+      </script>
+
       </div>
       <input type="submit" value="Reset Password" name="reset_password" class="btn">
       <a href="customer edit.php" class="btn">Go Back</a>
