@@ -9,12 +9,27 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <!-- DateTime extension CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DateTime extension JS -->
+    <script src="https://cdn.datatables.net/datetime/1.1.0/js/dataTables.dateTime.min.js"></script>
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.print.min.js"></script>
+    <!-- JSZip (for Excel export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <!-- pdfmake (for PDF export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -22,8 +37,21 @@
     include_once "../config/dbconnect.php"; // Make sure you have this file with your DB connection
     ?>
 
-    <div>
+    <div class="container">
         <h3>Monthly Reports</h3>
+        
+        <!-- Date Range Filter -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="min-date">Start Date:</label>
+                <input type="text" id="min-date" class="form-control date-range-filter" placeholder="From: yyyy-mm-dd">
+            </div>
+            <div class="col-md-4">
+                <label for="max-date">End Date:</label>
+                <input type="text" id="max-date" class="form-control date-range-filter" placeholder="To: yyyy-mm-dd">
+            </div>
+        </div>
+
         <table class="table" id="reportTable">
             <thead>
                 <tr>
@@ -75,7 +103,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">New Monthly Report</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;"></button>
                     </div>
                     <div class="modal-body">
                         <form action="./controller/addReportController.php" method="POST">
@@ -110,7 +138,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Report Details</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal">&times;"></button>
                     </div>
                     <div class="report-view-modal modal-body">
                         <!-- Content loaded via AJAX will be inserted here -->
@@ -123,11 +151,77 @@
     <script>
         // Function to initialize DataTable and make the table sortable and searchable
         $(document).ready(function() {
-            $('#reportTable').DataTable({
+            // Date range filter variables
+            var minDate, maxDate;
+
+            // Custom filtering function which will search data in column four between two values
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    var min = minDate.val();
+                    var max = maxDate.val();
+                    var date = new Date(data[9]); // Use data for the date column
+
+                    if (
+                        (min === null && max === null) ||
+                        (min === null && date <= max) ||
+                        (min <= date && max === null) ||
+                        (min <= date && date <= max)
+                    ) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            // Create date inputs
+            minDate = new DateTime($('#min-date'), {
+                format: 'YYYY-MM-DD'
+            });
+            maxDate = new DateTime($('#max-date'), {
+                format: 'YYYY-MM-DD'
+            });
+
+            // DataTables initialisation
+            var table = $('#reportTable').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
-                "info": true
+                "info": true,
+                "dom": 
+                    "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'fB>>" +
+                    "<'row'<'col-sm-12'tr>>" + // Table rows
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Information and pagination
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] // Indexes of columns to include in copy action
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+                        }
+                    }
+                ]
+            });
+
+            // Refilter the table
+            $('#min-date, #max-date').on('change', function() {
+                table.draw();
             });
 
             // Event delegation to handle clicks on dynamically generated buttons
@@ -139,18 +233,6 @@
             });
         });
         
-        function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";  
-            document.getElementById("main-content").style.marginLeft = "250px";
-            document.getElementById("main").style.display="none";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft= "0";  
-            document.getElementById("main").style.display="block";  
-        }
     </script>
 
     <!-- Bootstrap and dependencies (for modal) -->
