@@ -81,6 +81,16 @@ function showOrders(){
         }
     });
 }
+function showReport(){  
+    $.ajax({
+        url:"./adminView/viewReports.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
 
 function ChangeOrderStatus(id){
     $.ajax({
