@@ -38,7 +38,7 @@ if(isset($_SESSION['user_id'])) {
     </ul>
 </li>
 <li>
-    <a href="menpage.php" class="a1">WOMAN</a>
+    <a href="girlpage.php" class="a1">WOMAN</a>
     <ul class="dropdown">
      <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
       <div class="dropdown2">
@@ -61,7 +61,7 @@ if(isset($_SESSION['user_id'])) {
     </ul>
 </li>
 <li>
-    <a href="menpage.php" class="a1">KIDS</a>
+    <a href="kidpage.php" class="a1">KIDS</a>
     <ul class="dropdown">
      <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
       <div class="dropdown2">
