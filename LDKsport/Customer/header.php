@@ -101,7 +101,7 @@ if(isset($_SESSION['user_id'])) {
             <a href="customer_login.php">Sign In</a>
         <?php endif; ?>
     </div>
-    <form>
+    <form action="search.php" method="GET">
         <div class="search">
             <span class="search-icon material-symbols-outlined">search</span>
             <input class="search-input" type="search" placeholder="Search">
@@ -115,7 +115,7 @@ if(isset($_SESSION['user_id'])) {
                 <li>
                     <a href="landingafterlogin.php"><i class='bx bx-user'></i></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_logout.php">Log out</a></li>
+                        <li><a href="customer logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                     </ul>
                 </li>
