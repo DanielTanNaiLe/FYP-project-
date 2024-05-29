@@ -19,7 +19,7 @@
          else
          {
              echo "Records added successfully.";
-             header("Location: ../dashboard.php?variation=success");
+             header("Location: ./dashboard.php?variation=success");
          }
      
     }
