@@ -10,21 +10,22 @@ if (!isset($user_id)) {
 }
 
 if (isset($_POST['reset_password'])) {
-   $old_pass = md5(mysqli_real_escape_string($conn, $_POST['old_pass']));
-   $new_pass = md5(mysqli_real_escape_string($conn, $_POST['new_pass']));
-   $confirm_pass = md5(mysqli_real_escape_string($conn, $_POST['confirm_pass']));
+   $old_pass_input = $_POST['old_pass'];
+   $new_pass_input = $_POST['new_pass'];
+   $confirm_pass_input = $_POST['confirm_pass'];
 
    $select = mysqli_query($conn, "SELECT password FROM `users` WHERE user_id = '$user_id'") or die('Query failed');
    $fetch = mysqli_fetch_assoc($select);
    $stored_pass = $fetch['password'];
 
-   if (!empty($old_pass) && !empty($new_pass) && !empty($confirm_pass)) {
-      if ($old_pass != $stored_pass) {
+   if (!empty($old_pass_input) && !empty($new_pass_input) && !empty($confirm_pass_input)) {
+      if (!password_verify($old_pass_input, $stored_pass)) {
          $message[] = 'Old password not matched!';
-      } elseif ($new_pass != $confirm_pass) {
+      } elseif ($new_pass_input !== $confirm_pass_input) {
          $message[] = 'Confirm password not matched!';
       } else {
-         mysqli_query($conn, "UPDATE `users` SET password = '$confirm_pass' WHERE user_id = '$user_id'") or die('Query failed');
+         $new_hashed_pass = password_hash($confirm_pass_input, PASSWORD_BCRYPT);
+         mysqli_query($conn, "UPDATE `users` SET password = '$new_hashed_pass' WHERE user_id = '$user_id'") or die('Query failed');
          $message[] = 'Password updated successfully!';
       }
    }
@@ -76,7 +77,7 @@ if (isset($_POST['reset_password'])) {
       </div>
 
       <input type="submit" value="Reset" name="reset_password" class="btn">
-      <a href="customer_edit.php" class="btn">Go Back</a>
+      <a href="customer edit.php" class="btn">Go Back</a>
    </form>
 
 </div>
@@ -99,5 +100,5 @@ if (isset($_POST['reset_password'])) {
    }
 </script>
 
-</body>
+</body>   
 </html>
