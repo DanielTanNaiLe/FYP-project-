@@ -43,7 +43,7 @@ include '../admin_panel/config/dbconnect.php';
 }
 	
 .content{
-	padding: 100px;
+	padding: 150px;
 	}
 
 h1{

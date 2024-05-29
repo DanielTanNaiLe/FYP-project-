@@ -11,13 +11,13 @@ if (isset($_SESSION['user_id'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer kid page</title>
+    <title>Customer woman page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
-    <h1 class="m1">KIDS</h1>
+    <h1 class="m1">WOMAN</h1>
     <div class="nav3">
         <a href="">Shoes</a>
         <a href="">Clothing</a>
