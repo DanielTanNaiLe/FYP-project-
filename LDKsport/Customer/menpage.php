@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer men page</title>
+    <title>Customer Men Page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -19,9 +19,9 @@ if (isset($_SESSION['user_id'])) {
 <body>
     <h1 class="m1">MEN</h1>
     <div class="nav3">
-        <a href="">Shoes</a>
-        <a href="">Clothing</a>
-        <a href="">Hats</a>
+        <a href="#">Shoes</a>
+        <a href="#">Clothing</a>
+        <a href="#">Pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -47,17 +47,23 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
     <?php
-    // Fetch and display shoes
-    $shoesResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Shoes'");
+    // Fetch and display shoes for men
+    $shoesResult = mysqli_query($conn, "SELECT * FROM product 
+                                        INNER JOIN category ON product.category_id = category.category_id 
+                                        WHERE category.category_name = 'Shoes' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
     displayProducts($shoesResult, "Shoes");
 
-    // Fetch and display clothing
-    $clothingResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Clothing'");
+    // Fetch and display clothing for men
+    $clothingResult = mysqli_query($conn, "SELECT * FROM product 
+                                           INNER JOIN category ON product.category_id = category.category_id 
+                                           WHERE category.category_name = 'Clothing' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
     displayProducts($clothingResult, "Clothing");
 
-    // Fetch and display pants
-    $pantsResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Pants'");
-    displayProducts($pantsResult, "Pants");
+    // Fetch and display hats for men
+    $pantsResult = mysqli_query($conn, "SELECT * FROM product 
+                                       INNER JOIN category ON product.category_id = category.category_id 
+                                       WHERE category.category_name = 'Pants' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
+      displayProducts($pantsResult, "Pants");
 
     function displayProducts($result, $categoryName) {
         echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
@@ -75,7 +81,7 @@ if (isset($_SESSION['user_id'])) {
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
             <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
-            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+            <div class="details-container"><a href="product_details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </form>
     <?php 

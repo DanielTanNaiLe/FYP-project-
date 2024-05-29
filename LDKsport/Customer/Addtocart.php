@@ -67,10 +67,9 @@ body {
 
 .container {
     background-color: #fff;
-    margin: 100px auto 50px auto;
-    height: 45%;
+    margin: auto;
+    height: 70%;
     padding: 20px;
-    width: 100%;
     overflow-x: auto;
     position: relative;
 }
@@ -80,7 +79,7 @@ h2 {
     background-color: #F2A32D;
     text-align: center;
     margin-left: 45px;
-    margin-top: 0;
+    margin-top: 130px;
     padding: 20px;
     color: #333;
     border-radius: 8px;
@@ -133,7 +132,7 @@ td img {
     display: block;
     align-items: center;
     position: absolute;
-    top: 61%; 
+    top: 65%; 
     right: 10%; 
     transform: translateY(-50%);
     width: 300px;
@@ -195,47 +194,44 @@ td img {
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php 
-                $count=1;
-                if (!empty($cart_items)): 
-                     foreach ($cart_items as $item): 
-                     ?>
-                        <tr>
-                        <td><?php echo $count; ?></td>
-                            <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                            <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
-                            <td><?php echo htmlspecialchars($item['size_name']); ?></td>
-                            <td> <input type="number" min="1" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, this.value)"></td>
-                            <td>$<?php echo number_format($item['price'], 2); ?></td>
-                            <td>
-                                <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
-                            </td>
-                        </tr>
-                    <?php 
-                    $count++;
-                endforeach; 
-                 else: 
-                ?>
+                       <tbody>
+                <?php foreach ($cart_items as $item): ?>
                     <tr>
-                        <td colspan="7" class="text-center">Your cart is empty</td>
+                        <td><?php echo $item['cart_id']; ?></td>
+                        <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                        <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
+                        <td><?php echo htmlspecialchars($item['size_name']); ?></td>
+                        <td>
+                            <input type="number" min="1" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, this.value)">
+                        </td>
+                        <td id="price_<?php echo $item['cart_id']; ?>">$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                        <td>
+                            <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
+                        </td>
                     </tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
-            </table>
-            <div class="total-container">
-                    <div class="total-box">
-                        <h4>Total:</h4>
-                    <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
-                 </br>
+        </table>
+        <div class="total-container">
+            <div class="total-box">
+                <h4>Total:</h4>
+                <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
+                <br>
                 <a href="checkout.php" class="btn-purchase">Make Purchase</a>
-                    </div>
             </div>
-             
+        </div>
     </div>
+
     <?php include("footer.php"); ?>
 
     <script>
+        function updateQuantity(cart_id, quantity) {
+            var priceElement = document.getElementById("price_" + cart_id);
+            var pricePerItem = <?php echo json_encode($cart_items); ?>.find(item => item.cart_id == cart_id).price;
+            var totalPrice = pricePerItem * quantity;
+            priceElement.textContent = "$" + totalPrice.toFixed(2);
+        }
+
         function removeItem(cart_id) {
             if (confirm("Are you sure you want to remove this item?")) {
                 window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
