@@ -157,8 +157,11 @@ $conn->close();
             gap: 20px;
             list-style: none;
             padding: 0;
+            transition: transform 0.3s ease;
         }
-
+        .order-summary ul:hover{
+            transform: translateY(-5px);
+        }
         .order-summary ul li {
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
