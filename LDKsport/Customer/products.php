@@ -41,7 +41,7 @@ if ($result === false) {
             <h2><?= $row["product_name"] ?></h2>
             <div class="price"><?= $row["price"] ?></div>
             <div class="favourite"><i class='bx bxs-heart'></i></div>
-            <div class="details-container"><a href="" class="details">View details</a></div>
+            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
         <?php
             }
