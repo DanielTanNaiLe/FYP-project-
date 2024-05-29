@@ -5,6 +5,7 @@
 				<p>Monday - Friday: 8:30AM - 5:30PM (except public holidays)</p>
 				<p><i class="fas fa-envelope"></i>  ldksoprts@gmail.com</p>
 				<p><i class="fas fa-phone"></i>  +6011-12345678</p>
+				<p><a href="contact.php">Send your concern to us</a></p>
 			</li>
 			
 			<li class="spacing-li"><h3>About Us</h3>
