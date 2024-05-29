@@ -14,6 +14,11 @@ if ($brandFilter) {
 } else {
     $result = mysqli_query($conn, $query);
 }
+
+if ($result === false) {
+    // Handle query error
+    die("Error executing query: " . mysqli_error($conn));
+}
 ?>
 <!DOCTYPE html>
 <html>
