@@ -77,7 +77,7 @@ if (isset($_POST['reset_password'])) {
       </div>
 
       <input type="submit" value="Reset" name="reset_password" class="btn">
-      <a href="customer_edit.php" class="btn">Go Back</a>
+      <a href="customer edit.php" class="btn">Go Back</a>
    </form>
 
 </div>
