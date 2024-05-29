@@ -1,4 +1,4 @@
-    <?php
+<?php
 session_start();
 include '../admin_panel/config/dbconnect.php';
 
@@ -20,16 +20,41 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
     $result = $conn->query($sql);
 
     if ($result) {
-        if ($result->num_rows > 0) {
-            echo "<h2>Search Results for '$query':</h2>";
-            echo "<ul>";
-            while ($row = $result->fetch_assoc()) {
-                echo "<li><strong>" . $row['product_name'] . "</strong> - " . $row['product_desc'] . " (" . $row['brand_name'] . ")</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "<h2>No results found for '$query'.</h2>";
-        }
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Search Results</title>
+            <link rel="stylesheet" href="general.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+            <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+        </head>
+        <body>
+            <?php include("header.php"); ?>
+            <div class="subtitle_1"><h1>Search Results for '<?= htmlspecialchars($query) ?>'</h1></div>
+            <div class="listproduct">
+                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                ?>
+                <div class="item">
+                    <img src="../uploads/<?= $row['product_image'] ?>" alt="">
+                    <h2><?= $row["product_name"] ?></h2>
+                    <div class="price"><?= $row["price"] ?></div>
+                    <div class="favourite"><i class='bx bxs-heart'></i></div>
+                    <div class="details-container"><a href="" class="details">View details</a></div>
+                </div>
+                <?php
+                    }
+                } else {
+                    echo "<p>No results found for '" . htmlspecialchars($query) . "'.</p>";
+                }
+                ?>
+            </div>
+            <?php include("footer.php"); ?>
+        </body>
+        </html>
+        <?php
     } else {
         echo "<h2>Error: " . $conn->error . "</h2>"; // Output SQL error
     }
