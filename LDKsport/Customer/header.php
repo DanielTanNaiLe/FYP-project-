@@ -96,9 +96,9 @@ if(isset($_SESSION['user_id'])) {
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer_logout.php">Log out</a>
+            <a href="customer logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer_login.php">Sign In</a>
+            <a href="customer login.php">Sign In</a>
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
