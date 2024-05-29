@@ -48,16 +48,24 @@ if (isset($_SESSION['user_id'])) {
     </div>
     <?php
     // Fetch and display shoes
-    $shoesResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Shoes'");
+    $shoesResult = mysqli_query($conn, "SELECT * FROM product 
+    INNER JOIN category ON product.category_id = category.category_id 
+    WHERE category.category_name = 'Shoes' 
+    AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'WOMAN')");
     displayProducts($shoesResult, "Shoes");
 
     // Fetch and display clothing
-    $clothingResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Clothing'");
+    $clothingResult = mysqli_query($conn, "SELECT * FROM product 
+    INNER JOIN category ON product.category_id = category.category_id 
+    WHERE category.category_name = 'Clothing' 
+    AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'WOMAN')");
     displayProducts($clothingResult, "Clothing");
 
     // Fetch and display pants
-    $pantsResult = mysqli_query($conn, "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE category.category_name = 'Pants'");
-    displayProducts($pantsResult, "Pants");
+    $pantsResult = mysqli_query($conn, "SELECT * FROM product 
+                                       INNER JOIN category ON product.category_id = category.category_id 
+                                       WHERE category.category_name = 'Pants' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'WOMAN')");
+      displayProducts($pantsResult, "Pants");
 
     function displayProducts($result, $categoryName) {
         echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';

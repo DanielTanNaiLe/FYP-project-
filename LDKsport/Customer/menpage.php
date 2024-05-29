@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="nav3">
         <a href="#">Shoes</a>
         <a href="#">Clothing</a>
-        <a href="#">Hats</a>
+        <a href="#">Pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -60,10 +60,10 @@ if (isset($_SESSION['user_id'])) {
     displayProducts($clothingResult, "Clothing");
 
     // Fetch and display hats for men
-    $hatsResult = mysqli_query($conn, "SELECT * FROM product 
+    $pantsResult = mysqli_query($conn, "SELECT * FROM product 
                                        INNER JOIN category ON product.category_id = category.category_id 
-                                       WHERE category.category_name = 'Hats' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-    displayProducts($hatsResult, "Hats");
+                                       WHERE category.category_name = 'Pants' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
+      displayProducts($pantsResult, "Pants");
 
     function displayProducts($result, $categoryName) {
         echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
