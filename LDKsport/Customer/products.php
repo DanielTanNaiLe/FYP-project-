@@ -27,11 +27,6 @@ if ($result === false) {
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <style>
-        body {
-            padding: 80px;
-        }
-    </style>
 </head>
 <body>
     <?php include("header.php"); ?>

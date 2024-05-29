@@ -125,7 +125,7 @@ if(isset($_SESSION['user_id'])) {
                 <li>
                     <a href="#"><i class='bx bx-user'></i></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_login.php">Log in</a></li>
+                        <li><a href="customer login.php">Log in</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                     </ul>
                 </li>
