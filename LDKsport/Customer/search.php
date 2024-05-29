@@ -12,7 +12,7 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
     // SQL query to search for products and join with the brand table
     $sql = "SELECT product.*, brand.brand_name 
             FROM product 
-            JOIN brand ON products.brand_id = brand.brand_id
+            JOIN brand ON product.brand_id = brand.brand_id
             WHERE product_name LIKE '%$query%' 
                OR product_desc LIKE '%$query%' 
                OR brand.brand_name LIKE '%$query%'";
