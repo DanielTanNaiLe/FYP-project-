@@ -1,12 +1,19 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+
+// Check if a brand filter is set
 $brandFilter = isset($_GET['brand']) ? $_GET['brand'] : '';
 
 $query = "SELECT * FROM product";
 if ($brandFilter) {
-    $query .= " WHERE brand_id = (SELECT brand_id FROM brand WHERE brand_name = '$brandFilter')";
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM product WHERE brand_id = (SELECT brand_id FROM brand WHERE brand_name = ?)");
+    $stmt->bind_param("s", $brandFilter);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = mysqli_query($conn, $query);
 }
-$result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +23,7 @@ $result = mysqli_query($conn, $query);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body{
+        body {
             padding: 80px;
         }
     </style>

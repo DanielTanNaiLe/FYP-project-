@@ -19,18 +19,18 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -42,18 +42,18 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -65,18 +65,18 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="">Nike</a></li>
-                            <li><a href="">NewBalance</a></li>
-                            <li><a href="">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -85,9 +85,9 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="products.php" class="a1">BRANDS</a>
             <ul class="dropdown">
-                <li><a href="products.php?brand=NIKE">NIKE</a></li>
-                <li><a href="products.php?brand=NEW BALANCE">NEW BALANCE</a></li>
-                <li><a href="products.php?brand=ADIDAS">ADIDAS</a></li>
+                <li><a href="products.php?brand=Nike">NIKE</a></li>
+                <li><a href="products.php?brand=NewBalance">NEW BALANCE</a></li>
+                <li><a href="products.php?brand=Adidas">ADIDAS</a></li>
             </ul>
         </li>
         <li><a href="order.php" class="a1">ORDER</a></li>
