@@ -102,11 +102,12 @@ if(isset($_SESSION['user_id'])) {
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
-        <div class="search">
-            <span class="search-icon material-symbols-outlined">search</span>
-            <input class="search-input" type="search" placeholder="Search">
-        </div>
-    </form>
+    <div class="search">
+        <span class="search-icon material-symbols-outlined">search</span>
+        <input class="search-input" type="search" name="query" placeholder="Search">
+    </div>
+</form>
+
     <div class="nav-icon-container">
         <ul class="nav-icon">
             <?php if($isLoggedIn): ?>

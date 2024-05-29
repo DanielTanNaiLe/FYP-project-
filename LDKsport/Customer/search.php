@@ -2,7 +2,15 @@
 session_start();
 include '../admin_panel/config/dbconnect.php';
 
+// Debugging: Check if the query parameter is received
 if (isset($_GET['query'])) {
+    echo "<p>Query parameter is set.</p>";
+} else {
+    echo "<p>Query parameter is not set.</p>";
+}
+
+// Check if the search query parameter exists and is not empty
+if (isset($_GET['query']) && !empty($_GET['query'])) {
     $query = $_GET['query'];
 
     // Prevent SQL injection
