@@ -5,7 +5,7 @@ include("header.php");
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    $user_id = ''; 
+    $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -20,7 +20,7 @@ if (isset($_POST['remove_from_wishlist']) && isset($_POST['product_id'])) {
     if ($stmt->affected_rows > 0) {
         $_SESSION['message'] = 'Product removed from wishlist';
     } else {
-        $_SESSION['message'] = 'Error removing product on wishist';
+        $_SESSION['message'] = 'Error removing product from wishlist';
     }
 }
 
@@ -184,14 +184,14 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
              ?>
                 <div class="wishlist-item">
                     <a href="product_details.php?pid=<?php echo $item['product_id']; ?>">
-                        <img src="<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
+                        <img src="../uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
                     </a>
                     <div class="wishlist-item-info">
                         <h3><?php echo $item['product_name']; ?></h3>
                         <p class="wishlist-item-price">Price: $<?php echo number_format($item['price'], 2); ?></p>
                     </div>
                     <div class="wishlist-item-actions">
-                    <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
+                        <a href="product_details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
                         <form action="wishlist.php" method="post">
                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                             <button type="submit" name="remove_from_wishlist">Remove</button>
@@ -215,19 +215,17 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     </div>
     <?php include("footer.php"); ?>
     <script>
-        
         $(document).ready(function(){
-        setTimeout(function(){
-            $('.alert-container').addClass('hide');
-            $('.alert-container').removeClass('show');
-        }, 3000); // Change the duration as needed
-    });
+            setTimeout(function(){
+                $('.alert-container').addClass('hide');
+                $('.alert-container').removeClass('show');
+            }, 3000); // Change the duration as needed
+        });
 
-    $('.alert-container').click(function(){
-        $(this).addClass('hide');
-        $(this).removeClass('show');
-    });
-
+        $('.alert-container').click(function(){
+            $(this).addClass('hide');
+            $(this).removeClass('show');
+        });
     </script>
 </body>
 </html>
