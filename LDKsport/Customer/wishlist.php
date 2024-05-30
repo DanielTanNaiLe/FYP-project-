@@ -183,7 +183,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
              foreach ($wishlist_items as $item): 
              ?>
                 <div class="wishlist-item">
-                    <a href="product_details.php?pid=<?php echo $item['product_id']; ?>">
+                    <a href="product details.php?pid=<?php echo $item['product_id']; ?>">
                         <img src="../uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
                     </a>
                     <div class="wishlist-item-info">
@@ -191,7 +191,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                         <p class="wishlist-item-price">Price: $<?php echo number_format($item['price'], 2); ?></p>
                     </div>
                     <div class="wishlist-item-actions">
-                        <a href="product_details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
+                        <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>
                         <form action="wishlist.php" method="post">
                             <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                             <button type="submit" name="remove_from_wishlist">Remove</button>
