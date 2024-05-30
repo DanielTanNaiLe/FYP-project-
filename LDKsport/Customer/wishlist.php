@@ -42,7 +42,137 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
-        /* Add your styles here */
+        body {
+            background-color: #f4f4f4;
+        }
+        .wishlist-container {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            height: 65%;
+        }
+        .wishlist-container h2 {
+            background-color: #F2A32D;
+            text-align: center;
+            margin-top: 120px;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .wishlist-itemcontainer{
+            margin: 50px auto auto auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+        }
+        .wishlist-item {
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            transition: transform 0.3s ease;
+        }
+        .wishlist-item:hover {
+            transform: translateY(-5px);
+        }
+        .wishlist-item img {
+            max-width: 200px;
+            box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2); /* Right side shadow */
+            clip-path: inset(0 -10px 0 0); /* Adjust to only show shadow on the right side */
+            height: auto;
+            border-radius: 5px;
+        }
+        .wishlist-item-info {
+            background-color: #f3f3f3;
+            flex: 2;
+            padding: 20px;
+        }
+        .wishlist-item-info h3 {
+            margin: 0;
+            color: #333;
+            font-size: 20px;
+        }
+        .wishlist-item-info p {
+            margin: 10px 0;
+            color: #777;
+        }
+        .wishlist-item-price {
+            color: #e74c3c;
+            font-size: 18px;
+        }
+        .wishlist-item-actions{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px auto auto auto;
+        }
+        .wishlist-item-actions button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        .wishlist-item-actions button:hover {
+            background-color: #c0392b;
+        }
+        .wishlist-item-actions a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .wishlist-item-actions a:hover {
+            background-color: #2980b9;
+        }
+        .alert-container{
+            background: #ffdb9b;
+            padding: 20px 40px;
+            min-width: 420px;
+            position: absolute;
+            right: 0px;
+            top: 135px;
+            overflow: hidden;
+            border-radius: 4px;
+            border-left: 8px solid #ffa502;
+            cursor: pointer;
+        }
+        .alert-container.show {
+            animation: show_slide 1s ease forwards;
+        }
+        @keyframes show_slide {
+            0% {
+                transform: translateX(100%);
+            }
+            40% {
+                transform: translateX(-10%);
+            }
+            80% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-10%);
+            }
+        }
+        .alert-container.hide{
+            display: none;
+        }
+        .alert-container .alert {
+            padding: 0 20px;
+            font-size: 18px;
+            color: #ce8500;
+        }
+        .alert-container:hover{
+            background: #ffc766;
+        }
     </style>
 </head>
 <body>
