@@ -212,7 +212,9 @@ td img {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cart_items as $item): ?>
+            <?php if (count($cart_items) > 0): 
+                 foreach ($cart_items as $item): 
+                 ?>
                     <tr>
                         <td><?php echo $item['cart_id']; ?></td>
                         <td><?php echo htmlspecialchars($item['product_name']); ?></td>
@@ -231,6 +233,9 @@ td img {
                         </td>
                     </tr>
                 <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="text-align: center; color: #777;">Your cart is empty.</p>
+                <?php endif; ?>
             </tbody>
         </table>
         <div class="total-container">
