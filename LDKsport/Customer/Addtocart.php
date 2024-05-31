@@ -1,13 +1,15 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
 
- include("header.php");
+ob_start();
+
+include("header.php");
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
     header('location:customer login.php');
-    $user_id ='';
+    $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -113,6 +115,21 @@ td img {
     text-align: center;
 }
 
+.quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-container input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
 .btn-remove {
     background-color: #dc3545;
     color: #fff;
@@ -194,7 +211,7 @@ td img {
                     <th>Action</th>
                 </tr>
             </thead>
-                       <tbody>
+            <tbody>
                 <?php foreach ($cart_items as $item): ?>
                     <tr>
                         <td><?php echo $item['cart_id']; ?></td>
@@ -202,7 +219,11 @@ td img {
                         <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
                         <td><?php echo htmlspecialchars($item['size_name']); ?></td>
                         <td>
-                            <input type="number" min="1" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, this.value)">
+                            <div class="quantity-container">
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
+                                <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
+                            </div>
                         </td>
                         <td id="price_<?php echo $item['cart_id']; ?>">$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                         <td>
@@ -215,21 +236,60 @@ td img {
         <div class="total-container">
             <div class="total-box">
                 <h4>Total:</h4>
-                <h5 class="text-right">$<?php echo number_format($totalAmount, 2); ?></h5>
+                <h5 class="text-right" id="totalAmount">$<?php echo number_format($totalAmount, 2); ?></h5>
                 <br>
                 <a href="checkout.php" class="btn-purchase">Make Purchase</a>
             </div>
         </div>
+        
     </div>
 
     <?php include("footer.php"); ?>
 
     <script>
-        function updateQuantity(cart_id, quantity) {
-            var priceElement = document.getElementById("price_" + cart_id);
-            var pricePerItem = <?php echo json_encode($cart_items); ?>.find(item => item.cart_id == cart_id).price;
+        var cartItems = <?php echo json_encode($cart_items); ?>;
+        var totalAmount = <?php echo $totalAmount; ?>;
+
+        function updateQuantity(cart_id, change) {
+            var quantityInput = document.getElementById('quantity_' + cart_id);
+            var quantity = parseInt(quantityInput.value);
+
+            if (change !== 0) {
+                quantity += change;
+                if (quantity < 1) {
+                    quantity = 1;
+                }
+                quantityInput.value = quantity;
+            }
+
+            var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
+            var priceElement = document.getElementById('price_' + cart_id);
             var totalPrice = pricePerItem * quantity;
             priceElement.textContent = "$" + totalPrice.toFixed(2);
+
+            // Send AJAX request to update quantity in database
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "Addtocart.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.status === 'error') {
+                        alert(response.message);
+                    }
+                }
+            };
+            xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
+
+            recalculateTotalAmount();
+        }
+
+        function recalculateTotalAmount() {
+            totalAmount = cartItems.reduce((sum, item) => {
+                var quantity = parseInt(document.getElementById('quantity_' + item.cart_id).value);
+                return sum + item.price * quantity;
+            }, 0);
+            document.getElementById('totalAmount').textContent = "$" + totalAmount.toFixed(2);
         }
 
         function removeItem(cart_id) {
@@ -240,3 +300,22 @@ td img {
     </script>
 </body>
 </html>
+
+<?php
+if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
+    $cart_id = $_POST['cart_id'];
+    $quantity = $_POST['quantity'];
+
+    // Update quantity in the database
+    $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE cart_id = ? AND user_id = ?");
+    $stmt->bind_param("iii", $quantity, $cart_id, $user_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
+    }
+    exit();
+}
+?>

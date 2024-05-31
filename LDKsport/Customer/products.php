@@ -40,8 +40,8 @@ if ($result === false) {
             <img src="../uploads/<?= $row['product_image'] ?>" alt="">
             <h2><?= $row["product_name"] ?></h2>
             <div class="price"><?= $row["price"] ?></div>
-            <div class="favourite"><i class='bx bxs-heart'></i></div>
-            <div class="details-container"><a href="" class="details">View details</a></div>
+            <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
+            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
         <?php
             }
@@ -51,5 +51,20 @@ if ($result === false) {
         ?>
     </div>
     <?php include("footer.php"); ?>
+    <script>
+        $(document).ready(function() {
+            $('.favourite').click(function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: 'add_to_wishlist.php',
+                    method: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

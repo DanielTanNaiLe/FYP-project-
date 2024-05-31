@@ -1,8 +1,7 @@
 <?php
+ob_start();
 include("header.php");
 require '../admin_panel/config/dbconnect.php';
-
-session_start();
 
 if (!isset($_SESSION['otp']) || !isset($_SESSION['checkout_details'])) {
     header("Location: checkout.php");
@@ -16,10 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
         $checkout_details = $_SESSION['checkout_details'];
         $user_id = $_SESSION['user_id'];
 
+        // Insert into orders table
         $stmt = $conn->prepare("
             INSERT INTO orders (user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_date) 
             VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
         ");
+        
+        if ($stmt === false) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
+
         $stmt->bind_param("isssssd", 
             $user_id, 
             $checkout_details['name'], 
@@ -29,23 +34,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
             $checkout_details['method'], 
             $checkout_details['total_price']
         );
-        $stmt->execute();
-        $order_id = $stmt->insert_id;
-
-        // Insert order details
-        foreach ($_SESSION['cart'] as $item) {
-            $stmt = $conn->prepare("
-                INSERT INTO order_details (order_id, product_name, quantity, price) 
-                VALUES (?, ?, ?, ?)
-            ");
-            $stmt->bind_param("isid", $order_id, $item['product_name'], $item['quantity'], $item['price']);
-            $stmt->execute();
+        
+        if ($stmt->execute() === false) {
+            die('Execute failed: ' . htmlspecialchars($stmt->error));
         }
 
-        // Clear cart
-        $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
+        $order_id = $stmt->insert_id;
+
+        // Insert order details if cart is set and is an array
+        if (isset($_SESSION['cart']) && is_array($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $stmt = $conn->prepare("
+                INSERT INTO order_details (order_id, variation_id, quantity, price) 
+                VALUES (?, ?, ?, ?)
+            ");
+            
+            if ($stmt === false) {
+                die('Prepare failed: ' . htmlspecialchars($conn->error));
+            }
+
+            foreach ($_SESSION['cart'] as $item) {
+                $stmt->bind_param("iiid", $order_id, $item['variation_id'], $item['quantity'], $item['price']);
+                
+                if ($stmt->execute() === false) {
+                    die('Execute failed: ' . htmlspecialchars($stmt->error));
+                }
+            }
+
+            // Clear cart
+            $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
+            
+            if ($stmt === false) {
+                die('Prepare failed: ' . htmlspecialchars($conn->error));
+            }
+
+            $stmt->bind_param("i", $user_id);
+            
+            if ($stmt->execute() === false) {
+                die('Execute failed: ' . htmlspecialchars($stmt->error));
+            }
+        }
 
         // Unset session variables
         unset($_SESSION['otp']);

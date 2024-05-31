@@ -96,17 +96,18 @@ if(isset($_SESSION['user_id'])) {
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer_logout.php">Log out</a>
+            <a href="customer logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer_login.php">Sign In</a>
+            <a href="customer login.php">Sign In</a>
         <?php endif; ?>
     </div>
-    <form>
-        <div class="search">
-            <span class="search-icon material-symbols-outlined">search</span>
-            <input class="search-input" type="search" placeholder="Search">
-        </div>
-    </form>
+    <form action="search.php" method="GET">
+    <div class="search">
+        <span class="search-icon material-symbols-outlined">search</span>
+        <input class="search-input" type="search" name="query" placeholder="Search">
+    </div>
+</form>
+
     <div class="nav-icon-container">
         <ul class="nav-icon">
             <?php if($isLoggedIn): ?>
@@ -115,7 +116,7 @@ if(isset($_SESSION['user_id'])) {
                 <li>
                     <a href="landingafterlogin.php"><i class='bx bx-user'></i></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_logout.php">Log out</a></li>
+                        <li><a href="customer logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                     </ul>
                 </li>

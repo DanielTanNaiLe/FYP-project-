@@ -10,51 +10,41 @@
             <th>Unit Price</th>
         </tr>
     </thead>
+    <tbody>
     <?php
         include_once "../config/dbconnect.php";
-        $ID= $_GET['orderID'];
-        //echo $ID;
-        $sql="SELECT * from product_size_variation v, order_details d 
-        where v.variation_id=d.variation_id AND
-        d.order_id=$ID";
-        $result=$conn-> query($sql);
-        $count=1;
-        if ($result-> num_rows > 0){
-            while ($row=$result-> fetch_assoc()) {
-                $v_id=$row['variation_id'];
+        
+        $ID = $_GET['orderID'];
+        // Validate and sanitize orderID
+        $ID = intval($ID);
+
+        $sql = "SELECT d.quantity, d.price, v.variation_id, v.product_id, p.product_name, p.product_image, s.size_name
+                FROM order_details d
+                JOIN product_size_variation v ON v.variation_id = d.variation_id
+                JOIN product p ON p.product_id = v.product_id
+                JOIN sizes s ON s.size_id = v.size_id
+                WHERE d.order_id = $ID";
+
+        $result = $conn->query($sql);
+        if ($result === false) {
+            echo "Error: " . $conn->error;
+        } else {
+            $count = 1;
+            while ($row = $result->fetch_assoc()) {
     ?>
                 <tr>
-                    <td><?=$count?></td>
-                    <?php
-                       $subqry="SELECT * from product p, product_size_variation v
-                       where p.product_id=v.product_id AND v.variation_id=$v_id";
-                       $res=$conn-> query($subqry);
-                       if($row2 = $res-> fetch_assoc()){
-                    ?>
-                    <td><img height="80px" src="<?=$row2["product_image"]?>"></td>
-                    <td><?=$row2["product_name"] ?></td>
-
-                    <?php
-                        }
-
-                        $subqry2="SELECT * from sizes s, product_size_variation v
-                        where s.size_id=v.size_id AND v.variation_id=$v_id";
-                        $res2=$conn-> query($subqry2);
-                        if($row3 = $res2-> fetch_assoc()){
-                        ?>
-                    <td><?=$row3["size_name"] ?></td>
-                    <?php
-                        }
-                    ?>
-                    <td><?=$row["quantity"]?></td>
-                    <td><?=$row["price"]?></td>
+                    <td><?= $count ?></td>
+                    <td><img height="80px" src="<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>"></td>
+                    <td><?= htmlspecialchars($row['product_name']) ?></td>
+                    <td><?= htmlspecialchars($row['size_name']) ?></td>
+                    <td><?= intval($row['quantity']) ?></td>
+                    <td><?= htmlspecialchars(number_format($row['price'], 2)) ?></td>
                 </tr>
     <?php
-                $count=$count+1;
+                $count++;
             }
-        }else{
-            echo "error";
         }
     ?>
+    </tbody>
 </table>
 </div>

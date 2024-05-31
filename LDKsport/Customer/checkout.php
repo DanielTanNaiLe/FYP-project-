@@ -1,4 +1,5 @@
 <?php
+ob_start();
 include("header.php");
 require '../admin_panel/config/dbconnect.php';
 
@@ -18,6 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'total_products' => filter_var($_POST['total_products'], FILTER_SANITIZE_STRING),
         'total_price' => filter_var($_POST['total_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION),
     ];
+
+    // Ensure cart items are set in the session
+    $_SESSION['cart'] = [];
+    $stmt = $conn->prepare("
+        SELECT c.variation_id, c.quantity, c.price 
+        FROM cart c
+        WHERE c.user_id = ?");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($row = $result->fetch_assoc()) {
+        $_SESSION['cart'][] = $row;
+    }
 
     header("Location: mastercard.php");
     exit();
@@ -157,8 +172,11 @@ $conn->close();
             gap: 20px;
             list-style: none;
             padding: 0;
+            transition: transform 0.3s ease;
         }
-
+        .order-summary ul:hover{
+            transform: translateY(-5px);
+        }
         .order-summary ul li {
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
