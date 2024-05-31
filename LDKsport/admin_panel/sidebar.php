@@ -17,6 +17,7 @@
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
     <a href="#report"   onclick="showReport()" ><i class="fa fa-th"></i> Reports</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-list"></i> Orders</a>
+    <a href="#feedback" onclick="showFeedback()"><i class="fa fa-list"></i> Feedback</a>
 <br>
     <a href="viewAdmin.php"><i class="fa fa-user "></i> Profile</a> 
     <a href="Logout.php"><i class="fa fa-sign-in "></i> Logout</a> 
