@@ -92,6 +92,19 @@ function showReport(){
     });
 }
 
+function showFeedback(){  
+    $.ajax({
+        url:"./adminView/viewFeedback.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
+
+
+
 function ChangeOrderStatus(id){
     $.ajax({
        url:"./controller/updateOrderStatus.php",

@@ -1,27 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 16px;
 }
 
+/* User cart */
 .user-cart span {
-    background-color: #FF5733;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 16px;
+    background-color: #007BFF;
+    padding: 5px 10px;
+    border-radius: 25px;
+    font-size: 14px;
     margin-left: -1.2rem;
 }
 
 /* Admin dashboard styling */
 .card {
-    background-color:#5A5A5A;
+    background-color: #f8f9fa;
     padding: 20px;
     margin: 10px;
     border-radius: 10px;
-    box-shadow: 8px 5px 5px #1E1E1E;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Sidebar */
@@ -32,36 +33,38 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #1E1E1E;
+    background-color: #343a40;
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;
 }
 
 .sidebar a {
-    padding: 8px 8px 8px 32px;
+    padding: 10px 10px 10px 30px;
     text-decoration: none;
     font-size: 18px;
-    color: #fff;
+    color: #adb5bd;
     display: block;
     transition: 0.3s;
 }
 
 .sidebar .side-header {
     margin-left: 30px;
-    margin-bottom: 8px;
-    color: #fff;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-weight: 600;
 }
 
 .sidebar a:hover {
-    background-color: #333333;
+    background-color: #495057;
+    color: #ffffff;
 }
 
 .sidebar .closebtn {
     position: absolute;
     top: 0;
-    right: 2px;
-    font-size: 34px;
+    right: 25px;
+    font-size: 36px;
     margin-left: 50px;
 }
 
@@ -70,12 +73,12 @@
     cursor: pointer;
     padding: 10px 15px;
     border: none;
-    color: #fff;
-    background-color: #333333;
+    color: #ffffff;
+    background-color: #495057;
 }
 
 .openbtn:hover {
-    color: #FF5733;
+    color: #007BFF;
 }
 
 #main {
@@ -97,58 +100,59 @@ table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    box-shadow: 0 2px 15px rgba(64, 64, 64, .7);
-    border-radius: 12px 12px 0 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+    border-radius: 10px 10px 0 0;
     margin-bottom: 50px;
 }
 
 td, th {
-    padding: 10px 16px;
+    padding: 12px 15px;
     text-align: center;
 }
 
 th {
-    background-color: #333333;
-    color: #fafafa;
-    font-weight: bold;
+    background-color: #343a40;
+    color: #ffffff;
+    font-weight: 600;
 }
 
 tr {
     width: 100%;
-    background-color: #fafafa;
+    background-color: #ffffff;
 }
 
 tr:nth-child(even) {
-    background-color: #eeeeee;
+    background-color: #f1f1f1;
 }
 
 /* Login and sign up styling */
 .card-container.card-account {
-    max-width: 500px;
-    padding: 30px 30px;
+    max-width: 450px;
+    padding: 25px 30px;
+    margin: 50px auto;
 }
 
 .btn {
-    font-weight: 700;
-    height: 36px;
+    font-weight: 600;
+    height: 40px;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    cursor: default;
+    cursor: pointer;
 }
 
 .card-account {
-    background-color: #E5E5E5;
+    background-color: #ffffff;
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
     margin-top: 40px;
     border-radius: 8px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .profile-img-card {
-    width: 96px;
-    height: 96px;
+    width: 100px;
+    height: 100px;
     margin: 0 auto 10px;
     display: block;
     border-radius: 50%;
@@ -156,7 +160,7 @@ tr:nth-child(even) {
 
 .profile-name-card {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     text-align: center;
     margin: 10px 0 0;
     min-height: 1em;
@@ -164,7 +168,7 @@ tr:nth-child(even) {
 
 .reauth-email {
     display: block;
-    color: #333333;
+    color: #495057;
     line-height: 2;
     margin-bottom: 10px;
     font-size: 14px;
@@ -195,31 +199,33 @@ tr:nth-child(even) {
 }
 
 .form-signin .form-control:focus {
-    border-color: #FF5733;
+    border-color: #007BFF;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #FF5733;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #007BFF;
 }
 
 .btn.btn-signin {
-    background-color: #333333;
-    padding: 2px;
-    font-weight: 700;
+    background-color: #007BFF;
+    color: #ffffff;
+    padding: 10px;
+    font-weight: 600;
     font-size: 16px;
-    height: 36px;
-    border-radius: 3px;
+    height: 44px;
+    border-radius: 5px;
     border: none;
-    transition: all 0.218s;
+    transition: all 0.2s;
 }
 
 .btn.btn-signin:hover,
 .btn.btn-signin:active,
 .btn.btn-signin:focus {
-    background-color: #5A5A5A;
+    background-color: #0056b3;
 }
 
+/* Image hover effect */
 .box {
     position: relative;
-    background-color: #222222;
+    background-color: #343a40;
 }
 
 .image {
@@ -229,7 +235,7 @@ tr:nth-child(even) {
     height: auto;
     transition: .5s ease;
     backface-visibility: hidden;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .middle {
@@ -251,10 +257,10 @@ tr:nth-child(even) {
 }
 
 .text {
-    background-color: #333333;
-    color: #fff;
-    font-size: 16px;
-    padding: 6px;
+    background-color: #007BFF;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 10px;
     border-radius: 5px;
 }
 
@@ -267,19 +273,19 @@ tr:nth-child(even) {
 .cart-login-btn a i {
     padding: 10px;
     font-size: 30px;
-    color: #333333;
+    color: #007BFF;
 }
 
 .cart-login-btn a i:hover {
-    color: #5A5A5A;
+    color: #0056b3;
 }
 
 /* Footer */
 .footer-hover {
-    color: #000;
+    color: #6c757d;
 }
 
 .footer-hover:hover {
-    color: #FF5733;
+    color: #007BFF;
     text-decoration: none;
 }
