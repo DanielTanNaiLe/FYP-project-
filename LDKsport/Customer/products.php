@@ -1,5 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+session_start(); // Ensure session is started
 
 // Check if a brand filter is set
 $brandFilter = isset($_GET['brand']) ? $_GET['brand'] : '';
@@ -27,6 +28,7 @@ if ($result === false) {
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
     <?php include("header.php"); ?>
@@ -61,6 +63,10 @@ if ($result === false) {
                     data: { product_id: productId },
                     success: function(response) {
                         alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to add to wishlist. Please try again.");
                     }
                 });
             });

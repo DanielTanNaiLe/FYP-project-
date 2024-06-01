@@ -1,6 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
-session_start();
+session_start(); // Ensure session is started
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -27,6 +27,7 @@ if (isset($_POST['product_id'])) {
         if ($stmt->execute()) {
             echo 'Product added to your wishlist.';
         } else {
+            error_log('MySQL Error: ' . $stmt->error);
             echo 'Error adding product to wishlist.';
         }
     }
