@@ -34,7 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['cart'][] = $row;
     }
 
-    header("Location: mastercard.php");
+    $payment_method = $_SESSION['checkout_details']['method'];
+    if ($payment_method == 'Visa') {
+        header("Location: visa_payment.php");
+    } elseif ($payment_method == 'E-Wallet') {
+        header("Location: e_wallet_payment.php");
+    } else {
+        header("Location: mastercard.php");
+    }
     exit();
 }
 
@@ -93,6 +100,8 @@ $conn->close();
             text-align: center;
             padding: 20px;
             color: #333;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         .form, .order-summary {
@@ -208,7 +217,7 @@ $conn->close();
                         <img src="../uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>">
                         <span><?php echo htmlspecialchars($product['product_name']); ?></span>
                         <span>(x<?php echo $product['quantity']; ?>)</span>
-                        <span>- $<?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
+                        <span>- RM <?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -229,7 +238,11 @@ $conn->close();
             </div>
             <div class="form-group">
                 <label for="method">Payment Method:</label>
-                <input type="text" id="method" name="method" value="MasterCard" readonly required>
+                <select id="method" name="method" required>
+                    <option value="MasterCard">MasterCard</option>
+                    <option value="Visa">Visa</option>
+                    <option value="E-Wallet">E-Wallet</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="flat">Flat No:</label>

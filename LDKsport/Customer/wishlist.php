@@ -188,7 +188,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                     </a>
                     <div class="wishlist-item-info">
                         <h3><?php echo $item['product_name']; ?></h3>
-                        <p class="wishlist-item-price">Price: $<?php echo number_format($item['price'], 2); ?></p>
+                        <p class="wishlist-item-price">Price: RM <?php echo number_format($item['price'], 2); ?></p>
                     </div>
                     <div class="wishlist-item-actions">
                         <a href="product details.php?pid=<?php echo $item['product_id']; ?>">View Details</a>

@@ -183,10 +183,6 @@ $checkout_details = $_SESSION['checkout_details'];
             <label for="cardName" class="card-input__label">Card Holder</label>
             <input type="text" id="cardName" name="cardName" class="card-input__input" v-model="cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off" required>
           </div>
-          <div class="card-input">
-            <label for="email" class="card-input__label">Email</label>
-            <input type="email" id="email" name="email" class="card-input__input" autocomplete="off" required>
-          </div>
         <div class="card-form__row">
           <div class="card-form__col">
             <div class="card-form__group">
