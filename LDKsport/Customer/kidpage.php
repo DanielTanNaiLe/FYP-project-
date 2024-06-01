@@ -82,7 +82,7 @@ if (isset($_SESSION['user_id'])) {
             <img src="../uploads/<?=$row['product_image'];?>">
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
-            <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
+            <button type="submit" name="add_to_wishlist" class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></button>
             <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </form>
@@ -93,5 +93,24 @@ if (isset($_SESSION['user_id'])) {
     }
     ?>
     <?php include("footer.php"); ?>
+    <script>
+        $(document).ready(function() {
+            $('.favourite').click(function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: 'add_to_wishlist.php',
+                    method: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to add to wishlist. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
