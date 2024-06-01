@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $payment_method = $_SESSION['checkout_details']['method'];
     if ($payment_method == 'Visa') {
-        header("Location: visa_payment.php");
+        header("Location: mastercard.php");
     } elseif ($payment_method == 'E-Wallet') {
         header("Location: e_wallet_payment.php");
     } else {
@@ -268,7 +268,6 @@ $conn->close();
                 <label for="pin_code">Post Code:</label>
                 <input type="text" id="pin_code" name="pin_code" required>
             </div>
-            <input type="hidden" name="total_products" value="<?php echo count($product); ?>">
             <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
             <button type="submit" class="btn-primary">Proceed to Payment</button>
     </form>
