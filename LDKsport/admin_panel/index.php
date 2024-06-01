@@ -81,7 +81,7 @@
             <div class="col-sm-3">
                 <div class="card" onclick="showOrders()">
                     <i class="fa fa-list mb-2" style="font-size: 70px;"></i>
-                    <h4 style="color:white;">Total orders</h4>
+                    <h4 style="color:white;">Total Orders</h4>
                     <h5 style="color:white;">
                     <?php
                        

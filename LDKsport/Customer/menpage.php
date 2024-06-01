@@ -1,12 +1,15 @@
-<?php require '../admin_panel/config/dbconnect.php';
+<?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+require '../admin_panel/config/dbconnect.php';
+session_start(); // Ensure session is started
 
 include("header.php"); 
+
 if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 } else {
     $user_id = '';
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,6 +18,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
     <h1 class="m1">MEN</h1>
@@ -59,11 +63,11 @@ if (isset($_SESSION['user_id'])) {
                                            WHERE category.category_name = 'Clothing' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
     displayProducts($clothingResult, "Clothing");
 
-    // Fetch and display hats for men
+    // Fetch and display pants for men
     $pantsResult = mysqli_query($conn, "SELECT * FROM product 
                                        INNER JOIN category ON product.category_id = category.category_id 
                                        WHERE category.category_name = 'Pants' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-      displayProducts($pantsResult, "Pants");
+    displayProducts($pantsResult, "Pants");
 
     function displayProducts($result, $categoryName) {
         echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
@@ -80,7 +84,7 @@ if (isset($_SESSION['user_id'])) {
             <img src="../uploads/<?=$row['product_image'];?>">
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
-            <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
+            <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
             <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </form>
@@ -91,5 +95,24 @@ if (isset($_SESSION['user_id'])) {
     }
     ?>
     <?php include("footer.php"); ?>
+    <script>
+        $(document).ready(function() {
+            $('.favourite').click(function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: 'add_to_wishlist.php',
+                    method: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to add to wishlist. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

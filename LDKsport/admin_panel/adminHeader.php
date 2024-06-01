@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . "/config/dbconnect.php";
 ?>
-<nav class="navbar navbar-expand-lg navbar-light px-5" style="background-color: #1E1E1E;">
+<nav class="navbar navbar-expand-lg navbar-light px-5" style="background-color: #343a40;">
     <a class="navbar-brand ml-5" href="./index.php">
         <img src="./assets/images/logo.png" width="80" height="80" alt="LDK SPORT">
     </a>

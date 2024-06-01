@@ -1,4 +1,7 @@
-<?php require '../admin_panel/config/dbconnect.php';
+<?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+require '../admin_panel/config/dbconnect.php';
+session_start(); // Ensure session is started
 
 include("header.php"); 
 if (isset($_SESSION['user_id'])) {
@@ -15,6 +18,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
     <h1 class="m1">KIDS</h1>
@@ -82,7 +86,7 @@ if (isset($_SESSION['user_id'])) {
             <img src="../uploads/<?=$row['product_image'];?>">
             <h2><?=$row["product_name"];?></h2>
             <div class="price">RM <?=$row["price"];?></div>
-            <button type="submit" name="add_to_wishlist" class="favourite"><i class='bx bxs-heart'></i></button>
+            <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
             <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
     </form>
@@ -93,5 +97,24 @@ if (isset($_SESSION['user_id'])) {
     }
     ?>
     <?php include("footer.php"); ?>
+    <script>
+        $(document).ready(function() {
+            $('.favourite').click(function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: 'add_to_wishlist.php',
+                    method: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to add to wishlist. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
