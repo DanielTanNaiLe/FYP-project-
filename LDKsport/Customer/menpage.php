@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
 require '../admin_panel/config/dbconnect.php';
 session_start(); // Ensure session is started
 

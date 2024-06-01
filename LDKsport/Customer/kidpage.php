@@ -1,4 +1,7 @@
-<?php require '../admin_panel/config/dbconnect.php';
+<?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+require '../admin_panel/config/dbconnect.php';
+session_start(); // Ensure session is started
 
 include("header.php"); 
 if (isset($_SESSION['user_id'])) {
