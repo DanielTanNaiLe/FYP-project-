@@ -23,9 +23,9 @@ if (isset($_SESSION['user_id'])) {
 <body>
     <h1 class="m1">MEN</h1>
     <div class="nav3">
-        <a href="#">Shoes</a>
-        <a href="#">Clothing</a>
-        <a href="#">Pants</a>
+        <a href="#" id="shoes-link">Shoes</a>
+        <a href="#" id="clothing-link">Clothing</a>
+        <a href="#" id="pants-link">Pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -112,6 +112,38 @@ if (isset($_SESSION['user_id'])) {
                     }
                 });
             });
+        });
+
+        $(document).ready(function() {
+            function loadProducts(category) {
+                $.ajax({
+                    url: 'fetch_products.php',
+                    method: 'GET',
+                    data: { category: category },
+                    success: function(response) {
+                        $('.product-list-container').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to load products. Please try again.");
+                    }
+                });
+            }
+
+            $('#shoes-link').click(function() {
+                loadProducts('Shoes');
+            });
+
+            $('#clothing-link').click(function() {
+                loadProducts('Clothing');
+            });
+
+            $('#pants-link').click(function() {
+                loadProducts('Pants');
+            });
+
+            // Load shoes by default on page load
+            loadProducts('Shoes');
         });
     </script>
 </body>
