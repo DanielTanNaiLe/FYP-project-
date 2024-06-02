@@ -73,12 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
             }
         }
 
-        // Unset session variables
+        // Set session variables for success page
+        $_SESSION['order_id'] = $order_id;
+        $_SESSION['order_details'] = $_SESSION['cart'];
+        $_SESSION['checkout_details'] = $checkout_details;
+
+        // Unset OTP and cart from session
         unset($_SESSION['otp']);
-        unset($_SESSION['checkout_details']);
         unset($_SESSION['cart']);
 
-        $success = "Payment successful and order placed!";
+        // Redirect to success page
+        header("Location: success.php");
+        exit();
     } else {
         $error = "Invalid OTP. Please try again.";
     }
