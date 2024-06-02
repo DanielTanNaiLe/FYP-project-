@@ -149,13 +149,6 @@ function displayProducts($result, $categoryName) {
 </body>
 </html>
 
-when the user press     <h1 class="m1">MEN</h1>
-    <div class="nav3">
-        <a href="#">Shoes</a>
-        <a href="#">Clothing</a>
-        <a href="#">Pants</a>
-    </div> 
-
 
 
 
