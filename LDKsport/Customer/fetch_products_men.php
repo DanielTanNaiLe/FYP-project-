@@ -4,7 +4,9 @@ require '../admin_panel/config/dbconnect.php';
 
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
-$query = "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
+$query = "SELECT * FROM product 
+          INNER JOIN category ON product.category_id = category.category_id 
+          WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
 
 if (!empty($category)) {
     $query .= " AND category.category_name = '$category'";

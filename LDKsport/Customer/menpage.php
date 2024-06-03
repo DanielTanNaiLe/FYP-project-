@@ -1,9 +1,9 @@
 <?php
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require '../admin_panel/config/dbconnect.php';
 session_start(); // Ensure session is started
 
-include("header.php"); 
+include("header.php");
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -77,23 +77,11 @@ function displayProducts($result, $categoryName) {
     </div>
     <div class="product-list-container">
         <?php
-        // Fetch and display shoes for men
-        $shoesResult = mysqli_query($conn, "SELECT * FROM product 
-                                            INNER JOIN category ON product.category_id = category.category_id 
-                                            WHERE category.category_name = 'Shoes' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-        displayProducts($shoesResult, "Shoes");
-
-        // Fetch and display clothing for men
-        $clothingResult = mysqli_query($conn, "SELECT * FROM product 
-                                               INNER JOIN category ON product.category_id = category.category_id 
-                                               WHERE category.category_name = 'Clothing' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-        displayProducts($clothingResult, "Clothing");
-
-        // Fetch and display pants for men
-        $pantsResult = mysqli_query($conn, "SELECT * FROM product 
-                                           INNER JOIN category ON product.category_id = category.category_id 
-                                           WHERE category.category_name = 'Pants' AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-        displayProducts($pantsResult, "Pants");
+        // Fetch and display all products for men
+        $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
+                                                  INNER JOIN category ON product.category_id = category.category_id 
+                                                  WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
+        displayProducts($allProductsResult, "All Products");
         ?>
     </div>
     <?php include("footer.php"); ?>
@@ -141,18 +129,7 @@ function displayProducts($result, $categoryName) {
             $('#pants-link').click(function() {
                 loadProducts('Pants');
             });
-
-            // Load all products by default on page load
-            $('.product-list-container').load('fetch_products_men.php');
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
