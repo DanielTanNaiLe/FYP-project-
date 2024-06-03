@@ -1,7 +1,7 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
 
-$category = isset($_GET['category']) ? $_GET['category'] : '';
+$category = $_GET['category'];
 
 $query = "SELECT * FROM product 
           INNER JOIN category ON product.category_id = category.category_id 
@@ -28,13 +28,11 @@ function displayProducts($result, $categoryName) {
         <h2><?=$row["product_name"];?></h2>
         <div class="price">RM <?=$row["price"];?></div>
         <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
-        <div class="details-container"><a href="product_details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+        <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
     </div>
 </form>
 <?php 
         }
-    } else {
-        echo '<p>No products found.</p>';
     }
     echo '</div>';
 }
