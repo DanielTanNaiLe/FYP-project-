@@ -1,21 +1,19 @@
 <?php
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require '../admin_panel/config/dbconnect.php';
 
-$category = $_GET['category'];
+$category = isset($_GET['category']) ? $_GET['category'] : '';
 
-$query = "SELECT * FROM product 
-          INNER JOIN category ON product.category_id = category.category_id 
-          WHERE category.category_name = ? AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("s", $category);
-$stmt->execute();
-$result = $stmt->get_result();
+$query = "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
 
-function displayProducts($result, $categoryName) {
-    echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
-    echo '<div class="listproduct">';
-    if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
+if (!empty($category)) {
+    $query .= " AND category.category_name = '$category'";
+}
+
+$result = mysqli_query($conn, $query);
+
+if ($result->num_rows > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
 ?>
 <form action="" method="post" class="box">
     <input type="hidden" name="pid" value="<?= $row['product_id'];?>">
@@ -30,11 +28,9 @@ function displayProducts($result, $categoryName) {
         <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
     </div>
 </form>
-<?php 
-        }
+<?php
     }
-    echo '</div>';
+} else {
+    echo '<p>No products found.</p>';
 }
-
-displayProducts($result, $category);
 ?>

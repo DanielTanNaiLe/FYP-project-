@@ -142,12 +142,13 @@ function displayProducts($result, $categoryName) {
                 loadProducts('Pants');
             });
 
-            // Load shoes by default on page load
-            loadProducts('Shoes');
+            // Load all products by default on page load
+            $('.product-list-container').load('fetch_products_men.php');
         });
     </script>
 </body>
 </html>
+
 
 
 
