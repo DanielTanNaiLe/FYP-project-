@@ -105,7 +105,7 @@ function displayProducts($result, $categoryName) {
 
             function loadProducts(category) {
                 $.ajax({
-                    url: 'fetch_products_woman.php',
+                    url: 'fetch_products_girl.php',
                     method: 'GET',
                     data: { category: category },
                     success: function(response) {

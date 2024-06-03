@@ -11,8 +11,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
-function displayProducts($result, $categoryName) {
-    echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
+function displayProducts($result) {
     echo '<div class="listproduct">';
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -27,11 +26,13 @@ function displayProducts($result, $categoryName) {
         <h2><?=$row["product_name"];?></h2>
         <div class="price">RM <?=$row["price"];?></div>
         <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
-        <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+        <div class="details-container"><a href="product_details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
     </div>
 </form>
 <?php 
         }
+    } else {
+        echo '<p>No products found.</p>';
     }
     echo '</div>';
 }
@@ -81,7 +82,8 @@ function displayProducts($result, $categoryName) {
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
                                                   INNER JOIN category ON product.category_id = category.category_id 
                                                   WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
-        displayProducts($allProductsResult, "All Kids Products");
+        echo '<div class="subtitle_1"><h1>All Kids Products</h1></div>';
+        displayProducts($allProductsResult);
         ?>
     </div>
     <?php include("footer.php"); ?>
@@ -130,8 +132,8 @@ function displayProducts($result, $categoryName) {
                 loadProducts('Hats');
             });
 
-            // Load shoes by default on page load
-            loadProducts('Shoes');
+            // Load all products by default on page load
+            loadProducts('');
         });
     </script>
 </body>
