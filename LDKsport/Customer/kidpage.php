@@ -10,6 +10,14 @@ if (isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
+// Fetch all kids' products
+$allKidsProductsResult = mysqli_query($conn, "SELECT * FROM product 
+    INNER JOIN category ON product.category_id = category.category_id 
+    WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
+
+// Display all kids' products
+displayProducts($allKidsProductsResult, "All Kids Products");
+
 function displayProducts($result, $categoryName) {
     echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
     echo '<div class="listproduct">';
@@ -48,11 +56,6 @@ function displayProducts($result, $categoryName) {
 </head>
 <body>
     <h1 class="m1">KIDS</h1>
-    <div class="nav3">
-        <a href="#" id="shoes-link">Shoes</a>
-        <a href="#" id="clothing-link">Clothing</a>
-        <a href="#" id="hats-link">Hats</a>
-    </div>
     <div class="container">
         <div class="slidershow middle">
             <div class="slides">
@@ -96,11 +99,11 @@ function displayProducts($result, $categoryName) {
                 });
             });
 
-            function loadProducts(category) {
+            // Function to load all kids products
+            function loadAllKidsProducts() {
                 $.ajax({
-                    url: 'fetch_products_kid.php',
+                    url: 'fetch_all_kids_products.php',
                     method: 'GET',
-                    data: { category: category },
                     success: function(response) {
                         $('.product-list-container').html(response);
                     },
@@ -111,20 +114,8 @@ function displayProducts($result, $categoryName) {
                 });
             }
 
-            $('#shoes-link').click(function() {
-                loadProducts('Shoes');
-            });
-
-            $('#clothing-link').click(function() {
-                loadProducts('Clothing');
-            });
-
-            $('#hats-link').click(function() {
-                loadProducts('Hats');
-            });
-
-            // Load all products by default on page load
-            loadProducts('Shoes');
+            // Load all kids products by default on page load
+            loadAllKidsProducts();
         });
     </script>
 </body>
