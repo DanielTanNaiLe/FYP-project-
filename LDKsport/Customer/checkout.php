@@ -77,133 +77,148 @@ $conn->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-   body {
-            background-color: #f9f9f9;
-            font-family: Arial, sans-serif;
-        }
+  body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
 
-        .container {
-            background-color: #fff;
-            margin: auto;
-            padding: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
-            max-width: 1200px;
-        }
+.container {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1200px;
+}
 
-        .checkout_h2 {
-            width: 100%;
-            background-color: rgb(242, 163, 45);
-            margin-top: 120px;
-            text-align: center;
-            padding: 20px;
-            color: #333;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
+.checkout_h2 {
+    width: 100%;
+    background-color: rgb(242, 163, 45);
+    margin-top: 120px;
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
 
-        .form, .order-summary {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+.form, .order-summary {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
-        .form {
-            flex: 1 1 60%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+.form {
+    flex: 1 1 60%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
-        .order-summary {
-            flex: 1 1 35%;
-        }
+.order-summary {
+    flex: 1 1 35%;
+    display: flex;
+    flex-direction: column;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
-        }
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #2864d1;
-            outline: none;
-        }
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2864d1;
+    outline: none;
+}
 
-        .btn-primary {
-            width: 100%;
-            background-color: #2864d1;
-            color: #fff;
-            border: none;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: background-color 0.3s ease;
-            grid-column: 1 / -1;
-        }
+.btn-primary {
+    width: 100%;
+    background-color: #2864d1;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    grid-column: 1 / -1;
+}
 
-        .btn-primary:hover {
-            background-color: #218838;
-        }
+.btn-primary:hover {
+    background-color: #218838;
+}
 
-        .order-summary h4,
-        .order-summary h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 24px;
-            text-align: center;
-        }
+.order-summary h4 {
+    margin: 20px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 24px;
+    color: #333;
+    background-color: #f2f2f2;
+}
 
-        .order-summary ul {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            list-style: none;
-            padding: 0;
-            transition: transform 0.3s ease;
-        }
-        .order-summary ul:hover{
-            transform: translateY(-5px);
-        }
-        .order-summary ul li {
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-        }
+.order-summary h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+}
 
-        .order-summary ul li img {
-            width: 60px;
-            height: 60px;
-            margin-right: 10px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+.order-summary ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
 
-        .order-summary ul li:last-child {
-            border-bottom: none;
-        }
+.order-summary ul li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.order-summary ul li:hover {
+    transform: translateY(-5px);
+}
+
+.order-summary ul li img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.order-summary ul li:last-child {
+    border-bottom: none;
+}
     </style>
 </head>
 <body>
@@ -221,7 +236,7 @@ $conn->close();
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <h4>Total: $<?php echo number_format($total_price, 2); ?></h4>
+            <h4>Total: RM <?php echo number_format($total_price, 2); ?></h4>
         </div>
         <form action="checkout.php" method="post" class="form">
             <div class="form-group">

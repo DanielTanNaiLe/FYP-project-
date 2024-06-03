@@ -1,8 +1,7 @@
 <?php
-ob_start();
-include("header.php");
 require '../admin_panel/config/dbconnect.php';
 
+session_start();
 if (!isset($_SESSION['otp']) || !isset($_SESSION['checkout_details'])) {
     header("Location: checkout.php");
     exit();
@@ -74,12 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
             }
         }
 
-        // Unset session variables
+        // Set session variables for success page
+        $_SESSION['order_id'] = $order_id;
+        $_SESSION['order_details'] = $_SESSION['cart'];
+        $_SESSION['checkout_details'] = $checkout_details;
+
+        // Unset OTP and cart from session
         unset($_SESSION['otp']);
-        unset($_SESSION['checkout_details']);
         unset($_SESSION['cart']);
 
-        $success = "Payment successful and order placed!";
+        // Redirect to success page
+        header("Location: success.php");
+        exit();
     } else {
         $error = "Invalid OTP. Please try again.";
     }
@@ -96,69 +101,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
-            background-color: #f9f9f9;
-            font-family: Arial, sans-serif;
-        }
+       body {
+    height: 100%;
+    margin: 250px auto auto auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+}
 
-        .container {
-            background-color: #fff;
-            margin: 90px auto 50px auto;
-            padding: 30px;
-        }
+.container {
+    background-color: #fff;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional */
+    border-radius: 8px; /* Optional */
+}
 
-        h3 {
-            text-align: center;
-            color: #333;
-        }
+h3 {
+    text-align: center;
+    color: #333;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
-        }
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
 
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        .form-group input:focus {
-            border-color: #2864d1;
-            outline: none;
-        }
+.form-group input:focus {
+    border-color: #2864d1;
+    outline: none;
+}
 
-        .btn-primary {
-            width: 100%;
-            background-color: #2864d1;
-            color: #fff;
-            border: none;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: background-color 0.3s ease;
-        }
+.btn-primary {
+    width: 100%;
+    background-color: #2864d1;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
 
-        .btn-primary:hover {
-            background-color: #218838;
-        }
+.btn-primary:hover {
+    background-color: #218838;
+}
 
-        .message {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 16px;
-        }
+.message {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
     </style>
 </head>
 <body>
