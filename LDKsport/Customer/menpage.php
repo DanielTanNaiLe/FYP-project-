@@ -81,7 +81,7 @@ function displayProducts($result, $categoryName) {
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
                                                   INNER JOIN category ON product.category_id = category.category_id 
                                                   WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-        displayProducts($allProductsResult, "All Products");
+        displayProducts($allProductsResult, "All Men Products");
         ?>
     </div>
     <?php include("footer.php"); ?>
