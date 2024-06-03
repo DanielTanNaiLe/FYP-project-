@@ -50,6 +50,8 @@ $checkout_details = $_SESSION['checkout_details'];
 <head>
   <meta charset="UTF-8">
   <title> Credit Card Form for Payment Gateway </title>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 <link rel="stylesheet" href="./mastercard.css">
 <link rel="stylesheet" href="./general.css">
@@ -183,10 +185,6 @@ $checkout_details = $_SESSION['checkout_details'];
             <label for="cardName" class="card-input__label">Card Holder</label>
             <input type="text" id="cardName" name="cardName" class="card-input__input" v-model="cardName" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off" required>
           </div>
-          <div class="card-input">
-            <label for="email" class="card-input__label">Email</label>
-            <input type="email" id="email" name="email" class="card-input__input" autocomplete="off" required>
-          </div>
         <div class="card-form__row">
           <div class="card-form__col">
             <div class="card-form__group">
@@ -218,11 +216,12 @@ $checkout_details = $_SESSION['checkout_details'];
     </div>
     
     
-  </div>
+</div>
+
 <!-- partial -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script>
 <script src='https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js'></script>
-<script src="./mastercard.js"></script>
+<script src="./payment_method.js"></script>
 
 </body>
 </html>

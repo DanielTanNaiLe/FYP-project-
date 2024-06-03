@@ -143,15 +143,15 @@ tr:nth-child(even) {
                 while ($fetch_orders = $orders_result->fetch_assoc()) {
                     ?>
                     <div class="details-box">
-                        <p>Placed on: <span><?= $fetch_orders['order_date']; ?></span></p>
-                        <p>Name: <span><?= $fetch_orders['delivered_to']; ?></span></p>
-                        <p>Email: <span><?= $fetch_orders['order_email']; ?></span></p>
-                        <p>Number: <span><?= $fetch_orders['phone_no']; ?></span></p>
-                        <p>Address: <span><?= $fetch_orders['deliver_address']; ?></span></p>
+                        <p>Placed on     : <span><?= $fetch_orders['order_date']; ?></span></p>
+                        <p>Name          : <span><?= $fetch_orders['delivered_to']; ?></span></p>
+                        <p>Email         : <span><?= $fetch_orders['order_email']; ?></span></p>
+                        <p>Number        : <span><?= $fetch_orders['phone_no']; ?></span></p>
+                        <p>Address       : <span><?= $fetch_orders['deliver_address']; ?></span></p>
                         <p>Payment Method: <span><?= $fetch_orders['pay_method']; ?></span></p>
-                        <p>Your Orders: <button class="btn btn-primary openPopup" data-order-id="<?= $fetch_orders['order_id']; ?>">View Details</button></p>
-                        <p>Total Price: <span>$<?= $fetch_orders['amount']; ?>/-</span></p>
-                        <p>Order Status: <span style="color:<?php if ($fetch_orders['order_status'] == 0) {
+                        <p>Your Orders   : <button class="btn btn-primary openPopup" data-order-id="<?= $fetch_orders['order_id']; ?>">View Details</button></p>
+                        <p>Total Price   : <span>$<?= $fetch_orders['amount']; ?>/-</span></p>
+                        <p>Order Status  : <span style="color:<?php if ($fetch_orders['order_status'] == 0) {
                             echo 'red';
                          } else {
                             echo 'green';

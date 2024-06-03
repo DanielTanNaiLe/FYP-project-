@@ -39,7 +39,6 @@ new Vue({
         re = new RegExp('^9792')
         if (number.match(re) != null) return 'troy'
   
-        return "visa"; // default type
       },
           generateCardNumberMask () {
               return this.getCardType === "amex" ? this.amexCardMask : this.otherCardMask;

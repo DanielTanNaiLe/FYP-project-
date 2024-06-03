@@ -194,10 +194,14 @@ td img {
 .btn-purchase:hover {
     background-color: #218838;
 }
+.empty-cart-message{
+    color: #777;
+    text-align: center;
+}
     </style>
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <h2>Shopping Cart</h2>
         <table>
             <thead>
@@ -227,26 +231,29 @@ td img {
                                 <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
                             </div>
                         </td>
-                        <td id="price_<?php echo $item['cart_id']; ?>">$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                        <td id="price_<?php echo $item['cart_id']; ?>">RM <?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
                         <td>
                             <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
                 <?php else: ?>
-                    <p style="text-align: center; color: #777;">Your cart is empty.</p>
+                    <tr>
+                        <td colspan="7" class="empty-cart-message">Your cart is empty. Start adding some products!</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         <div class="total-container">
             <div class="total-box">
                 <h4>Total:</h4>
-                <h5 class="text-right" id="totalAmount">$<?php echo number_format($totalAmount, 2); ?></h5>
+                <h5 class="text-right" id="totalAmount">RM <?php echo number_format($totalAmount, 2); ?></h5>
+                <?php if (count($cart_items) > 0): ?>
                 <br>
                 <a href="checkout.php" class="btn-purchase">Make Purchase</a>
+                <?php endif; ?>
             </div>
         </div>
-        
     </div>
 
     <?php include("footer.php"); ?>
