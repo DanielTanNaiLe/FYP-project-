@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['admin_name'] = $username;
             echo "<script language='javascript'>";
             echo "alert('Login successful!');";
-            echo "window.location.href = 'index.php';";
+            echo "window.location.href = 'dashboard.php';";
             echo "</script>";
         } else {
             echo "<script language='javascript'>";
