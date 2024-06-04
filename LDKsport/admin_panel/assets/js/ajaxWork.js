@@ -103,6 +103,18 @@ function showFeedback(){
     });
 }
 
+function showProfile(){  
+    $.ajax({
+        url:"./adminView/updateProfile.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
+
+
 
 
 function ChangeOrderStatus(id){

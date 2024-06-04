@@ -2,44 +2,44 @@
 session_start();
 include_once "./config/dbconnect.php";
 
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = test_input($_POST["username"]);
-    $password = test_input($_POST["password"]);
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-    $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_name = ?");
-    $stmt->bind_param("s", $username);
+    // Prepare and execute SQL query with bound parameters
+    $stmt = $conn->prepare("SELECT * FROM admin WHERE admin_name = ? AND password = ?");
+    $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
+
+    // Fetch the result
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if ($password == $user['password']) { // Plain text comparison
-            $_SESSION['admin_name'] = $username;
-            echo "<script language='javascript'>";
-            echo "alert('Login successful!');";
-            echo "window.location.href = 'dashboard.php';";
-            echo "</script>";
-        } else {
-            echo "<script language='javascript'>";
-            echo "alert('Incorrect username or password!');";
-            echo "</script>";
-        }
+        $row = $result->fetch_assoc();
+        $_SESSION['admin_id'] = $row['id'];
+        $_SESSION['admin_role'] = $row['role'];
+
+        // Update last login time
+        $update_login_time = $conn->prepare("UPDATE `admin` SET last_login = NOW() WHERE id = ?");
+        $update_login_time->bind_param("i", $row['id']);
+        $update_login_time->execute();
+        $update_login_time->close();
+
+        // Redirect to dashboard
+        header('location:dashboard.php');
+        exit();
     } else {
+        // Incorrect username or password
         echo "<script language='javascript'>";
         echo "alert('Incorrect username or password!');";
-            echo "</script>";
+        echo "</script>";
     }
 
+    // Close statement
     $stmt->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

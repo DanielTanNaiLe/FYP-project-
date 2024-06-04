@@ -7,19 +7,19 @@
 
 <hr style="border:1px solid; background-color:#8a7b6d; border-color:#3B3131;">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="./dashboard.php" ><i class="fa fa-home"></i> Dashboard</a>
+    <a href="./dashboard.php" ><i class="fa fa-database"></i> Dashboard</a>
     <a href="#customers"  onclick="showCustomers()" ><i class="fa fa-users"></i> Customers</a>
     <a href="#category"   onclick="showCategory()" ><i class="fa fa-th-large"></i> Category</a>
     <a href="#sizes"   onclick="showSizes()" ><i class="fa fa-th"></i> Sizes</a>
     <a href="#productsizes"   onclick="showProductSizes()" ><i class="fa fa-th-list"></i> Product Sizes</a> 
     <a href="#brands"   onclick="showBrand()" ><i class="fa fa-th-large"></i> Brands</a> 
-    <a href="#gender"   onclick="showGender()" ><i class="fa fa-th-large"></i> Gender</a>  
+    <a href="#gender"   onclick="showGender()" ><i class="	fa fa-mars"></i> Gender</a>  
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
-    <a href="#report"   onclick="showReport()" ><i class="fa fa-th"></i> Reports</a>
-    <a href="#orders" onclick="showOrders()"><i class="fa fa-list"></i> Orders</a>
-    <a href="#feedback" onclick="showFeedback()"><i class="fa fa-list"></i> Feedback</a>
+    <a href="#report"   onclick="showReport()" ><i class="fa fa-bar-chart"></i> Reports</a>
+    <a href="#orders" onclick="showOrders()"><i class="fa fa-shopping-cart"></i> Orders</a>
+    <a href="#feedback" onclick="showFeedback()"><i class="fa fa-envelope"></i> Feedback</a>
 <br>
-    <a href="viewAdmin.php"><i class="fa fa-user "></i> Profile</a> 
+    <a href="#profile" onclick="showProfile()"><i class="fa fa-user "></i> Profile</a> 
     <a href="Logout.php"><i class="fa fa-sign-in "></i> Logout</a> 
   <!---->
 </div>

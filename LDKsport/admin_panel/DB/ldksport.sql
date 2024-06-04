@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 07:47 PM
+-- Generation Time: Jun 04, 2024 at 07:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,15 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `admin_name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `admin_email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','superadmin') NOT NULL DEFAULT 'admin',
+  `last_login` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `admin_name`, `password`) VALUES
-(1, 'admin', '123');
+INSERT INTO `admin` (`id`, `admin_name`, `admin_email`, `password`, `role`, `last_login`) VALUES
+(1, 'admin', '', '123', 'admin', '2024-06-04 17:02:34.043391'),
+(2, 'superadmin', 'liangyuel44@gmail.com', '123', 'superadmin', '2024-06-04 17:01:26.704900');
 
 -- --------------------------------------------------------
 
@@ -157,7 +161,7 @@ INSERT INTO `orders` (`order_id`, `user_id`, `delivered_to`, `order_email`, `pho
 (3, 2, 'Test  Firstuser', '', '980098322', 'matepani-12', 'Khalti', 0, 1, 1, '2022-04-18'),
 (4, 7, 'kohjunket', '', '0111087939', 'flat no. 80, jalan bukit perdana 2/17, batu pahat, johor, malaysia - 123456', '0', 0, 1, 1, '2024-05-20'),
 (8, 7, 'james', 'james@gmail.com', '0123456789', 'flat no. 80, jalan bukit perdana 2/17, batu pahat, johor, malaysia - 123456', 'credit card', 500, 0, 0, '2024-05-21'),
-(9, 7, 'Winson', 'winson@gmial.com', '0111098765', 'flat no. 59, jalan 123, apple pie, kuala lumpur, malaysia - 83000', 'paypal', 2660, 0, 0, '2024-05-21');
+(9, 7, 'Winson', 'winson@gmial.com', '0111098765', 'flat no. 59, jalan 123, apple pie, kuala lumpur, malaysia - 83000', 'paypal', 2660, 1, 1, '2024-05-21');
 
 -- --------------------------------------------------------
 
@@ -444,7 +448,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `brand`
