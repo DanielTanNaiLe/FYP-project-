@@ -14,7 +14,7 @@
             <h5>Summer Collection</h5>
             <h1>New Summer <br>Collection 2024</h1>
             <p>There's Nothing like Trend</p>
-            <a href="menpage.php" class="main-btn">Shop now<i class='bx bx-right-arrow-alt'></i></a>
+            <a href="products.php" class="main-btn">Shop now<i class='bx bx-right-arrow-alt'></i></a>
         </div>
     </section>
     <section class="main-home2">
@@ -36,9 +36,9 @@
                 <div class="image-container">
                     <img src="./image/banner2.jpg" alt="">
                     <div class="button-overlay">
-                        <a href="category.php?gender=Girls&type=Shoes" class="home2-btn">Girl's Shoes</a>
-                        <a href="category.php?gender=Girls&type=Clothing" class="home2-btn">Girl's Clothing</a>
-                        <a href="category.php?gender=Girls&type=Pants" class="home2-btn">Girl's Pants</a>
+                        <a href="category.php?gender=WOMAN&type=Shoes" class="home2-btn">Girl's Shoes</a>
+                        <a href="category.php?gender=WOMAN&type=Clothing" class="home2-btn">Girl's Clothing</a>
+                        <a href="category.php?gender=WOMAN&type=Pants" class="home2-btn">Girl's Pants</a>
                     </div>
                 </div>
             </div>
