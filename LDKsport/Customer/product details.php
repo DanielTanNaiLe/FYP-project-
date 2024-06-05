@@ -235,7 +235,7 @@ require '../admin_panel/wishlist_cart.php';
 
             if ($row) {
                 ?>
-                <form id="productForm" method="post" action="process_purchase.php">
+                <form id="productForm" method="post" action="Addtocart.php">
                     <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
                     <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
