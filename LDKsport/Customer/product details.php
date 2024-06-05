@@ -20,7 +20,7 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-      body {
+    body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -31,6 +31,8 @@ section {
 }
 
 .product-details-container {
+    display: flex;
+    align-items: center;
     max-width: 75%;
     margin: auto;
     height: 80vh;
@@ -39,36 +41,34 @@ section {
     padding: 100px;
 }
 
-.left, .right {
+.left {
     width: 50%;
     padding: 30px;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
-.flex {
-    display: flex;
-    justify-content: space-between;
+.main_image {
+    max-width: 100%; /* Ensure the image does not exceed its container */
+    overflow: hidden; /* Hide any overflowing parts */
+    border-radius: 10px;
 }
 
 .main_image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+.option {
+    margin-top: 20px;
 }
 
 .option img {
-    width: 85px;
-    height: 75px;
-    padding: 6px 2px;
-    object-fit: cover;
+    width: 100px; /* Adjust image size as needed */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 5px;
     cursor: pointer;
-}
-
-.left {
-    width: 60%;
-    margin-top: 50px;
-    margin-left: 20px;
+    margin-right: 10px; /* Add some space between images */
 }
 
 .right {
@@ -237,6 +237,7 @@ p {
     background: #ffc766;
 }
 
+
     </style>
 </head>
 <body>
@@ -263,7 +264,7 @@ p {
                         <div class="main_image">
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
-                        <div class="option flex">
+                        <div class="option">
                             <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
                             <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
                             <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
