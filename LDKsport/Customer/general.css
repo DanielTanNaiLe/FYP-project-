@@ -407,9 +407,7 @@ text-transform: uppercase;
     transform: translateY(-5px);
 }
 .listproduct .item{
-    width: 350px; /* Set a fixed width */
-    height: 350px; /* Set a fixed height */
-    margin: 5px;
+    margin: 20px;
     border-style: solid;
     display: flex;
     flex-direction: column;
