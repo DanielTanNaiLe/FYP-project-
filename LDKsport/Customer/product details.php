@@ -29,6 +29,7 @@ require '../admin_panel/wishlist_cart.php';
             height: 80vh;
             background: white;
             box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+            padding:100px;
         }
         .left, .right {
             width: 50%;
