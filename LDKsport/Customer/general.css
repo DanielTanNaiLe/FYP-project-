@@ -378,6 +378,10 @@ input[name="r"]{
 #r3:checked ~ .s1{
     margin-left: -80%;
 }
+.form item{
+    margin: 5px;
+    border-style: solid;
+}
 
 /*******************Products*******************/
 
