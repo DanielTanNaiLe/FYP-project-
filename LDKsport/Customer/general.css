@@ -313,40 +313,35 @@ footer{
 
 /*******************MenPage*******************/
 
-.m1 {
+.m1{
     position: absolute;
     top: 20%;
     left: 140px;
     font-size: 30px;
 }
-
-.container {
+.container{
     padding: 480px;
 }
-
-.slidershow {
+.slidershow{
     width: 1400px;
     height: 670px;
     overflow: hidden;
 }
-
-.middle {
+.middle{
     position: absolute;
     top: 75%;
     left: 50%;
     border-radius: 28px;
     transform: translate(-50%, -50%);
 }
-
-.navigation {
+.navigation{
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translatex(-50%);
     display: flex;
 }
-
-.bar {
+.bar{
     width: 50px;
     height: 10px;
     border: 2px solid #fff;
@@ -354,127 +349,35 @@ footer{
     cursor: pointer;
     transition: 0.4s;
 }
-
-.bar:hover {
+.bar:hover{
     background: #fff;
 }
-
-input[name="r"] {
+input[name="r"]{
     position: absolute;
     visibility: hidden;
 }
-
-.slides {
+.slides{
     width: 300%;
     height: 100%;
     display: flex;
 }
-
-.slide {
+.slide{
     width: 40%;
     transition: 0.6s;
 }
-
-.slide img {
+.slide img{
     width: 100%;
     height: 100%;
 }
-
-#r1:checked ~ .s1 {
+#r1:checked ~ .s1{
     margin-left: 0;
 }
-
-#r2:checked ~ .s1 {
+#r2:checked ~ .s1{
     margin-left: -40%;
 }
-
-#r3:checked ~ .s1 {
+#r3:checked ~ .s1{
     margin-left: -80%;
 }
-
-.subtitle_1 {
-    background-color: #ffffff;
-    padding: 15px;
-}
-
-.subtitle_1 h1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-}
-
-.listproduct .item img {
-    width: 100%;
-}
-
-.listproduct {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px; /* Add some gap between items */
-    margin: 70px;
-}
-
-.listproduct .item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 400px; /* Ensure all items have the same height */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-.listproduct .item h2 {
-    font-weight: 500;
-    font-size: large;
-    margin: 10px 0;
-    text-align: center;
-}
-
-.listproduct .item .price {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #000;
-}
-
-.favourite {
-    cursor: pointer;
-}
-
-.favourite i {
-    font-size: 28px;
-    transition: transform 0.42s ease;
-}
-
-.favourite i:hover {
-    transform: scale(1.1);
-    color: #ee1c47;
-}
-
-.details-container {
-    width: 100%;
-    text-align: center;
-}
-
-.details {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border: 2px solid black;
-    cursor: pointer;
-    font-weight: bold;
-    text-decoration: none;
-    color: black;
-    transition: background-color 0.5s, color 0.5s;
-}
-
-.details:hover {
-    background-color: rgb(242, 163, 45);
-    color: white;
-}
-
-
 
 /*******************Products*******************/
 
