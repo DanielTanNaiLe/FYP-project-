@@ -32,7 +32,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
 
 // Fetch cart items
 $stmt = $conn->prepare("
-    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price 
+    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price, c.variation_id
     FROM cart c
     JOIN product_size_variation v ON c.variation_id = v.variation_id
     JOIN product p ON v.product_id = p.product_id
@@ -218,7 +218,8 @@ while ($row = $result->fetch_assoc()) {
             </thead>
             <tbody>
                 <?php if (count($cart_items) > 0): 
-                    foreach ($cart_items as $item): ?>
+                    foreach ($cart_items as $item): 
+                ?>
                     <tr>
                         <td><?php echo $item['cart_id']; ?></td>
                         <td><?php echo htmlspecialchars($item['product_name']); ?></td>
@@ -226,9 +227,9 @@ while ($row = $result->fetch_assoc()) {
                         <td><?php echo htmlspecialchars($item['size_name']); ?></td>
                         <td>
                             <div class="quantity-container">
-                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
-                                <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
-                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1, <?php echo $item['variation_id']; ?>)">-</button>
+                                <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0, <?php echo $item['variation_id']; ?>)">
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1, <?php echo $item['variation_id']; ?>)">+</button>
                             </div>
                         </td>
                         <td id="price_<?php echo $item['cart_id']; ?>">RM <?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
@@ -262,7 +263,7 @@ while ($row = $result->fetch_assoc()) {
         var cartItems = <?php echo json_encode($cart_items); ?>;
         var totalAmount = <?php echo $totalAmount; ?>;
 
-        function updateQuantity(cart_id, change) {
+        function updateQuantity(cart_id, change, variation_id) {
             var quantityInput = document.getElementById('quantity_' + cart_id);
             var quantity = parseInt(quantityInput.value);
 
@@ -292,7 +293,7 @@ while ($row = $result->fetch_assoc()) {
                     recalculateTotalAmount();
                 }
             };
-            xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
+            xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity + "&variation_id=" + variation_id);
         }
 
         function recalculateTotalAmount() {
@@ -313,9 +314,10 @@ while ($row = $result->fetch_assoc()) {
 </html>
 
 <?php
-if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
+if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity']) && isset($_POST['variation_id'])) {
     $cart_id = $_POST['cart_id'];
     $quantity = $_POST['quantity'];
+    $variation_id = $_POST['variation_id'];
 
     // Update quantity in the database
     $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE cart_id = ? AND user_id = ?");
@@ -323,7 +325,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        echo json_encode(['status' => 'success']);
+        // Update the product quantity in the inventory
+        $stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
+        $stmt->bind_param("ii", $quantity, $variation_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error updating inventory.']);
+        }
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
     }
