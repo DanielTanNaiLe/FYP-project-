@@ -44,10 +44,27 @@ require '../admin_panel/wishlist_cart.php';
             width: 93%;
             height: 80%;
         }
+
+        .option {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option .image-container {
+            width: 100px;
+            height: 100px; /* Set the desired size for all images */
+            overflow: hidden; /* Hide overflowing parts */
+            border: 1px solid #ccc; /* Add border */
+            border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+        }
+
         .option img {
-            width: 85px;
-            height: 75px;
-            padding: 6px 2px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+
         }
         .left {
             width: 60%;
@@ -229,14 +246,28 @@ require '../admin_panel/wishlist_cart.php';
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                        <div class="image-container">
                             <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
                         </div>
+                        <div class="image-container">
+                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
+                        </div>
+                        <div class="image-container">
+                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                        </div>
+                        <div class="image-container">
+                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                        </div>
+                        <div class="image-container">
+                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                        </div>
+                        <div class="image-container">
+                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                        </div>
+
+                        </div>
                     </div>
+                    
                     <div class="right">
                         <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
                         <h5>men's shoes</h5>
