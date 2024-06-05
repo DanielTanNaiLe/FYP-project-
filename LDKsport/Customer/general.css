@@ -407,8 +407,14 @@ text-transform: uppercase;
     transform: translateY(-5px);
 }
 .listproduct .item{
+     width: 200px; /* Set a fixed width */
+    height: 300px; /* Set a fixed height */
     margin: 5px;
     border-style: solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 }
 .listproduct .item h2{
     font-weight: 500;
