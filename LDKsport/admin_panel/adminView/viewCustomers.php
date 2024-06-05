@@ -8,6 +8,7 @@
         <th class="text-center">Email</th>
         <th class="text-center">Contact Number</th>
         <th class="text-center">Joining Date</th>
+        <th class="text-center">Action</th>
       </tr>
     </thead>
     <?php
@@ -25,6 +26,7 @@
       <td><?=$row["email"]?></td>
       <td><?=$row["contact_no"]?></td>
       <td><?=$row["registered_at"]?></td>
+      <td><button class="btn btn-danger" style="height:40px" onclick="userDelete('<?=$row['user_id']?>')">Delete</button></td>
     </tr>
     <?php
             $count=$count+1;

@@ -105,7 +105,7 @@ function showFeedback(){
 
 function showProfile(){  
     $.ajax({
-        url:"./adminView/updateProfile.php",
+        url:"./adminView/viewProfile.php",
         method:"post",
         data:{record:1},
         success:function(data){
@@ -144,16 +144,16 @@ function ChangePay(id){
 }
 
 
-//add product data
-function addItems(){
-    var p_name=$('#p_name').val();
-    var p_desc=$('#p_desc').val();
-    var p_price=$('#p_price').val();
-    var category=$('#category').val();
-    var brand=$('#brand').val();
-    var gender=$('#gender').val();
-    var upload=$('#upload').val();
-    var file=$('#file')[0].files[0];
+function addItems() {
+    var p_name = $('#p_name').val();
+    var p_desc = $('#p_desc').val();
+    var p_price = $('#p_price').val();
+    var category = $('#category').val();
+    var brand = $('#brand').val();
+    var gender = $('#gender').val();
+    var file = $('#file')[0].files[0];
+    var file2 = $('#file2')[0].files[0];  // Secondary image
+    var file3 = $('#file3')[0].files[0];  // Tertiary image
 
     var fd = new FormData();
     fd.append('p_name', p_name);
@@ -161,22 +161,28 @@ function addItems(){
     fd.append('p_price', p_price);
     fd.append('category', category);
     fd.append('brand', brand);
-    fd.append('gender', brand);
+    fd.append('gender', gender);
     fd.append('file', file);
-    fd.append('upload', upload);
+    if (file2) fd.append('file2', file2);  // Append secondary image if exists
+    if (file3) fd.append('file3', file3);  // Append tertiary image if exists
+
     $.ajax({
-        url:"./controller/addItemController.php",
-        method:"post",
-        data:fd,
+        url: "./controller/addItemController.php",
+        method: "post",
+        data: fd,
         processData: false,
         contentType: false,
-        success: function(data){
-            alert('Product Added successfully.');
+        success: function(data) {
+            alert('Product added successfully.');
             $('form').trigger('reset');
             showProductItems();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('Error adding product: ' + textStatus + ' - ' + errorThrown);
         }
     });
 }
+
 
 //edit product data
 function itemEditForm(id){
@@ -190,16 +196,23 @@ function itemEditForm(id){
     });
 }
 
-//update product after submit
-function updateItems(){
+function updateItems(event) {
+    event.preventDefault(); // Prevent form submission
+
     var product_id = $('#product_id').val();
     var p_name = $('#p_name').val();
     var p_desc = $('#p_desc').val();
     var p_price = $('#p_price').val();
     var category = $('#category').val();
     var gender = $('#gender').val();
+    var brand = $('#brand').val();
     var existingImage = $('#existingImage').val();
     var newImage = $('#newImage')[0].files[0];
+    var existingImage2 = $('#existingImage2').val();
+    var newImage2 = $('#newImage2')[0].files[0];
+    var existingImage3 = $('#existingImage3').val();
+    var newImage3 = $('#newImage3')[0].files[0];
+
     var fd = new FormData();
     fd.append('product_id', product_id);
     fd.append('p_name', p_name);
@@ -207,23 +220,27 @@ function updateItems(){
     fd.append('p_price', p_price);
     fd.append('category', category);
     fd.append('gender', gender);
+    fd.append('brand', brand);
     fd.append('existingImage', existingImage);
-    fd.append('newImage', newImage);
-   
+    if (newImage) fd.append('newImage', newImage);
+    fd.append('existingImage2', existingImage2);
+    if (newImage2) fd.append('newImage2', newImage2);
+    fd.append('existingImage3', existingImage3);
+    if (newImage3) fd.append('newImage3', newImage3);
+
     $.ajax({
-      url:'./controller/updateItemController.php',
-      method:'post',
-      data:fd,
-      processData: false,
-      contentType: false,
-      success: function(data){
-        alert('Data Update Success.');
-        $('form').trigger('reset');
-        showProductItems();
-      }
+        url: './controller/updateItemController.php',
+        method: 'post',
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            alert('Data update success.');
+            $('form').trigger('reset');
+            showProductItems();
+        }
     });
 }
-
 //delete product data
 function itemDelete(id){
     $.ajax({
@@ -307,6 +324,21 @@ function genderDelete(id){
         }
     });
 }
+
+//delete user data
+function genderDelete(id){
+    $.ajax({
+        url:"./controller/userDeleteController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('User Successfully deleted');
+            $('form').trigger('reset');
+            showGender();
+        }
+    });
+}
+
 //delete size data
 function sizeDelete(id){
     $.ajax({
