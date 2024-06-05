@@ -1,11 +1,11 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+include("header.php");
 
-include("header.php"); 
 if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 } else {
-  $user_id = '';
+    $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -20,7 +20,6 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-
     body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -226,7 +225,7 @@ require '../admin_panel/wishlist_cart.php';
 <section>
     <div class="product-details-container flex">
         <?php
-        if(isset($_GET["pid"])) {
+        if (isset($_GET["pid"])) {
             $pid = $_GET["pid"];
             $stmt = $conn->prepare("SELECT * FROM product WHERE product_id = ?");
             $stmt->bind_param("i", $pid);
@@ -234,7 +233,7 @@ require '../admin_panel/wishlist_cart.php';
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
 
-            if($row) {
+            if ($row) {
                 ?>
                 <form id="productForm" method="post" action="">
                     <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
@@ -261,10 +260,10 @@ require '../admin_panel/wishlist_cart.php';
                         <h4 class="product-details-h4" name="price"> <small>RM </small><?= $row['price'] ?></h4>
                         <p name="product_desc"><?= $row['product_desc'] ?></p>
                         <h5 class="product-details-h5">Size</h5>
-                        <select class="product-details-dropmenu" id="sizes" name="size_name" >
+                        <select class="product-details-dropmenu" id="sizes" name="size_name">
                             <option disabled selected>Select Sizes</option>
                             <?php
-                            $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
+                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
                                     INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
                                     INNER JOIN product ON product_size_variation.product_id = product.product_id
                                     WHERE product.product_id = ?";
@@ -273,10 +272,7 @@ require '../admin_panel/wishlist_cart.php';
                             $size_stmt->execute();
                             $size_result = $size_stmt->get_result();
                             while ($size_row = $size_result->fetch_assoc()) {
-                                echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . "</option>";
-                                echo "<div class='size-option'>";
-                                echo "<span>" . $size_row['size_name'] . "</span>";
-                                echo "<small>Stock: " . $size_row['quantity_in_stock'] . "</small>";
+                                echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . " (Stock: " . $size_row['quantity_in_stock'] . ")</option>";
                             }
                             ?>
                         </select>
@@ -341,4 +337,4 @@ require '../admin_panel/wishlist_cart.php';
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html>  
+</html>
