@@ -37,17 +37,21 @@ if ($result === false) {
     <div class="listproduct">
         <?php
         if (mysqli_num_rows($result) > 0) {
+            $item_count = 0; // Initialize counter
             while ($row = mysqli_fetch_assoc($result)) {
+                $item_count++; // Increment counter
+                echo "Processing item: $item_count"; // Debug statement
         ?>
         <div class="item">
             <img src="../uploads/<?= $row['product_image'] ?>" alt="">
             <h2><?= $row["product_name"] ?></h2>
             <div class="price"><?= $row["price"] ?></div>
             <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
-            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+            <div class="details-container"><a href="product_details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
         </div>
         <?php
             }
+            echo "Total items processed: $item_count"; // Debug statement
         } else {
             echo "<p>No products found for the selected brand.</p>";
         }
