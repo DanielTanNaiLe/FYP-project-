@@ -274,6 +274,9 @@ require '../admin_panel/wishlist_cart.php';
                             $size_result = $size_stmt->get_result();
                             while ($size_row = $size_result->fetch_assoc()) {
                                 echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . "</option>";
+                                echo "<div class='size-option'>";
+                                echo "<span>" . $size_row['size_name'] . "</span>";
+                                echo "<small>Stock: " . $size_row['quantity_in_stock'] . "</small>";
                             }
                             ?>
                         </select>
@@ -338,4 +341,4 @@ require '../admin_panel/wishlist_cart.php';
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html> 
+</html>  
