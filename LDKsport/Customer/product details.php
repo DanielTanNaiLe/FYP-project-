@@ -1,248 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+    <link rel="stylesheet" href="general.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        section {
+            padding-top: 7%;
+        }
+
+        .product-details-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px;
+            background: white;
+            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .left {
+            width: 50%;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .main_image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .option {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .right {
+            width: 50%;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+
+        .product-details-h3 {
+            color: #af827d;
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .product-details-h5, p, small {
+            color: #837D7C;
+            margin: 0;
+        }
+
+        .product-details-h4 {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .product-details-h5 {
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        .product-details-dropmenu {
+            margin-top: 10px;
+            font-size: medium;
+            padding: 5px;
+            border: solid 2px black;
+            cursor: pointer;
+            transition: all .42 ease;
+        }
+
+        .product-details-dropmenu:hover {
+            transform: scale(1.1);
+            border-color: rgb(242, 163, 45);
+            color: #837d7c;
+        }
+
+        .button-container {
+            margin-top: 40px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 20px;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid black;
+            color: black;
+            text-decoration: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            background-color: rgb(242, 163, 45);
+            color: white;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .product-details-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .left, .right {
+                width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
 <?php
 require '../admin_panel/config/dbconnect.php';
-
 include("header.php"); 
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
 } else {
   $user_id = '';
 }
-
 require '../admin_panel/wishlist_cart.php';
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-<title>Product Details</title>
-    <link rel="stylesheet" href="general.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    <style>
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-
-section {
-    padding-top: 7%;
-}
-
-.product-details-container {
-    display: flex;
-    align-items: center;
-    max-width: 75%;
-    margin: auto;
-    height: 80vh;
-    background: white;
-    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-    padding: 100px;
-}
-
-.left {
-    width: 50%;
-    padding: 30px;
-    box-sizing: border-box; /* Include padding in width calculation */
-}
-
-.main_image {
-    max-width: 100%; /* Ensure the image does not exceed its container */
-    overflow: hidden; /* Hide any overflowing parts */
-    border-radius: 10px;
-}
-
-.main_image img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    display: block;
-}
-
-.option {
-    margin-top: 20px;
-}
-
-.option img {
-    width: 100px; /* Adjust image size as needed */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px; /* Add some space between images */
-}
-
-.right {
-    margin-left: 72%;
-    margin-top: -57%;
-    padding: 50px 100px 50px 50px;
-}
-
-.product-details-h3 {
-    color: #af827d;
-    margin: -25px 0 0 0;
-    font-size: 30px;
-}
-
-.product-details-h5, p, small {
-    color: #837D7C;
-}
-
-.product-details-h4 {
-    color: red;
-    margin: 13px 0;
-}
-
-p {
-    margin: 20px 0 20px 0;
-    line-height: 25px;
-}
-
-.product-details-h5 {
-    font-size: 15px;
-}
-
-.add label, .add span {
-    background: none;
-    border: 1px solid #C1908B;
-    color: #C1908B;
-    text-align: center;
-    line-height: 25px;
-}
-
-.add label {
-    padding: 10px 30px 0 20px;
-    border-radius: 50px;
-    line-height: 0;
-}
-
-.right .product-details-dropmenu {
-    margin: 10px 0;
-    font-size: medium;
-    padding: 5px;
-    border: solid 2px black;
-    cursor: pointer;
-    transition: all .42 ease;
-}
-
-.right .product-details-dropmenu:hover {
-    transform: scale(1.1);
-    border-color: rgb(242, 163, 45);
-    color: #837d7c;
-}
-
-.button-container {
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: 193px;
-    width: 50%;
-}
-
-.button-container .button {
-    display: grid;
-    width: 150%;
-    margin: 15px;
-    font-size: 20px;
-    text-align: center;
-    padding: 12px;
-    border: none;
-    outline: none;
-    color: black;
-    text-decoration: none;
-    border: 2px solid black;
-    transition: all .5s;
-}
-
-.button-container .button:hover {
-    transform: scale(1.1);
-    background-color: rgb(242, 163, 45);
-    color: white;
-}
-
-@media only screen and (max-width: 768px) {
-    .container {
-        max-width: 90%;
-        margin: auto;
-        height: auto;
-    }
-    .left, .right {
-        width: 100%;
-    }
-    .container {
-        flex-direction: column;
-    }
-}
-
-@media only screen and (max-width: 500px) {
-    .container {
-        max-width: 100%;
-        height: auto;
-        padding: 10px;
-    }
-    .left, .right {
-        padding: 0;
-    }
-    img {
-        width: 100%;
-        height: 100%;
-    }
-    .option {
-        display: flex;
-        flex-wrap: wrap;
-    }
-}
-
-.alert-container {
-    background: #ffdb9b;
-    padding: 20px 40px;
-    min-width: 420px;
-    position: absolute;
-    right: 0px;
-    top: 135px;
-    overflow: hidden;
-    border-radius: 4px;
-    border-left: 8px solid #ffa502;
-    cursor: pointer;
-}
-
-.alert-container.show {
-    animation: show_slide 1s ease forwards;
-}
-
-@keyframes show_slide {
-    0% {
-        transform: translateX(100%);
-    }
-    40% {
-        transform: translateX(-10%);
-    }
-    80% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-10%);
-    }
-}
-
-.alert-container.hide {
-    display: none;
-}
-
-.alert-container .alert {
-    padding: 0 20px;
-    font-size: 18px;
-    color: #ce8500;
-}
-
-.alert-container:hover {
-    background: #ffc766;
-}
-
-
-    </style>
-</head>
-<body>
 <section>
-    <div class="product-details-container flex">
+    <div class="product-details-container">
         <?php
         if(isset($_GET["pid"])) {
             $pid = $_GET["pid"];
