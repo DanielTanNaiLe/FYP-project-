@@ -20,6 +20,24 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
+
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    }
+
+    .product-details-container {
+    display: flex;
+    align-items: center;
+    max-width: 75%;
+    margin: auto;
+    height: 80vh;
+    background: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    
+}
+
         section {
             padding-top: 7%;
         }
