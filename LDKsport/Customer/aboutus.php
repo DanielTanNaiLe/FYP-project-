@@ -105,7 +105,7 @@ p {
             <p>Founder & CEO</p>
             <p>John is the visionary behind LDK Sports. With over 20 years of experience in the sports industry, he is dedicated to bringing the best sports attire to our customers.</p>
             <div class="instagram-icon">
-                <a href="https://www.instagram.com/lim_liang_yea" target="_blank"><i class='bx bxl-instagram'></i></a>
+                <a href="https://www.instagram.com/liangyea_227" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>
         </div>
         <div class="team-member">
@@ -114,7 +114,7 @@ p {
             <p>Chief Marketing Officer</p>
             <p>Jane leads our marketing team with creativity and strategic thinking. She ensures that our brand reaches the right audience through innovative campaigns.</p>
             <div class="instagram-icon">
-                <a href="https://www.instagram.com/koh_junk_ket" target="_blank"><i class='bx bxl-instagram'></i></a>
+                <a href="https://www.instagram.com/junket_1011" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>
         </div>
         <div class="team-member">
