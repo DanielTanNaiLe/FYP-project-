@@ -25,9 +25,15 @@ $fetch_profile = $fetch_profile_result->fetch_assoc(); // Fetch the row
 </head>
 <body>
 <?php
+    if ($admin_role === 'superadmin') {
       include __DIR__ . "/adminHeader.php";
-      include __DIR__ . "/sidebar.php";
+      include __DIR__ . "/superadmin_sidebar.php";
+    }else{
+        include __DIR__ . "/adminHeader.php";
+        include __DIR__ . "/sidebar.php"; 
+    }  
 ?>
+
 
 <div id="main-content" class="container allContent-section py-4">
     <div class="row">
