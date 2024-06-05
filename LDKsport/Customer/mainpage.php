@@ -19,7 +19,7 @@
     </section>
     <section class="main-home2">
         <div class="home2-text">
-            <h1>Shop Men's, Women's & Kids'</h1>
+            <h1>Shop Men's, Women's & Kids'</</h1>
         </div>
         <div class="home2-banner">
             <div class="main-home2-btn">
@@ -65,7 +65,7 @@
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="image-container3">
-                <a href="#"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
+                <a href="brand.php?brand=<?= urlencode($row["brand_name"]) ?>"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
                 <h1><?= $row['brand_name'] ?></h1>
             </div>
             <?php
