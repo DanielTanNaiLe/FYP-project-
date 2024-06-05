@@ -21,10 +21,7 @@ body {
     background-color: #f4f4f4;
 }
 
-
-
 .container {
-    
     padding: 150px;
 }
 
@@ -77,12 +74,24 @@ p {
     color: #666;
 }
 
+.instagram-icon {
+    margin-top: 10px;
+}
+
+.instagram-icon a {
+    color: #E1306C;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.instagram-icon a:hover {
+    color: #d6249f;
+}
 
 </style>
 </head>
 <body>
 <?php include("header.php"); ?>
-
 
 <div class="container">
     <h2>Welcome to LDK Sports</h2>
@@ -95,18 +104,27 @@ p {
             <h3>LIM LIANG YEA</h3>
             <p>Founder & CEO</p>
             <p>John is the visionary behind LDK Sports. With over 20 years of experience in the sports industry, he is dedicated to bringing the best sports attire to our customers.</p>
+            <div class="instagram-icon">
+                <a href="https://www.instagram.com/lim_liang_yea" target="_blank"><i class='bx bxl-instagram'></i></a>
+            </div>
         </div>
         <div class="team-member">
             <img src="image/member2.jpg" alt="Member 2">
             <h3>KOH JUNK KET</h3>
             <p>Chief Marketing Officer</p>
             <p>Jane leads our marketing team with creativity and strategic thinking. She ensures that our brand reaches the right audience through innovative campaigns.</p>
+            <div class="instagram-icon">
+                <a href="https://www.instagram.com/koh_junk_ket" target="_blank"><i class='bx bxl-instagram'></i></a>
+            </div>
         </div>
         <div class="team-member">
             <img src="image/member3.jpg" alt="Member 3">
             <h3>DANIEL TAN NAI LE</h3>
             <p>Head of Design</p>
             <p>Mike is the mastermind behind our product designs. His expertise in sportswear design ensures that our products are both functional and fashionable.</p>
+            <div class="instagram-icon">
+                <a href="https://www.instagram.com/danieltan0819" target="_blank"><i class='bx bxl-instagram'></i></a>
+            </div>
         </div>
     </div>
 </div>
