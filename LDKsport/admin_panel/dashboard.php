@@ -68,6 +68,20 @@ $fetch_profile = $fetch_profile_result->fetch_assoc(); // Fetch the row
             </div>
         </div>
         <div class="col-sm-3">
+            <div class="card" onclick="showBrand()">
+                <i class="fa fa-black-tie" style="font-size: 70px;"></i>
+                <h4 style="color:white;">Total Brand</h4>
+                <h5 style="color:white;">
+                <?php
+                    $sql = "SELECT COUNT(*) AS count FROM brand";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    echo $row['count'];
+                ?>
+                </h5>
+            </div>
+        </div>
+        <div class="col-sm-3">
             <div class="card" onclick="showProductItems()">
                 <i class="fa fa-th mb-2" style="font-size: 70px;"></i>
                 <h4 style="color:white;">Total Products</h4>

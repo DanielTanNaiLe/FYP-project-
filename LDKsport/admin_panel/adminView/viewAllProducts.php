@@ -120,8 +120,16 @@
               </select>
             </div>
             <div class="form-group">
-                <label for="file">Choose Image:</label>
+                <label for="file">Choose Image 1:</label>
                 <input type="file" class="form-control-file" id="file">
+            </div>
+            <div class="form-group">
+                <label for="file">Choose Image 2:</label>
+                <input type="file" class="form-control-file" id="file2">
+            </div>
+            <div class="form-group">
+                <label for="file">Choose Image 3:</label>
+                <input type="file" class="form-control-file" id="file3">
             </div>
             <div class="form-group">
               <button type="submit" class="btn btn-secondary" id="upload" style="height:40px">Add Item</button>
