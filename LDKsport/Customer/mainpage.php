@@ -58,14 +58,14 @@
         <h1>Our Brands</h1>
     </div>
     <?php
-    $result = mysqli_query($conn, "SELECT brand_name, brand_img FROM product INNER JOIN brand ON product.brand_id = brand.brand_id");
+    $result = mysqli_query($conn, "SELECT DISTINCT brand.brand_name, brand.brand_img FROM brand INNER JOIN product ON product.brand_id = brand.brand_id");
     if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
         echo '<div class="home3-banner">';
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="image-container3">
-                <a href="#"><img src='../uploads/<?= $row["brand_img"] ?>'></a>
+                <a href="#"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
                 <h1><?= $row['brand_name'] ?></h1>
             </div>
             <?php

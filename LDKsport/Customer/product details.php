@@ -25,7 +25,7 @@ require '../admin_panel/wishlist_cart.php';
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    }
+}
 
     .product-details-container {
     display: flex;
