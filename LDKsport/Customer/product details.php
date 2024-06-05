@@ -20,7 +20,7 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-    body {
+          body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -235,7 +235,7 @@ require '../admin_panel/wishlist_cart.php';
 
             if ($row) {
                 ?>
-                <form id="productForm" method="post" action="">
+                <form id="productForm" method="post" action="process_purchase.php">
                     <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
                     <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
@@ -247,11 +247,7 @@ require '../admin_panel/wishlist_cart.php';
                         </div>
                         <div class="option flex">
                             <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                            <!-- Add other images as necessary -->
                         </div>
                     </div>
                     <div class="right">
@@ -265,8 +261,7 @@ require '../admin_panel/wishlist_cart.php';
                             <?php
                             $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
                                     INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
-                                    INNER JOIN product ON product_size_variation.product_id = product.product_id
-                                    WHERE product.product_id = ?";
+                                    WHERE product_size_variation.product_id = ?";
                             $size_stmt = $conn->prepare($sql);
                             $size_stmt->bind_param("i", $pid);
                             $size_stmt->execute();
@@ -277,7 +272,7 @@ require '../admin_panel/wishlist_cart.php';
                             ?>
                         </select>
                         <div class="button-container">
-                            <input type="number" name="Quantity" value="1" class="form-control">
+                            <input type="number" name="quantity" value="1" class="form-control" min="1">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
@@ -333,7 +328,6 @@ require '../admin_panel/wishlist_cart.php';
         // For wishlist, no validation needed, so return true
         return true;
     });
-
 </script>
 <?php include("footer.php"); ?>
 </body>
