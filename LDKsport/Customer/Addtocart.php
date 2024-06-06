@@ -8,7 +8,7 @@ include("header.php");
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header('location:customer login.php');
+    header('location:customer_login.php');
     $user_id = '';
 }
 
@@ -263,6 +263,7 @@ td img {
     color: #777;
     text-align: center;
 }
+   
     </style>
 </head>
 <body>
