@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
     header('location:customer login.php');
-    $user_id = '';
+    exit();
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -214,6 +214,7 @@ td img {
     text-align: center;
 }
     </style>
+
 </head>
 <body>
 <div class="container">
@@ -258,7 +259,6 @@ td img {
                     </tr>
                 <?php endif; ?>
             </tbody>
-
     </table>
     <div class="total-container">
         <div class="total-box">
@@ -360,6 +360,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
         }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Product variation not found.']);
     }
     exit();
 }
