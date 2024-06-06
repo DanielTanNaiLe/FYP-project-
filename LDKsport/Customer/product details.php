@@ -1,341 +1,328 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+ob_start();
 
-include("header.php"); 
+include("header.php");
+
 if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 } else {
-  $user_id = '';
+    header('location:customer login.php');
+    $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
+
+if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
+    $cart_id = $_GET['id'];
+
+    // Get the current quantity and variation_id before deleting
+    $stmt = $conn->prepare("SELECT variation_id, quantity FROM cart WHERE cart_id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $cart_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $variation_id = $row['variation_id'];
+        $quantity = $row['quantity'];
+
+        // Remove item from cart
+        $stmt = $conn->prepare("DELETE FROM cart WHERE cart_id = ? AND user_id = ?");
+        $stmt->bind_param("ii", $cart_id, $user_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            // Update stock quantity
+            $stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock + ? WHERE variation_id = ?");
+            $stmt->bind_param("ii", $quantity, $variation_id);
+            $stmt->execute();
+
+            header("Location: Addtocart.php");
+            exit();
+        } else {
+            echo "Error removing from cart.";
+        }
+    }
+}
+
+// Fetch cart items
+$stmt = $conn->prepare("
+    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price, c.variation_id
+    FROM cart c
+    JOIN product_size_variation v ON c.variation_id = v.variation_id
+    JOIN product p ON v.product_id = p.product_id
+    JOIN sizes s ON v.size_id = s.size_id
+    WHERE c.user_id = ?
+");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$cart_items = [];
+$totalAmount = 0;
+
+while ($row = $result->fetch_assoc()) {
+    $cart_items[] = $row;
+    $totalAmount += $row['quantity'] * $row['price'];
+}
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Product Details</title>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
     <link rel="stylesheet" href="general.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+body {
+    background-color: #f9f9f9;
 }
 
-    .product-details-container {
+.container {
+    background-color: #fff;
+    margin: auto;
+    height: 70%;
+    padding: 20px;
+    overflow-x: auto;
+    position: relative;
+}
+
+h2 {
+    width: 90%;
+    background-color: #F2A32D;
+    text-align: center;
+    margin-left: 45px;
+    margin-top: 130px;
+    padding: 20px;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 65%;
+    margin-left: 3.5%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td img {
+    max-width: 80px;
+    height: auto;
+    border-radius: 6px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.quantity-container {
     display: flex;
     align-items: center;
-    max-width: 75%;
-    margin: auto;
-    height: 80vh;
-    background: white;
-    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-    
+    justify-content: center;
 }
 
-        section {
-            padding-top: 7%;
-        }
-       
-        .left, .right {
-            width: 50%;
-            padding: 30px;
-        }
-        .flex {
-            display: flex;
-            justify-content: space-between;
-        }
-        .flex1 {
-            display: flex;
-        }
-        .main_image {
-            width: auto;
-            height: auto;
-        }
-        .main_image img {
-            margin-left: 20px;
-            width: 93%;
-            height: 80%;
-        }
-        .option img {
-            width: 85px;
-            height: 75px;
-            padding: 6px 2px;
-        }
-        .left {
-            width: 60%;
-            margin-top: 50px;
-            margin-left: 20px;
-        }
-        .right {
-            margin-left: 72%;
-            margin-top: -57%;
-            padding: 50px 100px 50px 50px;
-        }
-        .product-details-h3 {
-            color: #af827d;
-            margin: -25px 0 0 0;
-            font-size: 30px;
-        }
-        .product-details-h5,
-        p,
-        small {
-            color: #837D7C;
-        }
-        .product-details-h4 {
-            color: red;
-            margin: 13px 0;
-        }
-        p {
-            margin: 20px 0 20px 0;
-            line-height: 25px;
-        }
-        .product-details-h5 {
-            font-size: 15px;
-        }
-        .add label,
-        .add span {
-            background: none;
-            border: 1px solid #C1908B;
-            color: #C1908B;
-            text-align: center;
-            line-height: 25px;
-        }
-        .add label {
-            padding: 10px 30px 0 20px;
-            border-radius: 50px;
-            line-height: 0;
-        }
-        .right .product-details-dropmenu {
-            margin: 10px 0;
-            font-size: medium;
-            padding: 5px;
-            border: solid 2px black;
-            cursor: pointer;
-            transition: all .42 ease;
-        }
-        .right .product-details-dropmenu:hover {
-            transform: scale(1.1);
-            border-color: rgb(242, 163, 45);
-            color: #837d7c;
-        }
-        .button-container {
-            margin-top: 40px;
-            margin-left: auto;
-            margin-right: 193px;
-            width: 50%;
-        }
-        .button-container .button {
-            display: grid;
-            width: 150%;
-            margin: 15px;
-            font-size: 20px;
-            text-align: center;
-            padding: 12px;
-            border: none;
-            outline: none;
-            color: black;
-            text-decoration: none;
-            border: 2px solid black;
-            transition: all .5s;
-        }
-        .button-container .button:hover {
-            transform: scale(1.1);
-            background-color: rgb(242, 163, 45);
-            color: white;
-        }
-        @media only screen and (max-width:768px) {
-            .container {
-                max-width: 90%;
-                margin: auto;
-                height: auto;
-            }
-            .left, .right {
-                width: 100%;
-            }
-            .container {
-                flex-direction: column;
-            }
-        }
-        @media only screen and (max-width:500px) {
-            .container {
-                max-width: 100%;
-                height: auto;
-                padding: 10px;
-            }
-            .left, .right {
-                padding: 0;
-            }
-            img {
-                width: 100%;
-                height: 100%;
-            }
-            .option {
-                display: flex;
-                flex-wrap: wrap;
-            }
-        }
-        .alert-container{
-            background: #ffdb9b;
-            padding: 20px 40px;
-            min-width: 420px;
-            position: absolute;
-            right: 0px;
-            top: 135px;
-            overflow: hidden;
-            border-radius: 4px;
-            border-left: 8px solid #ffa502;
-            cursor: pointer;
-        }
-        .alert-container.show {
-            animation: show_slide 1s ease forwards;
-        }
-        @keyframes show_slide {
-            0% {
-                transform: translateX(100%);
-            }
-            40% {
-                transform: translateX(-10%);
-            }
-            80% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-10%);
-            }
-        }
-        .alert-container.hide{
-            display: none;
-        }
-        .alert-container .alert {
-            padding: 0 20px;
-            font-size: 18px;
-            color: #ce8500;
-        }
-        .alert-container:hover{
-            background: #ffc766;
-        }
+.quantity-container input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+.btn-remove {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-remove:hover {
+    background-color: #c82333;
+}
+
+.total-container {
+    box-sizing: border-box;
+    display: block;
+    align-items: center;
+    position: absolute;
+    top: 65%; 
+    right: 10%; 
+    transform: translateY(-50%);
+    width: 300px;
+}
+
+.total-box {
+    background-color: #f2f2f2;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+}
+
+.total-box h4 {
+    margin: 0;
+    font-size: 1.7em;
+    color: #333;
+}
+
+.total-box h5 {
+    margin: 30px 0;
+    text-align: center;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.btn-purchase {
+    width: 100%;
+    background-color: #2864d1;
+    color: #fff;
+    border: none;
+    margin: auto 18px auto auto;
+    padding: 10px 70px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-purchase:hover {
+    background-color: #218838;
+}
+.empty-cart-message{
+    color: #777;
+    text-align: center;
+}
     </style>
+
 </head>
 <body>
-<section>
-    <div class="product-details-container flex">
-        <?php
-        if(isset($_GET["pid"])) {
-            $pid = $_GET["pid"];
-            $stmt = $conn->prepare("SELECT * FROM product WHERE product_id = ?");
-            $stmt->bind_param("i", $pid);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-
-            if($row) {
-                ?>
-                <form id="productForm" method="post" action="">
-                    <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
-                    <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
-                    <input type="hidden" name="price" value="<?= $row['price'] ?>">
-                    <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
-                    <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
-                    <div class="left">
-                        <div class="main_image">
-                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
-                        </div>
-                        <div class="option flex">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                        </div>
-                    </div>
-                    <div class="right">
-                        <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
-                        <h5>men's shoes</h5>
-                        <h4 class="product-details-h4" name="price"> <small>RM </small><?= $row['price'] ?></h4>
-                        <p name="product_desc"><?= $row['product_desc'] ?></p>
-                        <h5 class="product-details-h5">Size</h5>
-                        <select class="product-details-dropmenu" id="sizes" name="size_name" >
-                            <option disabled selected>Select Sizes</option>
-                            <?php
-                            $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
-                                    INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
-                                    INNER JOIN product ON product_size_variation.product_id = product.product_id
-                                    WHERE product.product_id = ?";
-                            $size_stmt = $conn->prepare($sql);
-                            $size_stmt->bind_param("i", $pid);
-                            $size_stmt->execute();
-                            $size_result = $size_stmt->get_result();
-                            while ($size_row = $size_result->fetch_assoc()) {
-                                echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . "</option>";
-                            }
-                            ?>
-                        </select>
-                        <div class="button-container">
-                            <input type="number" name="Quantity" value="1" class="form-control">
-                            <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
-                            <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
-                        </div>
-                    </div>
-                </form>
-                <?php
-                if (isset($_SESSION['message'])) {
-                    echo '<div class="alert-container show">';
-                    echo '<span class="alert">' . $_SESSION['message'] . '</span>';
-                    echo '</div>';
-                    unset($_SESSION['message']);
-                }
-            } else {
-                echo '<p class="empty">No product found!</p>';
-            }
-        } else {
-            echo '<p class="empty">No product ID provided!</p>';
-        }
-        ?>
+<div class="container">
+    <h2>Shopping Cart</h2>
+    <table>
+        <!-- Table content remains the same -->
+    </table>
+    <div class="total-container">
+        <div class="total-box">
+            <h4>Total:</h4>
+            <h5 class="text-right" id="totalAmount">RM <?php echo number_format($totalAmount, 2); ?></h5>
+            <?php if (count($cart_items) > 0): ?>
+            <br>
+            <a href="checkout.php" class="btn-purchase">Make Purchase</a>
+            <?php endif; ?>
+        </div>
     </div>
-</section>
-<script>
-    $(document).ready(function(){
-        setTimeout(function(){
-            $('.alert-container').addClass('hide');
-            $('.alert-container').removeClass('show');
-        }, 3000); // Change the duration as needed
-    });
+</div>
 
-    $('.alert-container').click(function(){
-        $(this).addClass('hide');
-        $(this).removeClass('show');
-    });
-
-    function img(anything) {
-        document.querySelector('.slide').src = anything;
-    }
-
-    function validateFormForCart() {
-        var sizes = document.getElementById("sizes");
-        if (sizes.value === "Select Sizes") {
-            alert("Please select a size.");
-            return false;
-        }
-        return true;
-    }
-
-    $('#productForm').submit(function() {
-        // Check if the form is for adding to cart
-        if ($(this).find('[name="add_to_cart"]').length > 0) {
-            return validateFormForCart();
-        }
-        // For wishlist, no validation needed, so return true
-        return true;
-    });
-
-</script>
 <?php include("footer.php"); ?>
+
+<script>
+    var cartItems = <?php echo json_encode($cart_items); ?>;
+    var totalAmount = <?php echo $totalAmount; ?>;
+
+    function updateQuantity(cart_id, change) {
+        var quantityInput = document.getElementById('quantity_' + cart_id);
+        var quantity = parseInt(quantityInput.value);
+
+        if (change !== 0) {
+            quantity += change;
+            if (quantity < 1) {
+                quantity = 1;
+            }
+            quantityInput.value = quantity;
+        }
+
+        var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
+        var priceElement = document.getElementById('price_' + cart_id);
+        var totalPrice = pricePerItem * quantity;
+        priceElement.textContent = "RM " + totalPrice.toFixed(2);
+
+        // Send AJAX request to update quantity in database
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "Addtocart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status === 'error') {
+                    alert(response.message);
+                }
+            }
+        };
+        xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
+
+        recalculateTotalAmount();
+    }
+
+    function recalculateTotalAmount() {
+        totalAmount = cartItems.reduce((sum, item) => {
+            var quantity = parseInt(document.getElementById('quantity_' + item.cart_id).value);
+            return sum + item.price * quantity;
+        }, 0);
+        document.getElementById('totalAmount').textContent = "RM " + totalAmount.toFixed(2);
+    }
+
+    function removeItem(cart_id) {
+        if (confirm("Are you sure you want to remove this item?")) {
+            window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
+        }
+    }
+</script>
 </body>
-</html>  
+</html>
+
+<?php
+if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
+    $cart_id = $_POST['cart_id'];
+    $quantity = $_POST['quantity'];
+
+    // Get the current quantity and variation_id before updating
+    $stmt = $conn->prepare("SELECT variation_id, quantity FROM cart WHERE cart_id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $cart_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $variation_id = $row['variation_id'];
+        $old_quantity = $row['quantity'];
+
+        // Update quantity in the cart
+        $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE cart_id = ? AND user_id = ?");
+        $stmt->bind_param("iii", $quantity, $cart_id, $user_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            // Adjust stock quantity based on the difference
+            $quantity_difference = $old_quantity - $quantity;
+            $stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock + ? WHERE variation_id = ?");
+            $stmt->bind_param("ii", $quantity_difference, $variation_id);
+            $stmt->execute();
+
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
+        }
+    }
+    exit();
+}
+?>
