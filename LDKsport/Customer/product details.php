@@ -1,16 +1,3 @@
-<?php
-require '../admin_panel/config/dbconnect.php';
-
-include("header.php"); 
-if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
-} else {
-  $user_id = '';
-}
-
-require '../admin_panel/wishlist_cart.php';
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,8 +7,7 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-       
-    body {
+           body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -220,54 +206,13 @@ require '../admin_panel/wishlist_cart.php';
         .alert-container:hover{
             background: #ffc766;
         }
-
-        .alert-container {
-            background: #ffdb9b;
-            padding: 20px 40px;
-            min-width: 420px;
-            position: absolute;
-            right: 0px;
-            top: 135px;
-            overflow: hidden;
-            border-radius: 4px;
-            border-left: 8px solid #ffa502;
-            cursor: pointer;
-        }
-        .alert-container.show {
-            animation: show_slide 1s ease forwards;
-        }
-        @keyframes show_slide {
-            0% {
-                transform: translateX(100%);
-            }
-            40% {
-                transform: translateX(-10%);
-            }
-            80% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-10%);
-            }
-        }
-        .alert-container.hide {
-            display: none;
-        }
-        .alert-container .alert {
-            padding: 0 20px;
-            font-size: 18px;
-            color: #ce8500;
-        }
-        .alert-container:hover {
-            background: #ffc766;
-        }
     </style>
 </head>
 <body>
 <section>
     <div class="product-details-container flex">
         <?php
-        if(isset($_GET["pid"])) {
+        if (isset($_GET["pid"])) {
             $pid = $_GET["pid"];
             $stmt = $conn->prepare("SELECT * FROM product WHERE product_id = ?");
             $stmt->bind_param("i", $pid);
@@ -275,7 +220,7 @@ require '../admin_panel/wishlist_cart.php';
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
 
-            if($row) {
+            if ($row) {
                 ?>
                 <form id="productForm" method="post" action="">
                     <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
@@ -283,29 +228,26 @@ require '../admin_panel/wishlist_cart.php';
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
                     <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
                     <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
+                    <input type="hidden" id="variation_id" name="variation_id" value="">
                     <div class="left">
                         <div class="main_image">
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                            <!-- Option images here -->
                         </div>
                     </div>
                     <div class="right">
                         <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
                         <h5>men's shoes</h5>
-                        <h4 class="product-details-h4" name="price"> <small>RM </small><?= $row['price'] ?></h4>
+                        <h4 class="product-details-h4" name="price"><small>RM </small><?= $row['price'] ?></h4>
                         <p name="product_desc"><?= $row['product_desc'] ?></p>
                         <h5 class="product-details-h5">Size</h5>
                         <select class="product-details-dropmenu" id="sizes" name="size_id" onchange="updateStock()">
                             <option disabled selected>Select Sizes</option>
                             <?php
-                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
+                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.variation_id, product_size_variation.quantity_in_stock 
+                                    FROM product_size_variation
                                     INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
                                     INNER JOIN product ON product_size_variation.product_id = product.product_id
                                     WHERE product.product_id = ?";
@@ -314,7 +256,7 @@ require '../admin_panel/wishlist_cart.php';
                             $size_stmt->execute();
                             $size_result = $size_stmt->get_result();
                             while ($size_row = $size_result->fetch_assoc()) {
-                                echo "<option value='" . $size_row['size_id'] . "' data-stock='" . $size_row['quantity_in_stock'] . "'>" . $size_row['size_name'] . "</option>";
+                                echo "<option value='" . $size_row['size_id'] . "' data-variation='" . $size_row['variation_id'] . "' data-stock='" . $size_row['quantity_in_stock'] . "'>" . $size_row['size_name'] . "</option>";
                             }
                             ?>
                         </select>
@@ -343,14 +285,14 @@ require '../admin_panel/wishlist_cart.php';
     </div>
 </section>
 <script>
-    $(document).ready(function(){
-        setTimeout(function(){
+    $(document).ready(function() {
+        setTimeout(function() {
             $('.alert-container').addClass('hide');
             $('.alert-container').removeClass('show');
         }, 3000); // Change the duration as needed
     });
 
-    $('.alert-container').click(function(){
+    $('.alert-container').click(function() {
         $(this).addClass('hide');
         $(this).removeClass('show');
     });
@@ -363,8 +305,10 @@ require '../admin_panel/wishlist_cart.php';
         var sizes = document.getElementById("sizes");
         var selectedOption = sizes.options[sizes.selectedIndex];
         var stock = selectedOption.getAttribute("data-stock");
+        var variationId = selectedOption.getAttribute("data-variation");
         document.getElementById("stockInfo").innerText = "Stock available: " + stock;
         document.getElementById("quantityInput").max = stock;
+        document.getElementById("variation_id").value = variationId;
     }
 
     function validateFormForCart() {
@@ -384,7 +328,6 @@ require '../admin_panel/wishlist_cart.php';
         // For wishlist, no validation needed, so return true
         return true;
     });
-
 </script>
 <?php include("footer.php"); ?>
 </body>
