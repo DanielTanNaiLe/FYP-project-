@@ -8,131 +8,31 @@ include("header.php");
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header('location:customer_login.php');
+    header('location:customer login.php');
     $user_id = '';
 }
 
 require '../admin_panel/wishlist_cart.php';
 
-// Handle adding to cart (Example logic, adjust based on your actual add to cart process)
-if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST['variation_id']) && isset($_POST['quantity'])) {
-    $variation_id = $_POST['variation_id'];
-    $quantity = $_POST['quantity'];
-
-    // Check stock availability
-   $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
-    $stock_stmt->bind_param("i", $variation_id);
-    $stock_stmt->execute();
-    $stock_result = $stock_stmt->get_result();
-    $stock = $stock_result->fetch_assoc();
-
-    if ($stock && $stock['quantity_in_stock'] >= $quantity) {
-        // Add item to cart
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
-        $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            // Update the stock quantity
-            $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
-            $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
-            $update_stock_stmt->execute();
-
-            header("Location: Addtocart.php");
-            exit();
-        } else {
-            echo "Error adding to cart.";
-        }
-    } else {
-        echo "Not enough stock available.";
-    }
-}
-
-// Handle cart item removal
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $cart_id = $_GET['id'];
 
-    // Fetch the cart item details
-    $stmt = $conn->prepare("SELECT variation_id, quantity FROM cart WHERE cart_id = ? AND user_id = ?");
+    // Remove item from cart
+    $stmt = $conn->prepare("DELETE FROM cart WHERE cart_id = ? AND user_id = ?");
     $stmt->bind_param("ii", $cart_id, $user_id);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $item = $result->fetch_assoc();
 
-    if ($item) {
-        $variation_id = $item['variation_id'];
-        $quantity = $item['quantity'];
-
-        // Remove item from cart
-        $stmt = $conn->prepare("DELETE FROM cart WHERE cart_id = ? AND user_id = ?");
-        $stmt->bind_param("ii", $cart_id, $user_id);
-        $stmt->execute();
-
-        if ($stmt->affected_rows > 0) {
-            // Update the stock quantity
-            $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock + ? WHERE variation_id = ?");
-            $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
-            $update_stock_stmt->execute(); // Update stock quantity here
-
-            header("Location: Addtocart.php");
-            exit();
-        } else {
-            echo "Error removing from cart.";
-        }
+    if ($stmt->affected_rows > 0) {
+        header("Location: Addtocart.php");
+        exit();
+    } else {
+        echo "Error removing from cart.";
     }
-}
-
-
-// Handle quantity update via AJAX
-if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
-    $cart_id = $_POST['cart_id'];
-    $new_quantity = $_POST['quantity'];
-
-    // Fetch the cart item details
-    $stmt = $conn->prepare("SELECT variation_id, quantity FROM cart WHERE cart_id = ? AND user_id = ?");
-    $stmt->bind_param("ii", $cart_id, $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $item = $result->fetch_assoc();
-
-    if ($item) {
-        $variation_id = $item['variation_id'];
-        $current_quantity = $item['quantity'];
-
-        // Check stock availability
-        $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
-        $stock_stmt->bind_param("i", $variation_id);
-        $stock_stmt->execute();
-        $stock_result = $stock_stmt->get_result();
-        $stock = $stock_result->fetch_assoc();
-
-        if ($stock && $stock['quantity_in_stock'] >= ($new_quantity - $current_quantity)) {
-            // Update the cart quantity
-            $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE cart_id = ? AND user_id = ?");
-            $stmt->bind_param("iii", $new_quantity, $cart_id, $user_id);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                // Update the stock quantity
-                $update_stock_qty = $new_quantity - $current_quantity;
-                $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
-                $update_stock_stmt->bind_param("ii", $update_stock_qty, $variation_id);
-                $update_stock_stmt->execute();
-
-                echo json_encode(['status' => 'success']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
-            }
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Not enough stock available.']);
-        }
-    }
-    exit();
 }
 
 // Fetch cart items
 $stmt = $conn->prepare("
-    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price, v.quantity_in_stock
+    SELECT c.cart_id, p.product_name, p.product_image, s.size_name, c.quantity, c.price 
     FROM cart c
     JOIN product_size_variation v ON c.variation_id = v.variation_id
     JOIN product p ON v.product_id = p.product_id
@@ -298,118 +198,136 @@ td img {
     color: #777;
     text-align: center;
 }
-   
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>Shopping Cart</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Cart ID</th>
-                <th>Product Name</th>
-                <th>Image</th>
-                <th>Size</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php if (count($cart_items) > 0): 
-             foreach ($cart_items as $item): 
-             ?>
+        <h2>Shopping Cart</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td><?php echo $item['cart_id']; ?></td>
-                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                    <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
-                    <td><?php echo htmlspecialchars($item['size_name']); ?></td>
-                    <td>
-                        <div class="quantity-container">
-                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
-                            <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
-                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
-                        </div>
-                    </td>
-                    <td id="price_<?php echo $item['cart_id']; ?>">RM <?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
-                    <td>
-                        <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
-                    </td>
+                    <th>Cart ID</th>
+                    <th>Product Name</th>
+                    <th>Image</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Action</th>
                 </tr>
-            <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="7" class="empty-cart-message">Your cart is empty. Start adding some products!</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-    <div class="total-container">
-        <div class="total-box">
-            <h4>Total:</h4>
-            <h5 class="text-right" id="totalAmount">RM <?php echo number_format($totalAmount, 2); ?></h5>
-            <?php if (count($cart_items) > 0): ?>
-            <br>
-            <a href="checkout.php" class="btn-purchase">Make Purchase</a>
-            <?php endif; ?>
+            </thead>
+            <tbody>
+            <?php if (count($cart_items) > 0): 
+                 foreach ($cart_items as $item): 
+                 ?>
+                    <tr>
+                        <td><?php echo $item['cart_id']; ?></td>
+                        <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                        <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
+                        <td><?php echo htmlspecialchars($item['size_name']); ?></td>
+                        <td>
+                            <div class="quantity-container">
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
+                                <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
+                                <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
+                            </div>
+                        </td>
+                        <td id="price_<?php echo $item['cart_id']; ?>">RM <?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                        <td>
+                            <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" class="empty-cart-message">Your cart is empty. Start adding some products!</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <div class="total-container">
+            <div class="total-box">
+                <h4>Total:</h4>
+                <h5 class="text-right" id="totalAmount">RM <?php echo number_format($totalAmount, 2); ?></h5>
+                <?php if (count($cart_items) > 0): ?>
+                <br>
+                <a href="checkout.php" class="btn-purchase">Make Purchase</a>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-</div>
 
-<?php include("footer.php"); ?>
+    <?php include("footer.php"); ?>
 
-<script>
-    var cartItems = <?php echo json_encode($cart_items); ?>;
-    var totalAmount = <?php echo $totalAmount; ?>;
+    <script>
+        var cartItems = <?php echo json_encode($cart_items); ?>;
+        var totalAmount = <?php echo $totalAmount; ?>;
 
-    function updateQuantity(cart_id, change) {
-        var quantityInput = document.getElementById('quantity_' + cart_id);
-        var quantity = parseInt(quantityInput.value);
+        function updateQuantity(cart_id, change) {
+            var quantityInput = document.getElementById('quantity_' + cart_id);
+            var quantity = parseInt(quantityInput.value);
 
-        if (change !== 0) {
-            quantity += change;
-            if (quantity < 1) {
-                quantity = 1;
-            }
-            quantityInput.value = quantity;
-        }
-
-        var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
-        var priceElement = document.getElementById('price_' + cart_id);
-        var totalPrice = pricePerItem * quantity;
-        priceElement.textContent = "RM " + totalPrice.toFixed(2);
-
-        // Send AJAX request to update quantity in database
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "Addtocart.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.status === 'error') {
-                    alert(response.message);
+            if (change !== 0) {
+                quantity += change;
+                if (quantity < 1) {
+                    quantity = 1;
                 }
+                quantityInput.value = quantity;
             }
-        };
-        xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
 
-        recalculateTotalAmount();
-    }
+            var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
+            var priceElement = document.getElementById('price_' + cart_id);
+            var totalPrice = pricePerItem * quantity;
+            priceElement.textContent = "$" + totalPrice.toFixed(2);
 
-    function recalculateTotalAmount() {
-        totalAmount = cartItems.reduce((sum, item) => {
-            var quantity = parseInt(document.getElementById('quantity_' + item.cart_id).value);
-            return sum + item.price * quantity;
-        }, 0);
-        document.getElementById('totalAmount').textContent = "RM " + totalAmount.toFixed(2);
-    }
+            // Send AJAX request to update quantity in database
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "Addtocart.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.status === 'error') {
+                        alert(response.message);
+                    }
+                }
+            };
+            xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
 
-    function removeItem(cart_id) {
-        if (confirm("Are you sure you want to remove this item?")) {
-            window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
+            recalculateTotalAmount();
         }
-    }
-</script>
+
+        function recalculateTotalAmount() {
+            totalAmount = cartItems.reduce((sum, item) => {
+                var quantity = parseInt(document.getElementById('quantity_' + item.cart_id).value);
+                return sum + item.price * quantity;
+            }, 0);
+            document.getElementById('totalAmount').textContent = "$" + totalAmount.toFixed(2);
+        }
+
+        function removeItem(cart_id) {
+            if (confirm("Are you sure you want to remove this item?")) {
+                window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
+            }
+        }
+    </script>
 </body>
-</html>      
+</html>
+
+<?php
+if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
+    $cart_id = $_POST['cart_id'];
+    $quantity = $_POST['quantity'];
+
+    // Update quantity in the database
+    $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE cart_id = ? AND user_id = ?");
+    $stmt->bind_param("iii", $quantity, $cart_id, $user_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo json_encode(['status' => 'success']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error updating quantity.']);
+    }
+    exit();
+}
+?>
