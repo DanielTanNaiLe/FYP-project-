@@ -20,7 +20,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
     $quantity = $_POST['quantity'];
 
     // Check stock availability
-    $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
+   $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
     $stock_stmt->bind_param("i", $variation_id);
     $stock_stmt->execute();
     $stock_result = $stock_stmt->get_result();
@@ -36,7 +36,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
             // Update the stock quantity
             $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
             $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
-            $update_stock_stmt->execute(); // Update stock quantity here
+            $update_stock_stmt->execute();
 
             header("Location: Addtocart.php");
             exit();
