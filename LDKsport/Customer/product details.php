@@ -1,5 +1,6 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+
 include("header.php"); 
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
@@ -19,7 +20,8 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
+
+    body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -218,7 +220,6 @@ require '../admin_panel/wishlist_cart.php';
         .alert-container:hover{
             background: #ffc766;
         }
-
     </style>
 </head>
 <body>
@@ -263,7 +264,7 @@ require '../admin_panel/wishlist_cart.php';
                         <select class="product-details-dropmenu" id="sizes" name="size_name" >
                             <option disabled selected>Select Sizes</option>
                             <?php
-                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
+                            $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
                                     INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
                                     INNER JOIN product ON product_size_variation.product_id = product.product_id
                                     WHERE product.product_id = ?";
@@ -272,12 +273,12 @@ require '../admin_panel/wishlist_cart.php';
                             $size_stmt->execute();
                             $size_result = $size_stmt->get_result();
                             while ($size_row = $size_result->fetch_assoc()) {
-                                echo "<option value='" . $size_row['size_id'] . "' data-stock='" . $size_row['quantity_in_stock'] . "'>" . $size_row['size_name'] . " (Stock: " . $size_row['quantity_in_stock'] . ")</option>";
+                                echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . "</option>";
                             }
                             ?>
                         </select>
                         <div class="button-container">
-                            <input type="number" id="quantity" name="Quantity" value="1" class="form-control" min="1">
+                            <input type="number" name="Quantity" value="1" class="form-control">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
@@ -318,15 +319,8 @@ require '../admin_panel/wishlist_cart.php';
 
     function validateFormForCart() {
         var sizes = document.getElementById("sizes");
-        var quantity = document.getElementById("quantity").value;
-        var selectedOption = sizes.options[sizes.selectedIndex];
-        var stock = selectedOption.getAttribute('data-stock');
         if (sizes.value === "Select Sizes") {
             alert("Please select a size.");
-            return false;
-        }
-        if (parseInt(quantity) > parseInt(stock)) {
-            alert("Selected quantity exceeds stock available.");
             return false;
         }
         return true;
@@ -344,4 +338,4 @@ require '../admin_panel/wishlist_cart.php';
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html>
+</html>  
