@@ -14,6 +14,40 @@ if (isset($_SESSION['user_id'])) {
 
 require '../admin_panel/wishlist_cart.php';
 
+// Handle adding to cart (Example logic, adjust based on your actual add to cart process)
+if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST['variation_id']) && isset($_POST['quantity'])) {
+    $variation_id = $_POST['variation_id'];
+    $quantity = $_POST['quantity'];
+
+    // Check stock availability
+    $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
+    $stock_stmt->bind_param("i", $variation_id);
+    $stock_stmt->execute();
+    $stock_result = $stock_stmt->get_result();
+    $stock = $stock_result->fetch_assoc();
+
+    if ($stock && $stock['quantity_in_stock'] >= $quantity) {
+        // Add item to cart
+        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
+        $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            // Update the stock quantity
+            $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
+            $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
+            $update_stock_stmt->execute();
+
+            header("Location: Addtocart.php");
+            exit();
+        } else {
+            echo "Error adding to cart.";
+        }
+    } else {
+        echo "Not enough stock available.";
+    }
+}
+
 // Handle cart item removal
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
     $cart_id = $_GET['id'];
@@ -79,8 +113,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_
 
             if ($stmt->affected_rows > 0) {
                 // Update the stock quantity
-                $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
                 $update_stock_qty = $new_quantity - $current_quantity;
+                $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
                 $update_stock_stmt->bind_param("ii", $update_stock_qty, $variation_id);
                 $update_stock_stmt->execute();
 
