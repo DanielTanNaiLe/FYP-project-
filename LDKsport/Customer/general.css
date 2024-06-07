@@ -399,6 +399,7 @@ input[name="r"] {
     justify-content: space-around;
 }
 /* Updated styles for product list */
+/* Updated styles for product list */
 .listproduct .box {
     width: 300px;
     margin: 10px;
@@ -416,6 +417,7 @@ input[name="r"] {
     flex: 1; /* Allow items to expand within the container */
     display: flex;
     flex-direction: column;
+    position: relative; /* Relative positioning for absolute positioning of the favorite icon */
 }
 
 .listproduct .item img {
@@ -460,6 +462,7 @@ input[name="r"] {
     background: #000;
     color: #fff;
 }
+
 
 
 
