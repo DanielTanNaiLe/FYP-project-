@@ -10,12 +10,11 @@ if (isset($_SESSION['user_id'])) {
 } else {
     header('location:customer_login.php');
     $user_id = '';
-    exit();
 }
 
 require '../admin_panel/wishlist_cart.php';
 
-// Handle adding to cart
+// Handle adding to cart (Example logic, adjust based on your actual add to cart process)
 if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST['variation_id']) && isset($_POST['quantity'])) {
     $variation_id = $_POST['variation_id'];
     $quantity = $_POST['quantity'];
@@ -244,90 +243,172 @@ td img {
     background-color: #c82333;
 }
 
-.cart-summary {
+.total-container {
+    box-sizing: border-box;
+    display: block;
+    align-items: center;
+    position: absolute;
+    top: 65%; 
+    right: 10%; 
+    transform: translateY(-50%);
+    width: 300px;
+}
+
+.total-box {
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; 
 }
 
-.cart-summary h3 {
-    margin-top: 0;
+.total-box h4 {
+    margin: 0;
+    font-size: 1.7em;
+    color: #333;
 }
 
-.cart-summary p {
-    margin: 5px 0;
+.total-box h5 {
+    margin: 30px 0;
+    text-align: center;
+    font-size: 1.5em;
+    color: #333;
 }
+
+.btn-purchase {
+    width: 100%;
+    background-color: #2864d1;
+    color: #fff;
+    border: none;
+    margin: auto 18px auto auto;
+    padding: 10px 70px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-purchase:hover {
+    background-color: #218838;
+}
+.empty-cart-message{
+    color: #777;
+    text-align: center;
+}
+   
     </style>
 </head>
 <body>
-
-<h2>Your Shopping Cart</h2>
 <div class="container">
+    <h2>Shopping Cart</h2>
     <table>
         <thead>
-        <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Size</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Action</th>
-        </tr>
+            <tr>
+                <th>Cart ID</th>
+                <th>Product Name</th>
+                <th>Image</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
         </thead>
         <tbody>
-        <?php foreach ($cart_items as $item) : ?>
-            <tr>
-                <td><img src="<?php echo $item['product_image']; ?>" alt="Product Image"></td>
-                <td><?php echo $item['product_name']; ?></td>
-                <td><?php echo $item['size_name']; ?></td>
-                <td class="text-center">
-                    <div class="quantity-container">
-                        <input type="number" value="<?php echo $item['quantity']; ?>" min="1" max="<?php echo $item['quantity_in_stock']; ?>" data-cart-id="<?php echo $item['cart_id']; ?>" class="quantity-input">
-                    </div>
-                </td>
-                <td><?php echo $item['price']; ?></td>
-                <td><?php echo $item['quantity'] * $item['price']; ?></td>
-                <td><a href="Addtocart.php?action=remove&id=<?php echo $item['cart_id']; ?>" class="btn-remove">Remove</a></td>
-            </tr>
-        <?php endforeach; ?>
+        <?php if (count($cart_items) > 0): 
+             foreach ($cart_items as $item): 
+             ?>
+                <tr>
+                    <td><?php echo $item['cart_id']; ?></td>
+                    <td><?php echo htmlspecialchars($item['product_name']); ?></td>
+                    <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
+                    <td><?php echo htmlspecialchars($item['size_name']); ?></td>
+                    <td>
+                        <div class="quantity-container">
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
+                            <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
+                        </div>
+                    </td>
+                    <td id="price_<?php echo $item['cart_id']; ?>">RM <?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                    <td>
+                        <button class="btn-remove" onclick="removeItem(<?php echo $item['cart_id']; ?>)">Remove</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7" class="empty-cart-message">Your cart is empty. Start adding some products!</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
-</div>
-
-<div class="container">
-    <div class="cart-summary">
-        <h3>Cart Summary</h3>
-        <p>Total Amount: $<?php echo number_format($totalAmount, 2); ?></p>
-        <a href="checkout.php" class="btn-checkout">Proceed to Checkout</a>
+    <div class="total-container">
+        <div class="total-box">
+            <h4>Total:</h4>
+            <h5 class="text-right" id="totalAmount">RM <?php echo number_format($totalAmount, 2); ?></h5>
+            <?php if (count($cart_items) > 0): ?>
+            <br>
+            <a href="checkout.php" class="btn-purchase">Make Purchase</a>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
+<?php include("footer.php"); ?>
+
 <script>
-document.querySelectorAll('.quantity-input').forEach(input => {
-    input.addEventListener('change', function() {
-        var cartId = this.getAttribute('data-cart-id');
-        var quantity = this.value;
+    var cartItems = <?php echo json_encode($cart_items); ?>;
+    var totalAmount = <?php echo $totalAmount; ?>;
 
-        fetch('Addtocart.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'action=update_quantity&cart_id=' + cartId + '&quantity=' + quantity
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                location.reload();
-            } else {
-                alert(data.message);
+    function updateQuantity(cart_id, change) {
+        var quantityInput = document.getElementById('quantity_' + cart_id);
+        var quantity = parseInt(quantityInput.value);
+
+        if (change !== 0) {
+            quantity += change;
+            if (quantity < 1) {
+                quantity = 1;
             }
-        });
-    });
-});
-</script>
+            quantityInput.value = quantity;
+        }
 
+        var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
+        var priceElement = document.getElementById('price_' + cart_id);
+        var totalPrice = pricePerItem * quantity;
+        priceElement.textContent = "RM " + totalPrice.toFixed(2);
+
+        // Send AJAX request to update quantity in database
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "Addtocart.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.status === 'error') {
+                    alert(response.message);
+                }
+            }
+        };
+        xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
+
+        recalculateTotalAmount();
+    }
+
+    function recalculateTotalAmount() {
+        totalAmount = cartItems.reduce((sum, item) => {
+            var quantity = parseInt(document.getElementById('quantity_' + item.cart_id).value);
+            return sum + item.price * quantity;
+        }, 0);
+        document.getElementById('totalAmount').textContent = "RM " + totalAmount.toFixed(2);
+    }
+
+    function removeItem(cart_id) {
+        if (confirm("Are you sure you want to remove this item?")) {
+            window.location.href = "Addtocart.php?action=remove&id=" + cart_id;
+        }
+    }
+</script>
 </body>
 </html>
