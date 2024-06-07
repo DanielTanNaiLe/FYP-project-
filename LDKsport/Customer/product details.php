@@ -347,6 +347,7 @@ p {
                             ?>
                         </select>
                         <div class="button-container">
+                            <label for="quantity">Please enter quantity:</label> 
                             <input type="number" name="Quantity" value="1" class="form-control" id="quantity">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
