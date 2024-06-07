@@ -14,7 +14,7 @@ if (isset($_SESSION['user_id'])) {
 
 require '../admin_panel/wishlist_cart.php';
 
-// Handle adding to cart (Example logic, adjust based on your actual add to cart process)
+// Handle adding to cart
 if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST['variation_id']) && isset($_POST['quantity'])) {
     $variation_id = $_POST['variation_id'];
     $quantity = $_POST['quantity'];
@@ -24,9 +24,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
     $stock_stmt->bind_param("i", $variation_id);
     $stock_stmt->execute();
     $stock_result = $stock_stmt->get_result();
-    $stock = $stock_result->fetch_assoc();
+    $stock_row = $stock_result->fetch_assoc();
 
-    if ($stock && $stock['quantity_in_stock'] >= $quantity) {
+    if ($stock_row && $stock_row['quantity_in_stock'] >= $quantity) {
+        // Begin a transaction
+        $conn->begin_transaction();
+
         // Add item to cart
         $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
         $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
@@ -38,9 +41,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
             $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
             $update_stock_stmt->execute();
 
+            // Commit the transaction
+            $conn->commit();
+
             header("Location: Addtocart.php");
             exit();
         } else {
+            $conn->rollback();
             echo "Error adding to cart.";
         }
     } else {
@@ -63,6 +70,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
         $variation_id = $item['variation_id'];
         $quantity = $item['quantity'];
 
+        // Begin a transaction
+        $conn->begin_transaction();
+
         // Remove item from cart
         $stmt = $conn->prepare("DELETE FROM cart WHERE cart_id = ? AND user_id = ?");
         $stmt->bind_param("ii", $cart_id, $user_id);
@@ -74,13 +84,18 @@ if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id']))
             $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
             $update_stock_stmt->execute();
 
+            // Commit the transaction
+            $conn->commit();
+
             header("Location: Addtocart.php");
             exit();
         } else {
+            $conn->rollback();
             echo "Error removing from cart.";
         }
     }
 }
+
 
 // Handle quantity update via AJAX
 if (isset($_POST['action']) && $_POST['action'] == 'update_quantity' && isset($_POST['cart_id']) && isset($_POST['quantity'])) {
