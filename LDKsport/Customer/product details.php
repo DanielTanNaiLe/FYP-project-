@@ -8,6 +8,20 @@ if (isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
+function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiii", $user_id, $product_id, $size_id, $quantity, $price);
+    $stmt->execute();
+}
+
+function addToWishlist($user_id, $product_id) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $user_id, $product_id);
+    $stmt->execute();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_to_cart'])) {
         $product_id = $_POST['pid'];
@@ -31,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $update_stmt->bind_param("iii", $new_stock, $product_id, $size_id);
             $update_stmt->execute();
 
-            // Add to cart (assumes you have a cart handling function or script)
+            // Add to cart
             addToCart($user_id, $product_id, $size_id, $quantity, $price);
             $_SESSION['message'] = 'Product added to cart successfully!';
         } else {
@@ -265,19 +279,15 @@ require '../admin_panel/wishlist_cart.php';
             $stmt->bind_param("i", $pid);
             $stmt->execute();
             $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-
-            if ($row) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
                 ?>
-                <form id="productForm" method="post" action="">
-                    <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
-                    <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
+                <form method="post" id="productForm" onsubmit="return validateFormForCart()">
+                    <input type="hidden" name="pid" value="<?= $pid ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
-                    <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
-                    <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
                     <div class="left">
                         <div class="main_image">
-                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
+                            <img src="../admin_panel/product_img/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
                             <!-- Product images for selection -->
