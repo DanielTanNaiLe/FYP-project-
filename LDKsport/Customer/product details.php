@@ -1,11 +1,63 @@
 <?php
 require '../admin_panel/config/dbconnect.php';
+include("header.php");
 
-include("header.php"); 
 if (isset($_SESSION['user_id'])) {
-  $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id'];
 } else {
-  $user_id = '';
+    $user_id = '';
+}
+
+function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiii", $user_id, $product_id, $size_id, $quantity, $price);
+    $stmt->execute();
+}
+
+function addToWishlist($user_id, $product_id) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $user_id, $product_id);
+    $stmt->execute();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['add_to_cart'])) {
+        $product_id = $_POST['pid'];
+        $size_id = $_POST['size_name'];
+        $quantity = $_POST['Quantity'];
+        $price = $_POST['price'];
+        
+        // Check if stock is available
+        $stock_check_query = "SELECT quantity_in_stock FROM product_size_variation WHERE product_id = ? AND size_id = ?";
+        $stmt = $conn->prepare($stock_check_query);
+        $stmt->bind_param("ii", $product_id, $size_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        
+        if ($row && $row['quantity_in_stock'] >= $quantity) {
+            // Update the stock
+            $new_stock = $row['quantity_in_stock'] - $quantity;
+            $update_stock_query = "UPDATE product_size_variation SET quantity_in_stock = ? WHERE product_id = ? AND size_id = ?";
+            $update_stmt = $conn->prepare($update_stock_query);
+            $update_stmt->bind_param("iii", $new_stock, $product_id, $size_id);
+            $update_stmt->execute();
+
+            // Add to cart
+            addToCart($user_id, $product_id, $size_id, $quantity, $price);
+            $_SESSION['message'] = 'Product added to cart successfully!';
+        } else {
+            $_SESSION['message'] = 'Sorry, not enough stock available.';
+        }
+    }
+
+    if (isset($_POST['add_to_wishlist'])) {
+        // Add to wishlist logic
+        addToWishlist($user_id, $_POST['pid']);
+        $_SESSION['message'] = 'Product added to wishlist successfully!';
+    }
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -20,28 +72,23 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-
-    body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-
-    .product-details-container {
-    display: flex;
-    align-items: center;
-    max-width: 75%;
-    margin: auto;
-    height: 80vh;
-    background: white;
-    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-    
-}
-
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .product-details-container {
+            display: flex;
+            align-items: center;
+            max-width: 75%;
+            margin: auto;
+            height: 80vh;
+            background: white;
+            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+        }
         section {
             padding-top: 7%;
         }
-       
         .left, .right {
             width: 50%;
             padding: 30px;
@@ -180,7 +227,7 @@ require '../admin_panel/wishlist_cart.php';
                 flex-wrap: wrap;
             }
         }
-        .alert-container{
+        .alert-container {
             background: #ffdb9b;
             padding: 20px 40px;
             min-width: 420px;
@@ -209,7 +256,7 @@ require '../admin_panel/wishlist_cart.php';
                 transform: translateX(-10%);
             }
         }
-        .alert-container.hide{
+        .alert-container.hide {
             display: none;
         }
         .alert-container .alert {
@@ -217,7 +264,7 @@ require '../admin_panel/wishlist_cart.php';
             font-size: 18px;
             color: #ce8500;
         }
-        .alert-container:hover{
+        .alert-container:hover {
             background: #ffc766;
         }
     </style>
@@ -226,45 +273,36 @@ require '../admin_panel/wishlist_cart.php';
 <section>
     <div class="product-details-container flex">
         <?php
-        if(isset($_GET["pid"])) {
+        if (isset($_GET["pid"])) {
             $pid = $_GET["pid"];
             $stmt = $conn->prepare("SELECT * FROM product WHERE product_id = ?");
             $stmt->bind_param("i", $pid);
             $stmt->execute();
             $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-
-            if($row) {
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
                 ?>
-                <form id="productForm" method="post" action="">
-                    <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
-                    <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
+                <form method="post" id="productForm" onsubmit="return validateFormForCart()">
+                    <input type="hidden" name="pid" value="<?= $pid ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
-                    <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
-                    <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
                     <div class="left">
                         <div class="main_image">
-                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
+                            <img src="../admin_panel/product_img/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/jd_DV0831-108_a.webp" onclick="img('image/jd_DV0831-108_a.webp')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
-                            <img src="image/custom-nike-air-force-1-low-by-you.png" onclick="img('image/custom-nike-air-force-1-low-by-you.png')">
+                            <!-- Product images for selection -->
                         </div>
                     </div>
                     <div class="right">
                         <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
                         <h5>men's shoes</h5>
-                        <h4 class="product-details-h4" name="price"> <small>RM </small><?= $row['price'] ?></h4>
+                        <h4 class="product-details-h4" name="price"><small>RM </small><?= $row['price'] ?></h4>
                         <p name="product_desc"><?= $row['product_desc'] ?></p>
                         <h5 class="product-details-h5">Size</h5>
-                        <select class="product-details-dropmenu" id="sizes" name="size_name" >
+                        <select class="product-details-dropmenu" id="sizes" name="size_name">
                             <option disabled selected>Select Sizes</option>
                             <?php
-                            $sql = "SELECT sizes.size_id, sizes.size_name FROM product_size_variation
+                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
                                     INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
                                     INNER JOIN product ON product_size_variation.product_id = product.product_id
                                     WHERE product.product_id = ?";
@@ -273,15 +311,12 @@ require '../admin_panel/wishlist_cart.php';
                             $size_stmt->execute();
                             $size_result = $size_stmt->get_result();
                             while ($size_row = $size_result->fetch_assoc()) {
-                                echo "<option value='" . $size_row['size_id'] . "'>" . $size_row['size_name'] . "</option>";
-                                echo "<div class='size-option'>";
-                                echo "<span>" . $size_row['size_name'] . "</span>";
-                                echo "<small>Stock: " . $size_row['quantity_in_stock'] . "</small>";
+                                echo "<option value='" . $size_row['size_id'] . "' data-stock='" . $size_row['quantity_in_stock'] . "'>" . $size_row['size_name'] . " (Stock: " . $size_row['quantity_in_stock'] . ")</option>";
                             }
                             ?>
                         </select>
                         <div class="button-container">
-                            <input type="number" name="Quantity" value="1" class="form-control">
+                            <input type="number" name="Quantity" value="1" class="form-control" id="quantity">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
@@ -304,14 +339,14 @@ require '../admin_panel/wishlist_cart.php';
     </div>
 </section>
 <script>
-    $(document).ready(function(){
-        setTimeout(function(){
+    $(document).ready(function() {
+        setTimeout(function() {
             $('.alert-container').addClass('hide');
             $('.alert-container').removeClass('show');
         }, 3000); // Change the duration as needed
     });
 
-    $('.alert-container').click(function(){
+    $('.alert-container').click(function() {
         $(this).addClass('hide');
         $(this).removeClass('show');
     });
@@ -322,8 +357,15 @@ require '../admin_panel/wishlist_cart.php';
 
     function validateFormForCart() {
         var sizes = document.getElementById("sizes");
+        var quantity = document.getElementById("quantity").value;
+        var selectedOption = sizes.options[sizes.selectedIndex];
+        var stock = selectedOption.getAttribute('data-stock');
         if (sizes.value === "Select Sizes") {
             alert("Please select a size.");
+            return false;
+        }
+        if (parseInt(quantity) > parseInt(stock)) {
+            alert("Selected quantity exceeds stock available.");
             return false;
         }
         return true;
@@ -337,8 +379,7 @@ require '../admin_panel/wishlist_cart.php';
         // For wishlist, no validation needed, so return true
         return true;
     });
-
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html>  
+</html>
