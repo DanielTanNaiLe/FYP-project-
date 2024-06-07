@@ -24,6 +24,9 @@ if ($brandFilter) {
     $count_stmt->execute();
     $count_result = $count_stmt->get_result();
     $total_items = $count_result->fetch_row()[0];
+
+    // Get the category name for the title
+    $categoryName = ucfirst($brandFilter) . ' Products';
 } else {
     // Fetch products without a brand filter
     $result = $conn->query("SELECT * FROM product LIMIT $items_per_page OFFSET $offset");
@@ -31,6 +34,9 @@ if ($brandFilter) {
     // Get the total number of products for pagination
     $count_result = $conn->query("SELECT COUNT(*) FROM product");
     $total_items = $count_result->fetch_row()[0];
+
+    // Set the category name for the title
+    $categoryName = 'All Products';
 }
 
 if ($result === false) {
@@ -43,7 +49,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer main page</title>
+    <title>Customer products page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -51,7 +57,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 </head>
 <body>
     <?php include("header.php"); ?>
-    <div class="subtitle_1"><h1><?= $brandFilter ? ucfirst($brandFilter) . ' Products' : 'All Products' ?></h1></div>
+    <div class="subtitle_1"><h1><?= $categoryName ?></h1></div>
     <div class="listproduct">
         <?php
         if ($result->num_rows > 0) {
