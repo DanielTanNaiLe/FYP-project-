@@ -1,30 +1,3 @@
-<?php
-require "../config/dbconnect.php";
-
-// Get the product ID from the query parameter
-$product_id = $_GET['product_id'] ?? 0;
-
-// Prepare the statement to fetch sizes and their stock quantities for the given product ID
-$stmt = $conn->prepare("
-    SELECT v.variation_id, s.size_name, v.quantity_in_stock
-    FROM product_size_variation v
-    JOIN sizes s ON v.size_id = s.size_id
-    WHERE v.product_id = ?
-");
-$stmt->bind_param("i", $product_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Fetch all the results into an array
-$sizes = [];
-while ($row = $result->fetch_assoc()) {
-    $sizes[] = $row;
-}
-
-$stmt->close();
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
