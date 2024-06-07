@@ -2,14 +2,6 @@
 require '../admin_panel/config/dbconnect.php';
 include("header.php");
 
-// Define the addToCart function
-function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
-    global $conn;
-    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iiiii", $user_id, $product_id, $size_id, $quantity, $price);
-    $stmt->execute();
-}
-
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
@@ -26,9 +18,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if stock is available
         $stock_check_query = "SELECT quantity_in_stock FROM product_size_variation WHERE product_id = ? AND size_id = ?";
         $stmt = $conn->prepare($stock_check_query);
+        if ($stmt === false) {
+            // Handle prepare error
+            die('Error preparing statement: ' . htmlspecialchars($conn->error));
+        }
         $stmt->bind_param("ii", $product_id, $size_id);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            // Handle execute error
+            die('Error executing statement: ' . htmlspecialchars($stmt->error));
+        }
         $result = $stmt->get_result();
+        if ($result === false) {
+            // Handle get_result error
+            die('Error getting result set: ' . htmlspecialchars($stmt->error));
+        }
         $row = $result->fetch_assoc();
         
         if ($row && $row['quantity_in_stock'] >= $quantity) {
@@ -36,8 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $new_stock = $row['quantity_in_stock'] - $quantity;
             $update_stock_query = "UPDATE product_size_variation SET quantity_in_stock = ? WHERE product_id = ? AND size_id = ?";
             $update_stmt = $conn->prepare($update_stock_query);
+            if ($update_stmt === false) {
+                // Handle prepare error
+                die('Error preparing statement: ' . htmlspecialchars($conn->error));
+            }
             $update_stmt->bind_param("iii", $new_stock, $product_id, $size_id);
-            $update_stmt->execute();
+            if (!$update_stmt->execute()) {
+                // Handle execute error
+                die('Error executing statement: ' . htmlspecialchars($update_stmt->error));
+            }
 
             // Add to cart
             addToCart($user_id, $product_id, $size_id, $quantity, $price);
@@ -56,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 require '../admin_panel/wishlist_cart.php';
 ?>
+
 
 <!DOCTYPE html>
 <html>
