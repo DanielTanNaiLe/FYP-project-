@@ -406,6 +406,10 @@ input[name="r"] {
     padding: 15px;
     text-align: center;
     position: relative; /* Ensure the container is relative */
+    height: 450px; /* Increased height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .listproduct .item {
@@ -414,7 +418,7 @@ input[name="r"] {
 
 .listproduct .item img {
     width: 100%;
-    height: 200px;
+    height: 250px; /* Adjusted height to fit the box */
     object-fit: cover; /* Ensures the image covers the container */
 }
 
@@ -426,6 +430,7 @@ input[name="r"] {
 .listproduct .item .price {
     font-size: 1.1em;
     color: #555;
+    margin: 10px 0;
 }
 
 .listproduct .item .favourite {
