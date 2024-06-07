@@ -278,7 +278,11 @@ require '../admin_panel/wishlist_cart.php';
                             ?>
                         </select>
                         <div class="button-container">
-                             <input type="number" name="Quantity" value="1" class="form-control">
+                        <div class="quantity-container">
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
+                            <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
+                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
+                        </div>
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
