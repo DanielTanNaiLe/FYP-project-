@@ -1,3 +1,30 @@
+<?php
+require '../admin_panel/config/dbconnect.php';
+
+// Get the product ID from the query parameter
+$product_id = $_GET['product_id'] ?? 0;
+
+// Prepare the statement to fetch sizes and their stock quantities for the given product ID
+$stmt = $conn->prepare("
+    SELECT v.variation_id, s.size_name, v.quantity_in_stock
+    FROM product_size_variation v
+    JOIN sizes s ON v.size_id = s.size_id
+    WHERE v.product_id = ?
+");
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch all the results into an array
+$sizes = [];
+while ($row = $result->fetch_assoc()) {
+    $sizes[] = $row;
+}
+
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,6 +94,12 @@
                     }
                 }
             ?>
+                    <?php foreach ($sizes as $size) : ?>
+            <tr>
+                <td><?php echo $size['size_name']; ?></td>
+                <td><?php echo $size['quantity_in_stock']; ?></td>
+            </tr>
+        <?php endforeach; ?>
         </tbody>
     </table>
 
@@ -173,42 +206,7 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-    // Add event listener for add to cart button
-    document.querySelectorAll('.add-to-cart').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var variationId = this.getAttribute('data-variation-id');
-            var quantity = this.getAttribute('data-quantity');
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "Addtocart.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.status === 'success') {
-                        updateAdminTable();
-                    } else {
-                        alert(response.message);
-                    }
-                }
-            };
-            xhr.send("action=add_to_cart&variation_id=" + variationId + "&quantity=" + quantity);
-        });
-    });
-
-    // Update admin table
-    function updateAdminTable() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "path_to_your_php_script_to_get_updated_data.php", true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                document.getElementById('productSizesTable').innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send();
-    }
-});
-
+   
 </script>
 
 </body>
