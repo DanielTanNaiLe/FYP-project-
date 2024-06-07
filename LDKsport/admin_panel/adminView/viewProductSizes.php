@@ -94,12 +94,6 @@ $conn->close();
                     }
                 }
             ?>
-                    <?php foreach ($sizes as $size) : ?>
-            <tr>
-                <td><?php echo $size['size_name']; ?></td>
-                <td><?php echo $size['quantity_in_stock']; ?></td>
-            </tr>
-        <?php endforeach; ?>
         </tbody>
     </table>
 
