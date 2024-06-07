@@ -13,11 +13,25 @@ if (isset($_SESSION['user_id'])) {
 }
 
 require '../admin_panel/wishlist_cart.php';
-
 // Handle adding to cart
 if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST['variation_id']) && isset($_POST['quantity'])) {
     $variation_id = $_POST['variation_id'];
     $quantity = $_POST['quantity'];
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header('location: customer_login.php');
+        exit();
+    }
+
+    // Check if variation_id and quantity are valid
+    if (!is_numeric($variation_id) || !is_numeric($quantity) || $quantity <= 0) {
+        echo "Invalid variation ID or quantity.";
+        exit();
+    }
+
+    // Start transaction
+    $conn->begin_transaction();
 
     // Check stock availability
     $stock_stmt = $conn->prepare("SELECT quantity_in_stock FROM product_size_variation WHERE variation_id = ?");
@@ -26,40 +40,42 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
     $stock_result = $stock_stmt->get_result();
     $stock = $stock_result->fetch_assoc();
 
-    if ($stock && $stock['quantity_in_stock'] >= $quantity) {
-        // Start transaction
-        $conn->begin_transaction();
+    if (!$stock || $stock['quantity_in_stock'] < $quantity) {
+        // Rollback transaction if not enough stock available
+        $conn->rollback();
+        echo "Not enough stock available.";
+        exit();
+    }
 
-        // Deduct stock quantity
-        $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
-        $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
-        $update_stock_stmt->execute();
+    // Deduct stock quantity
+    $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
+    $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
+    $update_stock_stmt->execute();
 
-        if ($update_stock_stmt->affected_rows > 0) {
-            // Add item to cart
-            $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
-            $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
-            $stmt->execute();
+    if ($update_stock_stmt->affected_rows > 0) {
+        // Add item to cart
+        $user_id = $_SESSION['user_id'];
+        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
+        $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
+        $stmt->execute();
 
-            if ($stmt->affected_rows > 0) {
-                // Commit transaction
-                $conn->commit();
-                header("Location: Addtocart.php");
-                exit();
-            } else {
-                // Rollback transaction if adding to cart failed
-                $conn->rollback();
-                echo "Error adding to cart.";
-            }
+        if ($stmt->affected_rows > 0) {
+            // Commit transaction
+            $conn->commit();
+            header("Location: Addtocart.php");
+            exit();
         } else {
-            // Rollback transaction if stock deduction failed
+            // Rollback transaction if adding to cart failed
             $conn->rollback();
-            echo "Error updating stock quantity.";
+            echo "Error adding to cart.";
         }
     } else {
-        echo "Not enough stock available.";
+        // Rollback transaction if stock deduction failed
+        $conn->rollback();
+        echo "Error updating stock quantity.";
     }
 }
+
 
 
 // Handle cart item removal
