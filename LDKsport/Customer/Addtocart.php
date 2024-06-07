@@ -24,36 +24,43 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
     $stock_stmt->bind_param("i", $variation_id);
     $stock_stmt->execute();
     $stock_result = $stock_stmt->get_result();
-    $stock_row = $stock_result->fetch_assoc();
+    $stock = $stock_result->fetch_assoc();
 
-    if ($stock_row && $stock_row['quantity_in_stock'] >= $quantity) {
-        // Begin a transaction
+    if ($stock && $stock['quantity_in_stock'] >= $quantity) {
+        // Start transaction
         $conn->begin_transaction();
 
-        // Add item to cart
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
-        $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
-        $stmt->execute();
+        // Deduct stock quantity
+        $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
+        $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
+        $update_stock_stmt->execute();
 
-        if ($stmt->affected_rows > 0) {
-            // Update the stock quantity
-            $update_stock_stmt = $conn->prepare("UPDATE product_size_variation SET quantity_in_stock = quantity_in_stock - ? WHERE variation_id = ?");
-            $update_stock_stmt->bind_param("ii", $quantity, $variation_id);
-            $update_stock_stmt->execute();
+        if ($update_stock_stmt->affected_rows > 0) {
+            // Add item to cart
+            $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
+            $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
+            $stmt->execute();
 
-            // Commit the transaction
-            $conn->commit();
-
-            header("Location: Addtocart.php");
-            exit();
+            if ($stmt->affected_rows > 0) {
+                // Commit transaction
+                $conn->commit();
+                header("Location: Addtocart.php");
+                exit();
+            } else {
+                // Rollback transaction if adding to cart failed
+                $conn->rollback();
+                echo "Error adding to cart.";
+            }
         } else {
+            // Rollback transaction if stock deduction failed
             $conn->rollback();
-            echo "Error adding to cart.";
+            echo "Error updating stock quantity.";
         }
     } else {
         echo "Not enough stock available.";
     }
 }
+
 
 // Handle cart item removal
 if (isset($_GET['action']) && $_GET['action'] == 'remove' && isset($_GET['id'])) {
