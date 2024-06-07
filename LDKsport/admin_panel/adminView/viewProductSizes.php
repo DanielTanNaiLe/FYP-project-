@@ -1,5 +1,5 @@
 <?php
-require '../admin_panel/config/dbconnect.php';
+require "../config/dbconnect.php";
 
 // Get the product ID from the query parameter
 $product_id = $_GET['product_id'] ?? 0;
