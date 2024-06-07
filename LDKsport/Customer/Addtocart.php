@@ -401,38 +401,22 @@ td img {
     var totalAmount = <?php echo $totalAmount; ?>;
 
     function updateQuantity(cart_id, change) {
-        var quantityInput = document.getElementById('quantity_' + cart_id);
-        var quantity = parseInt(quantityInput.value);
-
-        if (change !== 0) {
-            quantity += change;
-            if (quantity < 1) {
-                quantity = 1;
+    // Existing code...
+    // Send AJAX request to update quantity in database
+    $.ajax({
+        url: 'updateCartQuantity.php',
+        method: 'POST',
+        data: { action: 'update_quantity', cart_id: cart_id, quantity: quantity },
+        success: function(response) {
+            var parsedResponse = JSON.parse(response);
+            if (parsedResponse.status === 'error') {
+                alert(parsedResponse.message);
             }
-            quantityInput.value = quantity;
         }
+    });
+    recalculateTotalAmount();
+}
 
-        var pricePerItem = cartItems.find(item => item.cart_id == cart_id).price;
-        var priceElement = document.getElementById('price_' + cart_id);
-        var totalPrice = pricePerItem * quantity;
-        priceElement.textContent = "RM " + totalPrice.toFixed(2);
-
-        // Send AJAX request to update quantity in database
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "Addtocart.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.status === 'error') {
-                    alert(response.message);
-                }
-            }
-        };
-        xhr.send("action=update_quantity&cart_id=" + cart_id + "&quantity=" + quantity);
-
-        recalculateTotalAmount();
-    }
 
     function recalculateTotalAmount() {
         totalAmount = cartItems.reduce((sum, item) => {
