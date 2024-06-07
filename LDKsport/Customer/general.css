@@ -398,28 +398,30 @@ input[name="r"] {
     flex-wrap: wrap;
     justify-content: space-around;
 }
-
+/* Updated styles for product list */
 .listproduct .box {
     width: 300px;
     margin: 10px;
     border: 1px solid #ddd;
     padding: 15px;
     text-align: center;
-    position: relative; /* Ensure the container is relative */
-    height: 450px; /* Increased height */
+    position: relative;
+    height: 450px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .listproduct .item {
-    position: relative;
+    flex: 1; /* Allow items to expand within the container */
+    display: flex;
+    flex-direction: column;
 }
 
 .listproduct .item img {
     width: 100%;
-    height: 250px; /* Adjusted height to fit the box */
-    object-fit: cover; /* Ensures the image covers the container */
+    max-height: 250px; /* Limit the maximum height of the image */
+    object-fit: cover;
 }
 
 .listproduct .item h2 {
@@ -430,7 +432,7 @@ input[name="r"] {
 .listproduct .item .price {
     font-size: 1.1em;
     color: #555;
-    margin: 10px 0;
+    margin-top: auto; /* Push price to the bottom */
 }
 
 .listproduct .item .favourite {
@@ -443,7 +445,7 @@ input[name="r"] {
 }
 
 .listproduct .item .details-container {
-    margin-top: 10px;
+    margin-top: auto; /* Push the details button to the bottom */
 }
 
 .listproduct .item .details {
@@ -458,6 +460,8 @@ input[name="r"] {
     background: #000;
     color: #fff;
 }
+
+
 
 
 /*******************Products*******************/
