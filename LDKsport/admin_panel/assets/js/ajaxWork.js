@@ -406,6 +406,53 @@ function updateVariations(){
       }
     });
 }
+
+function toggleUpdateForm() {
+    var updateForm = document.getElementById('updateProfileForm');
+    updateForm.style.display = (updateForm.style.display === 'none' || updateForm.style.display === '') ? 'block' : 'none';
+}
+
+function toggleUpdateForm() {
+    var form = document.getElementById('updateProfileForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function updateProfile() {
+    var adminId = $('#adminId').val();
+    var adminName = $('#adminName').val();
+    var adminEmail = $('#adminEmail').val();
+    var oldPassword = $('#oldPassword').val();
+    var newPassword = $('#newPassword').val();
+    var confirmPassword = $('#confirmPassword').val();
+
+    if (newPassword !== confirmPassword) {
+        alert('New password and confirm password do not match.');
+        return;
+    }
+
+    var fd = new FormData();
+    fd.append('admin_id', adminId);
+    fd.append('admin_name', adminName);
+    fd.append('admin_email', adminEmail);
+    fd.append('old_password', oldPassword);
+    fd.append('new_password', newPassword);
+
+    $.ajax({
+        url: "./controller/updateProfile.php",
+        method: 'POST',
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert(response);
+            if (response.includes('successfully')) {
+                location.reload(); // Reload the page to reflect changes
+            }
+        }
+    });
+}
+
+
 function search(id){
     $.ajax({
         url:"./controller/searchController.php",
@@ -475,3 +522,5 @@ function addToWish(id){
    }
 });
 }
+
+
