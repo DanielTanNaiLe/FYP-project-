@@ -9,14 +9,12 @@ if (isset($_SESSION['user_id'])) {
 }
 
 // Define the addToCart function
-// Define the addToCart function
 function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
     global $conn;
     $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("iiid", $user_id, $size_id, $quantity, $price);
     $stmt->execute();
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['add_to_cart'])) {
@@ -58,7 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 require '../admin_panel/wishlist_cart.php';
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -286,12 +283,16 @@ require '../admin_panel/wishlist_cart.php';
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
                     <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
                     <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
+                    <input type="hidden" name="product_image2" value="<?= $row['product_image2'] ?>">
+                    <input type="hidden" name="product_image3" value="<?= $row['product_image3'] ?>">
                     <div class="left">
                         <div class="main_image">
                             <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <!-- Product images for selection -->
+                            <img src="../uploads/<?= $row['product_image'] ?>" onclick="img('../uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
+                            <img src="../uploads/<?= $row['product_image2'] ?>" onclick="img('../uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
+                            <img src="../uploads/<?= $row['product_image3'] ?>" onclick="img('../uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
                         </div>
                     </div>
                     <div class="right">
