@@ -42,7 +42,7 @@ if ($result === false) {
         <div class="item">
             <img src="../uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row["product_name"]) ?>">
             <h2><?= htmlspecialchars($row["product_name"]) ?></h2>
-            <div class="price">$<?= htmlspecialchars($row["product_price"]) ?></div>
+            <div class="price">RM <?=$row["price"];?></div>
             <div class="favourite" data-product-id="<?= htmlspecialchars($row['product_id']); ?>"><i class='bx bxs-heart'></i></div>
             <div class="details-container"><a href="product details.php?pid=<?= htmlspecialchars($row['product_id']); ?>" class="details">View details</a></div>
         </div>
