@@ -16,7 +16,6 @@ require '../admin_panel/wishlist_cart.php';
     <title>Product Details</title>
     <link rel="stylesheet" href="general.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
@@ -279,8 +278,7 @@ require '../admin_panel/wishlist_cart.php';
                             ?>
                         </select>
                         <div class="button-container">
-                        <input type="button" id="addToCartButton" class="button" value="Add To Cart">
-
+                        <input type="number" name="Quantity" value="1" class="form-control">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
