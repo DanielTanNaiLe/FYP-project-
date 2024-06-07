@@ -16,6 +16,49 @@ require '../admin_panel/wishlist_cart.php';
     <title>Product Details</title>
     <link rel="stylesheet" href="general.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        // Function to handle adding to cart
+        function addToCart() {
+            var pid = document.querySelector('input[name="pid"]').value;
+            var productName = document.querySelector('input[name="product_name"]').value;
+            var price = document.querySelector('input[name="price"]').value;
+            var productDesc = document.querySelector('input[name="product_desc"]').value;
+            var productImage = document.querySelector('input[name="product_image"]').value;
+            var size = document.getElementById('sizes').value;
+            var quantity = document.querySelector('input[name="Quantity"]').value;
+
+            // AJAX request to add item to cart
+            $.ajax({
+                type: "POST",
+                url: "Addtocart.php",
+                data: {
+                    action: 'add_to_cart',
+                    variation_id: size,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    // Check if adding to cart was successful
+                    if (response.trim() === 'success') {
+                        // Show success message or redirect to cart page
+                        alert("Item added to cart successfully.");
+                        // You can redirect to the cart page if needed
+                        // window.location.href = "Addtocart.php";
+                    } else {
+                        // Show error message
+                        alert(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Show error message
+                    console.error(xhr.responseText);
+                    alert("Error adding item to cart.");
+                }
+            });
+        }
+
+        // Event listener for add to cart button
+        document.getElementById('addToCartButton').addEventListener('click', addToCart);
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
@@ -278,11 +321,8 @@ require '../admin_panel/wishlist_cart.php';
                             ?>
                         </select>
                         <div class="button-container">
-                        <div class="quantity-container">
-                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, -1)">-</button>
-                            <input type="number" min="1" id="quantity_<?php echo $item['cart_id']; ?>" value="<?php echo htmlspecialchars($item['quantity']); ?>" onchange="updateQuantity(<?php echo $item['cart_id']; ?>, 0)">
-                            <button onclick="updateQuantity(<?php echo $item['cart_id']; ?>, 1)">+</button>
-                        </div>
+                        <input type="button" id="addToCartButton" class="button" value="Add To Cart">
+
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
