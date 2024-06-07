@@ -2,6 +2,14 @@
 require '../admin_panel/config/dbconnect.php';
 include("header.php");
 
+// Define the addToCart function
+function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iiiii", $user_id, $product_id, $size_id, $quantity, $price);
+    $stmt->execute();
+}
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
@@ -31,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $update_stmt->bind_param("iii", $new_stock, $product_id, $size_id);
             $update_stmt->execute();
 
-            // Add to cart (assumes you have a cart handling function or script)
+            // Add to cart
             addToCart($user_id, $product_id, $size_id, $quantity, $price);
             $_SESSION['message'] = 'Product added to cart successfully!';
         } else {
