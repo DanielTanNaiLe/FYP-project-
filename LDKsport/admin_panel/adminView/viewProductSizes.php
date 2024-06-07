@@ -175,7 +175,28 @@
         });
     });
 
-   
+   // Function to fetch updated stock quantities via AJAX
+   function updateStockQuantities() {
+            $.ajax({
+                url: 'updateStockQuantities.php', // Replace 'updateStockQuantities.php' with your server-side script
+                method: 'GET',
+                success: function(data) {
+                    // Update stock quantities in the table
+                    var stockData = JSON.parse(data);
+                    stockData.forEach(function(item) {
+                        $('#quantity_' + item.variation_id).text(item.quantity_in_stock);
+                    });
+                }
+            });
+        }
+
+        // Call the function initially when the page loads
+        $(document).ready(function() {
+            updateStockQuantities();
+
+            // Set interval to periodically update stock quantities (e.g., every 5 seconds)
+            setInterval(updateStockQuantities, 5000); // Adjust the interval as needed
+        });
 </script>
 
 </body>
