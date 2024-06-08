@@ -19,27 +19,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="men-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'men', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'men', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'men', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="men-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'men', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'men', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'men', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="men-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'men', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'men', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'men', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -51,27 +51,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="woman-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'woman', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'woman', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'woman', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="woman-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'woman', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'woman', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'woman', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="woman-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'woman', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'woman', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'woman', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -83,27 +83,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="kid-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'kid', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'kid', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Shoes', 'kid', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="kid-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'kid', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'kid', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Clothing', 'kid', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="kid-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'kid', 'Nike')">Nike</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'kid', 'NewBalance')">NewBalance</a></li>
-                            <li><a href="#" onclick="loadProductsByBrand('Pants', 'kid', 'Adidas')">Adidas</a></li>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -112,9 +112,9 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="products.php" class="a1">BRANDS</a>
             <ul class="dropdown">
-                <li><a href="#" onclick="loadProductsByBrand('', '', 'Nike')">NIKE</a></li>
-                <li><a href="#" onclick="loadProductsByBrand('', '', 'NewBalance')">NEW BALANCE</a></li>
-                <li><a href="#" onclick="loadProductsByBrand('', '', 'Adidas')">ADIDAS</a></li>
+                <li><a href="products.php?brand=Nike">NIKE</a></li>
+                <li><a href="products.php?brand=NewBalance">NEW BALANCE</a></li>
+                <li><a href="products.php?brand=Adidas">ADIDAS</a></li>
             </ul>
         </li>
         <li><a href="order.php" class="a1">ORDER</a></li>
@@ -163,73 +163,70 @@ if(isset($_SESSION['user_id'])) {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    function loadProducts(category, gender, brand = '') {
-        let url;
-        switch (gender) {
-            case 'men':
-                url = 'fetch_products_men.php';
-                break;
-            case 'woman':
-                url = 'fetch_products_girl.php';
-                break;
-            case 'kid':
-                url = 'fetch_products_kid.php';
-                break;
-        }
-        $.ajax({
-            url: url,
-            method: 'GET',
-            data: { category: category, brand: brand },
-            success: function(response) {
-                $('.product-list-container').html(response);
-            },
-            error: function(xhr, status, error) {
-                console.error("AJAX Error: ", error);
-                alert("Failed to load products. Please try again.");
+    <script>
+        function loadProducts(category, gender) {
+            let url;
+            switch (gender) {
+                case 'men':
+                    url = 'fetch_products_men.php';
+                    break;
+                case 'woman':
+                    url = 'fetch_products_girl.php';
+                    break;
+                case 'kid':
+                    url = 'fetch_products_kid.php';
+                    break;
             }
+            $.ajax({
+                url: url,
+                method: 'GET',
+                data: { category: category },
+                success: function(response) {
+                    $('.product-list-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error: ", error);
+                    alert("Failed to load products. Please try again.");
+                }
+            });
+        }
+
+        $('#men-shoes-link').click(function() {
+            loadProducts('Shoes', 'men');
         });
-    }
 
-    function loadProductsByBrand(category, gender, brand) {
-        loadProducts(category, gender, brand);
-    }
+        $('#men-clothing-link').click(function() {
+            loadProducts('Clothing', 'men');
+        });
 
-    $('#men-shoes-link').click(function() {
-        loadProducts('Shoes', 'men');
-    });
+        $('#men-pants-link').click(function() {
+            loadProducts('Pants', 'men');
+        });
 
-    $('#men-clothing-link').click(function() {
-        loadProducts('Clothing', 'men');
-    });
+        $('#woman-shoes-link').click(function() {
+            loadProducts('Shoes', 'woman');
+        });
 
-    $('#men-pants-link').click(function() {
-        loadProducts('Pants', 'men');
-    });
+        $('#woman-clothing-link').click(function() {
+            loadProducts('Clothing', 'woman');
+        });
 
-    $('#woman-shoes-link').click(function() {
-        loadProducts('Shoes', 'woman');
-    });
+        $('#woman-pants-link').click(function() {
+            loadProducts('Pants', 'woman');
+        });
 
-    $('#woman-clothing-link').click(function() {
-        loadProducts('Clothing', 'woman');
-    });
+        $('#kid-shoes-link').click(function() {
+            loadProducts('Shoes', 'kid');
+        });
 
-    $('#woman-pants-link').click(function() {
-        loadProducts('Pants', 'woman');
-    });
+        $('#kid-clothing-link').click(function() {
+            loadProducts('Clothing', 'kid');
+        });
 
-    $('#kid-shoes-link').click(function() {
-        loadProducts('Shoes', 'kid');
-    });
-
-    $('#kid-clothing-link').click(function() {
-        loadProducts('Clothing', 'kid');
-    });
-
-    $('#kid-pants-link').click(function() {
-        loadProducts('Pants', 'kid');
-    });
-</script>
-
-</header> 
+        $('#kid-pants-link').click(function() {
+            loadProducts('Pants', 'kid');
+        });
+    </script>
+</header>  i want you change all this part  <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li> 
