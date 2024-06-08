@@ -227,6 +227,4 @@ if(isset($_SESSION['user_id'])) {
             loadProducts('Pants', 'kid');
         });
     </script>
-</header>  i want you change all this part  <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li> 
+</header>
