@@ -34,6 +34,15 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
+                <li class="hover-me"><a href="">Pants<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </li>
         <li>
@@ -57,6 +66,15 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
+                <li class="hover-me"><a href="">Pants<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </li>
         <li>
@@ -72,6 +90,15 @@ if(isset($_SESSION['user_id'])) {
                     </div>
                 </li>
                 <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>

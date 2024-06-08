@@ -50,7 +50,7 @@ function displayProducts($result, $categoryName) {
     <div class="nav3">
         <a href="#" id="shoes-link">Shoes</a>
         <a href="#" id="clothing-link">Clothing</a>
-        <a href="#" id="hats-link">Hats</a>
+        <a href="#" id="hats-link">pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -126,8 +126,8 @@ function displayProducts($result, $categoryName) {
                 loadProducts('Clothing');
             });
 
-            $('#hats-link').click(function() {
-                loadProducts('Hats');
+            $('#pants-link').click(function() {
+                loadProducts('pants');
             });
         });
     </script>
