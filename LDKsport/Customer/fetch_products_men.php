@@ -15,6 +15,14 @@ if (!empty($brand)) {
 
 $stmt = $conn->prepare($query);
 
+// Check if the statement preparation was successful
+if ($stmt === false) {
+    // Log the error and the query
+    error_log("Failed to prepare the query: " . $conn->error);
+    error_log("SQL Query: " . $query);
+    die("Failed to prepare the SQL statement. Check the error log for details.");
+}
+
 if (!empty($brand)) {
     $stmt->bind_param("ss", $category, $brand);
 } else {
