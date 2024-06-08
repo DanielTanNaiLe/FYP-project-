@@ -164,32 +164,41 @@ if(isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function loadProducts(category, gender) {
-            let url;
-            switch (gender) {
-                case 'men':
-                    url = 'fetch_products_men.php';
-                    break;
-                case 'woman':
-                    url = 'fetch_products_girl.php';
-                    break;
-                case 'kid':
-                    url = 'fetch_products_kid.php';
-                    break;
-            }
-            $.ajax({
-                url: url,
-                method: 'GET',
-                data: { category: category },
-                success: function(response) {
-                    $('.product-list-container').html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error("AJAX Error: ", error);
-                    alert("Failed to load products. Please try again.");
-                }
-            });
+       function loadProducts(category, gender, brand = '') {
+    let url;
+    switch (gender) {
+        case 'men':
+            url = 'fetch_products_men.php';
+            break;
+        case 'woman':
+            url = 'fetch_products_girl.php';
+            break;
+        case 'kid':
+            url = 'fetch_products_kid.php';
+            break;
+    }
+    $.ajax({
+        url: url,
+        method: 'GET',
+        data: { category: category, brand: brand },
+        success: function(response) {
+            $('.product-list-container').html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error: ", error);
+            alert("Failed to load products. Please try again.");
         }
+    });
+}
+
+$('.dropdown2 a').click(function(e) {
+    e.preventDefault();
+    let brand = $(this).text();
+    let category = $(this).closest('.hover-me').find('a').first().text().split(' ')[0];
+    let gender = $(this).closest('li').siblings('a').attr('href').replace('page.php', '').replace('/', '').toLowerCase();
+    loadProducts(category, gender, brand);
+});
+
 
         $('#men-shoes-link').click(function() {
             loadProducts('Shoes', 'men');
