@@ -50,7 +50,7 @@ function displayProducts($result, $categoryName) {
     <div class="nav3">
         <a href="#" id="shoes-link">Shoes</a>
         <a href="#" id="clothing-link">Clothing</a>
-        <a href="#" id="hats-link">pants</a>
+        <a href="#" id="pants-link">Pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
