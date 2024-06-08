@@ -16,7 +16,7 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="menpage.php" class="a1">MEN</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="#" id="men-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="#" id="shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -25,7 +25,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="men-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><<a href="#" id="clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -34,7 +34,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="men-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><<a href="#" id="pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -48,7 +48,7 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="girlpage.php" class="a1">WOMAN</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="#" id="women-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -57,7 +57,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="women-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -66,7 +66,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="women-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -80,7 +80,7 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="kidpage.php" class="a1">KIDS</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="#" id="kids-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -89,7 +89,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="kids-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -98,7 +98,7 @@ if(isset($_SESSION['user_id'])) {
                         </ul>
                     </div>
                 </li>
-                <li class="hover-me"><a href="#" id="kids-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                <li class="hover-me"><a href="">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
                             <li><a href="products.php?brand=Nike">Nike</a></li>
@@ -123,17 +123,17 @@ if(isset($_SESSION['user_id'])) {
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer_logout.php">Log out</a>
+            <a href="customer logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer_login.php">Sign In</a>
+            <a href="customer login.php">Sign In</a>
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
-        <div class="search">
-            <span class="search-icon material-symbols-outlined">search</span>
-            <input class="search-input" type="search" name="query" placeholder="Search">
-        </div>
-    </form>
+    <div class="search">
+        <span class="search-icon material-symbols-outlined">search</span>
+        <input class="search-input" type="search" name="query" placeholder="Search">
+    </div>
+</form>
 
     <div class="nav-icon-container">
         <ul class="nav-icon">
@@ -143,7 +143,7 @@ if(isset($_SESSION['user_id'])) {
                 <li>
                     <a href="landingafterlogin.php"><i class='bx bx-user'></i></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_logout.php">Log out</a></li>
+                        <li><a href="customer logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                     </ul>
                 </li>
@@ -153,7 +153,7 @@ if(isset($_SESSION['user_id'])) {
                 <li>
                     <a href="#"><i class='bx bx-user'></i></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_login.php">Log in</a></li>
+                        <li><a href="customer login.php">Log in</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                     </ul>
                 </li>
@@ -161,59 +161,36 @@ if(isset($_SESSION['user_id'])) {
         </ul>
     </div>
 
-    <!-- Make sure to include jQuery in your project -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function loadProducts(category) {
-            $.ajax({
-                url: 'fetch_products_men.php',
-                method: 'GET',
-                data: { category: category },
-                success: function(response) {
-                    $('.product-list-container').html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error("AJAX Error: ", error);
-                    alert("Failed to load products. Please try again.");
-                }
+            function loadProducts(category) {
+                $.ajax({
+                    url: 'fetch_products_men.php',
+                    method: 'GET',
+                    data: { category: category },
+                    success: function(response) {
+                        $('.product-list-container').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to load products. Please try again.");
+                    }
+                });
+            }
+
+            $('#shoes-link').click(function() {
+                loadProducts('Shoes');
             });
-        }
 
-        $('#men-shoes-link').click(function() {
-            loadProducts('Shoes');
-        });
+            $('#clothing-link').click(function() {
+                loadProducts('Clothing');
+            });
 
-        $('#men-clothing-link').click(function() {
-            loadProducts('Clothing');
-        });
-
-        $('#men-pants-link').click(function() {
-            loadProducts('Pants');
-        });
+            $('#pants-link').click(function() {
+                loadProducts('pants');
+            });
         
-        $('#women-shoes-link').click(function() {
-            loadProducts('Shoes');
-        });
-
-        $('#women-clothing-link').click(function() {
-            loadProducts('Clothing');
-        });
-
-        $('#women-pants-link').click(function() {
-            loadProducts('Pants');
-        });
-
-        $('#kids-shoes-link').click(function() {
-            loadProducts('Shoes');
-        });
-
-        $('#kids-clothing-link').click(function() {
-            loadProducts('Clothing');
-        });
-
-        $('#kids-pants-link').click(function() {
-            loadProducts('Pants');
-        });
     </script>
+
 </header>
