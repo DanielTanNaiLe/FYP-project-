@@ -19,27 +19,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="men-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="men-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="men-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="men" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -51,27 +51,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="woman-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="woman-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="woman-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="woman" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -83,27 +83,27 @@ if(isset($_SESSION['user_id'])) {
                 <li class="hover-me"><a href="#" id="kid-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="kid-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="hover-me"><a href="#" id="kid-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
                     <div class="dropdown2">
                         <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Nike">Nike</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="NewBalance">NewBalance</a></li>
+                            <li><a href="#" class="brand-link" data-category="kid" data-brand="Adidas">Adidas</a></li>
                         </ul>
                     </div>
                 </li>
@@ -112,9 +112,9 @@ if(isset($_SESSION['user_id'])) {
         <li>
             <a href="products.php" class="a1">BRANDS</a>
             <ul class="dropdown">
-                <li><a href="products.php?brand=Nike">NIKE</a></li>
-                <li><a href="products.php?brand=NewBalance">NEW BALANCE</a></li>
-                <li><a href="products.php?brand=Adidas">ADIDAS</a></li>
+                <li><a href="#" class="brand-link" data-category="all" data-brand="Nike">NIKE</a></li>
+                <li><a href="#" class="brand-link" data-category="all" data-brand="NewBalance">NEW BALANCE</a></li>
+                <li><a href="#" class="brand-link" data-category="all" data-brand="Adidas">ADIDAS</a></li>
             </ul>
         </li>
         <li><a href="order.php" class="a1">ORDER</a></li>
@@ -164,7 +164,7 @@ if(isset($_SESSION['user_id'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function loadProducts(category, gender) {
+        function loadProducts(category, gender, brand) {
             let url;
             switch (gender) {
                 case 'men':
@@ -176,11 +176,14 @@ if(isset($_SESSION['user_id'])) {
                 case 'kid':
                     url = 'fetch_products_kid.php';
                     break;
+                case 'all':
+                    url = 'fetch_products_all.php';
+                    break;
             }
             $.ajax({
                 url: url,
                 method: 'GET',
-                data: { category: category },
+                data: { category: category, brand: brand },
                 success: function(response) {
                     $('.product-list-container').html(response);
                 },
@@ -191,40 +194,11 @@ if(isset($_SESSION['user_id'])) {
             });
         }
 
-        $('#men-shoes-link').click(function() {
-            loadProducts('Shoes', 'men');
-        });
-
-        $('#men-clothing-link').click(function() {
-            loadProducts('Clothing', 'men');
-        });
-
-        $('#men-pants-link').click(function() {
-            loadProducts('Pants', 'men');
-        });
-
-        $('#woman-shoes-link').click(function() {
-            loadProducts('Shoes', 'woman');
-        });
-
-        $('#woman-clothing-link').click(function() {
-            loadProducts('Clothing', 'woman');
-        });
-
-        $('#woman-pants-link').click(function() {
-            loadProducts('Pants', 'woman');
-        });
-
-        $('#kid-shoes-link').click(function() {
-            loadProducts('Shoes', 'kid');
-        });
-
-        $('#kid-clothing-link').click(function() {
-            loadProducts('Clothing', 'kid');
-        });
-
-        $('#kid-pants-link').click(function() {
-            loadProducts('Pants', 'kid');
+        // Event listeners for brand links
+        $('.brand-link').click(function() {
+            const category = $(this).data('category');
+            const brand = $(this).data('brand');
+            loadProducts('all', category, brand);
         });
     </script>
 </header>
