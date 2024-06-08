@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in
-if (isset($_SESSION['user_id'])) {
+if(isset($_SESSION['user_id'])) {
     $isLoggedIn = true;
 } else {
     $isLoggedIn = false;
@@ -16,25 +16,97 @@ if (isset($_SESSION['user_id'])) {
         <li>
             <a href="menpage.php" class="a1">MEN</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="products.php?section=men&category=shoes">Shoes<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=men&category=clothing">Clothing<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=men&category=pants">Pants<i class='bx bx-chevron-right'></i></a></li>
+                <li class="hover-me"><a href="#" id="men-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="men-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="men-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </li>
         <li>
             <a href="girlpage.php" class="a1">WOMAN</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="products.php?section=women&category=shoes">Shoes<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=women&category=clothing">Clothing<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=women&category=pants">Pants<i class='bx bx-chevron-right'></i></a></li>
+                <li class="hover-me"><a href="#" id="women-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="women-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="women-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </li>
         <li>
             <a href="kidpage.php" class="a1">KIDS</a>
             <ul class="dropdown">
-                <li class="hover-me"><a href="products.php?section=kids&category=shoes">Shoes<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=kids&category=clothing">Clothing<i class='bx bx-chevron-right'></i></a></li>
-                <li class="hover-me"><a href="products.php?section=kids&category=pants">Pants<i class='bx bx-chevron-right'></i></a></li>
+                <li class="hover-me"><a href="#" id="kids-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="kids-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="hover-me"><a href="#" id="kids-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
+                    <div class="dropdown2">
+                        <ul>
+                            <li><a href="products.php?brand=Nike">Nike</a></li>
+                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
+                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </li>
         <li>
@@ -50,7 +122,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="nav2">
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
-        <?php if ($isLoggedIn): ?>
+        <?php if($isLoggedIn): ?>
             <a href="customer_logout.php">Log out</a>
         <?php else: ?>
             <a href="customer_login.php">Sign In</a>
@@ -62,9 +134,10 @@ if (isset($_SESSION['user_id'])) {
             <input class="search-input" type="search" name="query" placeholder="Search">
         </div>
     </form>
+
     <div class="nav-icon-container">
         <ul class="nav-icon">
-            <?php if ($isLoggedIn): ?>
+            <?php if($isLoggedIn): ?>
                 <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
                 <li><a href="wishlist.php"><i class='bx bxs-heart'></i></a></li>
                 <li>
@@ -87,4 +160,60 @@ if (isset($_SESSION['user_id'])) {
             <?php endif; ?>
         </ul>
     </div>
+
+    <!-- Make sure to include jQuery in your project -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function loadProducts(category) {
+            $.ajax({
+                url: 'fetch_products_men.php',
+                method: 'GET',
+                data: { category: category },
+                success: function(response) {
+                    $('.product-list-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error: ", error);
+                    alert("Failed to load products. Please try again.");
+                }
+            });
+        }
+
+        $('#men-shoes-link').click(function() {
+            loadProducts('Shoes');
+        });
+
+        $('#men-clothing-link').click(function() {
+            loadProducts('Clothing');
+        });
+
+        $('#men-pants-link').click(function() {
+            loadProducts('Pants');
+        });
+        
+        $('#women-shoes-link').click(function() {
+            loadProducts('Shoes');
+        });
+
+        $('#women-clothing-link').click(function() {
+            loadProducts('Clothing');
+        });
+
+        $('#women-pants-link').click(function() {
+            loadProducts('Pants');
+        });
+
+        $('#kids-shoes-link').click(function() {
+            loadProducts('Shoes');
+        });
+
+        $('#kids-clothing-link').click(function() {
+            loadProducts('Clothing');
+        });
+
+        $('#kids-pants-link').click(function() {
+            loadProducts('Pants');
+        });
+    </script>
 </header>
