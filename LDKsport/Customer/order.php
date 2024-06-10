@@ -78,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
         }
 
         .details-box p span {
-            color: #F2A32D;
+            color: black;
             font-weight: bold;
         }
 

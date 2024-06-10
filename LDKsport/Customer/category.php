@@ -49,6 +49,11 @@ function displayProducts($result, $categoryName) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .subtitle_1{
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
     <h1 class="m1"><?= htmlspecialchars($gender) ?>'s <?= htmlspecialchars($category) ?></h1>

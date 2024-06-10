@@ -8,7 +8,7 @@ include("header.php");
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
-    header('location:customer_login.php');
+    header('location:customer login.php');
     $user_id = '';
 }
 
@@ -20,7 +20,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
 
     // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
-        header('location: customer_login.php');
+        header('location: customer login.php');
         exit();
     }
 

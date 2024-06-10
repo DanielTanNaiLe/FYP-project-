@@ -39,4 +39,3 @@ function displayProducts($result, $categoryName) {
 
 displayProducts($result, $category);
 ?>
-

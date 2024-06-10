@@ -8,17 +8,11 @@ if (isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
+// Define the addToCart function
 function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
     global $conn;
-    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, size_id, quantity, price) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iiiii", $user_id, $product_id, $size_id, $quantity, $price);
-    $stmt->execute();
-}
-
-function addToWishlist($user_id, $product_id) {
-    global $conn;
-    $stmt = $conn->prepare("INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $user_id, $product_id);
+    $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiid", $user_id, $size_id, $quantity, $price);
     $stmt->execute();
 }
 
@@ -72,201 +66,230 @@ require '../admin_panel/wishlist_cart.php';
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
-        .product-details-container {
-            display: flex;
-            align-items: center;
-            max-width: 75%;
-            margin: auto;
-            height: 80vh;
-            background: white;
-            box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-        }
-        section {
-            padding-top: 7%;
-        }
-        .left, .right {
-            width: 50%;
-            padding: 30px;
-        }
-        .flex {
-            display: flex;
-            justify-content: space-between;
-        }
-        .flex1 {
-            display: flex;
-        }
-        .main_image {
-            width: auto;
-            height: auto;
-        }
-        .main_image img {
-            margin-left: 20px;
-            width: 93%;
-            height: 80%;
-        }
-        .option img {
-            width: 85px;
-            height: 75px;
-            padding: 6px 2px;
-        }
-        .left {
-            width: 60%;
-            margin-top: 50px;
-            margin-left: 20px;
-        }
-        .right {
-            margin-left: 72%;
-            margin-top: -57%;
-            padding: 50px 100px 50px 50px;
-        }
-        .product-details-h3 {
-            color: #af827d;
-            margin: -25px 0 0 0;
-            font-size: 30px;
-        }
-        .product-details-h5,
-        p,
-        small {
-            color: #837D7C;
-        }
-        .product-details-h4 {
-            color: red;
-            margin: 13px 0;
-        }
-        p {
-            margin: 20px 0 20px 0;
-            line-height: 25px;
-        }
-        .product-details-h5 {
-            font-size: 15px;
-        }
-        .add label,
-        .add span {
-            background: none;
-            border: 1px solid #C1908B;
-            color: #C1908B;
-            text-align: center;
-            line-height: 25px;
-        }
-        .add label {
-            padding: 10px 30px 0 20px;
-            border-radius: 50px;
-            line-height: 0;
-        }
-        .right .product-details-dropmenu {
-            margin: 10px 0;
-            font-size: medium;
-            padding: 5px;
-            border: solid 2px black;
-            cursor: pointer;
-            transition: all .42 ease;
-        }
-        .right .product-details-dropmenu:hover {
-            transform: scale(1.1);
-            border-color: rgb(242, 163, 45);
-            color: #837d7c;
-        }
-        .button-container {
-            margin-top: 40px;
-            margin-left: auto;
-            margin-right: 193px;
-            width: 50%;
-        }
-        .button-container .button {
-            display: grid;
-            width: 150%;
-            margin: 15px;
-            font-size: 20px;
-            text-align: center;
-            padding: 12px;
-            border: none;
-            outline: none;
-            color: black;
-            text-decoration: none;
-            border: 2px solid black;
-            transition: all .5s;
-        }
-        .button-container .button:hover {
-            transform: scale(1.1);
-            background-color: rgb(242, 163, 45);
-            color: white;
-        }
-        @media only screen and (max-width:768px) {
-            .container {
-                max-width: 90%;
-                margin: auto;
-                height: auto;
-            }
-            .left, .right {
-                width: 100%;
-            }
-            .container {
-                flex-direction: column;
-            }
-        }
-        @media only screen and (max-width:500px) {
-            .container {
-                max-width: 100%;
-                height: auto;
-                padding: 10px;
-            }
-            .left, .right {
-                padding: 0;
-            }
-            img {
-                width: 100%;
-                height: 100%;
-            }
-            .option {
-                display: flex;
-                flex-wrap: wrap;
-            }
-        }
-        .alert-container {
-            background: #ffdb9b;
-            padding: 20px 40px;
-            min-width: 420px;
-            position: absolute;
-            right: 0px;
-            top: 135px;
-            overflow: hidden;
-            border-radius: 4px;
-            border-left: 8px solid #ffa502;
-            cursor: pointer;
-        }
-        .alert-container.show {
-            animation: show_slide 1s ease forwards;
-        }
-        @keyframes show_slide {
-            0% {
-                transform: translateX(100%);
-            }
-            40% {
-                transform: translateX(-10%);
-            }
-            80% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-10%);
-            }
-        }
-        .alert-container.hide {
-            display: none;
-        }
-        .alert-container .alert {
-            padding: 0 20px;
-            font-size: 18px;
-            color: #ce8500;
-        }
-        .alert-container:hover {
-            background: #ffc766;
-        }
+       body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.product-details-container {
+    display: flex;
+    align-items: center;
+    max-width: 75%;
+    margin: auto;
+    height: 80vh;
+    background: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+}
+
+section {
+    padding-top: 7%;
+}
+
+.left, .right {
+    width: 50%;
+    padding: 30px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex1 {
+    display: flex;
+}
+
+.main_image img {
+    margin-left: 20px;
+    width: 93%;
+    height: auto;
+    max-height: 400px; /* Adjust based on your design */
+    object-fit: cover;
+}
+
+.option img {
+    width: 85px;
+    height: 85px;
+    padding: 6px 2px;
+    object-fit: cover;
+}
+
+.left {
+    width: 60%;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.right {
+    margin-left: 72%;
+    margin-top: -57%;
+    padding: 50px 100px 50px 50px;
+}
+
+.product-details-h3 {
+    color: #af827d;
+    margin: -25px 0 0 0;
+    font-size: 30px;
+}
+
+.product-details-h5,
+p,
+small {
+    color: #837D7C;
+}
+
+.product-details-h4 {
+    color: red;
+    margin: 13px 0;
+}
+
+p {
+    margin: 20px 0 20px 0;
+    line-height: 25px;
+}
+
+.product-details-h5 {
+    font-size: 15px;
+}
+
+.add label,
+.add span {
+    background: none;
+    border: 1px solid #C1908B;
+    color: #C1908B;
+    text-align: center;
+    line-height: 25px;
+}
+
+.add label {
+    padding: 10px 30px 0 20px;
+    border-radius: 50px;
+    line-height: 0;
+}
+
+.right .product-details-dropmenu {
+    margin: 10px 0;
+    font-size: medium;
+    padding: 5px;
+    border: solid 2px black;
+    cursor: pointer;
+    transition: all .42 ease;
+}
+
+.right .product-details-dropmenu:hover {
+    transform: scale(1.1);
+    border-color: rgb(242, 163, 45);
+    color: #837d7c;
+}
+
+.button-container {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: 193px;
+    width: 50%;
+}
+
+.button-container .button {
+    display: grid;
+    width: 150%;
+    margin: 15px;
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    border: none;
+    outline: none;
+    color: black;
+    text-decoration: none;
+    border: 2px solid black;
+    transition: all .5s;
+}
+
+.button-container .button:hover {
+    transform: scale(1.1);
+    background-color: rgb(242, 163, 45);
+    color: white;
+}
+
+@media only screen and (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        margin: auto;
+        height: auto;
+    }
+    .left, .right {
+        width: 100%;
+    }
+    .container {
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .container {
+        max-width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+    .left, .right {
+        padding: 0;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .option {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+.alert-container {
+    background: #ffdb9b;
+    padding: 20px 40px;
+    min-width: 420px;
+    position: absolute;
+    right: 0px;
+    top: 135px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+    cursor: pointer;
+}
+
+.alert-container.show {
+    animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+    0% {
+        transform: translateX(100%);
+    }
+    40% {
+        transform: translateX(-10%);
+    }
+    80% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-10%);
+    }
+}
+
+.alert-container.hide {
+    display: none;
+}
+
+.alert-container .alert {
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ce8500;
+}
+
+.alert-container:hover {
+    background: #ffc766;
+}
+
     </style>
 </head>
 <body>
@@ -279,18 +302,26 @@ require '../admin_panel/wishlist_cart.php';
             $stmt->bind_param("i", $pid);
             $stmt->execute();
             $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
+            $row = $result->fetch_assoc();
+
+            if ($row) {
                 ?>
-                <form method="post" id="productForm" onsubmit="return validateFormForCart()">
-                    <input type="hidden" name="pid" value="<?= $pid ?>">
+                <form id="productForm" method="post" action="">
+                    <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
+                    <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
                     <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                    <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
+                    <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
+                    <input type="hidden" name="product_image2" value="<?= $row['product_image2'] ?>">
+                    <input type="hidden" name="product_image3" value="<?= $row['product_image3'] ?>">
                     <div class="left">
                         <div class="main_image">
-                            <img src="../admin_panel/product_img/<?= $row['product_image'] ?>" class="slide">
+                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <!-- Product images for selection -->
+                            <img src="../uploads/<?= $row['product_image'] ?>" onclick="img('../uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
+                            <img src="../uploads/<?= $row['product_image2'] ?>" onclick="img('../uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
+                            <img src="../uploads/<?= $row['product_image3'] ?>" onclick="img('../uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
                         </div>
                     </div>
                     <div class="right">
@@ -316,6 +347,7 @@ require '../admin_panel/wishlist_cart.php';
                             ?>
                         </select>
                         <div class="button-container">
+                            <label for="quantity">Please enter quantity:</label> 
                             <input type="number" name="Quantity" value="1" class="form-control" id="quantity">
                             <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
                             <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
