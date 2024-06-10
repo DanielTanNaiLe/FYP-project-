@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 07:47 PM
+-- Generation Time: Jun 05, 2024 at 01:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,15 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
   `admin_name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `admin_email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','superadmin') NOT NULL DEFAULT 'admin',
+  `last_login` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `admin_name`, `password`) VALUES
-(1, 'admin', '123');
+INSERT INTO `admin` (`id`, `admin_name`, `admin_email`, `password`, `role`, `last_login`) VALUES
+(1, 'admin', '1211210785@student.mmu.edu.my\r\n', '123', 'admin', '2024-06-05 11:13:13.000000'),
+(2, 'superadmin', 'liangyuel44@gmail.com', '123', 'superadmin', '2024-06-05 11:24:19.000000');
 
 -- --------------------------------------------------------
 
@@ -57,9 +61,8 @@ CREATE TABLE `brand` (
 --
 
 INSERT INTO `brand` (`brand_id`, `brand_name`, `brand_img`) VALUES
-(13, 'NewBalance', '../uploads/66364edd8bbc9.webp'),
-(14, 'Adidas', '../uploads/6636a2871f0b2.webp'),
-(15, 'Nike', '../uploads/663666872454f.webp');
+(1, 'Nike', '../uploads/002-nike-logos-swoosh-white.webp'),
+(20, 'Adidas', '../uploads/Adidas_Logo.svg.png');
 
 -- --------------------------------------------------------
 
@@ -124,9 +127,9 @@ CREATE TABLE `gender` (
 --
 
 INSERT INTO `gender` (`gender_id`, `gender_name`) VALUES
+(1, 'MEN'),
 (2, 'WOMAN'),
-(13, 'KIDS'),
-(15, 'MEN');
+(3, 'KIDS');
 
 -- --------------------------------------------------------
 
@@ -157,7 +160,7 @@ INSERT INTO `orders` (`order_id`, `user_id`, `delivered_to`, `order_email`, `pho
 (3, 2, 'Test  Firstuser', '', '980098322', 'matepani-12', 'Khalti', 0, 1, 1, '2022-04-18'),
 (4, 7, 'kohjunket', '', '0111087939', 'flat no. 80, jalan bukit perdana 2/17, batu pahat, johor, malaysia - 123456', '0', 0, 1, 1, '2024-05-20'),
 (8, 7, 'james', 'james@gmail.com', '0123456789', 'flat no. 80, jalan bukit perdana 2/17, batu pahat, johor, malaysia - 123456', 'credit card', 500, 0, 0, '2024-05-21'),
-(9, 7, 'Winson', 'winson@gmial.com', '0111098765', 'flat no. 59, jalan 123, apple pie, kuala lumpur, malaysia - 83000', 'paypal', 2660, 0, 0, '2024-05-21');
+(9, 7, 'Winson', 'winson@gmial.com', '0111098765', 'flat no. 59, jalan 123, apple pie, kuala lumpur, malaysia - 83000', 'paypal', 2660, 1, 1, '2024-05-21');
 
 -- --------------------------------------------------------
 
@@ -192,6 +195,8 @@ CREATE TABLE `product` (
   `product_name` varchar(200) NOT NULL,
   `product_desc` text NOT NULL,
   `product_image` varchar(255) NOT NULL,
+  `product_image2` varchar(255) NOT NULL,
+  `product_image3` varchar(255) NOT NULL,
   `price` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   `brand_id` int(11) NOT NULL,
@@ -203,11 +208,9 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `product_name`, `product_desc`, `product_image`, `price`, `category_id`, `brand_id`, `gender_id`, `uploaded_date`) VALUES
-(17, 'Air force 1', 'this is shoes', '../uploads/jd_DV0831-108_a.webp', 500, 4, 15, 15, '2024-05-15'),
-(18, 'Air force 2', 'this is shoes 2', '../uploads/jd_MR530SG_a.webp', 500, 4, 15, 15, '2024-05-15'),
-(21, 'Air force 3', 'this is shoes 3', '../uploads/custom-nike-air-force-1-low-by-you.png', 300, 4, 13, 13, '2024-05-15'),
-(22, 'Air force 4', 'this is shoes 4', '../uploads/impact-4-basketball-shoes-CcJxBx.png', 590, 5, 13, 13, '2024-05-16');
+INSERT INTO `product` (`product_id`, `product_name`, `product_desc`, `product_image`, `product_image2`, `product_image3`, `price`, `category_id`, `brand_id`, `gender_id`, `uploaded_date`) VALUES
+(23, 'Air Force Panda ', 'New Arrival', '../uploads/airforcepanda1.webp', '', '', 599, 4, 1, 1, '2024-06-05'),
+(24, 'Adidas Shoes', 'New Arrival', '../uploads/6636a2871f0b2.webp', '', '', 499, 4, 20, 1, '2024-06-05');
 
 -- --------------------------------------------------------
 
@@ -241,7 +244,8 @@ INSERT INTO `product_size_variation` (`variation_id`, `product_id`, `size_id`, `
 (14, 17, 5, 10),
 (15, 18, 5, 10),
 (16, 21, 5, 10),
-(17, 22, 6, 10);
+(17, 22, 6, 10),
+(18, 18, 6, 100);
 
 -- --------------------------------------------------------
 
@@ -324,14 +328,6 @@ CREATE TABLE `wishlist` (
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`wish_id`, `user_id`, `product_id`) VALUES
-(14, 7, 18),
-(13, 7, 21);
 
 --
 -- Indexes for dumped tables
@@ -444,13 +440,13 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `cart`
@@ -492,13 +488,13 @@ ALTER TABLE `order_details`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `product_size_variation`
 --
 ALTER TABLE `product_size_variation`
-  MODIFY `variation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `variation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `review`

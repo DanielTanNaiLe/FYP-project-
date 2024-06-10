@@ -8,7 +8,7 @@ if(isset($_POST['upload'])) {
     $temp = $_FILES['file']['tmp_name'];
     
     // Assuming the 'uploads' directory is located at the root level of your project
-    $location = "/path/to/your/uploads/";  // Update this path accordingly
+    $location = "../uploads/";  // Update this path accordingly
     $image = $location . $name;
 
     $finalImage = $location . $name;

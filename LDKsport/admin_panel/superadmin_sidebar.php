@@ -2,7 +2,7 @@
 <div class="sidebar" id="mySidebar">
 <div class="side-header">
     <img src="./assets/images/logo.png" width="120" height="120" alt="LDK SPORTS"> 
-    <h5 style="margin-top:10px;">Hello, Admin</h5>
+    <h5 style="margin-top:10px;">Hello, SuperAdmin</h5>
 </div>
 
 <hr style="border:1px solid; background-color:#8a7b6d; border-color:#3B3131;">
@@ -17,6 +17,7 @@
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
     <a href="#report"   onclick="showReport()" ><i class="fa fa-bar-chart"></i> Reports</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-shopping-cart"></i> Orders</a>
+    <a href="#auser" onclick="showAdmin()"><i class="fa fa-user-shield"></i> Admin User</a>
     <a href="#feedback" onclick="showFeedback()"><i class="fa fa-envelope"></i> Feedback</a>
 <br>
     <a href="#profile" onclick="showProfile()"><i class="fa fa-user "></i> Profile</a> 

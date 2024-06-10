@@ -1,78 +1,74 @@
-<?php require '../admin_panel/config/dbconnect.php';?>
+<?php require '../admin_panel/config/dbconnect.php'; ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Customer main page</title>
-        <link rel="stylesheet" href="general.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-        <link rel="stylesheet"
-         href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-    </head>
-    <body>
-        <?php include("header.php"); ?>
-     <section class="main-home">
+<head>
+    <title>Customer main page</title>
+    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+</head>
+<body>
+    <?php include("header.php"); ?>
+    <section class="main-home">
         <div class="main-text">
             <h5>Summer Collection</h5>
             <h1>New Summer <br>Collection 2024</h1>
             <p>There's Nothing like Trend</p>
-
-            <a href="menpage.html" class="main-btn">Shop now<i class='bx bx-right-arrow-alt'></i></a>
+            <a href="products.php" class="main-btn">Shop now<i class='bx bx-right-arrow-alt'></i></a>
         </div>
-     </section>
-     <section class="main-home2">
+    </section>
+    <section class="main-home2">
         <div class="home2-text">
-            <h1>Shop Men's, Woman's & Kids'</h1>
+            <h1>Shop Men's, Women's & Kids'</</h1>
         </div>
         <div class="home2-banner">
             <div class="main-home2-btn">
                 <div class="image-container">
-            <img src="./image/banner1.jpg" alt="">
-            <div class="button-overlay">
-                <a href="" class="home2-btn">Men's Shoes</a>
-                <a href="" class="home2-btn">Men's Clothing</a>
-                <a href="" class="home2-btn">Men's Pants</a>
+                    <img src="./image/banner1.jpg" alt="">
+                    <div class="button-overlay">
+                        <a href="category.php?gender=Men&type=Shoes" class="home2-btn">Men's Shoes</a>
+                        <a href="category.php?gender=Men&type=Clothing" class="home2-btn">Men's Clothing</a>
+                        <a href="category.php?gender=Men&type=Pants" class="home2-btn">Men's Pants</a>
+                    </div>
+                </div>
+            </div>
+            <div class="main-home2-btn">
+                <div class="image-container">
+                    <img src="./image/banner2.jpg" alt="">
+                    <div class="button-overlay">
+                        <a href="category.php?gender=WOMAN&type=Shoes" class="home2-btn">Girl's Shoes</a>
+                        <a href="category.php?gender=WOMAN&type=Clothing" class="home2-btn">Girl's Clothing</a>
+                        <a href="category.php?gender=WOMAN&type=Pants" class="home2-btn">Girl's Pants</a>
+                    </div>
+                </div>
+            </div>
+            <div class="main-home2-btn">
+                <div class="image-container">
+                    <img src="./image/banner4.jpg" alt="">
+                    <div class="button-overlay">
+                        <a href="category.php?gender=Kids&type=Shoes" class="home2-btn">Kids' Shoes</a>
+                        <a href="category.php?gender=Kids&type=Clothing" class="home2-btn">Kids' Clothing</a>
+                        <a href="category.php?gender=Kids&type=Pants" class="home2-btn">Kids' Pants</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="main-home2-btn">
-            <div class="image-container">
-            <img src="./image/banner2.jpg" alt="">
-            <div class="button-overlay">
-            <a href="" class="home2-btn">girl's Shoes</a>
-            <a href="" class="home2-btn">girl's Clothing</a>
-            <a href="" class="home2-btn">girl's Pants</a>
-            </div>
-            </div>
-        </div>
-        <div class="main-home2-btn">
-            <div class="image-container">
-            <img src="./image/banner4.jpg" alt="">
-            <div class="button-overlay">
-            <a href="" class="home2-btn">kids' Shoes</a>
-            <a href="" class="home2-btn">kids' Clothing</a>
-            <a href="" class="home2-btn">kids Pants</a>
-            </div>
-            </div>
-        </div>
-        </div>
-     </section>
-     <div class="home2-text">
-     <h1>Our Brands</h1>
-     </div>
-     <?php
-     $result = mysqli_query($conn, "SELECT brand_name, brand_img FROM product INNER JOIN brand ON product.brand_id = brand.brand_id");
-     if (mysqli_num_rows($result) > 0) {
+    </section>
+    <div class="home2-text">
+        <h1>Our Brands</h1>
+    </div>
+    <?php
+    $result = mysqli_query($conn, "SELECT DISTINCT brand.brand_name, brand.brand_img FROM brand INNER JOIN product ON product.brand_id = brand.brand_id");
+    if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
         echo '<div class="home3-banner">';
-        // Loop through each row
         while ($row = mysqli_fetch_assoc($result)) {
-            //Display the brand image and name
-      ?>
-             <div class="image-container3">
-             <a href="#"><img src='../uploads/<?=$row["brand_img"]?>'></a>
-             <h1><?=$row['brand_name']?></h1>
-             </div>
-             <?php
+            ?>
+            <div class="image-container3">
+                <a href="brand.php?brand=<?= urlencode($row["brand_name"]) ?>"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
+                <h1><?= $row['brand_name'] ?></h1>
+            </div>
+            <?php
         }
         echo '</div>';
         echo '</section>';
@@ -80,6 +76,7 @@
         echo "No brands found";
     }
     ?>
-     <?php include("footer.php"); ?>
-     </body>
-     </html>
+    <div class="product-list-container"></div>
+    <?php include("footer.php"); ?>
+</body>
+</html>

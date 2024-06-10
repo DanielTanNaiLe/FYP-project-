@@ -5,7 +5,8 @@ $category = $_GET['category'];
 
 $query = "SELECT * FROM product 
           INNER JOIN category ON product.category_id = category.category_id 
-          WHERE category.category_name = ? AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
+          WHERE category.category_name = ? 
+          AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $category);
 $stmt->execute();

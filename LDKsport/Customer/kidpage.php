@@ -1,30 +1,56 @@
 <?php
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require '../admin_panel/config/dbconnect.php';
 session_start(); // Ensure session is started
 
-include("header.php"); 
+include("header.php");
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 } else {
     $user_id = '';
 }
+
+function displayProducts($result, $categoryName) {
+    echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
+    echo '<div class="listproduct">';
+    if ($result->num_rows > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+?>
+<form action="" method="post" class="box">
+    <input type="hidden" name="pid" value="<?= $row['product_id'];?>">
+    <input type="hidden" name="product_name" value="<?= $row['product_name'];?>">
+    <input type="hidden" name="price" value="<?= $row['price'];?>">
+    <input type="hidden" name="product_image" value="<?= $row['product_image'];?>">
+    <div class="item">
+        <img src="../uploads/<?=$row['product_image'];?>">
+        <h2><?=$row["product_name"];?></h2>
+        <div class="price">RM <?=$row["price"];?></div>
+        <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
+        <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+    </div>
+</form>
+<?php 
+        }
+    }
+    echo '</div>';
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer Kids Page</title>
+    <title>Customer Kid Page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
-    <h1 class="m1">KIDS</h1>
+    <h1 class="m1">KID</h1>
     <div class="nav3">
         <a href="#" id="shoes-link">Shoes</a>
         <a href="#" id="clothing-link">Clothing</a>
-        <a href="#" id="hats-link">Hats</a>
+        <a href="#" id="pants-link">Pants</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -51,51 +77,11 @@ if (isset($_SESSION['user_id'])) {
     </div>
     <div class="product-list-container">
         <?php
-        // Fetch and display shoes for kids
-        $shoesResult = mysqli_query($conn, "SELECT * FROM product 
-                                            INNER JOIN category ON product.category_id = category.category_id 
-                                            WHERE category.category_name = 'Shoes' 
-                                            AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
-        displayProducts($shoesResult, "Shoes");
-
-        // Fetch and display clothing for kids
-        $clothingResult = mysqli_query($conn, "SELECT * FROM product 
-                                               INNER JOIN category ON product.category_id = category.category_id 
-                                               WHERE category.category_name = 'Clothing' 
-                                               AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
-        displayProducts($clothingResult, "Clothing");
-
-        // Fetch and display pants for kids
-        $pantsResult = mysqli_query($conn, "SELECT * FROM product 
-                                           INNER JOIN category ON product.category_id = category.category_id 
-                                           WHERE category.category_name = 'Pants' 
-                                           AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
-        displayProducts($pantsResult, "Pants");
-
-        function displayProducts($result, $categoryName) {
-            echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
-            echo '<div class="listproduct">';
-            if ($result->num_rows > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-        <form action="" method="post" class="box">
-            <input type="hidden" name="pid" value="<?= $row['product_id'];?>">
-            <input type="hidden" name="product_name" value="<?= $row['product_name'];?>">
-            <input type="hidden" name="price" value="<?= $row['price'];?>">
-            <input type="hidden" name="product_image" value="<?= $row['product_image'];?>">
-            <div class="item">
-                <img src="../uploads/<?=$row['product_image'];?>">
-                <h2><?=$row["product_name"];?></h2>
-                <div class="price">RM <?=$row["price"];?></div>
-                <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
-                <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
-            </div>
-        </form>
-        <?php 
-                }
-            }
-            echo '</div>';
-        }
+        // Fetch and display all products for kid
+        $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
+                                                  INNER JOIN category ON product.category_id = category.category_id 
+                                                  WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
+        displayProducts($allProductsResult, "All Kids Products");
         ?>
     </div>
     <?php include("footer.php"); ?>
@@ -140,12 +126,9 @@ if (isset($_SESSION['user_id'])) {
                 loadProducts('Clothing');
             });
 
-            $('#hats-link').click(function() {
-                loadProducts('Hats');
+            $('#pants-link').click(function() {
+                loadProducts('pants');
             });
-
-            // Load shoes by default on page load
-            loadProducts('Shoes');
         });
     </script>
 </body>
