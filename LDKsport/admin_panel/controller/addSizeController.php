@@ -12,12 +12,12 @@
          if(!$insert)
          {
              echo mysqli_error($conn);
-             header("Location: ../index.php?size=error");
+             header("Location: ../dashboard.php?size=error");
          }
          else
          {
              echo "Records added successfully.";
-             header("Location: ../index.php?size=success");
+             header("Location: ../dashboard.php?size=success");
          }
      
     }

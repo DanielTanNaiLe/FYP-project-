@@ -132,7 +132,7 @@ $fetch_profile = $fetch_profile_result->fetch_assoc(); // Fetch the row
 
         <?php if (isset($admin_role) && $admin_role === 'superadmin') : ?>
         <div class="col-sm-3">
-            <div class="card">
+            <div class="card" onclick="showAdmin()">
                 <i class="fa fa-user" style="font-size: 70px;"></i>
                 <h4 style="color:white;">Admin Accounts</h4>
                 <h5 style="color:white;">

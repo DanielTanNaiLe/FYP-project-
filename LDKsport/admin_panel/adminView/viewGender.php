@@ -1,6 +1,6 @@
-
+<title>Gender</title>
 <div >
-  <h3>Gender Items</h3>
+  <h3>Gender</h3>
   <table class="table ">
     <thead>
       <tr>
