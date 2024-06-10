@@ -29,198 +29,193 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
         /* Styles for the main page */
-        body {
-            margin: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+body {
+    margin: 0;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+}
 
-        .content-container {
-            margin: 150px auto auto auto;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+.e-wallet-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
 
-        .e-wallet-container {
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            width: 100%;
-            max-width: 1000px;
-            text-align: center;
-        }
+.ewallet_b {
+    margin: 130px auto auto auto;
+    background-color: rgb(77, 190, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-align: left;
+}
 
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-        }
+h1 {
+    margin: 0; /* Remove excessive margin */
+    padding: 10px;
+    margin-bottom: 20px;
+}
 
-        .balance {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
+.balance {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 40px;
+}
 
-        .user-info {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            color: #555;
-        }
+.user-info {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #555;
+}
 
-        .transaction-history {
-            text-align: left;
-            margin-top: 20px;
-        }
+.transaction-history {
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-        .transaction-history h2 {
-            margin-bottom: 10px;
-        }
+.transaction-history h2 {
+    margin-bottom: 10px;
+}
 
-        .transaction-history ul {
-            list-style: none;
-            padding: 0;
-        }
+.transaction-history ul {
+    list-style: none;
+    padding: 0;
+}
 
-        .transaction-history li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
+.transaction-history li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
 
-        .topup-button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
+.topup-button-container{
+    text-align: center; /* Center the button container */
+}
 
-        .topup-button:hover {
-            background-color: #218838;
-        }
+.topup-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        .login-required {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: not-allowed;
-            font-size: 16px;
-            width: 100%;
-        }
+.topup-button:hover {
+    background-color: #218838;
+}
 
-        /* Modal styles */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            padding-top: 60px;
-        }
+.login-required {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: not-allowed;
+    font-size: 16px;
+    width: auto; /* Make the button width fit its content */
+}
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-            border-radius: 10px;
-        }
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+}
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+label {
+    display: block;
+    margin-bottom: 5px;
+}
 
-        .submit-button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        .submit-button:hover {
-            background-color: #218838;
-        }
+.submit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
 
-        #result {
-            margin-top: 10px;
-        }
+.submit-button:hover {
+    background-color: #218838;
+}
+
+#result {
+    margin-top: 10px;
+}
     </style>
 </head>
 <body>
-    <div class="content-container">
-        <div class="e-wallet-container">
+    <div class="e-wallet-container">
+        <div class="ewallet_b">
             <h1>E-Wallet</h1>
             <div class="balance">
                 Balance: $<span id="currentBalance">0</span>
             </div>
-            <div class="user-info">
-                Welcome, <span id="userName"><?php echo htmlspecialchars($user_name); ?></span>!
-            </div>
+            <div class="topup-button-container">
             <?php if ($user_id): ?>
                 <button class="topup-button" id="openTopUp">Top-Up</button>
             <?php else: ?>
                 <button class="login-required" id="loginRequired">Login Required</button>
             <?php endif; ?>
-
-            <!-- Transaction History -->
-            <div class="transaction-history">
-                <h2>Transaction History</h2>
-                <ul id="transactionList">
-                    <!-- Transactions will be listed here -->
-                </ul>
-                <div id="transactionMessage">
-                    <!-- Login prompt message will be displayed here -->
-                </div>
+            </div>
+        </div>
+        <!-- Transaction History -->
+        <div class="transaction-history">
+            <h2>Transaction History</h2>
+            <ul id="transactionList">
+                <!-- Transactions will be listed here -->
+            </ul>
+            <div id="transactionMessage">
+                <!-- Login prompt message will be displayed here -->
             </div>
         </div>
     </div>
