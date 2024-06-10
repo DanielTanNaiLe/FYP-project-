@@ -123,9 +123,9 @@ if(isset($_SESSION['user_id'])) {
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer_logout.php">Log out</a>
+            <a href="customer logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer_login.php">Sign In</a>
+            <a href="customer login.php">Sign In</a>
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
@@ -145,6 +145,7 @@ if(isset($_SESSION['user_id'])) {
                     <ul class="icon-dropdown">
                         <li><a href="customer_logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
+                        <li><a href="e-wallet.php">E-Wallet</a></li>
                     </ul>
                 </li>
             <?php else: ?>
@@ -155,6 +156,7 @@ if(isset($_SESSION['user_id'])) {
                     <ul class="icon-dropdown">
                         <li><a href="customer_login.php">Log in</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
+                        <li><a href="e-wallet.php">E-Wallet</a></li>
                     </ul>
                 </li>
             <?php endif; ?>
