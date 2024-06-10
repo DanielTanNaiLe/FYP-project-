@@ -114,6 +114,27 @@ function showProfile(){
     });
 }
 
+function showAdmin(){  
+    $.ajax({
+        url:"./adminView/viewAdmin.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
+
+function showPromocde(){  
+    $.ajax({
+        url:"./adminView/viewPromocode.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
 
 
 
@@ -139,6 +160,17 @@ function ChangePay(id){
            alert('Payment Status updated successfully');
            $('form').trigger('reset');
            showOrders();
+       }
+   });
+}
+
+function registerAdmin(){
+    $.ajax({
+       url:"./adminView/registerAdmin.php",
+       method:"post",
+       data:{record:id},
+       success:function(data){
+        $('.allContent-section').html(data);
        }
    });
 }
@@ -182,6 +214,8 @@ function addItems() {
         }
     });
 }
+
+
 
 
 //edit product data
@@ -368,6 +402,34 @@ function variationDelete(id){
     });
 }
 
+//delete variation data
+function userDelete(id){
+    $.ajax({
+        url:"./controller/deleteUserController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Successfully deleted');
+            $('form').trigger('reset');
+            showCustomers();
+        }
+    });
+}
+
+//delete variation data
+function adminDelete(id){
+    $.ajax({
+        url:"./controller/deleteAdminController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Successfully deleted');
+            $('form').trigger('reset');
+            showAdmin();
+        }
+    });
+}
+
 //edit variation data
 function variationEditForm(id){
     $.ajax({
@@ -408,11 +470,6 @@ function updateVariations(){
 }
 
 function toggleUpdateForm() {
-    var updateForm = document.getElementById('updateProfileForm');
-    updateForm.style.display = (updateForm.style.display === 'none' || updateForm.style.display === '') ? 'block' : 'none';
-}
-
-function toggleUpdateForm() {
     var form = document.getElementById('updateProfileForm');
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
 }
@@ -438,7 +495,7 @@ function updateProfile() {
     fd.append('new_password', newPassword);
 
     $.ajax({
-        url: "./controller/updateProfile.php",
+        url: './controller/updateProfile.php',
         method: 'POST',
         data: fd,
         processData: false,

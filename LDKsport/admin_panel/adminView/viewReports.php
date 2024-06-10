@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <title>Monthly Reports</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <!-- DateTime extension CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.0/css/dataTables.dateTime.min.css">
     <!-- DataTables Buttons CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.1/css/buttons.dataTables.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css"> <!-- Your custom CSS file -->
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -30,7 +33,6 @@
     <!-- pdfmake (for PDF export) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <?php 
@@ -38,21 +40,25 @@
     ?>
 
     <div class="container">
-        <h3>Monthly Reports</h3>
+        <h3 class="text-center mt-3 mb-4">Monthly Reports</h3>
         
         <!-- Date Range Filter -->
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="min-date">Start Date:</label>
-                <input type="text" id="min-date" class="form-control date-range-filter" placeholder="From: yyyy-mm-dd">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control">
             </div>
             <div class="col-md-4">
-                <label for="max-date">End Date:</label>
-                <input type="text" id="max-date" class="form-control date-range-filter" placeholder="To: yyyy-mm-dd">
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary mt-4">Apply Filter</button>
             </div>
         </div>
 
-        <table class="table" id="reportTable">
+        <table class="table table-striped table-bordered" id="reportTable">
+            <!-- Table Header -->
             <thead>
                 <tr>
                     <th class="text-center">Order ID</th>
@@ -67,9 +73,11 @@
                     <th class="text-center">Order Date</th>
                 </tr>
             </thead>
+            <!-- Table Body -->
             <tbody>
+                <!-- PHP Loop to populate table rows -->
                 <?php
-                    $sql = "SELECT order_id, user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, pay_status, order_status, order_date FROM orders";
+                    $sql = "SELECT order_id, user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_status, order_date FROM orders";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
@@ -88,154 +96,54 @@
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='12' class='text-center'>No reports found</td></tr>";
+                        echo "<tr><td colspan='10' class='text-center'>No reports found</td></tr>";
                     }
 
                     $conn->close();
                 ?>
             </tbody>
         </table>
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">New Monthly Report</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="./controller/addReportController.php" method="POST">
-                            <div class="form-group">
-                                <label for="report_date">Report Date:</label>
-                                <input type="date" class="form-control" name="report_date" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="report_type">Report Type:</label>
-                                <input type="text" class="form-control" name="report_type" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="amount">Amount:</label>
-                                <input type="number" class="form-control" name="amount" required>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-secondary" name="upload" style="height:40px">Add Report</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" style="height:40px">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal for viewing each report -->
-        <div class="modal fade" id="viewModal" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Report Details</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;"></button>
-                    </div>
-                    <div class="report-view-modal modal-body">
-                        <!-- Content loaded via AJAX will be inserted here -->
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
+    <!-- Bootstrap JS (for modal) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- DataTables Initialization and Custom Scripts -->
     <script>
-        // Function to initialize DataTable and make the table sortable and searchable
         $(document).ready(function() {
-            // Date range filter variables
-            var minDate, maxDate;
-
-            // Custom filtering function which will search data in column four between two values
-            $.fn.dataTable.ext.search.push(
-                function(settings, data, dataIndex) {
-                    var min = minDate.val();
-                    var max = maxDate.val();
-                    var date = new Date(data[9]); // Use data for the date column
-
-                    if (
-                        (min === null && max === null) ||
-                        (min === null && date <= max) ||
-                        (min <= date && max === null) ||
-                        (min <= date && date <= max)
-                    ) {
-                        return true;
-                    }
-                    return false;
-                }
-            );
-
-            // Create date inputs
-            minDate = new DateTime($('#min-date'), {
-                format: 'YYYY-MM-DD'
-            });
-            maxDate = new DateTime($('#max-date'), {
-                format: 'YYYY-MM-DD'
-            });
-
-            // DataTables initialisation
-            var table = $('#reportTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "dom": 
-                    "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'fB>>" +
-                    "<'row'<'col-sm-12'tr>>" + // Table rows
-                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Information and pagination
-                "buttons": [
+            // DataTable initialization
+            $('#reportTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "dom": 
+                "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6' fb>>" + // Search and buttons aligned horizontally
+                "<'row'<'col-sm-12'tr>>" + // Table rows
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>", // Information and pagination
+                buttons: [
                     {
                         extend: 'copy',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] // Indexes of columns to include in copy action
-                        }
+                        className: 'btn btn-secondary',
                     },
                     {
                         extend: 'excel',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
-                        }
+                        className: 'btn btn-success',
                     },
                     {
                         extend: 'pdf',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
-                        }
+                        className: 'btn btn-danger',
                     },
                     {
                         extend: 'print',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
-                        }
-                    }
+                        className: 'btn btn-info',
+                    },
                 ]
             });
 
-            // Refilter the table
-            $('#min-date, #max-date').on('change', function() {
-                table.draw();
-            });
-
-            // Event delegation to handle clicks on dynamically generated buttons
-            $(document).on('click', '.openPopup', function() {
-                var dataURL = $(this).attr('data-href');
-                $('.report-view-modal').load(dataURL, function() {
-                    $('#viewModal').modal({ show: true });
-                });
-            });
+            // Custom script for date range filter (if needed)
+            // Add your custom scripts here
         });
-        
     </script>
-
-    <!-- Bootstrap and dependencies (for modal) -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

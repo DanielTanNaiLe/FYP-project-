@@ -15,6 +15,7 @@
     <a href="#brand"   onclick="showBrand()" ><i class="fa fa-black-tie"></i> Brands</a> 
     <a href="#gender"   onclick="showGender()" ><i class="	fa fa-mars"></i> Gender</a>  
     <a href="#products"   onclick="showProductItems()" ><i class="fa fa-th"></i> Products</a>
+    <a href="#promocode"   onclick="showPromocode()" ><i class="fa fa-ticket"></i> Promocode</a>
     <a href="#report"   onclick="showReport()" ><i class="fa fa-bar-chart"></i> Reports</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-shopping-cart"></i> Orders</a>
     <a href="#auser" onclick="showAdmin()"><i class="fa fa-user-shield"></i> Admin User</a>

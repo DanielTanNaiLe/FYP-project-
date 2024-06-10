@@ -9,28 +9,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $old_password = $_POST['old_password'];
     $new_password = $_POST['new_password'];
 
-    // Verify old password
+    // Fetch old password from the database
     $sql = "SELECT password FROM admin WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $admin_id);
+    $stmt->bind_param("s", $admin_id);
     $stmt->execute();
     $result = $stmt->get_result();
-    $admin_data = $result->fetch_assoc();
 
-    if (password_verify($old_password, $admin_data['password'])) {
-        // Update profile
-        $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
-        $sql = "UPDATE admin SET admin_name = ?, admin_email = ?, password = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $admin_name, $admin_email, $new_password_hashed, $admin_id);
+    if ($result->num_rows > 0) {
+        $admin_data = $result->fetch_assoc();
+        $hashed_password = $admin_data['password'];
 
-        if ($stmt->execute()) {
-            echo "Profile updated successfully.";
+        // Verify old password
+        if (password_verify($old_password, $hashed_password)) {
+            // Update profile
+            $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+            $update_sql = "UPDATE admin SET admin_name = ?, admin_email = ?, password = ? WHERE id = ?";
+            $update_stmt = $conn->prepare($update_sql);
+            $update_stmt->bind_param("sssi", $admin_name, $admin_email, $new_password_hashed, $admin_id);
+
+            if ($update_stmt->execute()) {
+                echo "Profile updated successfully.";
+            } else {
+                echo "Error updating profile.";
+            }
         } else {
-            echo "Error updating profile.";
+            echo "Old password is incorrect.";
         }
     } else {
-        echo "Old password is incorrect.";
+        echo "Admin not found.";
     }
 }
 ?>
