@@ -4,17 +4,24 @@ include("header.php");
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    // Fetch user's first and last name from the database
-    $stmt = $conn->prepare("SELECT first_name, last_name FROM users WHERE user_id = ?");
+    // Fetch user's first name, last name, and sum of balance from e_wallet_balance table
+    $stmt = $conn->prepare("
+        SELECT u.first_name, u.last_name, COALESCE(SUM(e.amount), 0) AS balance
+        FROM users u
+        LEFT JOIN e_wallet_balance e ON u.user_id = e.user_id
+        WHERE u.user_id = ?
+    ");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $user_name = $row['first_name'] . ' ' . $row['last_name'];
+    $user_balance = $row['balance'];
     $stmt->close();
 } else {
     $user_id = '';
     $user_name = 'Guest';
+    $user_balance = 0;
 }
 ?>
 
@@ -28,169 +35,176 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <style>
-        /* Styles for the main page */
-body {
-    margin: 0;
-    background-color: #f4f4f4;
-    min-height: 100vh;
-}
+        body {
+            margin: 0;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+        }
 
-.e-wallet-container {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-}
+        .e-wallet-container {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
 
-.ewallet_b {
-    margin: 130px auto auto auto;
-    background-color: rgb(77, 190, 255);
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    text-align: left;
-}
+        .ewallet_b {
+            margin: 130px auto auto auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            background-color: rgb(77, 190, 255);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            text-align: left;
+        }
 
-h1 {
-    margin: 0; /* Remove excessive margin */
-    padding: 10px;
-    margin-bottom: 20px;
-}
+        h1 {
+            margin: 0;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
 
-.balance {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 40px;
-}
+        .balance {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 40px;
+        }
 
-.user-info {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #555;
-}
+        .user-info {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
 
-.transaction-history {
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .transaction-history {
+            text-align: center;
+            padding: 20px;
+        }
 
-.transaction-history h2 {
-    margin-bottom: 10px;
-}
+        .transaction-history h2 {
+            margin-bottom: 10px;
+        }
 
-.transaction-history ul {
-    list-style: none;
-    padding: 0;
-}
+        .transaction-history ul {
+            list-style: none;
+            padding: 0;
+        }
 
-.transaction-history li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
+        .transaction-history li {
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ccc;
+            transition: transform 0.3s ease;
+        }
 
-.topup-button-container{
-    text-align: center; /* Center the button container */
-}
+        .transaction-history li:hover {
+            transform: translateY(-5px);
+        }
 
-.topup-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
+        .topup-button-container {
+            text-align: center;
+        }
 
-.topup-button:hover {
-    background-color: #218838;
-}
+        .topup-button {
+            background-color: none;
+            color: #28a745;
+            border-color: #28a745;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-.login-required {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: not-allowed;
-    font-size: 16px;
-    width: auto; /* Make the button width fit its content */
-}
+        .topup-button:hover {
+            background-color: #218838;
+            color: white;
+        }
 
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    padding-top: 60px;
-}
+        .login-required {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: not-allowed;
+            font-size: 16px;
+            width: auto;
+        }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    border-radius: 10px;
-}
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+        }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
 
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
 
-input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-.submit-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-}
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-.submit-button:hover {
-    background-color: #218838;
-}
+        .submit-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
 
-#result {
-    margin-top: 10px;
-}
+        .submit-button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -198,14 +212,14 @@ input {
         <div class="ewallet_b">
             <h1>E-Wallet</h1>
             <div class="balance">
-                Balance: $<span id="currentBalance">0</span>
+                Available Balance: <br><br>RM<span id="currentBalance"><?php echo $user_balance; ?></span>
             </div>
             <div class="topup-button-container">
-            <?php if ($user_id): ?>
-                <button class="topup-button" id="openTopUp">Top-Up</button>
-            <?php else: ?>
-                <button class="login-required" id="loginRequired">Login Required</button>
-            <?php endif; ?>
+                <?php if ($user_id): ?>
+                    <button class="topup-button" id="openTopUp">Top-Up</button>
+                <?php else: ?>
+                    <button class="login-required" id="loginRequired">Login Required</button>
+                <?php endif; ?>
             </div>
         </div>
         <!-- Transaction History -->
@@ -296,30 +310,62 @@ input {
                 return;
             }
 
-            // Simulate topping up balance
-            const currentBalance = parseFloat(balanceElement.textContent);
-            const newBalance = currentBalance + amount;
-            balanceElement.textContent = newBalance.toFixed(2);
+            // Simulate server request to insert transaction and get new balance
+            fetch('update_balance.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: userId, amount: amount })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // Log the response
+                if (data.success) {
+                    // Ensure newBalance is a number
+                    const newBalance = parseFloat(data.newBalance);
+                    if (!isNaN(newBalance)) {
+                        // Update the balance in the UI
+                        balanceElement.textContent = newBalance.toFixed(2);
 
-            // Display transaction
-            const transaction = document.createElement('li');
-            const description = `User: ${userName}, Top-Up Amount: $${amount.toFixed(2)}`;
-            transaction.textContent = description;
-            transactionList.insertBefore(transaction, transactionList.firstChild);
+                        // Display transaction
+                        const transaction = document.createElement('li');
+                        const description = `User: ${userName}, Top-Up Amount: $${amount.toFixed(2)}`;
+                        transaction.textContent = description;
+                        transactionList.insertBefore(transaction, transactionList.firstChild);
 
-            // Save transaction to local storage
-            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-            transactions.push(description);
-            localStorage.setItem('transactions', JSON.stringify(transactions));
+                        result.textContent = `Successfully topped up $${amount.toFixed(2)}`;
+                        result.style.color = 'green';
 
-            result.textContent = `Successfully topped up $${amount.toFixed(2)}`;
-            result.style.color = 'green';
+                        // Save transaction to local storage
+                        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+                        transactions.unshift(description);
+                        localStorage.setItem('transactions', JSON.stringify(transactions));
 
-            // Close modal after a delay
-            setTimeout(() => {
-                modal.style.display = 'none';
-                result.textContent = '';
-            }, 2000);
+                        // Close modal after a delay
+                        setTimeout(() => {
+                            modal.style.display = 'none';
+                            result.textContent = '';
+                        }, 2000);
+                    } else {
+                        result.textContent = 'Received an invalid balance from the server.';
+                        result.style.color = 'red';
+                    }
+                } else {
+                    result.textContent = 'Error topping up. Please try again.';
+                    result.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                result.textContent = 'Error topping up. Please try again.';
+                result.style.color = 'red';
+                console.error('Error:', error);
+            });
         });
 
         // Load transaction history from local storage
@@ -327,22 +373,24 @@ input {
             const transactionList = document.getElementById('transactionList');
             const transactionMessage = document.getElementById('transactionMessage');
             const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+
             if (userId && transactions.length > 0) {
                 transactions.forEach(transaction => {
                     const li = document.createElement('li');
                     li.textContent = transaction;
                     transactionList.appendChild(li);
                 });
-            } else {
-                // Display message if user is not logged in or no transactions
+            } else if (!userId) {
+                // Display message if user is not logged in
                 transactionMessage.textContent = "Please log in to view your transaction history.";
                 transactionMessage.style.color = 'red';
+            } else {
+                // Display message if no transactions
+                transactionMessage.textContent = "No transactions found.";
+                transactionMessage.style.color = 'blue';
             }
         };
     </script>
     <?php include("footer.php"); ?>
 </body>
 </html>
-
-
-
