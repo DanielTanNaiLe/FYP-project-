@@ -94,8 +94,8 @@
                     <div class="product-container">
                         <a href="product.php?id=<?= $product["product_id"] ?>"><img src='../uploads/<?= $product["product_image"] ?>' alt='<?= $product["product_name"] ?>'></a>
                         <h2><?= $product['product_name'] ?></h2>
-                        <p>$<?= number_format($product['product_price'], 2) ?></p>
-                        <a href="product.php?id=<?= $product["product_id"] ?>" class="btn">View Product</a>
+                        <p>$<?= number_format($product['price'], 2) ?></p>
+                        <a href="product details.php?id=<?= $product["product_id"] ?>" class="btn">View details</a>
                     </div>
                     <?php
                 }
