@@ -44,12 +44,18 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <style>
         body {
             background-color: #f4f4f4;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .wishlist-container {
             background-color: #fff;
             margin: auto;
             padding: 30px;
-            height: 65%;
+            flex: 1;
+            width: 80%;
+            box-sizing: border-box;
         }
         .wishlist-container h2 {
             background-color: #F2A32D;
@@ -60,36 +66,40 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .wishlist-itemcontainer{
-            margin: 50px auto auto auto;
+        .wishlist-itemcontainer {
+            margin: 50px auto;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 30px;
         }
         .wishlist-item {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 15px;
             transition: transform 0.3s ease;
+            background: #fff;
         }
         .wishlist-item:hover {
             transform: translateY(-5px);
         }
         .wishlist-item img {
             max-width: 200px;
-            box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2); /* Right side shadow */
-            clip-path: inset(0 -10px 0 0); /* Adjust to only show shadow on the right side */
+            box-shadow: 10px 0 10px rgba(0, 0, 0, 0.2);
+            clip-path: inset(0 -10px 0 0);
             height: auto;
             border-radius: 5px;
         }
         .wishlist-item-info {
             background-color: #f3f3f3;
-            flex: 2;
+            flex: 1;
+            width: 100%;
             padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
         }
         .wishlist-item-info h3 {
             margin: 0;
@@ -104,17 +114,16 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             color: #e74c3c;
             font-size: 18px;
         }
-        .wishlist-item-actions{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 20px auto auto auto;
+        .wishlist-item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
         .wishlist-item-actions button {
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 12px 40px;
+            padding: 10px 20px;
             cursor: pointer;
             transition: background-color 0.3s ease;
             border-radius: 5px;
@@ -133,7 +142,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
         .wishlist-item-actions a:hover {
             background-color: #2980b9;
         }
-        .alert-container{
+        .alert-container {
             background: #ffdb9b;
             padding: 20px 40px;
             min-width: 420px;
@@ -162,7 +171,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                 transform: translateX(-10%);
             }
         }
-        .alert-container.hide{
+        .alert-container.hide {
             display: none;
         }
         .alert-container .alert {
@@ -170,7 +179,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             font-size: 18px;
             color: #ce8500;
         }
-        .alert-container:hover{
+        .alert-container:hover {
             background: #ffc766;
         }
     </style>
@@ -179,9 +188,9 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
     <div class="wishlist-container">
         <h2>My Wishlist</h2>
         <div class="wishlist-itemcontainer">
-        <?php if (count($wishlist_items) > 0): 
-             foreach ($wishlist_items as $item): 
-             ?>
+            <?php if (count($wishlist_items) > 0): 
+                foreach ($wishlist_items as $item): 
+                ?>
                 <div class="wishlist-item">
                     <a href="product details.php?pid=<?php echo $item['product_id']; ?>">
                         <img src="../uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
@@ -198,20 +207,19 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                         </form>
                     </div>
                 </div>
-            <?php endforeach; ?>
-             
-        <?php else: ?>
-            <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
-        <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align: center; color: #777;">Your wishlist is empty.</p>
+            <?php endif; ?>
         </div>
-         <?php
-                if (isset($_SESSION['message'])) {
-                    echo '<div class="alert-container show">';
-                    echo '<span class="alert">' . $_SESSION['message'] . '</span>';
-                    echo '</div>';
-                    unset($_SESSION['message']);
-                }
-                ?>
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo '<div class="alert-container show">';
+            echo '<span class="alert">' . $_SESSION['message'] . '</span>';
+            echo '</div>';
+            unset($_SESSION['message']);
+        }
+        ?>
     </div>
     <?php include("footer.php"); ?>
     <script>
@@ -219,7 +227,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
             setTimeout(function(){
                 $('.alert-container').addClass('hide');
                 $('.alert-container').removeClass('show');
-            }, 3000); // Change the duration as needed
+            }, 3000);
         });
 
         $('.alert-container').click(function(){
