@@ -80,31 +80,32 @@
         <h1>Latest Products</h1>
     </div>
     <?php
-  $latest_products_query = "SELECT * FROM product ORDER BY created_at DESC LIMIT 4";
-  $latest_products_result = mysqli_query($conn, $latest_products_query);
-  
-  if (!$latest_products_result) {
-      die("Query failed: " . mysqli_error($conn));
-  }
-  
-  if (mysqli_num_rows($latest_products_result) > 0) {
-      echo '<section class="latest-products">';
-      echo '<div class="products-banner">';
-      while ($product = mysqli_fetch_assoc($latest_products_result)) {
-          ?>
-          <div class="product-container">
-              <a href="product.php?id=<?= $product["id"] ?>"><img src='../uploads/<?= $product["image"] ?>' alt='<?= $product["name"] ?>'></a>
-              <h2><?= $product['name'] ?></h2>
-              <p>$<?= number_format($product['price'], 2) ?></p>
-              <a href="product.php?id=<?= $product["id"] ?>" class="btn">View Product</a>
-          </div>
-          <?php
-      }
-      echo '</div>';
-      echo '</section>';
-  } else {
-      echo "No latest products found";
-  }
+$latest_products_query = "SELECT * FROM product ORDER BY created_on DESC LIMIT 4";
+$latest_products_result = mysqli_query($conn, $latest_products_query);
+
+if (!$latest_products_result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($latest_products_result) > 0) {
+    echo '<section class="latest-products">';
+    echo '<div class="products-banner">';
+    while ($product = mysqli_fetch_assoc($latest_products_result)) {
+        ?>
+        <div class="product-container">
+            <a href="product.php?id=<?= $product["id"] ?>"><img src='../uploads/<?= $product["image"] ?>' alt='<?= $product["name"] ?>'></a>
+            <h2><?= $product['name'] ?></h2>
+            <p>$<?= number_format($product['price'], 2) ?></p>
+            <a href="product.php?id=<?= $product["id"] ?>" class="btn">View Product</a>
+        </div>
+        <?php
+    }
+    echo '</div>';
+    echo '</section>';
+} else {
+    echo "No latest products found";
+}
+
   
     ?>
     <?php include("footer.php"); ?>
