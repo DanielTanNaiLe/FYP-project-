@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require '../admin_panel/config/dbconnect.php';
 session_start(); // Ensure session is started
 
@@ -70,7 +70,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer products page</title>
+    <title>Customer Products Page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -100,13 +100,19 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
         ?>
-        <div class="item">
-            <img src="../uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="">
-            <h2><?= htmlspecialchars($row["product_name"]) ?></h2>
-            <div class="price"><?= htmlspecialchars($row["price"]) ?></div>
-            <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
-            <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
-        </div>
+        <form action="" method="post" class="box">
+            <input type="hidden" name="pid" value="<?= $row['product_id'];?>">
+            <input type="hidden" name="product_name" value="<?= $row['product_name'];?>">
+            <input type="hidden" name="price" value="<?= $row['price'];?>">
+            <input type="hidden" name="product_image" value="<?= $row['product_image'];?>">
+            <div class="item">
+                <img src="../uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="">
+                <h2><?= htmlspecialchars($row["product_name"]) ?></h2>
+                <div class="price"><?= htmlspecialchars($row["price"]) ?></div>
+                <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
+                <div class="details-container"><a href="product details.php?pid=<?= $row['product_id']; ?>" class="details">View details</a></div>
+            </div>
+        </form>
         <?php
             }
         } else {
