@@ -82,11 +82,11 @@
 }
 
 .form-container form{
-   padding: 20px;
+   padding: 30px;
    background-color: var(--white);
    box-shadow: var(--box-shadow);
    text-align: center;
-   width: 500px;
+   width: 600px;
    border-radius: 5px;
 }
 
@@ -159,7 +159,7 @@
 .container .profile p{
    margin-top: 20px;
    font-size: 16px;
-   color: var(--black);
+   color: var (--black);
 }
 
 .container .profile p a{
@@ -182,10 +182,10 @@
 }
 
 .update-profile form{
-   padding: 20px;
+   padding: 30px;
    background-color: var(--white);
    box-shadow: var(--box-shadow);
-   width: 700px;
+   width: 800px;
    border-radius: 5px;
 }
 
@@ -201,11 +201,11 @@
    display: flex;
    justify-content: space-between;
    margin-bottom: 20px;
-   gap: 15px;
+   gap: 20px;
 }
 
 .update-profile form .flex .inputBox{
-   width: 49%;
+   width: 48%;
 }
 
 .update-profile form .flex .inputBox span{
