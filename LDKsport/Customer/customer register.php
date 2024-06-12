@@ -79,62 +79,182 @@ if(isset($_POST['submit'])){
    <title>Register</title>
    <link rel="stylesheet" href="style.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-   <style>
-      .form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-      }
-
-      .form-column {
-          display: flex;
-          flex-direction: column;
-      }
-
-      .message {
-          color: red;
-          margin-bottom: 10px;
-      }
-
-      .wrapper {
-          margin-top: 20px;
-      }
-
-      .pass-field {
-          position: relative;
-      }
-
-      .pass-field input {
-          width: 100%;
-          padding-right: 30px;
-      }
-
-      .pass-field i {
-          position: absolute;
-          right: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          cursor: pointer;
-      }
-
-      .requirement-list {
-          list-style: none;
-          padding: 0;
-      }
-
-      .requirement-list li {
-          margin-bottom: 10px;
-      }
-
-      .requirement-list .fa-check {
-          color: green;
-      }
-
-      .requirement-list .fa-circle {
-          color: red;
-      }
-   </style>
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+:root{
+   --blue:#3498db;
+   --dark-blue:#2980b9;
+   --red:#e74c3c;
+   --dark-red:#c0392b;
+   --black:#333;
+   --white:#fff;
+   --light-bg:#f9f9f9;
+   --box-shadow:0 5px 10px rgba(0,0,0,.1);
+}
+
+*{
+   font-family: 'Poppins', sans-serif;
+   margin: 0; 
+   padding: 0;
+   box-sizing: border-box;
+   outline: none; 
+   border: none;
+   text-decoration: none;
+}
+
+*::-webkit-scrollbar{
+   width: 10px;
+}
+
+*::-webkit-scrollbar-track{
+   background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb{
+   background-color: var(--blue);
+}
+
+.btn,
+.delete-btn{
+   width: 100%;
+   border-radius: 5px;
+   padding: 12px 20px;
+   color: var(--white);
+   text-align: center;
+   cursor: pointer;
+   font-size: 18px;
+   margin-top: 10px;
+   transition: background-color 0.3s;
+}
+
+.btn{
+   background-color: var(--blue);
+}
+
+.btn:hover{
+   background-color: var(--dark-blue);
+}
+
+.delete-btn{
+   background-color: var(--red);
+}
+
+.delete-btn:hover{
+   background-color: var(--dark-red);
+}
+
+.message{
+   margin: 10px 0;
+   padding: 10px;
+   background-color: var(--red);
+   color: var(--white);
+   font-size: 16px;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.form-container{
+   min-height: 100vh;
+   background-color: var(--light-bg);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 20px;
+}
+
+.form-container form{
+   padding: 30px;
+   background-color: var(--white);
+   box-shadow: var(--box-shadow);
+   text-align: center;
+   width: 700px;
+   border-radius: 5px;
+}
+
+.form-container form h3{
+   margin-bottom: 20px;
+   font-size: 24px;
+   color: var(--black);
+   text-transform: uppercase;
+}
+
+.form-container form .box{
+   width: 100%;
+   border-radius: 5px;
+   padding: 12px 14px;
+   font-size: 16px;
+   color: var(--black);
+   margin: 10px 0;
+   background-color: var(--light-bg);
+   border: 1px solid #ddd;
+}
+
+.form-container form .form-row{
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 20px;
+}
+
+.form-container form .form-column{
+   display: flex;
+   flex-direction: column;
+}
+
+.form-container form p{
+   margin-top: 15px;
+   font-size: 16px;
+   color: var(--black);
+}
+
+.form-container form p a{
+   color: var(--red);
+   transition: color 0.3s;
+}
+
+.form-container form p a:hover{
+   text-decoration: underline;
+   color: var(--dark-red);
+}
+
+.wrapper {
+   margin-top: 20px;
+}
+
+.requirement-list {
+   list-style: none;
+   padding: 0;
+}
+
+.requirement-list li {
+   margin-bottom: 10px;
+   display: flex;
+   align-items: center;
+}
+
+.requirement-list i {
+   margin-right: 10px;
+}
+
+.requirement-list .fa-check {
+   color: green;
+}
+
+.requirement-list .fa-circle {
+   color: red;
+}
+
+@media (max-width: 800px){
+   .form-container form{
+      width: 100%;
+   }
+   .form-container form .form-row{
+      grid-template-columns: 1fr;
+   }
+}
+
+</style>
 <body>
 <div class="form-container">
    <form action="" method="post" enctype="multipart/form-data">
@@ -146,7 +266,6 @@ if(isset($_POST['submit'])){
          }
       }
       ?>
-    
       <div class="form-row">
           <div class="form-column">
               <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
@@ -155,31 +274,15 @@ if(isset($_POST['submit'])){
               <div class="wrapper">
                   <div class="pass-field">
                       <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
-                      <i class="fa-solid fa-eye"></i>
                   </div>
                   <div class="content">
                       <p>Password must contain:</p>
                       <ul class="requirement-list">
-                          <li>
-                              <i class="fa-solid fa-circle"></i>
-                              <span>At least 8 characters length</span>
-                          </li>
-                          <li>
-                              <i class="fa-solid fa-circle"></i>
-                              <span>At least 1 number (0...9)</span>
-                          </li>
-                          <li>
-                              <i class="fa-solid fa-circle"></i>
-                              <span>At least 1 lowercase letter (a...z)</span>
-                          </li>
-                          <li>
-                              <i class="fa-solid fa-circle"></i>
-                              <span>At least 1 special symbol (!...$)</span>
-                          </li>
-                          <li>
-                              <i class="fa-solid fa-circle"></i>
-                              <span>At least 1 uppercase letter (A...Z)</span>
-                          </li>
+                          <li><i class="fa-solid fa-circle"></i><span>At least 8 characters length</span></li>
+                          <li><i class="fa-solid fa-circle"></i><span>At least 1 number (0...9)</span></li>
+                          <li><i class="fa-solid fa-circle"></i><span>At least 1 lowercase letter (a...z)</span></li>
+                          <li><i class="fa-solid fa-circle"></i><span>At least 1 special symbol (@#$^&*+=)</span></li>
+                          <li><i class="fa-solid fa-circle"></i><span>At least 1 uppercase letter (A...Z)</span></li>
                       </ul>
                   </div>
               </div>
@@ -196,34 +299,26 @@ if(isset($_POST['submit'])){
           </div>
       </div>
       <input type="submit" name="submit" value="Register Now" class="btn">
-      <div class="show-password-label">
-          <input type="checkbox" id="showpassword" name="showpassword" onclick="togglePasswordVisibility()">
-          <span>Show password</span>
-      </div>
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
 </div>
 
 <script type="text/javascript">
     const passwordInput = document.querySelector(".pass-field input");
-    const eyeIcon = document.querySelector(".pass-field i");
     const requirementList = document.querySelectorAll(".requirement-list li");
 
-    // An array of password requirements with corresponding regular expressions and index of the requirement list item
     const requirements = [
-        { regex: /.{8,}/, index: 0 }, // Minimum of 8 characters
-        { regex: /[0-9]/, index: 1 }, // At least one number
-        { regex: /[a-z]/, index: 2 }, // At least one lowercase letter
-        { regex: /[^A-Za-z0-9]/, index: 3 }, // At least one special character
-        { regex: /[A-Z]/, index: 4 } // At least one uppercase letter
+        { regex: /.{8,}/, index: 0 },
+        { regex: /[0-9]/, index: 1 },
+        { regex: /[a-z]/, index: 2 },
+        { regex: /[^A-Za-z0-9]/, index: 3 },
+        { regex: /[A-Z]/, index: 4 }
     ];
 
     passwordInput.addEventListener("keyup", (e) => {
         requirements.forEach(item => {
-            // Check if the password matches the requirement regex
             const isValid = item.regex.test(e.target.value);
             const requirementItem = requirementList[item.index];
-            // Updating class and icon of requirement item if requirement matched or not
             if (isValid) {
                 requirementItem.classList.add("valid");
                 requirementItem.firstElementChild.className = "fa-solid fa-check";
@@ -233,27 +328,9 @@ if(isset($_POST['submit'])){
             }
         });
     });
-
-    eyeIcon.addEventListener("click", () => {
-        // Toggle the password input type between "password" and "text"
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-        // Update the eye icon class based on the password input type
-        eyeIcon.className = `fa-solid fa-eye${passwordInput.type === "password" ? "" : "-slash"}`;
-    });
-
-    function togglePasswordVisibility() {
-        var password = document.getElementById("password");
-        var confirmPassword = document.getElementById("password_confirmation");
-        if (password.type === "password") {
-            password.type = "text";
-            confirmPassword.type = "text";
-        } else {
-            password.type = "password";
-            confirmPassword.type = "password";
-        }
-    }
 </script>
 </body>
 </html>
+
 
 
