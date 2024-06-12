@@ -271,22 +271,6 @@ if(isset($_POST['submit'])){
               <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
               <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
               <input type="email" name="email" placeholder="Enter Email" class="box" required>
-              <div class="wrapper">
-                  <div class="pass-field">
-                      <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
-                  </div>
-                  <div class="content">
-                      <p>Password must contain:</p>
-                      <ul class="requirement-list">
-                          <li><i class="fa-solid fa-circle"></i><span>At least 8 characters length</span></li>
-                          <li><i class="fa-solid fa-circle"></i><span>At least 1 number (0...9)</span></li>
-                          <li><i class="fa-solid fa-circle"></i><span>At least 1 lowercase letter (a...z)</span></li>
-                          <li><i class="fa-solid fa-circle"></i><span>At least 1 special symbol (@#$^&*+=)</span></li>
-                          <li><i class="fa-solid fa-circle"></i><span>At least 1 uppercase letter (A...Z)</span></li>
-                      </ul>
-                  </div>
-              </div>
-              <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
               <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
           </div>
           <div class="form-column">
@@ -297,6 +281,26 @@ if(isset($_POST['submit'])){
               <input type="text" name="country" placeholder="Enter Country" class="box" required>
               <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
           </div>
+      </div>
+      <div class="wrapper">
+          <div class="pass-field">
+              <input type="password" name="password" id="password" placeholder="Enter Password" class="box" required>
+          </div>
+          <div class="content">
+              <p>Password must contain:</p>
+              <ul class="requirement-list">
+                  <li><i class="fa-solid fa-circle"></i><span>At least 8 characters length</span></li>
+                  <li><i class="fa-solid fa-circle"></i><span>At least 1 number (0...9)</span></li>
+                  <li><i class="fa-solid fa-circle"></i><span>At least 1 lowercase letter (a...z)</span></li>
+                  <li><i class="fa-solid fa-circle"></i><span>At least 1 special symbol (@#$^&*+=)</span></li>
+                  <li><i class="fa-solid fa-circle"></i><span>At least 1 uppercase letter (A...Z)</span></li>
+              </ul>
+          </div>
+      </div>
+      <input type="password" name="cpassword" id="password_confirmation" placeholder="Confirm Password" class="box" required>
+      <div class="show-password-label">
+          <input type="checkbox" id="showpassword" name="showpassword" onclick="togglePasswordVisibility()">
+          <span>Show password</span>
       </div>
       <input type="submit" name="submit" value="Register Now" class="btn">
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
@@ -328,6 +332,18 @@ if(isset($_POST['submit'])){
             }
         });
     });
+
+    function togglePasswordVisibility() {
+        var password = document.getElementById("password");
+        var confirmPassword = document.getElementById("password_confirmation");
+        if (password.type === "password") {
+            password.type = "text";
+            confirmPassword.type = "text";
+        } else {
+            password.type = "password";
+            confirmPassword.type = "password";
+        }
+    }
 </script>
 </body>
 </html>
