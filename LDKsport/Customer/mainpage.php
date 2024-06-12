@@ -77,34 +77,35 @@
         echo "No brands found";
     }
     ?>
-    <!-- Latest Products Section -->
-    <div class="home2-text">
-        <h1>Latest Products</h1>
-    </div>
-    <section class="latest-products">
-        <div class="products-banner">
-            <?php
-            // Displaying latest products
-            $latest_products_query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 4";
-            $latest_products_result = mysqli_query($conn, $latest_products_query);
+   <!-- Latest Products Section -->
+<div class="home2-text">
+    <h1>Latest Products</h1>
+</div>
+<section class="latest-products">
+    <div class="products-banner">
+        <?php
+        // Displaying latest products
+        $latest_products_query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 4";
+        $latest_products_result = mysqli_query($conn, $latest_products_query);
 
-            if (mysqli_num_rows($latest_products_result) > 0) {
-                while ($product = mysqli_fetch_assoc($latest_products_result)) {
-                    ?>
-                    <div class="product-container">
-                        <a href="product.php?id=<?= $product["product_id"] ?>"><img src='../uploads/<?= $product["product_image"] ?>' alt='<?= $product["product_name"] ?>'></a>
-                        <h2><?= $product['product_name'] ?></h2>
-                        <p>$<?= number_format($product['price'], 2) ?></p>
-                        <a href="product details.php?id=<?= $product["product_id"] ?>" class="btn">View details</a>
-                    </div>
-                    <?php
-                }
-            } else {
-                echo "No latest products found";
+        if (mysqli_num_rows($latest_products_result) > 0) {
+            while ($product = mysqli_fetch_assoc($latest_products_result)) {
+                ?>
+                <div class="product-container">
+                    <a href="product.php?id=<?= $product["product_id"] ?>"><img src='../uploads/<?= $product["product_image"] ?>' alt='<?= $product["product_name"] ?>'></a>
+                    <h2><?= $product['product_name'] ?></h2>
+                    <p>$<?= number_format($product['price'], 2) ?></p>
+                    <a href="product details.php?id=<?= $product["product_id"] ?>" class="btn">View details</a>
+                </div>
+                <?php
             }
-            ?>
-        </div>
-    </section>
+        } else {
+            echo "No latest products found";
+        }
+        ?>
+    </div>
+</section>
+
     <?php include("footer.php"); ?>
 </body>
 </html>
