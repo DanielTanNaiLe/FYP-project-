@@ -46,14 +46,12 @@ function displayProducts($result, $categoryName) {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
-    <?php include("header.php"); ?>
     <h1 class="m1">MEN</h1>
     <div class="nav3">
         <a href="#" id="shoes-link">Shoes</a>
         <a href="#" id="clothing-link">Clothing</a>
         <a href="#" id="pants-link">Pants</a>
     </div>
-   
     <div class="container">
         <div class="slidershow middle">
             <div class="slides">
@@ -76,16 +74,6 @@ function displayProducts($result, $categoryName) {
                 <label for="r3" class="bar"></label>
             </div>
         </div>
-    </div>
-    <div class="sort-container">
-        <label for="sort">Sort by:</label>
-        <select id="sort" name="sort">
-            <option value="latest">Latest</option>
-            <option value="name_asc">Name (A to Z)</option>
-            <option value="name_desc">Name (Z to A)</option>
-            <option value="price_asc">Price (Low to High)</option>
-            <option value="price_desc">Price (High to Low)</option>
-        </select>
     </div>
     <div class="product-list-container">
         <?php
@@ -115,11 +103,11 @@ function displayProducts($result, $categoryName) {
                 });
             });
 
-            function loadProducts(category, sort) {
+            function loadProducts(category) {
                 $.ajax({
                     url: 'fetch_products_men.php',
                     method: 'GET',
-                    data: { category: category, sort: sort },
+                    data: { category: category },
                     success: function(response) {
                         $('.product-list-container').html(response);
                     },
@@ -131,22 +119,17 @@ function displayProducts($result, $categoryName) {
             }
 
             $('#shoes-link').click(function() {
-                loadProducts('Shoes', $('#sort').val());
+                loadProducts('Shoes');
             });
 
             $('#clothing-link').click(function() {
-                loadProducts('Clothing', $('#sort').val());
+                loadProducts('Clothing');
             });
 
             $('#pants-link').click(function() {
-                loadProducts('Pants', $('#sort').val());
-            });
-
-            $('#sort').change(function() {
-                loadProducts($('.nav3 a.active').attr('id').replace('-link', ''), $(this).val());
+                loadProducts('Pants');
             });
         });
     </script>
 </body>
-</html>
-
+</html> 
