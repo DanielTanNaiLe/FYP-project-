@@ -272,6 +272,7 @@ if(isset($_POST['submit'])){
               <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
               <input type="email" name="email" placeholder="Enter Email" class="box" required>
               <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png">
+              <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
           </div>
           <div class="form-column">
               <input type="text" name="flat_no" placeholder="Enter Flat Number" class="box" required>
@@ -279,7 +280,7 @@ if(isset($_POST['submit'])){
               <input type="text" name="city" placeholder="Enter City" class="box" required>
               <input type="text" name="state" placeholder="Enter State" class="box" required>
               <input type="text" name="country" placeholder="Enter Country" class="box" required>
-              <input type="text" name="contact_no" placeholder="Enter Contact Number" class="box" required>
+              
           </div>
       </div>
       <div class="wrapper">

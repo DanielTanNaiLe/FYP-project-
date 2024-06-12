@@ -697,3 +697,56 @@ text-transform: uppercase;
 .pagination a:hover {
     background-color: #ddd;
 }
+
+.latest-products {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.products-banner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.product-container {
+    width: 22%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.product-container:hover {
+    transform: translateY(-10px);
+}
+
+.product-container img {
+    width: 100%;
+    height: auto;
+}
+
+.product-container h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-container p {
+    font-size: 1em;
+    color: #555;
+}
+
+.product-container .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.product-container .btn:hover {
+    background-color: #555;
+}
+
