@@ -94,58 +94,65 @@ function displayProducts($result, $categoryName) {
                                                       WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
             displayProducts($allProductsResult, "All Men Products");
             ?>
+
         </div>
-    </div>
+</div>
     <?php include("footer.php"); ?>
     <script>
-        $(document).ready(function() {
-            $('.favourite').click(function() {
-                var productId = $(this).data('product-id');
-                $.ajax({
-                    url: 'add_to_wishlist.php',
-                    method: 'POST',
-                    data: { product_id: productId },
-                    success: function(response) {
-                        alert(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX Error: ", error);
-                        alert("Failed to add to wishlist. Please try again.");
-                    }
-                });
-            });
+    $(document).ready(function() {
+        let currentCategory = 'All';
 
-            function loadProducts(category, sort) {
-                $.ajax({
-                    url: 'fetch_products_men.php',
-                    method: 'GET',
-                    data: { category: category, sort: sort },
-                    success: function(response) {
-                        $('#products-container').html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX Error: ", error);
-                        alert("Failed to load products. Please try again.");
-                    }
-                });
-            }
-
-            $('#shoes-link').click(function() {
-                loadProducts('Shoes', $('#sort-by').val());
-            });
-
-            $('#clothing-link').click(function() {
-                loadProducts('Clothing', $('#sort-by').val());
-            });
-
-            $('#pants-link').click(function() {
-                loadProducts('Pants', $('#sort-by').val());
-            });
-
-            $('#sort-by').change(function() {
-                loadProducts($('.nav3 a.active').data('category'), $(this).val());
+        $('.favourite').click(function() {
+            var productId = $(this).data('product-id');
+            $.ajax({
+                url: 'add_to_wishlist.php',
+                method: 'POST',
+                data: { product_id: productId },
+                success: function(response) {
+                    alert(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error: ", error);
+                    alert("Failed to add to wishlist. Please try again.");
+                }
             });
         });
-    </script>
+
+        function loadProducts(category, sort) {
+            $.ajax({
+                url: 'fetch_products_men.php',
+                method: 'GET',
+                data: { category: category, sort: sort },
+                success: function(response) {
+                    $('#products-container').html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error: ", error);
+                    alert("Failed to load products. Please try again.");
+                }
+            });
+        }
+
+        $('#shoes-link').click(function() {
+            currentCategory = 'Shoes';
+            loadProducts(currentCategory, $('#sort-by').val());
+        });
+
+        $('#clothing-link').click(function() {
+            currentCategory = 'Clothing';
+            loadProducts(currentCategory, $('#sort-by').val());
+        });
+
+        $('#pants-link').click(function() {
+            currentCategory = 'Pants';
+            loadProducts(currentCategory, $('#sort-by').val());
+        });
+
+        $('#sort-by').change(function() {
+            loadProducts(currentCategory, $(this).val());
+        });
+    });
+</script>
+
 </body>
 </html>
