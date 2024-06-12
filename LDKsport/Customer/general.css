@@ -401,6 +401,70 @@ input[name="r"] {
     justify-content: space-around;
 }
 
+/* Updated styles for product list */
+/* Updated styles for product list */
+.listproduct .box {
+    width: 300px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.listproduct .item {
+    flex: 1; /* Allow items to expand within the container */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Relative positioning for absolute positioning of the favorite icon */
+}
+
+.listproduct .item img {
+    width: 100%;
+    max-height: 250px; /* Limit the maximum height of the image */
+    object-fit: cover;
+}
+
+.listproduct .item h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.listproduct .item .price {
+    font-size: 1.1em;
+    color: #555;
+    margin-top: auto; /* Push price to the bottom */
+}
+
+.listproduct .item .favourite {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
+    color: red;
+    cursor: pointer;
+}
+
+.listproduct .item .details-container {
+    margin-top: auto; /* Push the details button to the bottom */
+}
+
+.listproduct .item .details {
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.listproduct .item .details:hover {
+    background: #000;
+    color:#fff;
+}
 
 
 
@@ -687,3 +751,34 @@ text-transform: uppercase;
     background-color: #555;
 }
 
+
+
+
+/* Sort container styling */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+}
+
+.sort-container select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+/* Adjustments for responsive design */
+@media (max-width: 768px) {
+    .sort-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sort-container label,
+    .sort-container select {
+        margin-bottom: 10px;
+    }
+}

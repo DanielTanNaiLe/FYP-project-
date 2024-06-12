@@ -76,13 +76,25 @@ function displayProducts($result, $categoryName) {
         </div>
     </div>
     <div class="product-list-container">
-        <?php
-        // Fetch and display all products for men
-        $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
-                                                  INNER JOIN category ON product.category_id = category.category_id 
-                                                  WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-        displayProducts($allProductsResult, "All Men Products");
-        ?>
+        <div class="sort-options">
+            <label for="sort-by">Sort by: </label>
+            <select id="sort-by">
+                <option value="latest">Latest</option>
+                <option value="name-asc">Name (A to Z)</option>
+                <option value="name-desc">Name (Z to A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+            </select>
+        </div>
+        <div id="products-container">
+            <?php
+            // Fetch and display all products for men
+            $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
+                                                      INNER JOIN category ON product.category_id = category.category_id 
+                                                      WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
+            displayProducts($allProductsResult, "All Men Products");
+            ?>
+        </div>
     </div>
     <?php include("footer.php"); ?>
     <script>
@@ -103,13 +115,13 @@ function displayProducts($result, $categoryName) {
                 });
             });
 
-            function loadProducts(category) {
+            function loadProducts(category, sort) {
                 $.ajax({
                     url: 'fetch_products_men.php',
                     method: 'GET',
-                    data: { category: category },
+                    data: { category: category, sort: sort },
                     success: function(response) {
-                        $('.product-list-container').html(response);
+                        $('#products-container').html(response);
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX Error: ", error);
@@ -119,17 +131,21 @@ function displayProducts($result, $categoryName) {
             }
 
             $('#shoes-link').click(function() {
-                loadProducts('Shoes');
+                loadProducts('Shoes', $('#sort-by').val());
             });
 
             $('#clothing-link').click(function() {
-                loadProducts('Clothing');
+                loadProducts('Clothing', $('#sort-by').val());
             });
 
             $('#pants-link').click(function() {
-                loadProducts('Pants');
+                loadProducts('Pants', $('#sort-by').val());
+            });
+
+            $('#sort-by').change(function() {
+                loadProducts($('.nav3 a.active').data('category'), $(this).val());
             });
         });
     </script>
 </body>
-</html> 
+</html>

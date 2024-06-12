@@ -2,11 +2,32 @@
 require '../admin_panel/config/dbconnect.php';
 
 $category = $_GET['category'];
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'latest';
 
 $query = "SELECT * FROM product 
           INNER JOIN category ON product.category_id = category.category_id 
           WHERE category.category_name = ? 
           AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')";
+
+switch ($sort) {
+    case 'name-asc':
+        $query .= " ORDER BY product_name ASC";
+        break;
+    case 'name-desc':
+        $query .= " ORDER BY product_name DESC";
+        break;
+    case 'price-asc':
+        $query .= " ORDER BY price ASC";
+        break;
+    case 'price-desc':
+        $query .= " ORDER BY price DESC";
+        break;
+    case 'latest':
+    default:
+        $query .= " ORDER BY product_id DESC";
+        break;
+}
+
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $category);
 $stmt->execute();
@@ -38,4 +59,4 @@ function displayProducts($result, $categoryName) {
 }
 
 displayProducts($result, $category);
-?>  
+?>
