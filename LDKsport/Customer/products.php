@@ -76,6 +76,149 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
+
+<style>
+    /* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1.m1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.nav3 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.nav3 a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+}
+
+.subtitle_1 h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.sort-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+}
+
+.sort-container select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.listproduct {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+.item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.item h2 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.price {
+    font-size: 16px;
+    color: #555;
+}
+
+.favourite {
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.details-container {
+    margin-top: 10px;
+}
+
+.details-container a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 16px;
+}
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007BFF;
+    padding: 5px 10px;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+}
+
+.pagination a.active {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .listproduct {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item {
+        width: 90%;
+    }
+
+    .sort-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav3 {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav3 a {
+        margin: 10px 0;
+    }
+}
+</style>
 <body>
     <?php include("header.php"); ?>
     <h1 class="m1">Brands</h1>
