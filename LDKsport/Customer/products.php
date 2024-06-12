@@ -56,7 +56,37 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
+    
     <?php include("header.php"); ?>
+    <h1 class="m1">KID</h1>
+    <div class="nav3">
+        <a href="#" id="shoes-link">Shoes</a>
+        <a href="#" id="clothing-link">Clothing</a>
+        <a href="#" id="pants-link">Pants</a>
+    </div>
+    <div class="container">
+        <div class="slidershow middle">
+            <div class="slides">
+                <input type="radio" name="r" id="r1" checked>
+                <input type="radio" name="r" id="r2">
+                <input type="radio" name="r" id="r3">
+                <div class="slide s1">
+                    <img src="./image/shoes1.webp">
+                </div>
+                <div class="slide">
+                    <img src="./image/Nike-print-ads-a-002.jpg">
+                </div>
+                <div class="slide">
+                    <img src="./image/dri-fit-club-unstructured-featherlight-cap-b0cNxd.png">
+                </div>
+            </div>
+            <div class="navigation">
+                <label for="r1" class="bar"></label>
+                <label for="r2" class="bar"></label>
+                <label for="r3" class="bar"></label>
+            </div>
+        </div>
+    </div>
     <div class="subtitle_1"><h1><?= $categoryName ?></h1></div>
     <div class="listproduct">
         <?php
