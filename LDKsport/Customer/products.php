@@ -58,11 +58,11 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 <body>
     
     <?php include("header.php"); ?>
-    <h1 class="m1">All Products</h1>
+    <h1 class="m1">Brands</h1>
     <div class="nav3">
-        <a href="#" id="nike-link">Nike</a>
-        <a href="#" id="adidas-link">Adidas</a>
-        <a href="#" id="newbalance-link">New Balance</a>
+        <a href="products.php?brand=Nike">Nike</a>
+        <a href="products.php?brand=Adidas">Adidas</a>
+        <a href="products.php?brand=NewBalance">New Balance</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -140,33 +140,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
             });
         });
 
-        function loadProducts(category) {
-                $.ajax({
-                    url: 'brand.php',
-                    method: 'GET',
-                    data: { brand: brand },
-                    success: function(response) {
-                        $('.product-list-container').html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX Error: ", error);
-                        alert("Failed to load products. Please try again.");
-                    }
-                });
-            }
-
-            $('#nike-link').click(function() {
-                loadProducts('NIKE');
-            });
-
-            $('#adidas-link').click(function() {
-                loadProducts('ADIDAS');
-            });
-
-            $('#newbalance-link').click(function() {
-                loadProducts('NEWBALANCE');
-            });
-        });
+       
     </script>
 </body>
 </html>
