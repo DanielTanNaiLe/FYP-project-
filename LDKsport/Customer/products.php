@@ -58,11 +58,11 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 <body>
     
     <?php include("header.php"); ?>
-    <h1 class="m1">KID</h1>
+    <h1 class="m1">All Products</h1>
     <div class="nav3">
-        <a href="#" id="shoes-link">Shoes</a>
-        <a href="#" id="clothing-link">Clothing</a>
-        <a href="#" id="pants-link">Pants</a>
+        <a href="#" id="nike-link">Nike</a>
+        <a href="#" id="adidas-link">Adidas</a>
+        <a href="#" id="newbalance-link">New Balance</a>
     </div>
     <div class="container">
         <div class="slidershow middle">
@@ -137,6 +137,34 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
                         alert("Failed to add to wishlist. Please try again.");
                     }
                 });
+            });
+        });
+
+        function loadProducts(category) {
+                $.ajax({
+                    url: 'brand.php',
+                    method: 'GET',
+                    data: { brand: brand },
+                    success: function(response) {
+                        $('.product-list-container').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to load products. Please try again.");
+                    }
+                });
+            }
+
+            $('#nike-link').click(function() {
+                loadProducts('NIKE');
+            });
+
+            $('#adidas-link').click(function() {
+                loadProducts('ADIDAS');
+            });
+
+            $('#newbalance-link').click(function() {
+                loadProducts('NEWBALANCE');
             });
         });
     </script>
