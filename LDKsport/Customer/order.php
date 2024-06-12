@@ -34,6 +34,7 @@ if (isset($_SESSION['user_id'])) {
         .Orders {
             margin: auto;
             max-width: 1200px;
+            height: 100%;
             padding: 0 20px;
         }
 
