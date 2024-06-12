@@ -78,6 +78,12 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
 </head>
 <body>
     <?php include("header.php"); ?>
+    <h1 class="m1">Brands</h1>
+    <div class="nav3">
+        <a href="#" id="shoes-link">Nike</a>
+        <a href="#" id="clothing-link">Adidas</a>
+        <a href="#" id="pants-link">New Balance</a>
+    </div>
     <div class="subtitle_1"><h1><?= $categoryName ?></h1></div>
     <div class="sort-container">
         <label for="sort">Sort by:</label>
