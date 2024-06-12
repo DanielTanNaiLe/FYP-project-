@@ -18,17 +18,19 @@ if(isset($_POST['submit'])){
     $state = mysqli_real_escape_string($conn, $_POST['state']);
     $country = mysqli_real_escape_string($conn, $_POST['country']);
     $contact_no = mysqli_real_escape_string($conn, $_POST['contact_no']);
-    
+
     $select = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
     if(mysqli_num_rows($select) > 0){
         $message[] = 'User already exists';
-    }else{
+    } else {
         if($password != $cpassword){
             $message[] = 'Confirm password not matched!';
-        }elseif($image_size > 2000000){
+        } elseif($image_size > 2000000){
             $message[] = 'Image size is too large!';
-        }else{
+        } elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$^&*+=])[A-Za-z\d@#$^&*+=]{8,20}$/', $password)) {
+            $message[] = 'Password must be 8-20 characters long, contain upper and lower case letters, a number, and a special character from @#$^&*+= (excluding %).';
+        } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             $insert = mysqli_query($conn, "INSERT INTO `users`(first_name, last_name, email, password, image, flat_no, street_name, city, state, country, contact_no) VALUES('$first_name', '$last_name', '$email', '$hashed_password', '$image', '$flat_no', '$street_name', '$city', '$state', '$country', '$contact_no')") or die('query failed');
@@ -67,6 +69,7 @@ if(isset($_POST['submit'])){
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,18 +79,22 @@ if(isset($_POST['submit'])){
    <title>Register</title>
    <link rel="stylesheet" href="style.css">
    <style>
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
+      .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+      }
 
-.form-column {
-    display: flex;
-    flex-direction: column;
-}
+      .form-column {
+          display: flex;
+          flex-direction: column;
+      }
 
-</style>
+      .message {
+          color: red;
+          margin-bottom: 10px;
+      }
+   </style>
 </head>
 <body>
 <div class="form-container">
@@ -101,7 +108,7 @@ if(isset($_POST['submit'])){
       }
       ?>
     
-    <div class="form-row">
+      <div class="form-row">
           <div class="form-column">
               <input type="text" name="first_name" placeholder="Enter First Name" class="box" required>
               <input type="text" name="last_name" placeholder="Enter Last Name" class="box" required>
@@ -121,28 +128,36 @@ if(isset($_POST['submit'])){
       </div>
       <input type="submit" name="submit" value="Register Now" class="btn">
       <div class="show-password-label">
-          <input type="checkbox" id="showpassword" name="showpassword" onclick="myfunction()">
+          <input type="checkbox" id="showpassword" name="showpassword" onclick="togglePasswordVisibility()">
           <span>Show password</span>
       </div>
-      <script type="text/javascript">
-          function myfunction(){
-              var show = document.getElementById("password");
-              if(show.type=="password"){
-                  show.type="text";
-              } else {
-                  show.type="password";
-              }
-
-              var showConfirm = document.getElementById("password_confirmation");
-              if(showConfirm.type=="password"){
-                  showConfirm.type="text";
-              } else {
-                  showConfirm.type="password";
-              }
-          }
-      </script>
       <p>Already have an account? <a href="customer login.php">Login Now</a></p>
    </form>
 </div>
+
+<script type="text/javascript">
+    function togglePasswordVisibility() {
+        var password = document.getElementById("password");
+        var confirmPassword = document.getElementById("password_confirmation");
+        if (password.type === "password") {
+            password.type = "text";
+            confirmPassword.type = "text";
+        } else {
+            password.type = "password";
+            confirmPassword.type = "password";
+        }
+    }
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        var password = document.getElementById('password').value;
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$^&*+=])[A-Za-z\d@#$^&*+=]{8,20}$/;
+        
+        if (!passwordPattern.test(password)) {
+            e.preventDefault();
+            alert('Password must be 8-20 characters long, contain upper and lower case letters, a number, and a special character from @#$^&*+= (excluding %).');
+        }
+    });
+</script>
 </body>
 </html>
+
