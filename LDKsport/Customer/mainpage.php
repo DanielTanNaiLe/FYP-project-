@@ -19,10 +19,10 @@
     </section>
     <section class="main-home2">
         <div class="home2-text">
-            <h1>Shop Men's, Women's & Kids'</</h1>
+            <h1>Shop Men's, Women's & Kids'</h1>
         </div>
         <div class="home2-banner">
-            <div class="main-home2-btn">
+        <div class="main-home2-btn">
                 <div class="image-container">
                     <img src="./image/banner1.jpg" alt="">
                     <div class="button-overlay">
@@ -58,6 +58,7 @@
         <h1>Our Brands</h1>
     </div>
     <?php
+    // Displaying brands
     $result = mysqli_query($conn, "SELECT DISTINCT brand.brand_name, brand.brand_img FROM brand INNER JOIN product ON product.brand_id = brand.brand_id");
     if (mysqli_num_rows($result) > 0) {
         echo '<section class="main-home3">';
@@ -76,7 +77,34 @@
         echo "No brands found";
     }
     ?>
-    <div class="product-list-container"></div>
+    <!-- Latest Products Section -->
+    <div class="home2-text">
+        <h1>Latest Products</h1>
+    </div>
+    <section class="latest-products">
+        <div class="products-banner">
+            <?php
+            // Displaying latest products
+            $latest_products_query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 4";
+            $latest_products_result = mysqli_query($conn, $latest_products_query);
+
+            if (mysqli_num_rows($latest_products_result) > 0) {
+                while ($product = mysqli_fetch_assoc($latest_products_result)) {
+                    ?>
+                    <div class="product-container">
+                        <a href="product.php?id=<?= $product["product_id"] ?>"><img src='../uploads/<?= $product["product_image"] ?>' alt='<?= $product["product_name"] ?>'></a>
+                        <h2><?= $product['product_name'] ?></h2>
+                        <p>$<?= number_format($product['product_price'], 2) ?></p>
+                        <a href="product.php?id=<?= $product["product_id"] ?>" class="btn">View Product</a>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "No latest products found";
+            }
+            ?>
+        </div>
+    </section>
     <?php include("footer.php"); ?>
 </body>
 </html>
