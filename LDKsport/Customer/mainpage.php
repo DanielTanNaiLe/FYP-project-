@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
     <?php include("header.php"); ?>
@@ -55,57 +56,62 @@
         </div>
     </section>
     <div class="home2-text">
-        <h1>Our Brands</h1>
+        <h1>Latest Products</h1>
     </div>
-    <?php
-    // Displaying brands
-    $result = mysqli_query($conn, "SELECT DISTINCT brand.brand_name, brand.brand_img FROM brand INNER JOIN product ON product.brand_id = brand.brand_id");
-    if (mysqli_num_rows($result) > 0) {
-        echo '<section class="main-home3">';
-        echo '<div class="home3-banner">';
-        while ($row = mysqli_fetch_assoc($result)) {
-            ?>
-            <div class="image-container3">
-                <a href="brand.php?brand=<?= urlencode($row["brand_name"]) ?>"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
-                <h1><?= $row['brand_name'] ?></h1>
-            </div>
+    <section class="latest-products">
+        <div class="products-banner">
             <?php
-        }
-        echo '</div>';
-        echo '</section>';
-    } else {
-        echo "No brands found";
-    }
-    ?>
-   <!-- Latest Products Section -->
-<div class="home2-text">
-    <h1>Latest Products</h1>
-</div>
-<section class="latest-products">
-    <div class="products-banner">
-        <?php
-        // Displaying latest products
-        $latest_products_query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 4";
-        $latest_products_result = mysqli_query($conn, $latest_products_query);
+            // Displaying latest products
+            $latest_products_query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 4";
+            $latest_products_result = mysqli_query($conn, $latest_products_query);
 
-        if (mysqli_num_rows($latest_products_result) > 0) {
-            while ($product = mysqli_fetch_assoc($latest_products_result)) {
-                ?>
-                <div class="product-container">
-                    <a href="product.php?id=<?= $product["product_id"] ?>"><img src='../uploads/<?= $product["product_image"] ?>' alt='<?= $product["product_name"] ?>'></a>
-                    <h2><?= $product['product_name'] ?></h2>
-                    <p>$<?= number_format($product['price'], 2) ?></p>
-                    <a href="product details.php?id=<?= $product["product_id"] ?>" class="btn">View details</a>
+            if (mysqli_num_rows($latest_products_result) > 0) {
+                echo '<div class="listproduct">';
+                while ($product = mysqli_fetch_assoc($latest_products_result)) {
+            ?>
+            <form action="" method="post" class="box">
+                <input type="hidden" name="pid" value="<?= $product['product_id'];?>">
+                <input type="hidden" name="product_name" value="<?= $product['product_name'];?>">
+                <input type="hidden" name="price" value="<?= $product['price'];?>">
+                <input type="hidden" name="product_image" value="<?= $product['product_image'];?>">
+                <div class="item">
+                    <img src="../uploads/<?=$product['product_image'];?>" alt="<?=$product['product_name'];?>">
+                    <h2><?=$product["product_name"];?></h2>
+                    <div class="price">RM <?=$product["price"];?></div>
+                    <div class="favourite" data-product-id="<?= $product['product_id']; ?>"><i class='bx bxs-heart'></i></div>
+                    <div class="details-container"><a href="product details.php?pid=<?= $product['product_id']; ?>" class="details">View details</a></div>
                 </div>
-                <?php
+            </form>
+            <?php
+                }
+                echo '</div>';
+            } else {
+                echo "No latest products found";
             }
-        } else {
-            echo "No latest products found";
-        }
-        ?>
-    </div>
-</section>
+            ?>
+        </div>
+    </section>
 
     <?php include("footer.php"); ?>
+
+    <script>
+        $(document).ready(function() {
+            $('.favourite').click(function() {
+                var productId = $(this).data('product-id');
+                $.ajax({
+                    url: 'add_to_wishlist.php',
+                    method: 'POST',
+                    data: { product_id: productId },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error: ", error);
+                        alert("Failed to add to wishlist. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
