@@ -53,16 +53,7 @@ function displayProducts($result, $categoryName) {
         <a href="#" id="clothing-link">Clothing</a>
         <a href="#" id="pants-link">Pants</a>
     </div>
-    <div class="sort-container">
-        <label for="sort">Sort by:</label>
-        <select id="sort" name="sort">
-            <option value="latest">Latest</option>
-            <option value="name_asc">Name (A to Z)</option>
-            <option value="name_desc">Name (Z to A)</option>
-            <option value="price_asc">Price (Low to High)</option>
-            <option value="price_desc">Price (High to Low)</option>
-        </select>
-    </div>
+   
     <div class="container">
         <div class="slidershow middle">
             <div class="slides">
@@ -85,6 +76,16 @@ function displayProducts($result, $categoryName) {
                 <label for="r3" class="bar"></label>
             </div>
         </div>
+    </div>
+    <div class="sort-container">
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort">
+            <option value="latest">Latest</option>
+            <option value="name_asc">Name (A to Z)</option>
+            <option value="name_desc">Name (Z to A)</option>
+            <option value="price_asc">Price (Low to High)</option>
+            <option value="price_desc">Price (High to Low)</option>
+        </select>
     </div>
     <div class="product-list-container">
         <?php
