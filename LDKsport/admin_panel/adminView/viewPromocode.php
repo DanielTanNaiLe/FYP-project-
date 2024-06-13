@@ -1,104 +1,84 @@
-<?php
-include '../config/dbconnect.php';
-session_start();
+<div>
+  <h3>Promocode Items</h3>
+  <table class="table ">
+    <thead>
+      <tr>
+        <th class="text-center">S.N.</th>
+        <th class="text-center">Code</th>
+        <th class="text-center">Discount</th>
+        <th class="text-center">Stock</th>
+        <th class="text-center" colspan="2">Action</th>
+      </tr>
+    </thead>
+    <?php
+      include_once "../config/dbconnect.php";
+      $sql="SELECT * FROM promocode";
+      $result=$conn-> query($sql);
+      $count=1;
+      if ($result-> num_rows > 0){
+        while ($row=$result-> fetch_assoc()) {
+    ?>
+    <tr>
+      <td><?=$count?></td>
+      <td><?=$row["code"]?></td>
+      <td><?=$row["discount"]?></td>
+      <td><?=$row["stock"]?></td>
+      <td><button class="btn btn-danger" style="height:40px" onclick="promocodeDelete('<?=$row['id']?>')">Delete</button></td>
+    </tr>
+    <?php
+            $count=$count+1;
+          }
+        }
+      ?>
+  </table>
 
-if (!isset($_SESSION['admin_id'])) {
-    // Redirect to login page if not logged in
-    header('Location: Login.php')L
-    exit();
-}
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-secondary" style="height:40px" data-toggle="modal" data-target="#myModal">
+    Add Promocode
+  </button>
 
-$admin_id = $_SESSION['admin_id'];
-
-$query = "SELECT * FROM admin WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $admin_id);
-$stmt->execute();
-$fetch_profile_result = $stmt->get_result();
-$fetch_profile = $fetch_profile_result->fetch_assoc();
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-            flex: 1;
-        }
-        .profile-view, .update-profile {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-        }
-        .profile-view h2, .update-profile h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .profile-view p {
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        .profile-view .edit-btn, .update-profile button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .profile-view .edit-btn:hover, .update-profile button:hover {
-            background-color: #4cae4c;
-        }
-        .update-profile input[type="text"], 
-        .update-profile input[type="email"], 
-        .update-profile input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="content">
-        <div class="profile-view">
-            <h2>Profile</h2>
-            <p><strong>Admin Name:</strong> <?php echo htmlspecialchars($fetch_profile['admin_name']); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($fetch_profile['admin_email']); ?></p>
-            <button class="edit-btn" onclick="toggleUpdateForm()">Edit Profile</button>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">New Promocode Item</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-        <div class="update-profile" id="updateProfileForm" style="display:none;">
-            <h2>Update Profile</h2>
-            <form id="profileForm">
-                <input type="hidden" id="adminId" name="admin_id" value="<?php echo htmlspecialchars($fetch_profile['id']); ?>">
-                <input type="text" id="adminName" name="admin_name" value="<?php echo htmlspecialchars($fetch_profile['admin_name']); ?>" placeholder="Admin Name" required>
-                <input type="email" id="adminEmail" name="admin_email" value="<?php echo htmlspecialchars($fetch_profile['admin_email']); ?>" placeholder="Email" required>
-                <input type="password" id="oldPassword" name="old_password" placeholder="Enter Old Password" required>
-                <input type="password" id="newPassword" name="new_password" placeholder="Enter New Password" required>
-                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm New Password" required>
-                <button type="button" onclick="updateProfile()">Update Now</button>
-            </form>
+        <div class="modal-body">
+          <form  enctype='multipart/form-data' action="./controller/addPromocodeController.php" method="POST">
+            <div class="form-group">
+              <label for="code">Code:</label>
+              <input type="text" class="form-control" name="code" required>
+            </div>
+            <div class="form-group">
+              <label for="discount">Discount:</label>
+              <input type="number" class="form-control" name="discount" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="stock">Stock:</label>
+              <input type="number" class="form-control" name="stock" min="0" required>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-secondary" name="upload" style="height:40px">Add Promocode</button>
+            </div>
+          </form>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="height:40px">Close</button>
+        </div>
+      </div>
+      
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </body>
-</html>
+  </div>
+</div>
+
+<script>
+    function promocodeDelete(id) {
+        if (confirm('Are you sure you want to delete this promocode?')) {
+            window.location.href = './controller/deletePromocodeController.php?id=' + id;
+        }
+    }
+</script>
