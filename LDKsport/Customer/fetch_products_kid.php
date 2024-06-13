@@ -7,8 +7,11 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : 'latest';
 
 $query = "SELECT * FROM product 
           INNER JOIN category ON product.category_id = category.category_id 
-          WHERE category.category_name = ? 
-          AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')";
+          WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')";
+
+if ($category !== 'All') {
+    $query .= " AND category.category_name = ?";
+}
 
 switch ($sort) {
     case 'name-asc':
@@ -30,7 +33,11 @@ switch ($sort) {
 }
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $category);
+
+if ($category !== 'All') {
+    $stmt->bind_param("s", $category);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 
