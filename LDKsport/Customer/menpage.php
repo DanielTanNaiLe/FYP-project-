@@ -14,16 +14,6 @@ if (isset($_SESSION['user_id'])) {
 function displayProducts($result, $categoryName) {
     echo '<div class="subtitle_1"><h1>' . $categoryName . '</h1></div>';
     echo '<div class="listproduct">';
-    echo '<div class="sort-container">';
-    echo '<label for="sort-by">Sort by:</label>';
-    echo '<select id="sort-by">';
-    echo '<option value="latest">Latest</option>';
-    echo '<option value="name-asc">Name (A to Z)</option>';
-    echo '<option value="name-desc">Name (Z to A)</option>';
-    echo '<option value="price-asc">Price (Low to High)</option>';
-    echo '<option value="price-desc">Price (High to Low)</option>';
-    echo '</select>';
-    echo '</div>';
     if ($result->num_rows > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
 ?>
@@ -86,6 +76,16 @@ function displayProducts($result, $categoryName) {
         </div>
     </div>
     <div id="products-container">
+        <div class="sort-container">
+            <label for="sort-by">Sort by:</label>
+            <select id="sort-by">
+                <option value="latest">Latest</option>
+                <option value="name-asc">Name (A to Z)</option>
+                <option value="name-desc">Name (Z to A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+            </select>
+        </div>
         <?php
         // Fetch and display all products for men
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
