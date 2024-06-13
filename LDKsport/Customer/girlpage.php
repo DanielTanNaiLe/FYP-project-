@@ -76,6 +76,17 @@ function displayProducts($result, $categoryName) {
         </div>
     </div>
     <div class="product-list-container">
+        <div class="sort-options">
+            <label for="sort-by">Sort by: </label>
+            <select id="sort-by">
+                <option value="latest">Latest</option>
+                <option value="name-asc">Name (A to Z)</option>
+                <option value="name-desc">Name (Z to A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+            </select>
+        </div>
+    <div class="product-list-container">
         <?php
         // Fetch and display all products for women
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
