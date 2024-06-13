@@ -15,11 +15,12 @@ header{
     width: 100%;
     color: black;
 }
-header{
+header {
     position: fixed;
     background-color: white;
     height: 17vh;
     z-index: 1;
+    width: 100%;
     box-shadow: 0px 0px 8px 0px;
 }
 .image{
@@ -160,10 +161,11 @@ header{
     background: transparent;
     color: rgba(0, 0, 0, 0.25);
 }
-.nav-icon-container{
+.nav-icon-container {
     position: absolute;
-    margin-left: 84%;
-    bottom: 20%;
+    top: 70%;
+    right: 5%;
+    transform: translateY(-50%);
 }
 .nav-icon{
     list-style: none;
@@ -398,6 +400,7 @@ input[name="r"] {
     flex-wrap: wrap;
     justify-content: space-around;
 }
+
 /* Updated styles for product list */
 /* Updated styles for product list */
 .listproduct .box {
@@ -460,14 +463,14 @@ input[name="r"] {
 
 .listproduct .item .details:hover {
     background: #000;
-    color: #fff;
+    color:#fff;
 }
 
 
 
 
 
-/*******************Products*******************/
+/*******************Product Details*******************/
 
 .subtitle_1{
     background-color: #ffffff;
@@ -694,4 +697,88 @@ text-transform: uppercase;
 
 .pagination a:hover {
     background-color: #ddd;
+}
+
+.latest-products {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.products-banner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.product-container {
+    width: 22%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.product-container:hover {
+    transform: translateY(-10px);
+}
+
+.product-container img {
+    width: 100%;
+    height: auto;
+}
+
+.product-container h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.product-container p {
+    font-size: 1em;
+    color: #555;
+}
+
+.product-container .btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.product-container .btn:hover {
+    background-color: #555;
+}
+
+
+
+
+/* Sort container styling */
+.sort-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.sort-container label {
+    margin-right: 10px;
+}
+
+.sort-container select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+/* Adjustments for responsive design */
+@media (max-width: 768px) {
+    .sort-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sort-container label,
+    .sort-container select {
+        margin-bottom: 10px;
+    }
 }
