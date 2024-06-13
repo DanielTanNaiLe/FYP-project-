@@ -75,19 +75,16 @@ function displayProducts($result, $categoryName) {
             </div>
         </div>
     </div>
-   
-        <div id="products-container">
-            <?php
-            // Fetch and display all products for men
-            $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
-                                                      INNER JOIN category ON product.category_id = category.category_id 
-                                                      WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
-            displayProducts($allProductsResult, "All Men Products");
-            ?>
-
-        </div>
-
-     <div class="sort-container">
+    <div id="products-container">
+        <?php
+        // Fetch and display all products for men
+        $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
+                                                  INNER JOIN category ON product.category_id = category.category_id 
+                                                  WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'MEN')");
+        displayProducts($allProductsResult, "All Men Products");
+        ?>
+    </div>
+    <div class="sort-container">
         <label for="sort-by">Sort by:</label>
         <select id="sort-by">
             <option value="latest">Latest</option>
@@ -97,7 +94,6 @@ function displayProducts($result, $categoryName) {
             <option value="price-desc">Price (High to Low)</option>
         </select>
     </div>
-
     <?php include("footer.php"); ?>
     <script>
     $(document).ready(function() {
