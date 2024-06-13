@@ -125,7 +125,7 @@ function showAdmin(){
     });
 }
 
-function showPromocde(){  
+function showPromocode(){  
     $.ajax({
         url:"./adminView/viewPromocode.php",
         method:"post",
@@ -135,8 +135,6 @@ function showPromocde(){
         }
     });
 }
-
-
 
 function ChangeOrderStatus(id){
     $.ajax({
@@ -160,17 +158,6 @@ function ChangePay(id){
            alert('Payment Status updated successfully');
            $('form').trigger('reset');
            showOrders();
-       }
-   });
-}
-
-function registerAdmin(){
-    $.ajax({
-       url:"./adminView/registerAdmin.php",
-       method:"post",
-       data:{record:id},
-       success:function(data){
-        $('.allContent-section').html(data);
        }
    });
 }
@@ -285,6 +272,20 @@ function itemDelete(id){
             alert('Items Successfully deleted');
             $('form').trigger('reset');
             showProductItems();
+        }
+    });
+}
+
+//delete admin data
+function adminDelete(id){
+    $.ajax({
+        url:"./controller/deleteAdminController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Admin Successfully deleted');
+            $('form').trigger('reset');
+            showAdmin();
         }
     });
 }
@@ -416,10 +417,24 @@ function userDelete(id){
     });
 }
 
-//delete variation data
+//delete admin data
 function adminDelete(id){
     $.ajax({
         url:"./controller/deleteAdminController.php",
+        method:"post",
+        data:{record:id},
+        success:function(data){
+            alert('Successfully deleted');
+            $('form').trigger('reset');
+            showAdmin();
+        }
+    });
+}
+
+//delete promocode data
+function promocodeDelete(id){
+    $.ajax({
+        url:"./controller/deletePromocodeController.php",
         method:"post",
         data:{record:id},
         success:function(data){
