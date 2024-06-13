@@ -75,16 +75,7 @@ function displayProducts($result, $categoryName) {
             </div>
         </div>
     </div>
-    <div class="sort-container">
-        <label for="sort-by">Sort by:</label>
-        <select id="sort-by">
-            <option value="latest">Latest</option>
-            <option value="name-asc">Name (A to Z)</option>
-            <option value="name-desc">Name (Z to A)</option>
-            <option value="price-asc">Price (Low to High)</option>
-            <option value="price-desc">Price (High to Low)</option>
-        </select>
-    </div>
+   
         <div id="products-container">
             <?php
             // Fetch and display all products for men
@@ -95,7 +86,18 @@ function displayProducts($result, $categoryName) {
             ?>
 
         </div>
-</div>
+
+     <div class="sort-container">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by">
+            <option value="latest">Latest</option>
+            <option value="name-asc">Name (A to Z)</option>
+            <option value="name-desc">Name (Z to A)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+        </select>
+    </div>
+
     <?php include("footer.php"); ?>
     <script>
     $(document).ready(function() {
