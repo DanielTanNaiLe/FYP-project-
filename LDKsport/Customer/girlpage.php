@@ -39,14 +39,14 @@ function displayProducts($result, $categoryName) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer Woman Page</title>
+    <title>Customer Women Page</title>
     <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- Ensure jQuery is loaded -->
 </head>
 <body>
-    <h1 class="m1">WOMAN</h1>
+    <h1 class="m1">WOMEN</h1>
     <div class="nav3">
         <a href="#" id="shoes-link">Shoes</a>
         <a href="#" id="clothing-link">Clothing</a>
@@ -75,18 +75,17 @@ function displayProducts($result, $categoryName) {
             </div>
         </div>
     </div>
-    <div class="product-list-container">
-        <div class="sort-options">
-            <label for="sort-by">Sort by: </label>
-            <select id="sort-by">
-                <option value="latest">Latest</option>
-                <option value="name-asc">Name (A to Z)</option>
-                <option value="name-desc">Name (Z to A)</option>
-                <option value="price-asc">Price (Low to High)</option>
-                <option value="price-desc">Price (High to Low)</option>
-            </select>
-        </div>
-    <div class="product-list-container">
+    <div class="sort-container">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by">
+            <option value="latest">Latest</option>
+            <option value="name-asc">Name (A to Z)</option>
+            <option value="name-desc">Name (Z to A)</option>
+            <option value="price-asc">Price (Low to High)</option>
+            <option value="price-desc">Price (High to Low)</option>
+        </select>
+    </div>
+    <div class="product-list-container" id="products-container">
         <?php
         // Fetch and display all products for women
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
@@ -98,6 +97,8 @@ function displayProducts($result, $categoryName) {
     <?php include("footer.php"); ?>
     <script>
         $(document).ready(function() {
+            let currentCategory = 'All';
+
             $('.favourite').click(function() {
                 var productId = $(this).data('product-id');
                 $.ajax({
@@ -114,13 +115,13 @@ function displayProducts($result, $categoryName) {
                 });
             });
 
-            function loadProducts(category) {
+            function loadProducts(category, sort) {
                 $.ajax({
-                    url: 'fetch_products_girl.php',
+                    url: 'fetch_products_women.php',
                     method: 'GET',
-                    data: { category: category },
+                    data: { category: category, sort: sort },
                     success: function(response) {
-                        $('.product-list-container').html(response);
+                        $('#products-container').html(response);
                     },
                     error: function(xhr, status, error) {
                         console.error("AJAX Error: ", error);
@@ -130,15 +131,22 @@ function displayProducts($result, $categoryName) {
             }
 
             $('#shoes-link').click(function() {
-                loadProducts('Shoes');
+                currentCategory = 'Shoes';
+                loadProducts(currentCategory, $('#sort-by').val());
             });
 
             $('#clothing-link').click(function() {
-                loadProducts('Clothing');
+                currentCategory = 'Clothing';
+                loadProducts(currentCategory, $('#sort-by').val());
             });
 
             $('#pants-link').click(function() {
-                loadProducts('pants');
+                currentCategory = 'Pants';
+                loadProducts(currentCategory, $('#sort-by').val());
+            });
+
+            $('#sort-by').change(function() {
+                loadProducts(currentCategory, $(this).val());
             });
         });
     </script>
