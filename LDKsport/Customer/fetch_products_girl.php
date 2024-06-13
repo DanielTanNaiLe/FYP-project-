@@ -10,6 +10,10 @@ $query = "SELECT * FROM product
           WHERE category.category_name = ? 
           AND product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'WOMAN')";
 
+if ($category !== 'All') {
+    $query .= " AND category.category_name = ?";
+}
+
 switch ($sort) {
     case 'name-asc':
         $query .= " ORDER BY product_name ASC";
@@ -30,7 +34,10 @@ switch ($sort) {
 }
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $category);
+if ($category !== 'All') {
+    $stmt->bind_param("s", $category);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 
