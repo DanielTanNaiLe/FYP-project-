@@ -2,6 +2,11 @@
 require '../admin_panel/config/dbconnect.php';
 include("header.php");
 
+$transactions = [];
+$user_id = '';
+$user_name = 'Guest';
+$user_balance = 0;
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     // Fetch user's first name, last name, and sum of balance from e_wallet_balance table
@@ -18,10 +23,18 @@ if (isset($_SESSION['user_id'])) {
     $user_name = $row['first_name'] . ' ' . $row['last_name'];
     $user_balance = $row['balance'];
     $stmt->close();
-} else {
-    $user_id = '';
-    $user_name = 'Guest';
-    $user_balance = 0;
+
+    // Fetch transaction history for the user
+    $stmt = $conn->prepare("SELECT amount, transaction_date FROM e_wallet_balance WHERE user_id = ? ORDER BY transaction_date DESC");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($transaction = $result->fetch_assoc()) {
+        $transactions[] = $transaction;
+    }
+
+    $stmt->close();
 }
 ?>
 
@@ -187,6 +200,15 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 5px;
         }
 
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .card-details {
+            display: none; /* Initially hidden */
+        
+        } 
         .submit-button {
             background-color: #28a745;
             color: white;
@@ -226,42 +248,59 @@ if (isset($_SESSION['user_id'])) {
         <div class="transaction-history">
             <h2>Transaction History</h2>
             <ul id="transactionList">
-                <!-- Transactions will be listed here -->
+                <?php if (empty($transactions) && $user_id): ?>
+                    <li>No transactions found.</li>
+                <?php elseif (!$user_id): ?>
+                    <li>Please log in to view your transaction history.</li>
+                <?php else: ?>
+                    <?php foreach ($transactions as $transaction): ?>
+                        <li>
+                            Amount: RM<?php echo number_format($transaction['amount'], 2); ?> 
+                            | Date: <?php echo date('Y-m-d H:i:s', strtotime($transaction['transaction_date'])); ?>
+                        </li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
-            <div id="transactionMessage">
-                <!-- Login prompt message will be displayed here -->
-            </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div id="topupModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Top-Up</h2>
             <form id="topupForm">
-                <div class="input-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-                </div>
-                <div class="input-group">
-                    <label for="cardNumber">Credit Card Number</label>
-                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1111-2222-3333-4444" required>
-                </div>
-                <div class="input-group">
-                    <label for="expiryDate">Expiry Date</label>
-                    <input type="month" id="expiryDate" name="expiryDate" required>
-                </div>
-                <div class="input-group">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
-                </div>
-                <button type="submit" class="submit-button">Top-Up</button>
-            </form>
-            <div id="result"></div>
+    <div class="input-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
+    </div>
+    <div class="input-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Description (e.g., Top-up for shopping)" required>
+    </div>
+    <div class="input-group">
+        <label for="paymentMethod">Payment Method</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="mastercard">Mastercard</option>
+            <option value="Visa">Visa</option>
+        </select>
+    </div>
+    <div class="input-group card-details" id="cardDetails">
+        <label for="cardNumber">Credit Card Number</label>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="1111-2222-3333-4444">
+    </div>
+    <div class="input-group card-details" id="cardExpiry">
+        <label for="expiryDate">Expiry Date</label>
+        <input type="month" id="expiryDate" name="expiryDate">
+    </div>
+    <div class="input-group card-details" id="cardCVV">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123">
+    </div>
+    <button type="submit" class="submit-button">Top-Up</button>
+</form>
+<div id="result"></div>
         </div>
     </div>
-
     <script>
         // JavaScript for handling modal
         var modal = document.getElementById("topupModal");
@@ -292,103 +331,95 @@ if (isset($_SESSION['user_id'])) {
 
         // JavaScript for handling form submission
         document.getElementById('topupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    e.preventDefault();
 
-            // Get form values
-            const amount = parseFloat(document.getElementById('amount').value);
-            const cardNumber = document.getElementById('cardNumber').value;
-            const expiryDate = document.getElementById('expiryDate').value;
-            const cvv = document.getElementById('cvv').value;
-            const result = document.getElementById('result');
-            const balanceElement = document.getElementById('currentBalance');
-            const transactionList = document.getElementById('transactionList');
+    // Get form values
+    const amount = parseFloat(document.getElementById('amount').value);
+    const description = document.getElementById('description').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    const cardNumber = document.getElementById('cardNumber').value;
+    const expiryDate = document.getElementById('expiryDate').value;
+    const cvv = document.getElementById('cvv').value;
+    const result = document.getElementById('result');
+    const balanceElement = document.getElementById('currentBalance');
+    const transactionList = document.getElementById('transactionList');
 
-            // Basic validation
-            if (amount <= 0 || !cardNumber || !expiryDate || !cvv) {
-                result.textContent = "Please fill out all fields correctly.";
-                result.style.color = 'red';
-                return;
-            }
+    // Basic validation
+    if (amount <= 0 || !description || !paymentMethod || (paymentMethod === 'mastercard' && (!cardNumber || !expiryDate || !cvv))) {
+        result.textContent = "Please fill out all fields correctly.";
+        result.style.color = 'red';
+        return;
+    }
 
-            // Simulate server request to insert transaction and get new balance
-            fetch('update_balance.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userId: userId, amount: amount })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data); // Log the response
-                if (data.success) {
-                    // Ensure newBalance is a number
-                    const newBalance = parseFloat(data.newBalance);
-                    if (!isNaN(newBalance)) {
-                        // Update the balance in the UI
-                        balanceElement.textContent = newBalance.toFixed(2);
+    // Simulate server request to insert transaction and get new balance
+    fetch('update_balance.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId: userId, amount: amount, description: description, paymentMethod: paymentMethod, cardNumber: cardNumber, expiryDate: expiryDate, cvv: cvv })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const newBalance = parseFloat(data.newBalance);
+            if (!isNaN(newBalance)) {
+                // Update the balance in the UI
+                balanceElement.textContent = newBalance.toFixed(2);
 
-                        // Display transaction
-                        const transaction = document.createElement('li');
-                        const description = `User: ${userName}, Top-Up Amount: $${amount.toFixed(2)}`;
-                        transaction.textContent = description;
-                        transactionList.insertBefore(transaction, transactionList.firstChild);
+                // Display transaction
+                const transaction = document.createElement('li');
+                const descriptionText = `Amount: RM${amount.toFixed(2)} | Description: ${description} | Date: ${new Date().toISOString().slice(0, 19).replace('T', ' ')}`;
+                transaction.textContent = descriptionText;
+                transactionList.insertBefore(transaction, transactionList.firstChild);
 
-                        result.textContent = `Successfully topped up $${amount.toFixed(2)}`;
-                        result.style.color = 'green';
+                result.textContent = `Successfully topped up RM${amount.toFixed(2)}`;
+                result.style.color = 'green';
 
-                        // Save transaction to local storage
-                        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-                        transactions.unshift(description);
-                        localStorage.setItem('transactions', JSON.stringify(transactions));
-
-                        // Close modal after a delay
-                        setTimeout(() => {
-                            modal.style.display = 'none';
-                            result.textContent = '';
-                        }, 2000);
-                    } else {
-                        result.textContent = 'Received an invalid balance from the server.';
-                        result.style.color = 'red';
-                    }
-                } else {
-                    result.textContent = 'Error topping up. Please try again.';
-                    result.style.color = 'red';
-                }
-            })
-            .catch(error => {
-                result.textContent = 'Error topping up. Please try again.';
-                result.style.color = 'red';
-                console.error('Error:', error);
-            });
-        });
-
-        // Load transaction history from local storage
-        window.onload = function() {
-            const transactionList = document.getElementById('transactionList');
-            const transactionMessage = document.getElementById('transactionMessage');
-            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-
-            if (userId && transactions.length > 0) {
-                transactions.forEach(transaction => {
-                    const li = document.createElement('li');
-                    li.textContent = transaction;
-                    transactionList.appendChild(li);
-                });
-            } else if (!userId) {
-                // Display message if user is not logged in
-                transactionMessage.textContent = "Please log in to view your transaction history.";
-                transactionMessage.style.color = 'red';
+                // Close modal after a delay
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    result.textContent = '';
+                }, 2000);
             } else {
-                // Display message if no transactions
-                transactionMessage.textContent = "No transactions found.";
-                transactionMessage.style.color = 'blue';
+                result.textContent = 'Received an invalid balance from the server.';
+                result.style.color = 'red';
             }
+        } else {
+            result.textContent = data.message || 'Error topping up. Please try again.';
+            result.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        result.textContent = 'Error topping up. Please try again.';
+        result.style.color = 'red';
+        console.error('Error:', error);
+    });
+});
+
+// Show or hide card details based on payment method
+document.getElementById('paymentMethod').addEventListener('change', function() {
+    const paymentMethod = this.value;
+    const cardDetails = document.querySelectorAll('.card-details');
+    if (paymentMethod === 'mastercard') {
+        cardDetails.forEach(detail => detail.style.display = 'block');
+    } else if (paymentMethod === 'Visa'){
+        cardDetails.forEach(detail => detail.style.display = 'block');
+    }else{
+        cardDetails.forEach(detail => detail.style.display = 'none');
+    }
+});
+
+// Initial hide card details if payment method is not mastercard
+document.addEventListener('DOMContentLoaded', () => {
+    const cardDetails = document.querySelectorAll('.card-details');
+    cardDetails.forEach(detail => detail.style.display = 'none');
+});
+
+
+        // Load transaction history from the server on page load
+        window.onload = function() {
+            // The transaction list is already populated by PHP, no need to load it again via JavaScript.
         };
     </script>
     <?php include("footer.php"); ?>
