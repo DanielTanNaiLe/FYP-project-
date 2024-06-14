@@ -383,7 +383,7 @@ p {
     <?php
     if (isset($_GET['pid'])) {
         $product_id = $_GET['pid'];
-        $sql = "SELECT * FROM products WHERE id = $product_id";
+        $sql = "SELECT * FROM product WHERE id = $product_id";
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {
