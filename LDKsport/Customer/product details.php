@@ -67,8 +67,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['message'] = 'Review submitted successfully!';
     }
     
-    }
 }
+
 
 require '../admin_panel/wishlist_cart.php';
 ?>
