@@ -306,228 +306,303 @@ p {
     background: #ffc766;
 }
 
-.alert-container .fa {
-    color: #ffa502;
-    font-size: 30px;
+.rating {
+    width: 300px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+    font-size: 35px;
+    margin-left: 550px;
+}
+.rating > label {
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
 }
 
-.tabs {
-    display: flex;
-    justify-content: center;
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+    color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+    content: "\2605";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
+}
+
+.hide {
+    display: none;
+}
+
+.tab-buttons {
+    text-align: center;
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .tab-button {
-    background-color: #ddd;
-    border: none;
+    background-color: #fff;
+    border: 2px solid #000;
+    color: #000;
     padding: 10px 20px;
     cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
 }
 
-.tab-button.active {
-    background-color: #af827d;
-    color: white;
+.tab-button:hover {
+    background-color: #f2a32d;
+    color: #fff;
+    border-color: #f2a32d;
 }
 
 .tab-content {
     display: none;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
-}
-
-.rating {
     text-align: center;
+    margin-top: 20px;
+    border-top: 2px solid #000;
+    padding-top: 20px;
 }
 
-.rating input.radio-btn {
-    display: none;
+.tab-content h4 {
+    font-size: 24px;
+    color: #af827d;
+    margin-bottom: 15px;
 }
 
-.rating label {
-    color: #ddd;
-    font-size: 30px;
+.tab-content p,
+.tab-content label {
+    color: #837d7c;
+    font-size: 16px;
 }
 
-.rating input.radio-btn:checked ~ label {
-    color: gold;
+#reviews-list {
+    margin-top: 20px;
 }
 
-.rating label:hover,
-.rating label:hover ~ label {
-    color: gold;
-}
-
-.review-form {
-    text-align: center;
-}
-
-.product-reviews {
-    background: white;
-    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    margin: 20px;
-}
-
-.review {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+#reviews-list .review {
+    text-align: left;
     margin-bottom: 10px;
 }
+
+#reviews-list .review strong {
+    color: #000;
+}
+
+#reviews-list .review small {
+    color: #837d7c;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #000;
+    border-radius: 4px;
+}
+
+
+
+}
+
     </style>
 </head>
 <body>
-<section class="product-details-container">
-    <?php
-    if (isset($_GET['pid'])) {
-        $product_id = $_GET['pid'];
-        $sql = "SELECT * FROM product WHERE id = $product_id";
-        $result = $conn->query($sql);
+<section>
+    <div class="product-details-container flex">
+        <?php
+        if (isset($_GET["pid"])) {
+            $pid = $_GET["pid"];
+            $stmt = $conn->prepare("SELECT * FROM product WHERE product_id = ?");
+            $stmt->bind_param("i", $pid);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
 
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $pid = $row["id"];
-                $pname = $row["name"];
-                $pprice = $row["price"];
-                $pimage = $row["image"];
-                $pdescription = $row["description"];
+            if ($row) {
                 ?>
-                <div class="left">
-                    <div class="main_image">
-                        <img src="../admin_panel/<?php echo $row['image']; ?>" id="imagebox" width="500px" height="500px">
-                    </div>
-                    <div class="option">
-                        <img src="../admin_panel/<?php echo $row['image']; ?>" onclick="myFunction(this)">
-                        <img src="../admin_panel/<?php echo $row['image2']; ?>" onclick="myFunction(this)">
-                        <img src="../admin_panel/<?php echo $row['image3']; ?>" onclick="myFunction(this)">
-                    </div>
-                </div>
-                <div class="right">
-                    <form action="" method="POST">
-                        <h3 class="product-details-h3"><?php echo $row['name']; ?></h3>
-                        <h5 class="product-details-h5">Product ID: <?php echo $row['id']; ?></h5>
-                        <input type="hidden" name="pid" value="<?php echo $row['id']; ?>">
-                        <h4 class="product-details-h4">₹ <?php echo $row['price']; ?></h4>
-                        <input type="hidden" name="price" value="<?php echo $row['price']; ?>">
-                        <p class="product-details-p"><?php echo $row['description']; ?></p>
-                        <div class="flex1">
-                            <span>Size:</span>
-                            <select name="size_name" class="product-details-dropmenu" required>
-                                <?php
-                                $sizes_query = "SELECT size.id AS size_id, size.name AS size_name FROM product_size_variation 
-                                                JOIN size ON product_size_variation.size_id = size.id 
-                                                WHERE product_size_variation.product_id = $product_id";
-                                $sizes_result = $conn->query($sizes_query);
-                                if ($sizes_result && $sizes_result->num_rows > 0) {
-                                    while ($size_row = $sizes_result->fetch_assoc()) {
-                                        echo '<option value="' . $size_row['size_id'] . '">' . $size_row['size_name'] . '</option>';
-                                    }
-                                }
-                                ?>
-                            </select>
+                <form id="productForm" method="post" action="">
+                    <input type="hidden" name="pid" value="<?= $row['product_id'] ?>">
+                    <input type="hidden" name="product_name" value="<?= $row['product_name'] ?>">
+                    <input type="hidden" name="price" value="<?= $row['price'] ?>">
+                    <input type="hidden" name="product_desc" value="<?= $row['product_desc'] ?>">
+                    <input type="hidden" name="product_image" value="<?= $row['product_image'] ?>">
+                    <input type="hidden" name="product_image2" value="<?= $row['product_image2'] ?>">
+                    <input type="hidden" name="product_image3" value="<?= $row['product_image3'] ?>">
+                    <div class="left">
+                        <div class="main_image">
+                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
-                        <div class="flex1">
-                            <span>Quantity:</span>
-                            <input type="number" name="Quantity" value="1" min="1" class="product-details-dropmenu" required>
+                        <div class="option flex">
+                            <img src="../uploads/<?= $row['product_image'] ?>" onclick="img('../uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
+                            <img src="../uploads/<?= $row['product_image2'] ?>" onclick="img('../uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
+                            <img src="../uploads/<?= $row['product_image3'] ?>" onclick="img('../uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
                         </div>
+                    </div>
+                    <div class="right">
+                        <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
+                        <h5>men's shoes</h5>
+                        <h4 class="product-details-h4" name="price"><small>RM </small><?= $row['price'] ?></h4>
+                        <p name="product_desc"><?= $row['product_desc'] ?></p>
+                        <h5 class="product-details-h5">Size</h5>
+                        <select class="product-details-dropmenu" id="sizes" name="size_name">
+                            <option disabled selected>Select Sizes</option>
+                            <?php
+                            $sql = "SELECT sizes.size_id, sizes.size_name, product_size_variation.quantity_in_stock FROM product_size_variation
+                                    INNER JOIN sizes ON product_size_variation.size_id = sizes.size_id
+                                    INNER JOIN product ON product_size_variation.product_id = product.product_id
+                                    WHERE product.product_id = ?";
+                            $size_stmt = $conn->prepare($sql);
+                            $size_stmt->bind_param("i", $pid);
+                            $size_stmt->execute();
+                            $size_result = $size_stmt->get_result();
+                            while ($size_row = $size_result->fetch_assoc()) {
+                                echo "<option value='" . $size_row['size_id'] . "' data-stock='" . $size_row['quantity_in_stock'] . "'>" . $size_row['size_name'] . " (Stock: " . $size_row['quantity_in_stock'] . ")</option>";
+                            }
+                            ?>
+                        </select>
                         <div class="button-container">
-                            <button class="button" type="submit" name="add_to_cart">Add to Cart</button>
-                            <button class="button" type="submit" name="add_to_wishlist">Add to Wishlist</button>
+                            <label for="quantity">Please enter quantity:</label> 
+                            <input type="number" name="Quantity" value="1" class="form-control" id="quantity">
+                            <input type="submit" name="add_to_cart" class="button" value="Add To Cart">
+                            <input type="submit" name="add_to_wishlist" class="button" value="Wish List">
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
                 <?php
+                if (isset($_SESSION['message'])) {
+                    echo '<div class="alert-container show">';
+                    echo '<span class="alert">' . $_SESSION['message'] . '</span>';
+                    echo '</div>';
+                    unset($_SESSION['message']);
+                }
+            } else {
+                echo '<p class="empty">No product found!</p>';
             }
         } else {
-            echo "<p>Product not found.</p>";
+            echo '<p class="empty">No product ID provided!</p>';
         }
-    }
-    ?>
-</section>
-
-<!-- Tabbed navigation -->
-<div class="tabs">
-    <button class="tab-button active" onclick="showTab('description')">Description</button>
-    <button class="tab-button" onclick="showTab('review')">Review</button>
+        ?>
+    </div>
+    <div class="tab-buttons">
+    <button type="button" class="tab-button" onclick="showDescription()">Description</button>
+    <button type="button" class="tab-button" onclick="showReviews()">Reviews</button>
 </div>
 
-<!-- Tab contents -->
-<div class="tab-content" id="description">
-    <h2>Product Description</h2>
-    <p><?php echo isset($pdescription) ? $pdescription : 'No description available.'; ?></p>
+<div id="description-section" class="tab-content">
+    <h4>Product Description</h4>
+    <p name="product_desc"><?= $row['product_desc'] ?></p>
 </div>
 
-<div class="tab-content" id="review" style="display: none;">
-    <h2>Customer Reviews</h2>
+<div id="reviews-section" class="tab-content" style="display:none;">
+    <h4>Product Reviews</h4>
+    <form id="reviewForm" method="post" action="">
+    <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
     <div class="rating">
-        <form method="post" action="">
-            <input type="hidden" name="product_id" value="<?php echo $pid; ?>">
-            <input type="radio" class="radio-btn" name="rating" id="rating5" value="5"><label for="rating5">☆</label>
-            <input type="radio" class="radio-btn" name="rating" id="rating4" value="4"><label for="rating4">☆</label>
-            <input type="radio" class="radio-btn" name="rating" id="rating3" value="3"><label for="rating3">☆</label>
-            <input type="radio" class="radio-btn" name="rating" id="rating2" value="2"><label for="rating2">☆</label>
-            <input type="radio" class="radio-btn" name="rating" id="rating1" value="1"><label for="rating1">☆</label>
-            <div class="review-form">
-                <textarea name="comment" placeholder="Write your review here..."></textarea>
-                <br>
-                <input type="submit" name="submit_review" value="Submit Review">
-            </div>
-        </form>
+        <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide" />
+        <label for="star5">☆</label>
+        <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide" />
+        <label for="star4">☆</label>
+        <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide" />
+        <label for="star3">☆</label>
+        <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide" />
+        <label for="star2">☆</label>
+        <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide" />
+        <label for="star1">☆</label>
+        <div class="clear"></div>
     </div>
+    <br>
+    <label for="comment">Comment:</label>
+    <textarea name="comment" id="comment" required></textarea>
+    <br>
+    <input type="submit" name="submit_review" value="Submit Review">
+</form>
 
-    <?php
-    $reviews_query = "SELECT pr.rating, pr.comment, u.username FROM product_reviews pr
-                      JOIN users u ON pr.user_id = u.id
-                      WHERE pr.product_id = ?";
-    $stmt = $conn->prepare($reviews_query);
-    $stmt->bind_param("i", $product_id);
-    $stmt->execute();
-    $reviews_result = $stmt->get_result();
-    ?>
-
-    <div class="product-reviews">
-        <?php while ($review = $reviews_result->fetch_assoc()) { ?>
-            <div class="review">
-                <h4><?php echo $review['username']; ?></h4>
-                <div class="rating">
-                    <?php for ($i = 0; $i < $review['rating']; $i++) { ?>
-                        <label>☆</label>
-                    <?php } ?>
-                </div>
-                <p><?php echo $review['comment']; ?></p>
-            </div>
-        <?php } ?>
+    <div id="reviews-list">
+        <?php
+        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("i", $pid);
+        $review_stmt->execute();
+        $review_result = $review_stmt->get_result();
+        while ($review_row = $review_result->fetch_assoc()) {
+            echo "<div class='review'>";
+            echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
+            echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
+            echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
+            echo "</div><hr>";
+        }
+        ?>
     </div>
 </div>
 
+</section>
 <script>
-    function myFunction(smallImg) {
-        var fullImg = document.getElementById("imagebox");
-        fullImg.src = smallImg.src;
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.alert-container').addClass('hide');
+            $('.alert-container').removeClass('show');
+        }, 3000); // Change the duration as needed
+    });
+
+    $('.alert-container').click(function() {
+        $(this).addClass('hide');
+        $(this).removeClass('show');
+    });
+
+    function img(anything) {
+        document.querySelector('.slide').src = anything;
     }
 
-    function showTab(tabName) {
-        var i;
-        var tabContents = document.getElementsByClassName("tab-content");
-        var tabButtons = document.getElementsByClassName("tab-button");
-        for (i = 0; i < tabContents.length; i++) {
-            tabContents[i].style.display = "none";
+    function validateFormForCart() {
+        var sizes = document.getElementById("sizes");
+        var quantity = document.getElementById("quantity").value;
+        var selectedOption = sizes.options[sizes.selectedIndex];
+        var stock = selectedOption.getAttribute('data-stock');
+        if (sizes.value === "Select Sizes") {
+            alert("Please select a size.");
+            return false;
         }
-        for (i = 0; i < tabButtons.length; i++) {
-            tabButtons[i].classList.remove("active");
+        if (parseInt(quantity) > parseInt(stock)) {
+            alert("Selected quantity exceeds stock available.");
+            return false;
         }
-        document.getElementById(tabName).style.display = "block";
-        event.currentTarget.classList.add("active");
+        return true;
     }
 
-    // Set initial active tab
-    document.getElementById("description").style.display = "block";
+    $('#productForm').submit(function() {
+        // Check if the form is for adding to cart
+        if ($(this).find('[name="add_to_cart"]').length > 0) {
+            return validateFormForCart();
+        }
+        // For wishlist, no validation needed, so return true
+        return true;
+    });
+
+    function showDescription() {
+        document.getElementById('description-section').style.display = 'block';
+        document.getElementById('reviews-section').style.display = 'none';
+    }
+
+    function showReviews() {
+        document.getElementById('description-section').style.display = 'none';
+        document.getElementById('reviews-section').style.display = 'block';
+    }
 </script>
+<?php include("footer.php"); ?>
 </body>
 </html>
-
-<?php
-include("footer.php");
-?>
