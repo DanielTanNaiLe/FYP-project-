@@ -58,31 +58,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
     
-        // Assuming $_SESSION['user_id'] contains the user's ID
-        $user_id = $_SESSION['user_id'];
-    
         // Insert the review into the database
         $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
         $review_stmt = $conn->prepare($review_query);
-        
-        // Bind parameters
-        $review_stmt->bind_param("isis", $product_id, $user_id, $rating, $comment);
+        $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
+        $review_stmt->execute();
     
-        // Execute the query and handle errors
-        if (!$review_stmt->execute()) {
-            die('Error executing the review query: ' . $review_stmt->error);
-        } else {
-            $_SESSION['message'] = 'Review submitted successfully!';
-        }
-    
-        // Debug: Check values
-        echo "Product ID: " . $product_id . "<br>";
-        echo "User ID: " . $user_id . "<br>";
-        echo "Rating: " . $rating . "<br>";
-        echo "Comment: " . $comment . "<br>";
+        $_SESSION['message'] = 'Review submitted successfully!';
     }
-    
-    
     
 }
 
@@ -622,4 +605,4 @@ textarea {
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html>
+</html> 
