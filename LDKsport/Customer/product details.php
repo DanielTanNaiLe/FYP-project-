@@ -64,13 +64,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Insert the review into the database
         $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
         $review_stmt = $conn->prepare($review_query);
-    
-        // Assuming user_id in product_reviews is a string, bind it accordingly
+        
+        // Bind parameters
         $review_stmt->bind_param("isis", $product_id, $user_id, $rating, $comment);
-        $review_stmt->execute();
     
-        $_SESSION['message'] = 'Review submitted successfully!';
+        // Execute the query and handle errors
+        if (!$review_stmt->execute()) {
+            die('Error executing the review query: ' . $review_stmt->error);
+        } else {
+            $_SESSION['message'] = 'Review submitted successfully!';
+        }
+    
+        // Debug: Check values
+        echo "Product ID: " . $product_id . "<br>";
+        echo "User ID: " . $user_id . "<br>";
+        echo "Rating: " . $rating . "<br>";
+        echo "Comment: " . $comment . "<br>";
     }
+    
     
     
 }
