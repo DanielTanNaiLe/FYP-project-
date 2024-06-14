@@ -53,19 +53,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['message'] = 'Product added to wishlist successfully!';
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['submit_review'])) {
-            $product_id = $_POST['product_id'];
-            $rating = $_POST['rating'];
-            $comment = $_POST['comment'];
+    if (isset($_POST['submit_review'])) {
+        $product_id = $_POST['product_id'];
+        $rating = $_POST['rating'];
+        $comment = $_POST['comment'];
     
-            $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
-            $review_stmt = $conn->prepare($review_query);
-            $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
-            $review_stmt->execute();
+        // Insert the review into the database
+        $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
+        $review_stmt->execute();
     
-            $_SESSION['message'] = 'Review submitted successfully!';
-        }
+        $_SESSION['message'] = 'Review submitted successfully!';
+    }
+    
     }
 }
 
@@ -397,21 +398,27 @@ p {
 <div id="reviews-section" class="tab-content" style="display:none;">
     <h4>Product Reviews</h4>
     <form id="reviewForm" method="post" action="">
-        <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
-        <label for="rating">Rating:</label>
-        <select name="rating" id="rating">
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-        </select>
-        <br>
-        <label for="comment">Comment:</label>
-        <textarea name="comment" id="comment" required></textarea>
-        <br>
-        <input type="submit" name="submit_review" value="Submit Review">
-    </form>
+    <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+    <div class="rating">
+        <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide" />
+        <label for="star5">☆</label>
+        <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide" />
+        <label for="star4">☆</label>
+        <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide" />
+        <label for="star3">☆</label>
+        <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide" />
+        <label for="star2">☆</label>
+        <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide" />
+        <label for="star1">☆</label>
+        <div class="clear"></div>
+    </div>
+    <br>
+    <label for="comment">Comment:</label>
+    <textarea name="comment" id="comment" required></textarea>
+    <br>
+    <input type="submit" name="submit_review" value="Submit Review">
+</form>
+
     <div id="reviews-list">
         <?php
         $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
