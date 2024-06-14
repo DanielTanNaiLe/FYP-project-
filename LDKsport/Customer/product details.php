@@ -52,6 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         addToWishlist($user_id, $_POST['pid']);
         $_SESSION['message'] = 'Product added to wishlist successfully!';
     }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['submit_review'])) {
+            $product_id = $_POST['product_id'];
+            $rating = $_POST['rating'];
+            $comment = $_POST['comment'];
+    
+            $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
+            $review_stmt = $conn->prepare($review_query);
+            $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
+            $review_stmt->execute();
+    
+            $_SESSION['message'] = 'Review submitted successfully!';
+        }
+    }
 }
 
 require '../admin_panel/wishlist_cart.php';
@@ -369,6 +384,52 @@ p {
         }
         ?>
     </div>
+    <div class="tab-buttons">
+    <button type="button" class="tab-button" onclick="showDescription()">Description</button>
+    <button type="button" class="tab-button" onclick="showReviews()">Reviews</button>
+</div>
+
+<div id="description-section" class="tab-content">
+    <h4>Product Description</h4>
+    <p name="product_desc"><?= $row['product_desc'] ?></p>
+</div>
+
+<div id="reviews-section" class="tab-content" style="display:none;">
+    <h4>Product Reviews</h4>
+    <form id="reviewForm" method="post" action="">
+        <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating">
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+        </select>
+        <br>
+        <label for="comment">Comment:</label>
+        <textarea name="comment" id="comment" required></textarea>
+        <br>
+        <input type="submit" name="submit_review" value="Submit Review">
+    </form>
+    <div id="reviews-list">
+        <?php
+        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("i", $pid);
+        $review_stmt->execute();
+        $review_result = $review_stmt->get_result();
+        while ($review_row = $review_result->fetch_assoc()) {
+            echo "<div class='review'>";
+            echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
+            echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
+            echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
+            echo "</div><hr>";
+        }
+        ?>
+    </div>
+</div>
+
 </section>
 <script>
     $(document).ready(function() {
@@ -411,6 +472,16 @@ p {
         // For wishlist, no validation needed, so return true
         return true;
     });
+
+    function showDescription() {
+        document.getElementById('description-section').style.display = 'block';
+        document.getElementById('reviews-section').style.display = 'none';
+    }
+
+    function showReviews() {
+        document.getElementById('description-section').style.display = 'none';
+        document.getElementById('reviews-section').style.display = 'block';
+    }
 </script>
 <?php include("footer.php"); ?>
 </body>
