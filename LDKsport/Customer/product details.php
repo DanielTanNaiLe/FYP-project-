@@ -58,14 +58,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
     
+        // Assuming $_SESSION['user_id'] contains the user's ID
+        $user_id = $_SESSION['user_id'];
+    
         // Insert the review into the database
         $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
         $review_stmt = $conn->prepare($review_query);
-        $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
+    
+        // Assuming user_id in product_reviews is a string, bind it accordingly
+        $review_stmt->bind_param("isis", $product_id, $user_id, $rating, $comment);
         $review_stmt->execute();
     
         $_SESSION['message'] = 'Review submitted successfully!';
     }
+    
     
 }
 
