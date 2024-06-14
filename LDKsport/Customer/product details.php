@@ -306,54 +306,75 @@ p {
     background: #ffc766;
 }
 
+.alert-container .fa {
+    color: #ffa502;
+    font-size: 30px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background-color: #ddd;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: #af827d;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
 .rating {
-width: 300px;
-unicode-bidi: bidi-override;
-direction: rtl;
-text-align: center;
-position: relative;
-font-size:35px;
-margin-left:550px;
-}
-.rating > label {
-float: right;
-display: inline;
-padding: 0;
-margin: 0;
-position: relative;
-width: 1.1em;
-cursor: pointer;
-color: #000;
+    text-align: center;
 }
 
-.rating > label:hover,
-.rating > label:hover ~ label,
-.rating > input.radio-btn:checked ~ label {
-color: transparent;
+.rating input.radio-btn {
+    display: none;
 }
 
-.rating > label:hover:before,
-.rating > label:hover ~ label:before,
-.rating > input.radio-btn:checked ~ label:before,
-.rating > input.radio-btn:checked ~ label:before {
-content: "\2605";
-position: absolute;
-left: 0;
-color: gold;
+.rating label {
+    color: #ddd;
+    font-size: 30px;
 }
+
+.rating input.radio-btn:checked ~ label {
+    color: gold;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+    color: gold;
+}
+
 .review-form {
-text-align: center;
+    text-align: center;
 }
+
 .product-reviews {
-background: white;
-box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
-padding: 20px;
-margin: 20px;
+    background: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    margin: 20px;
 }
+
 .review {
-border-bottom: 1px solid #ddd;
-padding-bottom: 10px;
-margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
     </style>
 </head>
@@ -365,7 +386,7 @@ margin-bottom: 10px;
         $sql = "SELECT * FROM products WHERE id = $product_id";
         $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $pid = $row["id"];
                 $pname = $row["name"];
@@ -399,7 +420,7 @@ margin-bottom: 10px;
                                                 JOIN size ON product_size_variation.size_id = size.id 
                                                 WHERE product_size_variation.product_id = $product_id";
                                 $sizes_result = $conn->query($sizes_query);
-                                if ($sizes_result->num_rows > 0) {
+                                if ($sizes_result && $sizes_result->num_rows > 0) {
                                     while ($size_row = $sizes_result->fetch_assoc()) {
                                         echo '<option value="' . $size_row['size_id'] . '">' . $size_row['size_name'] . '</option>';
                                     }
@@ -419,6 +440,8 @@ margin-bottom: 10px;
                 </div>
                 <?php
             }
+        } else {
+            echo "<p>Product not found.</p>";
         }
     }
     ?>
@@ -433,7 +456,7 @@ margin-bottom: 10px;
 <!-- Tab contents -->
 <div class="tab-content" id="description">
     <h2>Product Description</h2>
-    <p><?php echo $pdescription; ?></p>
+    <p><?php echo isset($pdescription) ? $pdescription : 'No description available.'; ?></p>
 </div>
 
 <div class="tab-content" id="review" style="display: none;">
