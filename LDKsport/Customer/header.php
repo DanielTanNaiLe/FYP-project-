@@ -1,12 +1,9 @@
 <?php
 session_start();
 
-// Check if the user is logged in
-if(isset($_SESSION['user_id'])) {
-    $isLoggedIn = true;
-} else {
-    $isLoggedIn = false;
-}
+// Check if the user is logged in and get the first name if available
+$isLoggedIn = isset($_SESSION['user_id']);
+$firstName = $isLoggedIn ? $_SESSION['first_name'] : 'user';
 ?>
 
 <header>
@@ -123,9 +120,9 @@ if(isset($_SESSION['user_id'])) {
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer logout.php">Log out</a>
+            <a href="customer_logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer login.php">Sign In</a>
+            <a href="customer_login.php">Sign In</a>
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
@@ -141,7 +138,7 @@ if(isset($_SESSION['user_id'])) {
                 <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
                 <li><a href="wishlist.php"><i class='bx bxs-heart'></i></a></li>
                 <li>
-                    <a href="landingafterlogin.php"><i class='bx bx-user'></i></a>
+                    <a href="landingafterlogin.php"><i class='bx bx-user'></i> Hello, <?php echo htmlspecialchars($firstName); ?></a>
                     <ul class="icon-dropdown">
                         <li><a href="customer_logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
@@ -152,7 +149,7 @@ if(isset($_SESSION['user_id'])) {
                 <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
                 <li><a href="wishlist.php"><i class='bx bxs-heart'></i></a></li>
                 <li>
-                    <a href="#"><i class='bx bx-user'></i></a>
+                    <a href="#"><i class='bx bx-user'></i> Hello, user</a>
                     <ul class="icon-dropdown">
                         <li><a href="customer_login.php">Log in</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
