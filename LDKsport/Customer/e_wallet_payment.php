@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         input {
             width: 100%;
-            padding: 7px;
+            padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
-<div class="container">
+    <div class="container">
         <h2>E-Wallet Payment</h2>
         <form id="paymentForm" method="POST">
             <label for="walletID">Wallet ID:</label>
@@ -169,7 +169,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" value="<?= htmlspecialchars($_SESSION['checkout_details']['total_price']) ?>" required>
-
+            
+            <label for="verificationCode">Verification Code:</label>
+            <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
+            
             <button type="submit">Pay</button>
         </form>
         <div id="message">
