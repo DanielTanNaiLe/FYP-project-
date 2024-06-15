@@ -120,7 +120,7 @@ $firstName = $isLoggedIn ? $_SESSION['first_name'] : 'user';
         <a href="aboutus.php">About Us</a>
         <a href="FAQ.php">FAQ</a>
         <?php if($isLoggedIn): ?>
-            <a href="customer_logout.php">Log out</a>
+            <a href="customer logout.php">Log out</a>
         <?php else: ?>
             <a href="customer_login.php">Sign In</a>
         <?php endif; ?>
@@ -140,7 +140,7 @@ $firstName = $isLoggedIn ? $_SESSION['first_name'] : 'user';
                 <li>
                     <a href="landingafterlogin.php"><i class='bx bx-user'></i> Hello, <?php echo htmlspecialchars($firstName); ?></a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_logout.php">Log out</a></li>
+                        <li><a href="customer logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                         <li><a href="e-wallet.php">E-Wallet</a></li>
                     </ul>
