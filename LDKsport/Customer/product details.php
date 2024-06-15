@@ -47,12 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if (isset($_POST['add_to_wishlist'])) {
-        // Add to wishlist logic
-        addToWishlist($user_id, $_POST['pid']);
-        $_SESSION['message'] = 'Product added to wishlist successfully!';
-    }
-
     if (isset($_POST['submit_review'])) {
         $product_id = $_POST['product_id'];
         $rating = $_POST['rating'];

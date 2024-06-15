@@ -123,7 +123,7 @@ $firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_na
         <?php if($isLoggedIn): ?>
             <a href="customer logout.php">Log out</a>
         <?php else: ?>
-            <a href="customer_login.php">Sign In</a>
+            <a href="customer login.php">Sign In</a>
         <?php endif; ?>
     </div>
     <form action="search.php" method="GET">
@@ -152,7 +152,7 @@ $firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_na
                 <li>
                     <a href="#"><i class='bx bx-user'></i> Hello, user</a>
                     <ul class="icon-dropdown">
-                        <li><a href="customer_login.php">Log in</a></li>
+                        <li><a href="customer login.php">Log in</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
                         <li><a href="e-wallet.php">E-Wallet</a></li>
                     </ul>
