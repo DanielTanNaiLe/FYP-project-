@@ -12,6 +12,11 @@ if (isset($input['userId'], $input['amount'], $input['description']) && is_numer
     $description = $input['description'];
     $payment_method = isset($input['paymentMethod']) ? $input['paymentMethod'] : 'unknown'; // Optional field
 
+    if ($amount > 2500) {
+        echo json_encode(['success' => false, 'message' => 'The top-up amount cannot exceed RM2500.']);
+        exit();
+    }
+    
     $conn->begin_transaction();
     try {
         // Insert transaction into e_wallet_balance table

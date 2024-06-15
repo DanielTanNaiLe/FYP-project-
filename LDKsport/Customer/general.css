@@ -492,17 +492,18 @@ text-transform: uppercase;
     grid-auto-rows: 0px;
     margin: 70px;
     overflow: hidden;
-    transition: transform 0.3s ease;
 }
-.listproduct:hover{
-    transform: translateY(-5px);
-}
+
 .listproduct .item{
     margin: 10px;
     border-style: solid;
-    
-
+    transition: transform 0.3s ease;
 }
+
+.listproduct .item:hover{
+    transform: translateY(-5px);
+}
+
 .listproduct .item h2{
     font-weight: 500;
     font-size: large;

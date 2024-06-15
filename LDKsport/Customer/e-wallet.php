@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
     $stmt->close();
 
     // Fetch transaction history for the user
-    $stmt = $conn->prepare("SELECT amount, transaction_date FROM e_wallet_balance WHERE user_id = ? ORDER BY transaction_date DESC");
+    $stmt = $conn->prepare("SELECT amount, description, transaction_date FROM e_wallet_balance WHERE user_id = ? ORDER BY transaction_date DESC");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -37,6 +37,7 @@ if (isset($_SESSION['user_id'])) {
     $stmt->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,6 +214,14 @@ if (isset($_SESSION['user_id'])) {
         margin-bottom: 15px;
         text-align: left;
     }
+     
+    .input-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    }
 
     .card-details {
         display: none; /* Initially hidden */
@@ -234,97 +243,127 @@ if (isset($_SESSION['user_id'])) {
     }
 
     #result {
-        margin-top: 10px;
-    }
+    margin-top: 10px;
+    color: red; /* Default to error message color */
+    } 
 </style>
 </head>
 <body>
 <div class="e-wallet-container">
-        <div class="ewallet_b">
-            <h1>E-Wallet</h1>
-            <div class="balance">
-                Available Balance: <br><br>RM<span id="currentBalance"><?php echo $user_balance; ?></span>
-            </div>
-            <div class="topup-button-container">
-                <?php if ($user_id): ?>
-                    <button class="topup-button" id="openTopUp">Top-Up</button>
-                <?php else: ?>
-                    <button class="login-required" id="loginRequired">Login Required</button>
-                <?php endif; ?>
-            </div>
+    <div class="ewallet_b">
+        <h1>E-Wallet</h1>
+        <div class="balance">
+            Available Balance: <br><br>RM<span id="currentBalance"><?php echo $user_balance; ?></span>
         </div>
-        <!-- Transaction History -->
+        <div class="topup-button-container">
+            <?php if ($user_id): ?>
+                <button class="topup-button" id="openTopUp">Top-Up</button>
+            <?php else: ?>
+                <button class="login-required" id="loginRequired">Login Required</button>
+            <?php endif; ?>
+        </div>
+    </div>
+    <!-- Transaction History -->
     <div class="transaction-history">
-          <h2>Transaction History</h2>
-          <ul id="transactionList">
-        <?php if (empty($transactions) && $user_id): ?>
-            <li>No transactions found.</li>
-        <?php elseif (!$user_id): ?>
-            <li>Please log in to view your transaction history.</li>
-        <?php else: ?>
-            <?php foreach ($transactions as $transaction): ?>
-                <li>
-                    Amount: RM<?php echo number_format($transaction['amount'], 2); ?> 
-                    | Date: <?php echo date('Y-m-d H:i:s', strtotime($transaction['transaction_date'])); ?>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
-      </ul>
+        <h2>Transaction History</h2>
+        <ul id="transactionList">
+            <?php if (empty($transactions) && $user_id): ?>
+                <li>No transactions found.</li>
+            <?php elseif (!$user_id): ?>
+                <li>Please log in to view your transaction history.</li>
+            <?php else: ?>
+                <?php foreach ($transactions as $transaction): ?>
+                    <li>
+                        Amount: RM<?php echo number_format($transaction['amount'], 2); ?> 
+                        | Description: <?php echo htmlspecialchars($transaction['description']); ?>
+                        | Date: <?php echo date('Y-m-d H:i:s', strtotime($transaction['transaction_date'])); ?>
+                    </li>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </ul>
         <?php if (count($transactions) > 4): ?>
             <button id="toggleButton" class="show-more">Show More</button>
         <?php endif; ?>
     </div>
 </div>
-    <!-- Modal -->
-    <div id="topupModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Top-Up</h2>
-            <form id="topupForm">
-                <div class="input-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" id="amount" name="amount" placeholder="Enter amount" required>
-                </div>
-                <div class="input-group">
-                    <label for="description">Description</label>
-                    <input type="text" id="description" name="description" placeholder="Description (e.g., Top-up for shopping)" required>
-                </div>
-                <div class="input-group">
-                    <label for="paymentMethod">Payment Method</label>
-                    <select id="paymentMethod" name="paymentMethod" required>
+<!-- Modal -->
+<div id="topupModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Top-Up</h2>
+        <form id="topupForm">
+            <div class="input-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" placeholder="Enter amount (Maximum RM 2500)" max="2500" required>
+            </div>
+            <div class="input-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Description (e.g., Top-up for shopping)" required>
+            </div>
+            <div class="input-group">
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required>
                     <option disabled selected>Select method</option>
-                        <option value="mastercard">Mastercard</option>
-                        <option value="Visa">Visa</option>
-                    </select>
-                </div>
-                <div class="input-group card-details" id="cardDetails">
-                    <label for="cardNumber">Credit Card Number</label>
-                    <input type="text" id="cardNumber" name="cardNumber" placeholder="1111-2222-3333-4444">
-                </div>
-                <div class="input-group card-details" id="cardExpiry">
-                    <label for="expiryDate">Expiry Date</label>
-                    <input type="month" id="expiryDate" name="expiryDate">
-                </div>
-                <div class="input-group card-details" id="cardCVV">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" placeholder="123">
-                </div>
-                <div class="input-group">
-                    <label for="verificationCode">Verification Code</label>
-                    <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
-                </div>
-                <button type="submit" class="submit-button">Top-Up</button>
-            </form>
-            <div id="result"></div>
-        </div>
+                    <option value="mastercard">Mastercard</option>
+                    <option value="Visa">Visa</option>
+                </select>
+            </div>
+            <div class="input-group card-details" id="cardDetails">
+                <label for="cardNumber">Credit Card Number</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="1111-2222-3333-4444" maxlength="19">
+            </div>
+            <div class="input-group card-details" id="cardExpiry">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="month" id="expiryDate" name="expiryDate">
+            </div>
+            <div class="input-group card-details" id="cardCVV">
+               <label for="cvv">CVV</label>
+               <input type="text" id="cvv" name="cvv" placeholder="123">
+            </div>
+            <div class="input-group">
+                <label for="verificationCode">Verification Code</label>
+                <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
+            </div>
+            <button type="submit" class="submit-button">Top-Up</button>
+        </form>
+        <div id="result"></div>
     </div>
+</div>
     <script>
-        // JavaScript for handling modal
-        var modal = document.getElementById("topupModal");
-        var btn = document.getElementById("openTopUp");
-        var span = document.getElementsByClassName("close")[0];
-        var userId = '<?php echo $user_id; ?>';
-        var userName = '<?php echo htmlspecialchars($user_name); ?>';
+
+        document.getElementById('cardNumber').addEventListener('input', function (e) {
+    let input = e.target.value.replace(/\s+/g, ''); // Remove all spaces
+    let formattedInput = '';
+    for (let i = 0; i < input.length; i += 4) {
+        formattedInput += input.substring(i, i + 4) + ' ';
+    }
+    e.target.value = formattedInput.trim(); // Set the formatted value
+});
+
+document.getElementById('expiryDate').addEventListener('change', function (e) {
+    const expiryDate = new Date(e.target.value);
+    const currentDate = new Date();
+    const result = document.getElementById('result');
+
+    if (expiryDate < currentDate) {
+        result.textContent = "Expiry date must be in the future.";
+        result.style.color = 'red';
+    } else {
+        result.textContent = '';
+    }
+});
+
+// Ensure only digits are entered in the CVV field
+document.getElementById('cvv').addEventListener('input', function (e) {
+    e.target.value = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+});
+
+         // JavaScript for handling modal and form submission
+    var modal = document.getElementById("topupModal");
+    var btn = document.getElementById("openTopUp");
+    var span = document.getElementsByClassName("close")[0];
+    var userId = '<?php echo $user_id; ?>';
+    var userName = '<?php echo htmlspecialchars($user_name); ?>';
 
     if (btn) {
         btn.onclick = function() {
@@ -345,97 +384,90 @@ if (isset($_SESSION['user_id'])) {
             modal.style.display = "none";
         }
     }
-// JavaScript for handling form submission
-document.getElementById('topupForm').addEventListener('submit', function(e) {
-e.preventDefault();
 
-// Get form values
-const amount = parseFloat(document.getElementById('amount').value);
-const description = document.getElementById('description').value;
-const paymentMethod = document.getElementById('paymentMethod').value;
-const cardNumber = document.getElementById('cardNumber').value;
-const expiryDate = document.getElementById('expiryDate').value;
-const cvv = document.getElementById('cvv').value;
-const verificationCode = document.getElementById('verificationCode').value;
-const result = document.getElementById('result');
-const balanceElement = document.getElementById('currentBalance');
-const transactionList = document.getElementById('transactionList');
+    // JavaScript for handling form submission
+    document.getElementById('topupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-// Basic validation
-if (amount <= 0 || !description || !paymentMethod || (paymentMethod === 'mastercard' && (!cardNumber || !expiryDate || !cvv))) {
-    result.textContent = "Please fill out all fields correctly.";
-    result.style.color = 'red';
-    return;
-}
+        // Get form values
+        const amount = parseFloat(document.getElementById('amount').value);
+        const description = document.getElementById('description').value;
+        const paymentMethod = document.getElementById('paymentMethod').value;
+        const cardNumber = document.getElementById('cardNumber').value;
+        const expiryDate = document.getElementById('expiryDate').value;
+        const cvv = document.getElementById('cvv').value;
+        const verificationCode = document.getElementById('verificationCode').value;
+        const result = document.getElementById('result');
+        const balanceElement = document.getElementById('currentBalance');
+        const transactionList = document.getElementById('transactionList');
 
-// Verify the verification code
-fetch('verify_code.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ verificationCode: verificationCode })
-})
-.then(response => response.json())
-.then(data => {
-    if (data.success) {
-        // Code verified successfully, proceed with top-up
-        // Simulate server request to insert transaction and get new balance
-        fetch('update_balance.php', {
+        // Basic validation
+        if (amount <= 0 || !description || !paymentMethod || (paymentMethod === 'mastercard' && (!cardNumber || !expiryDate || !cvv))) {
+            result.textContent = "Please fill out all fields correctly.";
+            result.style.color = 'red';
+            return;
+        }
+
+        // Verify the verification code
+        fetch('verify_code.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId: userId, amount: amount, description: description, paymentMethod: paymentMethod, verificationCode: verificationCode})
+            body: JSON.stringify({ verificationCode: verificationCode })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                const newBalance = parseFloat(data.newBalance);
-                if (!isNaN(newBalance)) {
-                    // Update the balance in the UI
-                    balanceElement.textContent = newBalance.toFixed(2);
+                // Code verified successfully, proceed with top-up
+                // Simulate server request to insert transaction and get new balance
+                fetch('update_balance.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ userId: userId, amount: amount, description: description, paymentMethod: paymentMethod, verificationCode: verificationCode})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update balance on the client side
+                        const newBalance = parseFloat(balanceElement.textContent) + amount;
+                        balanceElement.textContent = newBalance.toFixed(2);
 
-                    // Display transaction
-                    const transaction = document.createElement('li');
-                    const descriptionText = `Amount: RM${amount.toFixed(2)} | Description: ${description} | Date: ${new Date().toISOString().slice(0, 19).replace('T', ' ')}`;
-                    transaction.textContent = descriptionText;
-                    transactionList.insertBefore(transaction, transactionList.firstChild);
+                        // Add the new transaction to the transaction list
+                        const newTransaction = document.createElement('li');
+                        newTransaction.textContent = `Amount: RM${amount.toFixed(2)} | Description: ${description} | Date: ${new Date().toISOString().slice(0, 19).replace('T', ' ')}`;
+                        transactionList.insertBefore(newTransaction, transactionList.firstChild);
 
-                    result.textContent = `Successfully topped up RM${amount.toFixed(2)}`;
-                    result.style.color = 'green';
+                        // Close the modal
+                        modal.style.display = "none";
 
-                    // Close modal after a delay
-                    setTimeout(() => {
-                        modal.style.display = 'none';
+                        // Reset the form
+                        document.getElementById('topupForm').reset();
                         result.textContent = '';
-                    }, 2000);
-                } else {
-                    result.textContent = 'Received an invalid balance from the server.';
+                    } else {
+                        result.textContent = data.message;
+                        result.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    result.textContent = 'An error occurred. Please try again later.';
                     result.style.color = 'red';
-                }
+                });
             } else {
-                result.textContent = data.message || 'Error topping up. Please try again.';
+                // Verification code is invalid
+                result.textContent = data.message;
                 result.style.color = 'red';
             }
         })
         .catch(error => {
-            result.textContent = 'Error topping up. Please try again.';
-            result.style.color = 'red';
             console.error('Error:', error);
+            result.textContent = 'An error occurred. Please try again later.';
+            result.style.color = 'red';
         });
-    } else {
-        result.textContent = 'Invalid verification code.';
-        result.style.color = 'red';
-        
-    }
-})
-.catch(error => {
-    result.textContent = 'Error verifying code. Please try again.';
-    result.style.color = 'red';
-    console.error('Error:', error);
-});
-});
+    });
 
 // Show or hide card details based on payment method
 document.getElementById('paymentMethod').addEventListener('change', function() {

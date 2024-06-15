@@ -12,9 +12,10 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $walletID = filter_var($_POST['walletID'], FILTER_SANITIZE_STRING);
     $amount = filter_var($_POST['amount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
     $user_id = $_SESSION['user_id'];
 
-    if ($walletID && $amount > 0) {
+    if ($walletID && $amount > 0 && $description) {
         // Check user's current balance
         $stmt = $conn->prepare("SELECT COALESCE(SUM(amount), 0) AS balance FROM e_wallet_balance WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
@@ -31,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 // Deduct the amount from the balance
                 $negative_amount = -$amount; // Use a variable for the negative amount
-                $stmt = $conn->prepare("INSERT INTO e_wallet_balance (user_id, amount, transaction_date) VALUES (?, ?, NOW())");
-                $stmt->bind_param("id", $user_id, $negative_amount);
+                $stmt = $conn->prepare("INSERT INTO e_wallet_balance (user_id, amount, description, transaction_date) VALUES (?, ?, ?, NOW())");
+                $stmt->bind_param("isd", $user_id, $negative_amount, $description);
                 $stmt->execute();
                 $stmt->close();
 
@@ -169,6 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount" value="<?= htmlspecialchars($_SESSION['checkout_details']['total_price']) ?>" required>
+            
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Enter payment description" required>
             
             <label for="verificationCode">Verification Code:</label>
             <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
