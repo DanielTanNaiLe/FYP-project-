@@ -138,7 +138,7 @@ $firstName = $isLoggedIn ? $_SESSION['first_name'] : 'user';
                 <li><a href="Addtocart.php"><i class='bx bx-cart'></i></a></li>
                 <li><a href="wishlist.php"><i class='bx bxs-heart'></i></a></li>
                 <li>
-                    <a href="landingafterlogin.php"><i class='bx bx-user'></i> Hello, <?php echo htmlspecialchars($first_name); ?></a>
+                    <a href="landingafterlogin.php"><i class='bx bx-user'></i> Hello, <?php echo htmlspecialchars($firstName); ?></a>
                     <ul class="icon-dropdown">
                         <li><a href="customer logout.php">Log out</a></li>
                         <li><a href="feedback.php">Feedback</a></li>
