@@ -52,7 +52,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         addToWishlist($user_id, $_POST['pid']);
         $_SESSION['message'] = 'Product added to wishlist successfully!';
     }
+
+    if (isset($_POST['submit_review'])) {
+        $product_id = $_POST['product_id'];
+        $rating = $_POST['rating'];
+        $comment = $_POST['comment'];
+    
+        // Insert the review into the database
+        $review_query = "INSERT INTO product_reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
+        $review_stmt->execute();
+    
+        $_SESSION['message'] = 'Review submitted successfully!';
+    }
+    
 }
+
 
 require '../admin_panel/wishlist_cart.php';
 ?>
@@ -290,6 +306,119 @@ p {
     background: #ffc766;
 }
 
+.rating {
+    width: 300px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+    font-size: 35px;
+    margin-left: 550px;
+}
+.rating > label {
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+    color: transparent;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+    content: "\2605";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
+}
+
+.hide {
+    display: none;
+}
+
+.tab-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.tab-button {
+    background-color: #fff;
+    border: 2px solid #000;
+    color: #000;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background-color: #f2a32d;
+    color: #fff;
+    border-color: #f2a32d;
+}
+
+.tab-content {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    border-top: 2px solid #000;
+    padding-top: 20px;
+}
+
+.tab-content h4 {
+    font-size: 24px;
+    color: #af827d;
+    margin-bottom: 15px;
+}
+
+.tab-content p,
+.tab-content label {
+    color: #837d7c;
+    font-size: 16px;
+}
+
+#reviews-list {
+    margin-top: 20px;
+}
+
+#reviews-list .review {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#reviews-list .review strong {
+    color: #000;
+}
+
+#reviews-list .review small {
+    color: #837d7c;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #000;
+    border-radius: 4px;
+}
+
+
+
+}
+
     </style>
 </head>
 <body>
@@ -369,6 +498,58 @@ p {
         }
         ?>
     </div>
+    <div class="tab-buttons">
+    <button type="button" class="tab-button" onclick="showDescription()">Description</button>
+    <button type="button" class="tab-button" onclick="showReviews()">Reviews</button>
+</div>
+
+<div id="description-section" class="tab-content">
+    <h4>Product Description</h4>
+    <p name="product_desc"><?= $row['product_desc'] ?></p>
+</div>
+
+<div id="reviews-section" class="tab-content" style="display:none;">
+    <h4>Product Reviews</h4>
+    <form id="reviewForm" method="post" action="">
+    <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+    <div class="rating">
+        <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide" />
+        <label for="star5">☆</label>
+        <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide" />
+        <label for="star4">☆</label>
+        <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide" />
+        <label for="star3">☆</label>
+        <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide" />
+        <label for="star2">☆</label>
+        <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide" />
+        <label for="star1">☆</label>
+        <div class="clear"></div>
+    </div>
+    <br>
+    <label for="comment">Comment:</label>
+    <textarea name="comment" id="comment" required></textarea>
+    <br>
+    <input type="submit" name="submit_review" value="Submit Review">
+</form>
+
+    <div id="reviews-list">
+        <?php
+        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("i", $pid);
+        $review_stmt->execute();
+        $review_result = $review_stmt->get_result();
+        while ($review_row = $review_result->fetch_assoc()) {
+            echo "<div class='review'>";
+            echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
+            echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
+            echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
+            echo "</div><hr>";
+        }
+        ?>
+    </div>
+</div>
+
 </section>
 <script>
     $(document).ready(function() {
@@ -411,7 +592,17 @@ p {
         // For wishlist, no validation needed, so return true
         return true;
     });
+
+    function showDescription() {
+        document.getElementById('description-section').style.display = 'block';
+        document.getElementById('reviews-section').style.display = 'none';
+    }
+
+    function showReviews() {
+        document.getElementById('description-section').style.display = 'none';
+        document.getElementById('reviews-section').style.display = 'block';
+    }
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html>
+</html> 
