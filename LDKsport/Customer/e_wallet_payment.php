@@ -10,12 +10,12 @@ if (!isset($_SESSION['user_id'])) {
 
 // Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $walletID = filter_var($_POST['walletID'], FILTER_SANITIZE_STRING);
-    $amount = filter_var($_POST['amount'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
+    $verificationCode = filter_var($_POST['verificationCode'], FILTER_SANITIZE_STRING);
+    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING); // Retrieve the description
     $user_id = $_SESSION['user_id'];
+    $amount = $_SESSION['checkout_details']['total_price']; // Use the session value for amount
 
-    if ($walletID && $amount > 0 && $description) {
+    if ($amount > 0 && !empty($description)) { // Check that description is not empty
         // Check user's current balance
         $stmt = $conn->prepare("SELECT COALESCE(SUM(amount), 0) AS balance FROM e_wallet_balance WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
@@ -33,8 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Deduct the amount from the balance
                 $negative_amount = -$amount; // Use a variable for the negative amount
                 $stmt = $conn->prepare("INSERT INTO e_wallet_balance (user_id, amount, description, transaction_date) VALUES (?, ?, ?, NOW())");
-                $stmt->bind_param("isd", $user_id, $negative_amount, $description);
-                $stmt->execute();
+                if (!$stmt) {
+                    throw new Exception($conn->error);
+                }
+                $stmt->bind_param("isd", $user_id, $negative_amount, $description); // Bind the description here
+
+                if (!$stmt->execute()) {
+                    throw new Exception("Error inserting into e_wallet_balance: " . $stmt->error);
+                }
                 $stmt->close();
 
                 // Process the order as usual
@@ -56,7 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $checkout_details['total_price']
                 );
 
-                $stmt->execute();
+                if (!$stmt->execute()) {
+                    throw new Exception($stmt->error);
+                }
                 $order_id = $stmt->insert_id;
                 $stmt->close();
 
@@ -73,14 +81,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $item['quantity'],
                         $item['price']
                     );
-                    $stmt->execute();
+                    if (!$stmt->execute()) {
+                        throw new Exception($stmt->error);
+                    }
                     $stmt->close();
                 }
 
                 // Clear cart and session variables
                 $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
                 $stmt->bind_param("i", $user_id);
-                $stmt->execute();
+                if (!$stmt->execute()) {
+                    throw new Exception($stmt->error);
+                }
                 $stmt->close();
 
                 unset($_SESSION['cart']);
@@ -93,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
             } catch (Exception $e) {
                 $conn->rollback();
+                error_log("Transaction failed: " . $e->getMessage());
                 $error = "Failed to process payment. Please try again.";
             }
         } else {
@@ -102,6 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Invalid payment details.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -135,12 +149,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
             margin-bottom: 5px;
         }
-        input {
+        input, .amount-display {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .amount-display {
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
         }
         button {
             width: 100%;
@@ -165,19 +185,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <h2>E-Wallet Payment</h2>
         <form id="paymentForm" method="POST">
-            <label for="walletID">Wallet ID:</label>
-            <input type="text" id="walletID" name="walletID" required>
-
-            <label for="amount">Amount:</label>
-            <input type="number" id="amount" name="amount" value="<?= htmlspecialchars($_SESSION['checkout_details']['total_price']) ?>" required>
-            
-            <label for="description">Description:</label>
-            <input type="text" id="description" name="description" placeholder="Enter payment description" required>
-            
-            <label for="verificationCode">Verification Code:</label>
-            <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
-            
-            <button type="submit">Pay</button>
+           <label for="amount">Amount:</label>
+           <div class="amount-display">RM <?= htmlspecialchars($_SESSION['checkout_details']['total_price']) ?></div>
+    
+           <label for="description">Description:</label>
+           <input type="text" id="description" name="description" placeholder="Enter payment description" required>
+    
+           <label for="verificationCode">Verification Code:</label>
+           <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
+    
+           <button type="submit">Pay</button>
         </form>
         <div id="message">
             <?php if (isset($error)): ?>
