@@ -55,9 +55,6 @@ if (isset($_POST['action']) && $_POST['action'] == 'add_to_cart' && isset($_POST
     if ($update_stock_stmt->affected_rows > 0) {
         // Add item to cart
         $user_id = $_SESSION['user_id'];
-        $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, (SELECT price FROM product_size_variation WHERE variation_id = ?))");
-        $stmt->bind_param("iiii", $user_id, $variation_id, $quantity, $variation_id);
-        $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
             // Commit transaction

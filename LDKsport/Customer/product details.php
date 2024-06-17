@@ -8,45 +8,9 @@ if (isset($_SESSION['user_id'])) {
     $user_id = '';
 }
 
-// Define the addToCart function
-function addToCart($user_id, $product_id, $size_id, $quantity, $price) {
-    global $conn;
-    $stmt = $conn->prepare("INSERT INTO cart (user_id, variation_id, quantity, price) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiid", $user_id, $size_id, $quantity, $price);
-    $stmt->execute();
-}
+require '../admin_panel/wishlist_cart.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['add_to_cart'])) {
-        $product_id = $_POST['pid'];
-        $size_id = $_POST['size_name'];
-        $quantity = $_POST['Quantity'];
-        $price = $_POST['price'];
-        
-        // Check if stock is available
-        $stock_check_query = "SELECT quantity_in_stock FROM product_size_variation WHERE product_id = ? AND size_id = ?";
-        $stmt = $conn->prepare($stock_check_query);
-        $stmt->bind_param("ii", $product_id, $size_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        
-        if ($row && $row['quantity_in_stock'] >= $quantity) {
-            // Update the stock
-            $new_stock = $row['quantity_in_stock'] - $quantity;
-            $update_stock_query = "UPDATE product_size_variation SET quantity_in_stock = ? WHERE product_id = ? AND size_id = ?";
-            $update_stmt = $conn->prepare($update_stock_query);
-            $update_stmt->bind_param("iii", $new_stock, $product_id, $size_id);
-            $update_stmt->execute();
-
-            // Add to cart
-            addToCart($user_id, $product_id, $size_id, $quantity, $price);
-            $_SESSION['message'] = 'Product added to cart successfully!';
-        } else {
-            $_SESSION['message'] = 'Sorry, not enough stock available.';
-        }
-    }
-
     if (isset($_POST['submit_review'])) {
         $product_id = $_POST['product_id'];
         $rating = $_POST['rating'];
@@ -59,12 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $review_stmt->execute();
     
         $_SESSION['message'] = 'Review submitted successfully!';
-    }
-    
+    }    
 }
 
-
-require '../admin_panel/wishlist_cart.php';
 ?>
 
 <!DOCTYPE html>
@@ -599,4 +560,4 @@ textarea {
 </script>
 <?php include("footer.php"); ?>
 </body>
-</html> 
+</html>
