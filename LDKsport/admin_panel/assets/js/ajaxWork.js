@@ -163,9 +163,7 @@ function ChangePay(id){
 }
 
 
-function addItems(event) {
-    event.preventDefault(); // Prevent form submission
-
+function addItems() {
     var p_name = $('#p_name').val();
     var p_desc = $('#p_desc').val();
     var p_price = $('#p_price').val();

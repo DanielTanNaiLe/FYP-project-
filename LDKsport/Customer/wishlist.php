@@ -193,7 +193,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
                 ?>
                 <div class="wishlist-item">
                     <a href="product details.php?pid=<?php echo $item['product_id']; ?>">
-                        <img src="../uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
+                        <img src="../admin_panel/uploads/<?php echo $item['product_image']; ?>" alt="<?php echo $item['product_name']; ?>">
                     </a>
                     <div class="wishlist-item-info">
                         <h3><?php echo $item['product_name']; ?></h3>

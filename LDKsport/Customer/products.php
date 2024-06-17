@@ -155,7 +155,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
             while ($row = $result->fetch_assoc()) {
         ?>
         <div class="item">
-            <img src="../uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="">
+            <img src="../admin_panel/uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="">
             <h2><?= htmlspecialchars($row["product_name"]) ?></h2>
             <div class="price"><?= htmlspecialchars($row["price"]) ?></div>
             <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>
