@@ -163,46 +163,47 @@ function ChangePay(id){
 }
 
 
-function addItems() {
+function addItems(event) {
+    event.preventDefault(); // Prevent form submission
+
     var p_name = $('#p_name').val();
     var p_desc = $('#p_desc').val();
     var p_price = $('#p_price').val();
     var category = $('#category').val();
-    var brand = $('#brand').val();
     var gender = $('#gender').val();
+    var brand = $('#brand').val();
     var file = $('#file')[0].files[0];
-    var file2 = $('#file2')[0].files[0];  // Secondary image
-    var file3 = $('#file3')[0].files[0];  // Tertiary image
+    var file2 = $('#file2')[0].files[0];
+    var file3 = $('#file3')[0].files[0];
 
     var fd = new FormData();
     fd.append('p_name', p_name);
     fd.append('p_desc', p_desc);
     fd.append('p_price', p_price);
     fd.append('category', category);
-    fd.append('brand', brand);
     fd.append('gender', gender);
-    fd.append('file', file);
-    if (file2) fd.append('file2', file2);  // Append secondary image if exists
-    if (file3) fd.append('file3', file3);  // Append tertiary image if exists
+    fd.append('brand', brand);
+    if (file) fd.append('file', file);
+    if (file2) fd.append('file2', file2);
+    if (file3) fd.append('file3', file3);
 
     $.ajax({
-        url: "./controller/addItemController.php",
-        method: "post",
+        url: './controller/addItemController.php',
+        method: 'post',
         data: fd,
         processData: false,
         contentType: false,
         success: function(data) {
-            alert('Product added successfully.');
+            alert('Data added successfully.');
             $('form').trigger('reset');
             showProductItems();
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('Error adding product: ' + textStatus + ' - ' + errorThrown);
+        error: function(xhr, status, error) {
+            console.error(xhr);
+            alert('Data addition failed.');
         }
     });
 }
-
-
 
 
 //edit product data
@@ -259,9 +260,14 @@ function updateItems(event) {
             alert('Data update success.');
             $('form').trigger('reset');
             showProductItems();
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr);
+            alert('Data update failed.');
         }
     });
 }
+
 //delete product data
 function itemDelete(id){
     $.ajax({
@@ -272,9 +278,10 @@ function itemDelete(id){
             alert('Items Successfully deleted');
             $('form').trigger('reset');
             showProductItems();
-        }
-    });
+        }
+    });
 }
+
 
 //delete admin data
 function adminDelete(id){

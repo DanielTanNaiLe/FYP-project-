@@ -400,12 +400,12 @@ textarea {
                     <input type="hidden" name="product_image3" value="<?= $row['product_image3'] ?>">
                     <div class="left">
                         <div class="main_image">
-                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
+                            <img src="../admin_panel/uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <img src="../uploads/<?= $row['product_image'] ?>" onclick="img('../uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
-                            <img src="../uploads/<?= $row['product_image2'] ?>" onclick="img('../uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
-                            <img src="../uploads/<?= $row['product_image3'] ?>" onclick="img('../uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
+                            <img src="../admin_panel/uploads/<?= $row['product_image'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
+                            <img src="../admin_panel/uploads/<?= $row['product_image2'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
+                            <img src="../admin_panel/uploads/<?= $row['product_image3'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
                         </div>
                     </div>
                     <div class="right">

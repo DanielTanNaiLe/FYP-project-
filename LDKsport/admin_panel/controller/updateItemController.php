@@ -1,6 +1,29 @@
 <?php
 include_once "../config/dbconnect.php";
 
+function handle_image_upload($image_field, $existing_image, $location) {
+    $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'webp');
+    if (isset($_FILES[$image_field]) && $_FILES[$image_field]['error'] == UPLOAD_ERR_OK) {
+        $img = $_FILES[$image_field]['name'];
+        $tmp = $_FILES[$image_field]['tmp_name'];
+        $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
+        if (in_array($ext, $valid_extensions)) {
+            $image_name = rand(1000, 1000000) . "." . $ext;
+            $final_image = $location . $image_name;
+            if (move_uploaded_file($tmp, $final_image)) {
+                return $final_image;
+            } else {
+                error_log("Failed to move uploaded file for $image_field.");
+            }
+        } else {
+            error_log("Invalid file extension for $image_field.");
+        }
+    } else {
+        error_log("No valid file uploaded for $image_field or file upload error.");
+    }
+    return $existing_image;
+}
+
 $product_id = $_POST['product_id'];
 $p_name = $_POST['p_name'];
 $p_desc = $_POST['p_desc'];
@@ -30,22 +53,7 @@ $updateItem = mysqli_query($conn, "UPDATE product SET
 if ($updateItem) {
     echo "true";
 } else {
-    echo mysqli_error($conn);
-}
-
-function handle_image_upload($image_field, $existing_image, $location) {
-    $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'webp');
-    if (isset($_FILES[$image_field]) && $_FILES[$image_field]['error'] == UPLOAD_ERR_OK) {
-        $img = $_FILES[$image_field]['name'];
-        $tmp = $_FILES[$image_field]['tmp_name'];
-        $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-        if (in_array($ext, $valid_extensions)) {
-            $image_name = rand(1000, 1000000) . "." . $ext;
-            $final_image = $location . $image_name;
-            move_uploaded_file($tmp, $final_image);
-            return $final_image;
-        }
-    }
-    return $existing_image;
+    error_log("Update failed: " . mysqli_error($conn));
+    echo "Update failed.";
 }
 ?>
