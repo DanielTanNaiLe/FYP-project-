@@ -2,12 +2,6 @@
 include '../config/dbconnect.php';
 session_start();
 
-if (!isset($_SESSION['admin_id'])) {
-    // Redirect to login page if not logged in
-    header('Location: ./Login.php');
-    exit();
-}
-
 $admin_id = $_SESSION['admin_id'];
 
 $query = "SELECT * FROM admin WHERE id = ?";
@@ -88,17 +82,22 @@ $fetch_profile = $fetch_profile_result->fetch_assoc();
         </div>
         <div class="update-profile" id="updateProfileForm" style="display:none;">
             <h2>Update Profile</h2>
-            <form id="profileForm">
-                <input type="hidden" id="adminId" name="admin_id" value="<?php echo htmlspecialchars($fetch_profile['id']); ?>">
-                <input type="text" id="adminName" name="admin_name" value="<?php echo htmlspecialchars($fetch_profile['admin_name']); ?>" placeholder="Admin Name" required>
-                <input type="email" id="adminEmail" name="admin_email" value="<?php echo htmlspecialchars($fetch_profile['admin_email']); ?>" placeholder="Email" required>
-                <input type="password" id="oldPassword" name="old_password" placeholder="Enter Old Password" required>
-                <input type="password" id="newPassword" name="new_password" placeholder="Enter New Password" required>
-                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm New Password" required>
-                <button type="button" onclick="updateProfile()">Update Now</button>
+            <form id="profileForm" method="POST" action="updateProfile.php">
+                <input type="hidden" name="admin_id" value="<?php echo htmlspecialchars($fetch_profile['id']); ?>">
+                <input type="text" name="admin_name" value="<?php echo htmlspecialchars($fetch_profile['admin_name']); ?>" placeholder="Admin Name" required>
+                <input type="email" name="admin_email" value="<?php echo htmlspecialchars($fetch_profile['admin_email']); ?>" placeholder="Email" required>
+                <input type="password" name="old_password" placeholder="Enter Old Password" required>
+                <input type="password" name="new_password" placeholder="Enter New Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm New Password" required>
+                <button type="submit">Update Now</button>
             </form>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </body>
+    <script>
+        function toggleUpdateForm() {
+            const form = document.getElementById('updateProfileForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
 </html>
