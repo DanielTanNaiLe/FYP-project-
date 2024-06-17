@@ -44,7 +44,7 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
                     <div class="price"><?= $row["price"] ?></div>
                     <div class="favourite"><i class='bx bxs-heart'></i></div>
                     <div class="details-container">
-                        <a href="product_details.php?pid=<?= $row['product_id'] ?>" class="details">View details</a>
+                        <a href="product details.php?pid=<?= $row['product_id'] ?>" class="details">View details</a>
                     </div>
                 </div>
                 <?php
