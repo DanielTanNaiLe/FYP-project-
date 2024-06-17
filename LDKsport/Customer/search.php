@@ -1,3 +1,4 @@
+<?php
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);  
 session_start();
 include '../admin_panel/config/dbconnect.php';
@@ -42,7 +43,9 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
                     <h2><?= $row["product_name"] ?></h2>
                     <div class="price"><?= $row["price"] ?></div>
                     <div class="favourite"><i class='bx bxs-heart'></i></div>
-                    <div class="details-container"><a href="product_details.php?id=<?= $row['product_id'] ?>" class="details">View details</a></div>
+                    <div class="details-container">
+                        <a href="product_details.php?pid=<?= $row['product_id'] ?>" class="details">View details</a>
+                    </div>
                 </div>
                 <?php
                     }
@@ -63,3 +66,4 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
 }
 
 $conn->close();
+?>
