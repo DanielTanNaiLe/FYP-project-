@@ -399,8 +399,7 @@ Copy code
             $stmt->execute();
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-php
-Copy code
+
         if ($row) {
             ?>
             <form id="productForm" method="post" action="">
