@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,349 +42,339 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
+
 .product-details-container {
-display: flex;
-align-items: center;
-max-width: 75%;
-margin: auto;
-height: 80vh;
-background: white;
-box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    max-width: 75%;
+    margin: auto;
+    height: 80vh;
+    background: white;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
 }
 
 section {
-padding-top: 7%;
+    padding-top: 7%;
 }
 
 .left, .right {
-width: 50%;
-padding: 30px;
+    width: 50%;
+    padding: 30px;
 }
 
 .flex {
-display: flex;
-justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .flex1 {
-display: flex;
+    display: flex;
 }
 
 .main_image img {
-margin-left: 20px;
-width: 93%;
-height: auto;
-max-height: 400px; /* Adjust based on your design */
-object-fit: cover;
+    margin-left: 20px;
+    width: 93%;
+    height: auto;
+    max-height: 400px; /* Adjust based on your design */
+    object-fit: cover;
 }
 
 .option img {
-width: 85px;
-height: 85px;
-padding: 6px 2px;
-object-fit: cover;
+    width: 85px;
+    height: 85px;
+    padding: 6px 2px;
+    object-fit: cover;
 }
 
 .left {
-width: 60%;
-margin-top: 50px;
-margin-left: 20px;
+    width: 60%;
+    margin-top: 50px;
+    margin-left: 20px;
 }
 
 .right {
-margin-left: 72%;
-margin-top: -57%;
-padding: 50px 100px 50px 50px;
+    margin-left: 72%;
+    margin-top: -57%;
+    padding: 50px 100px 50px 50px;
 }
 
 .product-details-h3 {
-color: #af827d;
-margin: -25px 0 0 0;
-font-size: 30px;
+    color: #af827d;
+    margin: -25px 0 0 0;
+    font-size: 30px;
 }
 
 .product-details-h5,
 p,
 small {
-color: #837D7C;
+    color: #837D7C;
 }
 
 .product-details-h4 {
-color: red;
-margin: 13px 0;
+    color: red;
+    margin: 13px 0;
 }
 
 p {
-margin: 20px 0 20px 0;
-line-height: 25px;
+    margin: 20px 0 20px 0;
+    line-height: 25px;
 }
 
 .product-details-h5 {
-font-size: 15px;
+    font-size: 15px;
 }
 
 .add label,
 .add span {
-background: none;
-border: 1px solid #C1908B;
-color: #C1908B;
-text-align: center;
-line-height: 25px;
+    background: none;
+    border: 1px solid #C1908B;
+    color: #C1908B;
+    text-align: center;
+    line-height: 25px;
 }
 
 .add label {
-padding: 10px 30px 0 20px;
-border-radius: 50px;
-line-height: 0;
+    padding: 10px 30px 0 20px;
+    border-radius: 50px;
+    line-height: 0;
 }
 
 .right .product-details-dropmenu {
-margin: 10px 0;
-font-size: medium;
-padding: 5px;
-border: solid 2px black;
-cursor: pointer;
-transition: all .42 ease;
+    margin: 10px 0;
+    font-size: medium;
+    padding: 5px;
+    border: solid 2px black;
+    cursor: pointer;
+    transition: all .42 ease;
 }
 
-.right .product-details-dropmenu
-{
-transform: scale(1.1);
-border-color: rgb(242, 163, 45);
-color: #837d7c;
+.right .product-details-dropmenu:hover {
+    transform: scale(1.1);
+    border-color: rgb(242, 163, 45);
+    color: #837d7c;
 }
 
 .button-container {
-margin-top: 40px;
-margin-left: auto;
-margin-right: 193px;
-width: 50%;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: 193px;
+    width: 50%;
 }
 
 .button-container .button {
-display: grid;
-width: 150%;
-margin: 15px;
-font-size: 20px;
-text-align: center;
-padding: 12px;
-border: none;
-outline: none;
-color: black;
-text-decoration: none;
-border: 2px solid black;
-transition: all .5s;
+    display: grid;
+    width: 150%;
+    margin: 15px;
+    font-size: 20px;
+    text-align: center;
+    padding: 12px;
+    border: none;
+    outline: none;
+    color: black;
+    text-decoration: none;
+    border: 2px solid black;
+    transition: all .5s;
 }
 
-.button-container .button
-{
-transform: scale(1.1);
-background-color: rgb(242, 163, 45);
-color: white;
+.button-container .button:hover {
+    transform: scale(1.1);
+    background-color: rgb(242, 163, 45);
+    color: white;
 }
 
 @media only screen and (max-width: 768px) {
-.container {
-max-width: 90%;
-margin: auto;
-height: auto;
-}
-.left, .right {
-width: 100%;
-}
-.container {
-flex-direction: column;
-}
+    .container {
+        max-width: 90%;
+        margin: auto;
+        height: auto;
+    }
+    .left, .right {
+        width: 100%;
+    }
+    .container {
+        flex-direction: column;
+    }
 }
 
 @media only screen and (max-width: 500px) {
-.container {
-max-width: 100%;
-height: auto;
-padding: 10px;
-}
-.left, .right {
-padding: 0;
-}
-img {
-width: 100%;
-height: 100%;
-}
-.option {
-display: flex;
-flex-wrap: wrap;
-}
+    .container {
+        max-width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+    .left, .right {
+        padding: 0;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .option {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
 .alert-container {
-background: #ffdb9b;
-padding: 20px 40px;
-min-width: 420px;
-position: absolute;
-right: 0px;
-top: 135px;
-overflow: hidden;
-border-radius: 4px;
-border-left: 8px solid #ffa502;
-cursor: pointer;
+    background: #ffdb9b;
+    padding: 20px 40px;
+    min-width: 420px;
+    position: absolute;
+    right: 0px;
+    top: 135px;
+    overflow: hidden;
+    border-radius: 4px;
+    border-left: 8px solid #ffa502;
+    cursor: pointer;
 }
 
 .alert-container.show {
-animation: show_slide 1s ease forwards;
+    animation: show_slide 1s ease forwards;
 }
 
 @keyframes show_slide {
-0% {
-transform: translateX(100%);
-}
-40% {
-transform: translateX(-10%);
-}
-80% {
-transform: translateX(0%);
-}
-100% {
-transform: translateX(-10%);
-}
+    0% {
+        transform: translateX(100%);
+    }
+    40% {
+        transform: translateX(-10%);
+    }
+    80% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-10%);
+    }
 }
 
 .alert-container.hide {
-display: none;
+    display: none;
 }
 
 .alert-container .alert {
-padding: 0 20px;
-font-size: 18px;
-color: #ce8500;
+    padding: 0 20px;
+    font-size: 18px;
+    color: #ce8500;
 }
 
-.alert-container
-{
-background: #ffc766;
+.alert-container:hover {
+    background: #ffc766;
 }
 
 .rating {
-width: 300px;
-unicode-bidi: bidi-override;
-direction: rtl;
-text-align: center;
-position: relative;
-font-size: 35px;
-margin-left: 550px;
+    width: 300px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+    font-size: 35px;
+    margin-left: 550px;
 }
 .rating > label {
-float: right;
-display: inline;
-padding: 0;
-margin: 0;
-position: relative;
-width: 1.1em;
-cursor: pointer;
-color: #000;
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
 }
 
-.rating > label
-,
-.rating > label
-~ label,
-.rating > input.radio-btn
-~ label {
-color: transparent;
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+    color: transparent;
 }
 
-.rating > label:hover
-,
-.rating > label
-~ label
-,
-.rating > input.radio-btn
-~ label
-,
-.rating > input.radio-btn
-~ label
-{
-content: "\2605";
-position: absolute;
-left: 0;
-color: #FFD700;
+.rating > label:hover:before,
+.rating > label:hover ~ label:before,
+.rating > input.radio-btn:checked ~ label:before,
+.rating > input.radio-btn:checked ~ label:before {
+    content: "\2605";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
 }
 
 .hide {
-display: none;
+    display: none;
 }
 
 .tab-buttons {
-text-align: center;
-margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .tab-button {
-background-color: #fff;
-border: 2px solid #000;
-color: #000;
-padding: 10px 20px;
-cursor: pointer;
-font-size: 16px;
-margin: 0 5px;
-transition: all 0.3s ease;
+    background-color: #fff;
+    border: 2px solid #000;
+    color: #000;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
 }
 
-.tab-button
-{
-background-color: #f2a32d;
-color: #fff;
-border-color: #f2a32d;
+.tab-button:hover {
+    background-color: #f2a32d;
+    color: #fff;
+    border-color: #f2a32d;
 }
 
 .tab-content {
-display: none;
-text-align: center;
-margin-top: 20px;
-border-top: 2px solid #000;
-padding-top: 20px;
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    border-top: 2px solid #000;
+    padding-top: 20px;
 }
 
 .tab-content h4 {
-font-size: 24px;
-color: #af827d;
-margin-bottom: 15px;
+    font-size: 24px;
+    color: #af827d;
+    margin-bottom: 15px;
 }
 
 .tab-content p,
 .tab-content label {
-color: #837d7c;
-font-size: 16px;
+    color: #837d7c;
+    font-size: 16px;
 }
 
 #reviews-list {
-margin-top: 20px;
+    margin-top: 20px;
 }
 
 #reviews-list .review {
-text-align: left;
-margin-bottom: 10px;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 #reviews-list .review strong {
-color: #000;
+    color: #000;
 }
 
 #reviews-list .review small {
-color: #837d7c;
+    color: #837d7c;
 }
 
 textarea {
-width: 100%;
-height: 100px;
-margin-top: 10px;
-padding: 10px;
-font-size: 14px;
-border: 2px solid #000;
-border-radius: 4px;
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #000;
+    border-radius: 4px;
 }
 
 
-</style>
+
+}
+
+    </style>
 </head>
 <body>
 <section>
@@ -409,12 +400,12 @@ border-radius: 4px;
                     <input type="hidden" name="product_image3" value="<?= $row['product_image3'] ?>">
                     <div class="left">
                         <div class="main_image">
-                            <img src="../uploads/<?= $row['product_image'] ?>" class="slide">
+                            <img src="../admin_panel/uploads/<?= $row['product_image'] ?>" class="slide">
                         </div>
                         <div class="option flex">
-                            <img src="../uploads/<?= $row['product_image'] ?>" onclick="img('../uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
-                            <img src="../uploads/<?= $row['product_image2'] ?>" onclick="img('../uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
-                            <img src="../uploads/<?= $row['product_image3'] ?>" onclick="img('../uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
+                            <img src="../admin_panel/uploads/<?= $row['product_image'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image'] ?>')" alt="Product Image 1">
+                            <img src="../admin_panel/uploads/<?= $row['product_image2'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image2'] ?>')" alt="Product Image 2">
+                            <img src="../admin_panel/uploads/<?= $row['product_image3'] ?>" onclick="img('../admin_panel/uploads/<?= $row['product_image3'] ?>')" alt="Product Image 3">
                         </div>
                     </div>
                     <div class="right">
@@ -466,10 +457,12 @@ border-radius: 4px;
     <button type="button" class="tab-button" onclick="showDescription()">Description</button>
     <button type="button" class="tab-button" onclick="showReviews()">Reviews</button>
 </div>
+
 <div id="description-section" class="tab-content">
     <h4>Product Description</h4>
     <p name="product_desc"><?= $row['product_desc'] ?></p>
 </div>
+
 <div id="reviews-section" class="tab-content" style="display:none;">
     <h4>Product Reviews</h4>
     <form id="reviewForm" method="post" action="">
@@ -494,23 +487,24 @@ border-radius: 4px;
     <input type="submit" name="submit_review" value="Submit Review">
 </form>
 
-<div id="reviews-list">
-    <?php
-    $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
-    $review_stmt = $conn->prepare($review_query);
-    $review_stmt->bind_param("i", $pid);
-    $review_stmt->execute();
-    $review_result = $review_stmt->get_result();
-    while ($review_row = $review_result->fetch_assoc()) {
-        echo "<div class='review'>";
-        echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
-        echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
-        echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
-        echo "</div><hr>";
-    }
-    ?>
+    <div id="reviews-list">
+        <?php
+        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
+        $review_stmt = $conn->prepare($review_query);
+        $review_stmt->bind_param("i", $pid);
+        $review_stmt->execute();
+        $review_result = $review_stmt->get_result();
+        while ($review_row = $review_result->fetch_assoc()) {
+            echo "<div class='review'>";
+            echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
+            echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
+            echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
+            echo "</div><hr>";
+        }
+        ?>
+    </div>
 </div>
-</div>
+
 </section>
 <script>
     $(document).ready(function() {
@@ -520,49 +514,49 @@ border-radius: 4px;
         }, 3000); // Change the duration as needed
     });
 
-$('.alert-container').click(function() {
-    $(this).addClass('hide');
-    $(this).removeClass('show');
-});
+    $('.alert-container').click(function() {
+        $(this).addClass('hide');
+        $(this).removeClass('show');
+    });
 
-function img(anything) {
-    document.querySelector('.slide').src = anything;
-}
-
-function validateFormForCart() {
-    var sizes = document.getElementById("sizes");
-    var quantity = document.getElementById("quantity").value;
-    var selectedOption = sizes.options[sizes.selectedIndex];
-    var stock = selectedOption.getAttribute('data-stock');
-    if (sizes.value === "Select Sizes") {
-        alert("Please select a size.");
-        return false;
+    function img(anything) {
+        document.querySelector('.slide').src = anything;
     }
-    if (parseInt(quantity) > parseInt(stock)) {
-        alert("Selected quantity exceeds stock available.");
-        return false;
+
+    function validateFormForCart() {
+        var sizes = document.getElementById("sizes");
+        var quantity = document.getElementById("quantity").value;
+        var selectedOption = sizes.options[sizes.selectedIndex];
+        var stock = selectedOption.getAttribute('data-stock');
+        if (sizes.value === "Select Sizes") {
+            alert("Please select a size.");
+            return false;
+        }
+        if (parseInt(quantity) > parseInt(stock)) {
+            alert("Selected quantity exceeds stock available.");
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
-$('#productForm').submit(function() {
-    // Check if the form is for adding to cart
-    if ($(this).find('[name="add_to_cart"]').length > 0) {
-        return validateFormForCart();
+    $('#productForm').submit(function() {
+        // Check if the form is for adding to cart
+        if ($(this).find('[name="add_to_cart"]').length > 0) {
+            return validateFormForCart();
+        }
+        // For wishlist, no validation needed, so return true
+        return true;
+    });
+
+    function showDescription() {
+        document.getElementById('description-section').style.display = 'block';
+        document.getElementById('reviews-section').style.display = 'none';
     }
-    // For wishlist, no validation needed, so return true
-    return true;
-});
 
-function showDescription() {
-    document.getElementById('description-section').style.display = 'block';
-    document.getElementById('reviews-section').style.display = 'none';
-}
-
-function showReviews() {
-    document.getElementById('description-section').style.display = 'none';
-    document.getElementById('reviews-section').style.display = 'block';
-}
+    function showReviews() {
+        document.getElementById('description-section').style.display = 'none';
+        document.getElementById('reviews-section').style.display = 'block';
+    }
 </script>
 <?php include("footer.php"); ?>
 </body>
