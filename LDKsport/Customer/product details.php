@@ -466,7 +466,7 @@ textarea {
 <div id="reviews-section" class="tab-content" style="display:none;">
     <h4>Product Reviews</h4>
     <form id="reviewForm" method="post" action="">
-    <input type="hidden" name="product_id" value="<?= $row['product_id'] ?>">
+    <input type="hidden" name="product_id" value="<?= $pid ?>">
     <div class="rating">
         <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide" />
         <label for="star5">☆</label>
@@ -489,11 +489,15 @@ textarea {
 
     <div id="reviews-list">
         <?php
-        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
-        $review_stmt = $conn->prepare($review_query);
-        $review_stmt->bind_param("i", $pid);
-        $review_stmt->execute();
-        $review_result = $review_stmt->get_result();
+        $reviews_query = "SELECT product_reviews.*, users.user_name FROM product_reviews
+        JOIN users ON product_reviews.user_id = users.user_id
+        WHERE product_reviews.product_id = ?
+        ORDER BY product_reviews.created_at DESC";
+$reviews_stmt = $conn->prepare($reviews_query);
+$reviews_stmt->bind_param("i", $pid);
+$reviews_stmt->execute();
+$reviews_result = $reviews_stmt->get_result();
+
         while ($review_row = $review_result->fetch_assoc()) {
             echo "<div class='review'>";
             echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";

@@ -3,7 +3,7 @@ session_start();
 
 // Check if the user is logged in and get the first name if available
 $isLoggedIn = isset($_SESSION['user_id']);
-$firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_name'] : 'new user';
+$firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_name'] : 'user';
 ?>
 
 
