@@ -382,10 +382,7 @@ border: 2px solid #000;
 border-radius: 4px;
 }
 
-}
 
-bash
-Copy code
 </style>
 </head>
 <body>
@@ -496,8 +493,7 @@ Copy code
     <br>
     <input type="submit" name="submit_review" value="Submit Review">
 </form>
-php
-Copy code
+
 <div id="reviews-list">
     <?php
     $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
@@ -523,8 +519,7 @@ Copy code
             $('.alert-container').removeClass('show');
         }, 3000); // Change the duration as needed
     });
-javascript
-Copy code
+
 $('.alert-container').click(function() {
     $(this).addClass('hide');
     $(this).removeClass('show');
