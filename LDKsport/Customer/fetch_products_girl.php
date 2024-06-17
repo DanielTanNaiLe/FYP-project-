@@ -53,7 +53,7 @@ function displayProducts($result, $categoryName) {
     <input type="hidden" name="price" value="<?= $row['price'];?>">
     <input type="hidden" name="product_image" value="<?= $row['product_image'];?>">
     <div class="item">
-        <img src="../uploads/<?=$row['product_image'];?>">
+        <img src="../admin_panel/uploads/<?=$row['product_image'];?>">
         <h2><?=$row["product_name"];?></h2>
         <div class="price">RM <?=$row["price"];?></div>
         <div class="favourite" data-product-id="<?= $row['product_id']; ?>"><i class='bx bxs-heart'></i></div>

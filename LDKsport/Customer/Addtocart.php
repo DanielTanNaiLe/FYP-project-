@@ -361,7 +361,7 @@ td img {
                 <tr>
                     <td><?php echo $count; ?></td>
                     <td><?php echo htmlspecialchars($item['product_name']); ?></td>
-                    <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
+                    <td><img src="../admin_panel/uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
                     <td><?php echo htmlspecialchars($item['size_name']); ?></td>
                     <td>
                         <div class="quantity-container">

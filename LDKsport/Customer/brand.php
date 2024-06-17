@@ -40,7 +40,7 @@ if ($result === false) {
             while ($row = mysqli_fetch_assoc($result)) {
         ?>
         <div class="item">
-            <img src="../uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row["product_name"]) ?>">
+            <img src="../admin_panel/uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row["product_name"]) ?>">
             <h2><?= htmlspecialchars($row["product_name"]) ?></h2>
             <div class="price">RM <?=$row["price"];?></div>
             <div class="favourite" data-product-id="<?= htmlspecialchars($row['product_id']); ?>"><i class='bx bxs-heart'></i></div>

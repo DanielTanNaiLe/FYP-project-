@@ -67,7 +67,7 @@
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
             <div class="image-container3">
-                <a href="brand.php?brand=<?= urlencode($row["brand_name"]) ?>"><img src='../uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
+                <a href="brand.php?brand=<?= urlencode($row["brand_name"]) ?>"><img src='../admin_panel/uploads/<?= $row["brand_img"] ?>' alt='<?= $row["brand_name"] ?>'></a>
                 <h1><?= $row['brand_name'] ?></h1>
             </div>
             <?php
@@ -98,7 +98,7 @@
                 <input type="hidden" name="price" value="<?= $product['price'];?>">
                 <input type="hidden" name="product_image" value="<?= $product['product_image'];?>">
                 <div class="item">
-                    <img src="../uploads/<?=$product['product_image'];?>" alt="<?=$product['product_name'];?>">
+                    <img src="../admin_panel/uploads/<?=$product['product_image'];?>" alt="<?=$product['product_name'];?>">
                     <h2><?=$product["product_name"];?></h2>
                     <div class="price">RM <?=$product["price"];?></div>
                     <div class="favourite" data-product-id="<?= $product['product_id']; ?>"><i class='bx bxs-heart'></i></div>

@@ -229,7 +229,7 @@ $conn->close();
             <ul>
                 <?php foreach ($product as $product): ?>
                     <li>
-                        <img src="../uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>">
+                        <img src="../admin_panel/uploads/<?php echo htmlspecialchars($product['product_image']); ?>" alt="<?php echo htmlspecialchars($product['product_name']); ?>">
                         <span><?php echo htmlspecialchars($product['product_name']); ?></span>
                         <span>(x<?php echo $product['quantity']; ?>)</span>
                         <span>- RM <?php echo number_format($product['price'] * $product['quantity'], 2); ?></span>

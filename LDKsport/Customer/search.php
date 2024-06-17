@@ -39,7 +39,7 @@ if (isset($_GET['query']) && !empty($_GET['query'])) {
                     while ($row = $result->fetch_assoc()) {
                 ?>
                 <div class="item">
-                    <img src="../uploads/<?= $row['product_image'] ?>" alt="">
+                    <img src="../admin_panel/uploads/<?= $row['product_image'] ?>" alt="">
                     <h2><?= $row["product_name"] ?></h2>
                     <div class="price"><?= $row["price"] ?></div>
                     <div class="favourite"><i class='bx bxs-heart'></i></div>
