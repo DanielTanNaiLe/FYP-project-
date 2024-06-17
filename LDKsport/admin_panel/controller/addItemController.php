@@ -10,7 +10,7 @@ if (isset($_POST['p_name'])) {
     $category = $_POST['category'];
     $brand = $_POST['brand'];
     $gender = $_POST['gender'];
-    
+
     // Primary image
     $name = $_FILES['file']['name'];
     $temp = $_FILES['file']['tmp_name'];
@@ -21,7 +21,7 @@ if (isset($_POST['p_name'])) {
     } else {
         echo "Primary image upload failed.<br>";
     }
-    
+
     // Secondary image
     $name2 = $_FILES['file2']['name'];
     $temp2 = $_FILES['file2']['tmp_name'];
@@ -32,7 +32,7 @@ if (isset($_POST['p_name'])) {
         $image2 = "";
         echo "Secondary image upload failed or not provided.<br>";
     }
-    
+
     // Tertiary image
     $name3 = $_FILES['file3']['name'];
     $temp3 = $_FILES['file3']['tmp_name'];
@@ -50,8 +50,10 @@ if (isset($_POST['p_name'])) {
 
     if (!$insert) {
         echo "Error: " . mysqli_error($conn);
+        header("Location: ../dashboard.php?product=error");
     } else {
         echo "Records added successfully.";
+        header("Location: ../dashboard.php?product=success");
     }
 } else {
     echo "Form data not received.";

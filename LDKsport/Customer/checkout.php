@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize input data
     $_SESSION['checkout_details'] = [
-        'name' => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
+        'name' => filter_var($_POST['First_name'], FILTER_SANITIZE_STRING) . ' ' . filter_var($_POST['Last_name'], FILTER_SANITIZE_STRING),
         'number' => filter_var($_POST['number'], FILTER_SANITIZE_STRING),
         'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
         'method' => filter_var($_POST['method'], FILTER_SANITIZE_STRING),
@@ -240,8 +240,12 @@ $conn->close();
         </div>
         <form action="checkout.php" method="post" class="form">
             <div class="form-group">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" required>
+                <label for="name">First name:</label>
+                <input type="text" id="First_name" name="First_name" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Last name:</label>
+                <input type="text" id="Last_name" name="Last_name" required>
             </div>
             <div class="form-group">
                 <label for="number">Phone Number:</label>

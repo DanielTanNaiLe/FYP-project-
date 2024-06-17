@@ -28,7 +28,7 @@
     ?>
     <tr>
       <td><?=$count?></td>
-      <td><img height='100px' src='<?=$row["product_image"]?>'></td>
+      <td><img height='100px' src='./uploads/<?=basename($row["product_image"])?>'></td>
       <td><?=$row["product_name"]?></td>
       <td><?=$row["product_desc"]?></td>      
       <td><?=$row["category_name"]?></td> 
@@ -44,9 +44,9 @@
       }
     ?>
   </table>
-
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-secondary" style="height:40px" data-toggle="modal" data-target="#myModal">
+</div>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-secondary" style="height:40px" data-toggle="modal" data-target="#myModal">
     Add Product
   </button>
 

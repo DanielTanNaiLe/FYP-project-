@@ -1,5 +1,8 @@
 <div class="container p-5">
-    <h4>Edit Product Detail</h4>
+    <button type="button" class="btn btn-secondary" style="height:40px" data-toggle="modal" data-target="#myModal" onclick="showProductItems()" >
+    Back
+  </button>
+  <h4>Edit Product Details</h4>
     <?php
         include_once "../config/dbconnect.php";
         $ID = $_POST['record'];
@@ -9,6 +12,7 @@
             while ($row1 = mysqli_fetch_array($qry)) {
                 $catID = $row1["category_id"];
     ?>
+
     <form id="update-Items" onsubmit="updateItems(event)" enctype='multipart/form-data'>
         <input type="hidden" id="product_id" value="<?=$row1['product_id']?>">
         <div class="form-group">
@@ -123,5 +127,5 @@
             }
         }
     ?>
-    </form>
+    </form>
 </div>

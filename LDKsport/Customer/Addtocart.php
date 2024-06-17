@@ -179,10 +179,12 @@ $result = $stmt->get_result();
 
 $cart_items = [];
 $totalAmount = 0;
+$count = 0;
 
 while ($row = $result->fetch_assoc()) {
     $cart_items[] = $row;
     $totalAmount += $row['quantity'] * $row['price'];
+    $count++;
 }
 ?>
 
@@ -352,10 +354,12 @@ td img {
         </thead>
         <tbody>
         <?php if (count($cart_items) > 0): 
+        $count = 0;
              foreach ($cart_items as $item): 
+                $count++;
              ?>
                 <tr>
-                    <td><?php echo $item['cart_id']; ?></td>
+                    <td><?php echo $count; ?></td>
                     <td><?php echo htmlspecialchars($item['product_name']); ?></td>
                     <td><img src="../uploads/<?php echo htmlspecialchars($item['product_image']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>"></td>
                     <td><?php echo htmlspecialchars($item['size_name']); ?></td>
