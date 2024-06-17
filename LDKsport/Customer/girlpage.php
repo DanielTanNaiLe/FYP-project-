@@ -85,7 +85,7 @@ function displayProducts($result, $categoryName) {
             <option value="price-desc">Price (High to Low)</option>
         </select>
     </div>
-    <div class="product-list-container" id="products-container">
+    <div id="products-container">
         <?php
         // Fetch and display all products for women
         $allProductsResult = mysqli_query($conn, "SELECT * FROM product 

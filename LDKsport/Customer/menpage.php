@@ -75,7 +75,7 @@ function displayProducts($result, $categoryName) {
             </div>
         </div>
     </div>
-    <div class="sort-container">
+   <div class="sort-container">
         <label for="sort-by">Sort by:</label>
         <select id="sort-by">
             <option value="latest">Latest</option>
@@ -95,7 +95,9 @@ function displayProducts($result, $categoryName) {
             ?>
 
         </div>
-</div>
+
+     
+
     <?php include("footer.php"); ?>
     <script>
     $(document).ready(function() {
