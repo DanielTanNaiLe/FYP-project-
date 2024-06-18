@@ -93,6 +93,13 @@ $conn->close();
     max-width: 1200px;
 }
 
+.h2{
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(242, 163, 45); 
+    text-align: center;
+}
+
 .checkout_h2 {
     width: 100%;
     background-color: rgb(242, 163, 45);
@@ -239,6 +246,7 @@ $conn->close();
             <h4>Total: RM <?php echo number_format($total_price, 2); ?></h4>
         </div>
         <form action="checkout.php" method="post" class="form">
+            <div class ="h2"><h2>Personal Information</h2></div><br>
             <div class="form-group">
                 <label for="name">First name:</label>
                 <input type="text" id="First_name" name="First_name" required>
@@ -263,6 +271,7 @@ $conn->close();
                     <option value="E-Wallet">E-Wallet</option>
                 </select>
             </div>
+            <br><div class ="h2"><h2>Home address</h2></div><br>
             <div class="form-group">
                 <label for="flat">Flat No:</label>
                 <input type="text" id="flat" name="flat" required>
