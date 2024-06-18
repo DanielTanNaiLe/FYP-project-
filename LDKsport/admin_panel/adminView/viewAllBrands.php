@@ -19,7 +19,7 @@
     ?>
     <tr>
       <td><?=$count?></td>
-      <td><img height='100px' src='<?=$row["brand_img"]?>'></td>
+      <td><img height='100px' src='./uploads/<?=$row["brand_img"]?>'></td>
       <td><?=$row["brand_name"]?></td>   
       <!-- <td><button class="btn btn-primary" >Edit</button></td> -->
       <td><button class="btn btn-danger" style="height:40px" onclick="brandDelete('<?=$row['brand_id']?>')">Delete</button></td>

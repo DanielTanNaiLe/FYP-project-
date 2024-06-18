@@ -69,7 +69,6 @@
                     <th class="text-center">Delivery Address</th>
                     <th class="text-center">Payment Method</th>
                     <th class="text-center">Amount</th>
-                    <th class="text-center">Order Status</th>
                     <th class="text-center">Order Date</th>
                 </tr>
             </thead>
@@ -77,7 +76,7 @@
             <tbody>
                 <!-- PHP Loop to populate table rows -->
                 <?php
-                    $sql = "SELECT order_id, user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_status, order_date FROM orders";
+                    $sql = "SELECT order_id, user_id, delivered_to, order_email, phone_no, deliver_address, pay_method, amount, order_date FROM orders";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
@@ -91,7 +90,6 @@
                             echo "<td class='text-center'>{$row['deliver_address']}</td>";
                             echo "<td class='text-center'>{$row['pay_method']}</td>";
                             echo "<td class='text-center'>{$row['amount']}</td>";
-                            echo "<td class='text-center'>{$row['order_status']}</td>";
                             echo "<td class='text-center'>{$row['order_date']}</td>";
                             echo "</tr>";
                         }

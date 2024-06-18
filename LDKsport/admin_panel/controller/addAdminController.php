@@ -42,13 +42,13 @@ if (isset($_POST['submit'])) {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = 'fyp93345@gmail.com';
-                $mail->Password = 'ytpw zgxn pddn pzvs'; // Remove spaces in the password
+                $mail->Username = 'liangyuel44@gmail.com';
+                $mail->Password = 'wsjy kkfr gdps qxmq'; // Remove spaces in the password
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
                 //Recipients
-                $mail->setFrom('fyp93345@gmail.com', 'Noreply');
+                $mail->setFrom('liangyuel44@gmail.com', 'Noreply');
                 $mail->addAddress($email);
 
                 //Content

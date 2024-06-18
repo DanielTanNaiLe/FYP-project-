@@ -3,7 +3,7 @@
     include_once "../config/dbconnect.php";
     
     $id=$_POST['record'];
-    $query="DELETE FROM promocode where promocode_id='$id'";
+    $query="DELETE FROM promocode where id='$id'";
 
     $data=mysqli_query($conn,$query);
 
