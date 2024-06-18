@@ -136,6 +136,17 @@ function showPromocode(){
     });
 }
 
+function showReview(){  
+    $.ajax({
+        url:"./adminView/viewReview.php",
+        method:"post",
+        data:{record:1},
+        success:function(data){
+            $('.allContent-section').html(data);
+        }
+    });
+}
+
 function ChangeOrderStatus(id){
     $.ajax({
        url:"./controller/updateOrderStatus.php",
@@ -163,8 +174,7 @@ function ChangePay(id){
 }
 
 
-function addItems(event) {
-    event.preventDefault(); // Prevent form submission
+function addItems() {
 
     var p_name = $('#p_name').val();
     var p_desc = $('#p_desc').val();
@@ -447,7 +457,7 @@ function promocodeDelete(id){
         success:function(data){
             alert('Successfully deleted');
             $('form').trigger('reset');
-            showAdmin();
+            showPromocode();
         }
     });
 }

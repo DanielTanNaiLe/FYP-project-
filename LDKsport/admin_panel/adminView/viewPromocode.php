@@ -75,10 +75,3 @@
   </div>
 </div>
 
-<script>
-    function promocodeDelete(id) {
-        if (confirm('Are you sure you want to delete this promocode?')) {
-            window.location.href = './controller/deletePromocodeController.php?id=' + id;
-        }
-    }
-</script>

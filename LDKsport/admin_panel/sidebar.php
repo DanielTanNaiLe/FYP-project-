@@ -19,6 +19,7 @@
     <a href="#report"   onclick="showReport()" ><i class="fa fa-bar-chart"></i> Reports</a>
     <a href="#orders" onclick="showOrders()"><i class="fa fa-shopping-cart"></i> Orders</a>
     <a href="#feedback" onclick="showFeedback()"><i class="fa fa-envelope"></i> Feedback</a>
+    <a href="#review" onclick="showReview()"><i class="fa fa-envelope"></i> Review</a>
 <br>
     <a href="#profile" onclick="showProfile()"><i class="fa fa-user "></i> Profile</a> 
     <a href="Logout.php"><i class="fa fa-sign-in "></i> Logout</a> 
