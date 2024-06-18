@@ -138,7 +138,8 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
             </div>
         </div>
     </div>
-    <div class="subtitle_1"><h1><?= $categoryName ?></h1></div>
+
+  
     <div class="sort-container">
         <label for="sort">Sort by:</label>
         <select id="sort" name="sort" onchange="sortProducts()">
@@ -149,6 +150,7 @@ $total_pages = ceil($total_items / $items_per_page); // Calculate the total numb
             <option value="price_desc" <?= $sort_option == 'price_desc' ? 'selected' : '' ?>>Price (High to Low)</option>
         </select>
     </div>
+      <div class="subtitle_1"><h1><?= $categoryName ?></h1></div>
     <div class="listproduct">
         <?php
         if ($result->num_rows > 0) {

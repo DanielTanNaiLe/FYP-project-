@@ -113,7 +113,7 @@ function sendOtp($email, $otp) {
     global $mail; // Use the globally configured PHPMailer instance
 
     try {
-        $mail->setFrom('kohjunket@gmail.com', 'LDK Sport');
+        $mail->setFrom('liangyuel44@gmail.com', 'LDK Sport');
         $mail->addAddress($email);
         $mail->Subject = "Your OTP Code";
         $mail->Body = "Your OTP code is: $otp";

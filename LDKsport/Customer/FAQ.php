@@ -29,7 +29,7 @@ include '../admin_panel/config/dbconnect.php';
 }
 
 .active, .faq:hover {
-  background-color:#dd2f6e; 
+  background-color:burlywood; 
   color:white;
 }
 
@@ -59,43 +59,46 @@ h1{
 <div class="content">
 
 <h1>FREQUENTLY ASKED QUESTION (FAQ)</h1></br>
-<button class="faq">How I locate a food?</button>
+<button class="faq">How I locate a sport items?</button>
 <div class="ans">
-  <p>Key-in the food title at the search bar and then press the 'search' button.</p>
+  <p>Key-in the item title at the search bar and then press the enter button.</p>
 </div>
 
-<button class="faq">How do I place an order?</button>
+<button class="faq">How do I do purchase?</button>
 <div class="ans">
-  <p><b>Step 1: </b>Select the food of your choice.
-	<b></br>Step 2: </b>Click on the "Add to Cart" icon.
-	<b></br>Step 3: </b>Click the Shopping Basket icon.
-	<b></br>Step 4: </b>Confirm the details of the food you have ordered.
-	<b></br>Step 5: </b>Log in your account. If you are a new customer, kindly register an account and fill up the details that required.</p>
+  <p><b>Step 1: </b>Select the items.
+  <p><b>Step 2: </b>Select the sizes.
+  <p><b>Step 3: </b>Choose the quantity.
+	<b></br>Step 4: </b>Click on the "Add to Cart" option.
+	<b></br>Step 5: </b>Click the Shopping Basket icon.
+	<b></br>Step 6: </b>Confirm the details of the items you have add to cart.
+	<b></br>Step 7: </b>Log in your account. If you are a new customer, kindly register an account and fill up the details that required.</p>
 </div>
 	
 <button class="faq">How to check my order?</button>
 <div class="ans">
-  <p>At the shopping Basket Icon</p>
+  <p>Go to the Shopping Basket icon </p>
 </div>
 
-<button class="faq">How to make a booking?</button>
+<button class="faq">How to add items to wishlist?</button>
 <div class="ans">
-  <p>Log in your account. If you are a new customer, kindly register an account and fill up the details that required.Proceed to the booking site after register an account</p>
+  <p>Log in your account. If you are a new customer, kindly register an account and fill up the details that required.
+  <p>There is a heart icon at the top right of every items, user can add to wishlist by clicking that icon.<p>
 </div>
 
-<button class="faq">How can I know that my order has been successfully submitted?</button>
+<button class="faq">How can I know that i successfully login?</button>
 <div class="ans">
-  <p>An e-mail will be sent to you to confirm your order. Also, a tracking number of your order will be given to you, which you can use to check your order status.</p>
+  <p>An e-mail verification will be sent to you to confirm your account. Kindly key in the verification code that sent to your email account.</p>
 </div>
 	
 <button class="faq">How can I pay for my order?</button>
 <div class="ans">
-  <p>Once you have confirmed your order, you will proceed to the tab “PAYMENT” in which you will be redirected to a secured payment gateway site. The instruction will be given step by step to make payment at the site.</p>
+  <p>Once you have confirmed your order, you will proceed to the tab “Shopping Cart” in which you will be redirected to a secured payment gateway site by clicking the "MAKE PURCHASE" button. The instruction will be given step by step to make payment at the site.</p>
 </div>
 	
 <button class="faq">What are the payment methods accepted?</button>
 <div class="ans">
-  <p>You may choose to pay for your purchase through a variety of option, including via e-banking (FPX) and Credit or Visa Card.</p>
+  <p>You may choose to pay for your purchase through a variety of option, including e-wallet and Master Card or Visa Card.</p>
 </div>
 </div>
 

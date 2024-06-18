@@ -35,6 +35,45 @@ function displayProducts($result, $categoryName) {
     }
     echo '</div>';
 }
+
+// Determine the current page and set the limit of items per page
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$items_per_page = 8; // Set the number of items per page
+$offset = ($current_page - 1) * $items_per_page;
+
+// Determine the sorting option
+$sort_option = isset($_GET['sort']) ? $_GET['sort'] : 'latest';
+$sort_query = "";
+switch ($sort_option) {
+    case 'name_asc':
+        $sort_query = "ORDER BY product_name ASC";
+        break;
+    case 'name_desc':
+        $sort_query = "ORDER BY product_name DESC";
+        break;
+    case 'price_asc':
+        $sort_query = "ORDER BY price ASC";
+        break;
+    case 'price_desc':
+        $sort_query = "ORDER BY price DESC";
+        break;
+    default:
+        $sort_query = "ORDER BY product_id DESC"; // Default to latest
+        break;
+}
+
+// Fetch and display products for kids with pagination
+$allProductsResult = mysqli_query($conn, "SELECT * FROM product 
+                                          INNER JOIN category ON product.category_id = category.category_id 
+                                          WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')
+                                          $sort_query LIMIT $items_per_page OFFSET $offset");
+
+$count_result = mysqli_query($conn, "SELECT COUNT(*) FROM product 
+                                     INNER JOIN category ON product.category_id = category.category_id 
+                                     WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
+$total_items = mysqli_fetch_row($count_result)[0];
+$total_pages = ceil($total_items / $items_per_page);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,13 +125,20 @@ function displayProducts($result, $categoryName) {
         </select>
     </div>
     <div id="products-container">
-        <?php
-        // Fetch and display all products for kids
-        $allProductsResult = mysqli_query($conn, "SELECT * FROM product 
-                                                  INNER JOIN category ON product.category_id = category.category_id 
-                                                  WHERE product.gender_id = (SELECT gender_id FROM gender WHERE gender_name = 'KIDS')");
-        displayProducts($allProductsResult, "All Kids Products");
-        ?>
+        <?php displayProducts($allProductsResult, "All Kids Products"); ?>
+    </div>
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="?sort=<?= $sort_option ?>&page=<?= $current_page - 1 ?>">&laquo; Previous</a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?sort=<?= $sort_option ?>&page=<?= $i ?>" class="<?= $i === $current_page ? 'active' : '' ?>"><?= $i ?></a>
+        <?php endfor; ?>
+
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?sort=<?= $sort_option ?>&page=<?= $current_page + 1 ?>">Next &raquo;</a>
+        <?php endif; ?>
     </div>
     <?php include("footer.php"); ?>
     <script>

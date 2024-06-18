@@ -10,7 +10,6 @@ $expiry = date("Y-m-d H:i:s", time() + 60 * 30);
 
 $mysqli = require __DIR__ . "/../admin_panel/config/dbconnect.php";
 
-
 if ($mysqli->connect_error) {
     die("Database connection error: " . $mysqli->connect_error);
 }
@@ -42,21 +41,28 @@ if ($stmt->affected_rows) {
     $mail->addAddress($email);
     $mail->Subject = "Password Reset";
     $mail->Body = <<<END
-    Click <a href="http://localhost/FYP-project--4/LDKsport/Customer/reset-password.php?token=$token">here</a> 
+    Click <a href="http://localhost/FYP-project-/LDKsport/Customer/reset-password.php?token=$token">here</a> 
     to reset your password.
  
     END;
 
     // Send email
     if ($mail->send()) {
-        echo "Message sent, please check your inbox.";
+        echo "<script>
+                alert('Message sent, please check your inbox.');
+                window.location.href = 'customer login.php';
+              </script>";
     } else {
-        echo "Message couldn't be sent.";
+        echo "<script>
+                alert('Message cannot be sent.');
+                window.location.href = 'customer login.php';
+              </script>";
     }
 } else {
-    echo "No rows affected.";
+    echo "<script>
+            alert('No rows affected.');
+            window.location.href = 'customer login.php';
+          </script>";
 }
 
 ?>
-
-

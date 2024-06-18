@@ -63,7 +63,7 @@ require '../admin_panel/config/dbconnect.php';
     margin-top: 160px;
     font-size: 1rem;
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: burlywood;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -72,7 +72,7 @@ require '../admin_panel/config/dbconnect.php';
 }
 
 .txt-center input[type="submit"]:hover {
-    background-color: #218838;
+    background-color: chocolate;
 }
 
     

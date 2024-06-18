@@ -88,6 +88,25 @@ p {
     color: #d6249f;
 }
 
+.location {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.location p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+    margin: 5px 0;
+}
+
+.location iframe {
+    width: 100%;
+    max-width: 600px;
+    height: 450px;
+    border: 0;
+}
+
 </style>
 </head>
 <body>
@@ -97,31 +116,38 @@ p {
     <h2>Welcome to LDK Sports</h2>
     <p>At LDK Sports, we are passionate about providing high-quality sports attire to athletes and sports enthusiasts around the world. Our mission is to empower individuals to achieve their best performance by offering a wide range of comfortable, durable, and stylish sportswear. We believe that the right gear can make a significant difference, whether you're a professional athlete or someone who enjoys sports for fun and fitness.</p>
 
+    <div class="location">
+        <h2>Our Store Location</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3986.646520744216!2d102.20388407496806!3d2.284771197695192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1fbd00b977fc5%3A0x1daecfa093530323!2sSports%20Express!5e0!3m2!1sen!2smy!4v1713788486286!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p style="margin-bottom:5px;"><strong>LDK Sports</strong></p>
+        <p style="margin:0px;">67, Jalan Pe 3, Taman Paya Emas, 76450 Melaka</p>
+    </div>
+
     <h2>Meet Our Team</h2>
     <div class="team">
         <div class="team-member">
-            <img src="image/member1.jpg" alt="Member 1">
+            <img src="image/Lim Liang Yea.jpg" alt="Member 1">
             <h3>LIM LIANG YEA</h3>
-            <p>Founder & CEO</p>
-            <p>John is the visionary behind LDK Sports. With over 20 years of experience in the sports industry, he is dedicated to bringing the best sports attire to our customers.</p>
+            <p>1211210785</p>
+            <p>Lim Liang Yea is responsible of the admin module</p>
             <div class="instagram-icon">
                 <a href="https://www.instagram.com/liangyea_227" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>
         </div>
         <div class="team-member">
-            <img src="image/member2.jpg" alt="Member 2">
+            <img src="image/Koh Jun Ket.jpg" alt="Member 2">
             <h3>KOH JUNK KET</h3>
-            <p>Chief Marketing Officer</p>
-            <p>Jane leads our marketing team with creativity and strategic thinking. She ensures that our brand reaches the right audience through innovative campaigns.</p>
+            <p>1211210437</p>
+            <p>Koh Jun Ket is responsible of payment module</p>
             <div class="instagram-icon">
                 <a href="https://www.instagram.com/junket_1011" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>
         </div>
         <div class="team-member">
-            <img src="image/member3.jpg" alt="Member 3">
+            <img src="image/Daniel Tan Nai Le.jpg" alt="Member 3">
             <h3>DANIEL TAN NAI LE</h3>
-            <p>Head of Design</p>
-            <p>Mike is the mastermind behind our product designs. His expertise in sportswear design ensures that our products are both functional and fashionable.</p>
+            <p>1211209005</p>
+            <p>Daniel Tan is responsible of customer module.</p>
             <div class="instagram-icon">
                 <a href="https://www.instagram.com/danieltan0819" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>

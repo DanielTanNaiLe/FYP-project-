@@ -23,7 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $review_stmt->execute();
     
         $_SESSION['message'] = 'Review submitted successfully!';
-    }    
+    } elseif (isset($_POST['add_to_wishlist'])) {
+        $product_id = $_POST['pid'];
+
+        // Insert the product into the wishlist
+        $wishlist_query = "INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)";
+        $wishlist_stmt = $conn->prepare($wishlist_query);
+        $wishlist_stmt->bind_param("ii", $user_id, $product_id);
+        $wishlist_stmt->execute();
+    
+        $_SESSION['message'] = 'Product added to wishlist!';
+    } 
 }
 
 ?>
@@ -370,9 +380,52 @@ textarea {
     border-radius: 4px;
 }
 
-
-
+.submit-review-button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin-top: 20px;
+    display: inline-block;
 }
+
+.submit-review-button:hover {
+    background-color: #f2a32d;
+    color: #fff;
+    border-color: #f2a32d;
+    transform: scale(1.1);
+}
+
+#reviews-list {
+    margin-top: 20px;
+}
+
+#reviews-list .review-box {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+#reviews-list .review-box strong {
+    color: #000;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#reviews-list .review-box small {
+    color: #837d7c;
+    display: block;
+    margin-top: 10px;
+}
+
+
+
 
     </style>
 </head>
@@ -412,7 +465,7 @@ textarea {
                         <h3 class="product-details-h3" name="product_name"><?= $row['product_name'] ?></h3>
                         <h5>men's shoes</h5>
                         <h4 class="product-details-h4" name="price"><small>RM </small><?= $row['price'] ?></h4>
-                        <p name="product_desc"><?= $row['product_desc'] ?></p>
+                        
                         <h5 class="product-details-h5">Size</h5>
                         <select class="product-details-dropmenu" id="sizes" name="size_name">
                             <option disabled selected>Select Sizes</option>
@@ -484,29 +537,35 @@ textarea {
     <label for="comment">Comment:</label>
     <textarea name="comment" id="comment" required></textarea>
     <br>
-    <input type="submit" name="submit_review" value="Submit Review">
+    <input type="submit" name="submit_review" value="Submit Review" class="submit-review-button">
+
 </form>
 
-    <div id="reviews-list">
-        <?php
-        $review_query = "SELECT * FROM product_reviews WHERE product_id = ? ORDER BY created_at DESC";
-        $review_stmt = $conn->prepare($review_query);
-        $review_stmt->bind_param("i", $pid);
-        $review_stmt->execute();
-        $review_result = $review_stmt->get_result();
-        while ($review_row = $review_result->fetch_assoc()) {
-            echo "<div class='review'>";
-            echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
-            echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
-            echo "<small>Posted on: " . $review_row['created_at'] . "</small>";
-            echo "</div><hr>";
-        }
-        ?>
-    </div>
+
+<div id="reviews-list">
+    <?php
+    $review_query = "SELECT product_reviews.*, users.first_name FROM product_reviews 
+                     INNER JOIN users ON product_reviews.user_id = users.user_id 
+                     WHERE product_id = ? ORDER BY created_at DESC";
+    $review_stmt = $conn->prepare($review_query);
+    $review_stmt->bind_param("i", $pid);
+    $review_stmt->execute();
+    $review_result = $review_stmt->get_result();
+    while ($review_row = $review_result->fetch_assoc()) {
+        echo "<div class='review-box'>";
+        echo "<strong>Rating:</strong> " . $review_row['rating'] . " Stars<br>";
+        echo "<strong>Comment:</strong> " . $review_row['comment'] . "<br>";
+        echo "<small>Posted by: " . $review_row['first_name'] . " on " . $review_row['created_at'] . "</small>";
+        echo "</div>";
+    }
+    ?>
 </div>
+
 
 </section>
 <script>
+     
+
     $(document).ready(function() {
         setTimeout(function() {
             $('.alert-container').addClass('hide');
@@ -524,30 +583,30 @@ textarea {
     }
 
     function validateFormForCart() {
-        var sizes = document.getElementById("sizes");
-        var quantity = document.getElementById("quantity").value;
-        var selectedOption = sizes.options[sizes.selectedIndex];
-        var stock = selectedOption.getAttribute('data-stock');
-        if (sizes.value === "Select Sizes") {
-            alert("Please select a size.");
-            return false;
-        }
-        if (parseInt(quantity) > parseInt(stock)) {
-            alert("Selected quantity exceeds stock available.");
-            return false;
-        }
-        return true;
+    var sizes = document.getElementById("sizes");
+    var quantity = document.getElementById("quantity").value;
+    var selectedOption = sizes.options[sizes.selectedIndex];
+    var stock = selectedOption.getAttribute('data-stock');
+    if (sizes.value === "Select Sizes") {
+        alert("Please select a size.");
+        return false;
     }
+    if (parseInt(quantity) > parseInt(stock)) {
+        alert("Selected quantity exceeds stock available.");
+        return false;
+    }
+    return true;
+}
 
-    $('#productForm').submit(function() {
-        // Check if the form is for adding to cart
-        if ($(this).find('[name="add_to_cart"]').length > 0) {
-            return validateFormForCart();
-        }
-        // For wishlist, no validation needed, so return true
-        return true;
-    });
-
+$('#productForm').submit(function(event) {
+    var action = $(document.activeElement).attr('name');
+    if (action === 'add_to_cart') {
+        return validateFormForCart();
+    } else if (action === 'add_to_wishlist') {
+        return true; // Skip validation for wishlist
+    }
+    return true;
+});
     function showDescription() {
         document.getElementById('description-section').style.display = 'block';
         document.getElementById('reviews-section').style.display = 'none';

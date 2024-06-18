@@ -6,8 +6,7 @@ $token_hash = hash("sha256", $token);
 
 $mysqli = require __DIR__ . "/../admin_panel/config/dbconnect.php";
 
-$sql = "SELECT * FROM users
-        WHERE reset_token_hash = ?";
+$sql = "SELECT * FROM users WHERE reset_token_hash = ?";
 
 $stmt = $mysqli->prepare($sql);
 
@@ -57,14 +56,21 @@ if (!$stmt_update) {
     die("Error in SQL query: " . $mysqli->error);
 }
 
-
-
 $stmt_update->bind_param("si", $password, $user["user_id"]);
 
 if (!$stmt_update->execute()) {
     die("Error updating password: " . $stmt_update->error);
 }
 
-header("Location: customer login.php?password_updated=true");
+// Display alert message and redirect using JavaScript
+echo "<script>
+    alert('Password successfully reset');
+    window.location.href = 'customer login.php?password_updated=true';
+</script>";
+
+// In case JavaScript is disabled, provide a fallback redirect
+echo '<noscript>
+    <meta http-equiv="refresh" content="0;url=customer login.php?password_updated=true" />
+</noscript>';
 
 ?>

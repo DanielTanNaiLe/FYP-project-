@@ -17,7 +17,7 @@ function sendOtp($email, $otp) {
     global $mail;
     
     try {
-        $mail->setFrom('kohjunket@gmail.com', 'LDK sport');
+        $mail->setFrom('liangyuel44@gmail.com', 'LDK sport');
         $mail->addAddress($email);
         $mail->Subject = "Your OTP Code";
         $mail->Body = "Your OTP code is: $otp";

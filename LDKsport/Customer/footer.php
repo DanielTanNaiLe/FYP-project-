@@ -5,19 +5,19 @@
 				<p>Monday - Friday: 8:30AM - 5:30PM (except public holidays)</p>
 				<p><i class="fas fa-envelope"></i>  ldksoprts@gmail.com</p>
 				<p><i class="fas fa-phone"></i>  +6011-12345678</p>
-				<p><a href="contact.php">Send your concern to us</a></p>
+				
 			</li>
 			
 			<li class="spacing-li"><h3>About Us</h3>
 				<a href="aboutus.php">About LDK SPORTS</a>
 				<a href="terms and condition.php">Terms & Condition</a>
-				<a href="contact.php">Help / FAQ</a>
+				<a href="FAQ.php">Help / FAQ</a>
 			</li>
 			
 			<li class="spacing-li"><h3>My Account</h3>
-				<a href="user_edit.php">Account Detials</a>
+				<a href="landingafterlogin.php">Account Detials</a>
 				<a href="feedback.php">Feedback</a>
-				<a href="cart.php">Shopping Cart</a>
+				<a href="Addtocart.php">Shopping Cart</a>
 			</li>
 		</ul>
 	</div>

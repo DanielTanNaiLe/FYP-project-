@@ -15,6 +15,7 @@ if(isset($_POST['submit'])){
 
       if(password_verify($password, $stored_password)){
          $_SESSION['user_id'] = $row['user_id'];
+         $_SESSION['first_name'] = $row['first_name']; 
          header('location:landingafterlogin.php');
          exit;
       }else{
@@ -65,7 +66,7 @@ if(isset($_POST['submit'])){
          }
       </script>
       <input type="submit" name="submit" value="Login Now" class="btn">
-      <a href="mainpage.php" class="btn">Main Page</a>
+      <a href="mainpage.php" class="btn">Go Back</a>
       <p>Don't have an account? <a href="customer register.php">Register Now</a></p>
       <p><a href="forget_password.php">Forgotten your password?</a></p>
    </form>
