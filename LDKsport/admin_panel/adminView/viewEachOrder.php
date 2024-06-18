@@ -34,7 +34,7 @@
     ?>
                 <tr>
                     <td><?= $count ?></td>
-                    <td><img height="80px" src="<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>"></td>
+                    <td><img height="80px" src="./uploads/<?= htmlspecialchars($row['product_image']) ?>" alt="<?= htmlspecialchars($row['product_name']) ?>"></td>
                     <td><?= htmlspecialchars($row['product_name']) ?></td>
                     <td><?= htmlspecialchars($row['size_name']) ?></td>
                     <td><?= intval($row['quantity']) ?></td>
