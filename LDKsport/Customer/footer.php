@@ -27,13 +27,8 @@
 				<p class="lower-footer-font">Copyright&copy; 2021 By LDK SPORTS Sdn. Bhd. All rights reserved.</p>
 			</li>
 			<li style="float:right;margin-right:10px" id="footer-payment-img">
-			<img src="./Image/tng.png" style="height:37.5px;width:37.5px;">
-			<img src="./Image/boost.png" style="height:37.5px;width:37.5px;">
-			<img src="./Image/grab.png" style="height:37.5px;width:37.5px;">
-			<img src="./Image/7eleven.png" style="height:37.5px;width:37.5px;">
 			<img src="./Image/visa.png" style="height:37.5px;width:75px;">
 			<img src="./Image/master.png" style="height:37.5px;width:75px;">
-			<img src="./Image/fpx.png" style="height:37.5px;width:75px;">
 			</li>
 		</ul>
 	</div>
