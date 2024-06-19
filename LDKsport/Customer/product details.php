@@ -23,16 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $review_stmt->execute();
     
         $_SESSION['message'] = 'Review submitted successfully!';
-    } elseif (isset($_POST['add_to_wishlist'])) {
-        $product_id = $_POST['pid'];
-
-        // Insert the product into the wishlist
-        $wishlist_query = "INSERT INTO wishlist (user_id, product_id) VALUES (?, ?)";
-        $wishlist_stmt = $conn->prepare($wishlist_query);
-        $wishlist_stmt->bind_param("ii", $user_id, $product_id);
-        $wishlist_stmt->execute();
-    
-        $_SESSION['message'] = 'Product added to wishlist!';
     } 
 }
 

@@ -3,9 +3,36 @@ ob_start();
 include("header.php");
 require '../admin_panel/config/dbconnect.php';
 
-if (!isset($_SESSION['user_id'])) {
+$user_id = $_SESSION['user_id'];
+
+if (!isset($user_id)) {
     header('location:customer login.php');
     exit();
+}
+
+// Fetch user details
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$user_result = $stmt->get_result();
+$user = $user_result->fetch_assoc();
+
+// Fetch cart items for order summary
+$stmt = $conn->prepare("
+    SELECT p.product_name, p.product_image, c.quantity, c.price 
+    FROM cart c
+    JOIN product_size_variation v ON c.variation_id = v.variation_id
+    JOIN product p ON v.product_id = p.product_id
+    WHERE c.user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$product = [];
+$total_price = 0;
+
+while ($row = $result->fetch_assoc()) {
+    $product[] = $row;
+    $total_price += $row['price'] * $row['quantity'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,25 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: mastercard.php");
     }
     exit();
-}
-
-// Fetch cart items for order summary
-$user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("
-    SELECT p.product_name, p.product_image, c.quantity, c.price 
-    FROM cart c
-    JOIN product_size_variation v ON c.variation_id = v.variation_id
-    JOIN product p ON v.product_id = p.product_id
-    WHERE c.user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$product = [];
-$total_price = 0;
-
-while ($row = $result->fetch_assoc()) {
-    $product[] = $row;
-    $total_price += $row['price'] * $row['quantity'];
 }
 
 $conn->close();
@@ -249,19 +257,19 @@ $conn->close();
             <div class ="h2"><h2>Personal Information</h2></div><br>
             <div class="form-group">
                 <label for="name">First name:</label>
-                <input type="text" id="First_name" name="First_name" required>
+                <input type="text" id="First_name" name="First_name" placeholder="Enter your first name" required value="<?php echo htmlspecialchars($user['first_name'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="name">Last name:</label>
-                <input type="text" id="Last_name" name="Last_name" required>
+                <input type="text" id="Last_name" name="Last_name" placeholder="Enter your last name" required value="<?php echo htmlspecialchars($user['last_name'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="number">Phone Number:</label>
-                <input type="text" id="number" name="number" required>
+                <input type="text" id="number" name="number" placeholder="Enter your phone number" required value="<?php echo htmlspecialchars($user['contact_no'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="method">Payment Method:</label>
@@ -274,23 +282,23 @@ $conn->close();
             <br><div class ="h2"><h2>Home address</h2></div><br>
             <div class="form-group">
                 <label for="flat">Flat No:</label>
-                <input type="text" id="flat" name="flat" required>
+                <input type="text" id="flat" name="flat" placeholder="e.g. flat no." required value="<?php echo htmlspecialchars($user['flat_no'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="street">Street Name:</label>
-                <input type="text" id="street" name="street" required>
+                <input type="text" id="street" name="street" placeholder="e.g. street name" required value="<?php echo htmlspecialchars($user['street_name'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="city">City:</label>
-                <input type="text" id="city" name="city" required>
+                <input type="text" id="city" name="city" placeholder="e.g. Kuala Lumpur" required value="<?php echo htmlspecialchars($user['city'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="state">State:</label>
-                <input type="text" id="state" name="state" required>
+                <input type="text" id="state" name="state" placeholder="e.g. Federal Territory" required value="<?php echo htmlspecialchars($user['state'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="country">Country:</label>
-                <input type="text" id="country" name="country" required>
+                <input type="text" id="country" name="country" placeholder="e.g. Malaysia" required value="<?php echo htmlspecialchars($user['country'] ?? ''); ?>">
             </div>
             <div class="form-group">
                 <label for="pin_code">Post Code:</label>
