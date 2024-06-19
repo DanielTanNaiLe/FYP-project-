@@ -16,31 +16,13 @@ $firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_na
             <a href="menpage.php" class="a1">MEN</a>
             <ul class="dropdown">
                 <li class="hover-me"><a href="category.php?gender=Men&type=Shoes" id="men-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=Men&type=Clothing" id="men-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=Men&type=Pants" id="men-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
             </ul>
         </li>
@@ -48,31 +30,13 @@ $firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_na
             <a href="girlpage.php" class="a1">WOMAN</a>
             <ul class="dropdown">
                 <li class="hover-me"><a href="category.php?gender=WOMAN&type=Shoes" id="woman-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=WOMAN&type=Clothing" id="woman-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=WOMAN&type=Pants" id="woman-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
             </ul>
         </li>
@@ -80,31 +44,13 @@ $firstName = $isLoggedIn && isset($_SESSION['first_name']) ? $_SESSION['first_na
             <a href="kidpage.php" class="a1">KIDS</a>
             <ul class="dropdown">
                 <li class="hover-me"><a href="category.php?gender=Kids&type=Shoes" id="kid-shoes-link">Shoes<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=Kids&type=Clothing" id="kid-clothing-link">Clothing<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
                 <li class="hover-me"><a href="category.php?gender=Kids&type=Pants" id="kid-pants-link">Pants<i class='bx bx-chevron-right'></i></a>
-                    <div class="dropdown2">
-                        <ul>
-                            <li><a href="products.php?brand=Nike">Nike</a></li>
-                            <li><a href="products.php?brand=NewBalance">NewBalance</a></li>
-                            <li><a href="products.php?brand=Adidas">Adidas</a></li>
-                        </ul>
-                    </div>
+                    
                 </li>
             </ul>
         </li>
