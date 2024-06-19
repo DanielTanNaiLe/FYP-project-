@@ -8,17 +8,20 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Initialize the error variable
+$error = null;
+
 // Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $verificationCode = filter_var($_POST['verificationCode'], FILTER_SANITIZE_STRING);
-    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING); // Retrieve the description
+    $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
     $user_id = $_SESSION['user_id'];
-    $amount = $_SESSION['checkout_details']['total_price']; // Use the session value for amount
+    $amount = isset($_SESSION['discounted_total_price']) ? $_SESSION['discounted_total_price'] : $_SESSION['checkout_details']['total_price'];
 
     // Check if the verification code is correct
     if ($verificationCode !== '123456') {
         $error = "Invalid 6-digit code.";
-    } else if ($amount > 0 && !empty($description)) { // Check that description is not empty
+    } else if ($amount > 0 && !empty($description)) {
         // Check user's current balance
         $stmt = $conn->prepare("SELECT COALESCE(SUM(amount), 0) AS balance FROM e_wallet_balance WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
@@ -34,19 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             try {
                 // Deduct the amount from the balance
-                $negative_amount = -$amount; // Use a variable for the negative amount
+                $negative_amount = -$amount;
                 $stmt = $conn->prepare("INSERT INTO e_wallet_balance (user_id, amount, description, transaction_date) VALUES (?, ?, ?, NOW())");
-                if (!$stmt) {
-                    throw new Exception($conn->error);
-                }
-                $stmt->bind_param("isd", $user_id, $negative_amount, $description); // Bind the description here
+                $stmt->bind_param("isd", $user_id, $negative_amount, $description);
 
                 if (!$stmt->execute()) {
                     throw new Exception("Error inserting into e_wallet_balance: " . $stmt->error);
                 }
                 $stmt->close();
 
-                // Process the order as usual
+                // Process the order
                 $checkout_details = $_SESSION['checkout_details'];
                 $cart_items = $_SESSION['cart'];
 
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $checkout_details['number'],
                     $checkout_details['address'],
                     $checkout_details['method'],
-                    $checkout_details['total_price']
+                    $amount
                 );
 
                 if (!$stmt->execute()) {
@@ -100,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 unset($_SESSION['cart']);
                 unset($_SESSION['checkout_details']);
+                unset($_SESSION['discounted_total_price']);
 
                 $conn->commit();
 
@@ -117,10 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error = "Invalid payment details.";
     }
+} else {
+    // Calculate the amount if the request method is not POST
+    $amount = isset($_SESSION['discounted_total_price']) ? $_SESSION['discounted_total_price'] : $_SESSION['checkout_details']['total_price'];
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,19 +190,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <h2>E-Wallet Payment</h2>
         <form id="paymentForm" method="POST">
-           <label for="amount">Amount:</label>
-           <div class="amount-display">RM <?= htmlspecialchars($_SESSION['checkout_details']['total_price']) ?></div>
-    
-           <label for="description">Description:</label>
-           <input type="text" id="description" name="description" placeholder="Enter payment description" required>
-    
-           <label for="verificationCode">Verification Code:</label>
-           <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
-    
-           <button type="submit">Pay</button>
+            <label for="amount">Amount:</label>
+            <div class="amount-display">RM <?= htmlspecialchars($amount) ?></div>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Enter payment description" required>
+
+            <label for="verificationCode">Verification Code:</label>
+            <input type="text" id="verificationCode" name="verificationCode" placeholder="Enter the 6-digit code" required>
+
+            <button type="submit">Pay</button>
         </form>
         <div id="message">
-            <?php if (isset($error)): ?>
+            <?php if ($error): ?>
                 <p style="color: red;"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
         </div>

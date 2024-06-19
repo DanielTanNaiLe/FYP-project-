@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($enteredOtp == $_SESSION['otp']) {
             $checkout_details = $_SESSION['checkout_details'];
             $user_id = $_SESSION['user_id'];
+            $amount = isset($_SESSION['discounted_total_price']) ? $_SESSION['discounted_total_price'] : $_SESSION['checkout_details']['total_price'];
+            $checkout_details['total_price'] = $amount;
 
             // Insert into orders table
             $stmt = $conn->prepare("
