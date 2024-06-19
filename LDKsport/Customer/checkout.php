@@ -310,6 +310,7 @@ $conn->close();
         <?php endif; ?>
     </div>
     <form action="checkout.php" method="post" class="form">
+        <div class="h2"> <h2>Personal information</h2></div><br>
         <div class="form-group">
             <label for="First_name">First Name</label>
             <input type="text" name="First_name" id="First_name" value="<?php echo htmlspecialchars($user_data['first_name']); ?>" required>
@@ -333,6 +334,7 @@ $conn->close();
                 <option value="E-Wallet">E-Wallet</option>
             </select>
         </div>
+        <br><div class="h2"> <h2>Personal information</h2></div><br>
         <div class="form-group">
             <label for="flat">Flat No.</label>
             <input type="text" name="flat" id="flat" value="<?php echo htmlspecialchars($user_data['flat_no']); ?>" required>
