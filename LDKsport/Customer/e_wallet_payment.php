@@ -15,7 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $amount = $_SESSION['checkout_details']['total_price']; // Use the session value for amount
 
-    if ($amount > 0 && !empty($description)) { // Check that description is not empty
+    // Check if the verification code is correct
+    if ($verificationCode !== '123456') {
+        $error = "Invalid 6-digit code.";
+    } else if ($amount > 0 && !empty($description)) { // Check that description is not empty
         // Check user's current balance
         $stmt = $conn->prepare("SELECT COALESCE(SUM(amount), 0) AS balance FROM e_wallet_balance WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);

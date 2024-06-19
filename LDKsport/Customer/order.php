@@ -151,7 +151,7 @@ tr:nth-child(even) {
                         <p>Address       : <span><?= $fetch_orders['deliver_address']; ?></span></p>
                         <p>Payment Method: <span><?= $fetch_orders['pay_method']; ?></span></p>
                         <p>Your Orders   : <button class="btn btn-primary openPopup" data-order-id="<?= $fetch_orders['order_id']; ?>">View Details</button></p>
-                        <p>Total Price   : <span>$<?= $fetch_orders['amount']; ?>/-</span></p>
+                        <p>Total Price   : <span>RM <?= $fetch_orders['amount']; ?>/-</span></p>
                         <p>Order Status  : <span style="color:<?php if ($fetch_orders['order_status'] == 0) {
                             echo 'red';
                          } else {

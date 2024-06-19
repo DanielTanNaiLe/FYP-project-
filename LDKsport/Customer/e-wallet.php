@@ -304,8 +304,7 @@ if (isset($_SESSION['user_id'])) {
                 <label for="paymentMethod">Payment Method</label>
                 <select id="paymentMethod" name="paymentMethod" required>
                     <option disabled selected>Select method</option>
-                    <option value="mastercard">Mastercard</option>
-                    <option value="Visa">Visa</option>
+                    <option value="mastercard">Credit card</option>
                 </select>
             </div>
             <div class="input-group card-details" id="cardDetails">
@@ -474,8 +473,6 @@ document.getElementById('paymentMethod').addEventListener('change', function() {
 const paymentMethod = this.value;
 const cardDetails = document.querySelectorAll('.card-details');
 if (paymentMethod === 'mastercard') {
-cardDetails.forEach(detail => detail.style.display = 'block');
-} else if (paymentMethod === 'Visa'){
 cardDetails.forEach(detail => detail.style.display = 'block');
 }else{
 cardDetails.forEach(detail => detail.style.display = 'none');

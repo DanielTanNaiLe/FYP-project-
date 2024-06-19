@@ -109,7 +109,7 @@ unset($_SESSION['checkout_details']);
             <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($checkout_details['number']); ?></p>
             <p><strong>Delivery Address:</strong> <?php echo htmlspecialchars($checkout_details['address']); ?></p>
             <p><strong>Payment Method:</strong> <?php echo htmlspecialchars($checkout_details['method']); ?></p>
-            <p><strong>Total Amount:</strong> $<?php echo htmlspecialchars($checkout_details['total_price']); ?></p>
+            <p><strong>Total Amount:</strong> RM <?php echo htmlspecialchars($checkout_details['total_price']); ?></p>
         </div>
         <a href="mainpage.php" class="btn-home">Go to Home</a>
     </div>
