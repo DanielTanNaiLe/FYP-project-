@@ -13,7 +13,10 @@ if (isset($_POST["verify_email"])) {
         die("Verification code failed.");
     }
 
-    echo "<p>You can login now.</p>";
+   echo "<script>
+            alert('You can login now.');
+            window.location.href = 'customer_login.php';
+          </script>";
     exit();
 }
 ?>
